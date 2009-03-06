@@ -4,7 +4,7 @@ The website for this project is http://code.google.com/p/fizzix .
 Copyright (C) 2009
 	Joseph Lynch
 	Anton Frolenkov
-	Purnima Blakrishnan
+	Purnima Balakrishnan
 	Daniel Stiles
 	Eric Van Albert
 
