@@ -112,18 +112,18 @@ Quaternion Quaternion::operator*(Quaternion& other)
 {
     *Quaternion product = new Quaternion();
     product->getVec()->at(0) = this->getVec()->at(0)*other->getVec()->at(0) - this->getVec()->at(1)*other->getVec()->at(1) - this->getVec()->at(2)*other->getVec()->at(2) - this->getVec()->at(3)*other->getVec()->at(3);
-    product->getVec()->at(1) = this->getVec()->at(0)*other->getVec()->at(0) + this->getVec()->at(1)*other->getVec()->at(1) + this->getVec()->at(2)*other->getVec()->at(2) - this->getVec()->at(3)*other->getVec()->at(3);
-    product->getVec()->at(2) = this->getVec()->at(0)*other->getVec()->at(0) - this->getVec()->at(1)*other->getVec()->at(1) + this->getVec()->at(2)*other->getVec()->at(2) + this->getVec()->at(3)*other->getVec()->at(3);
-    product->getVec()->at(3) = this->getVec()->at(0)*other->getVec()->at(0) + this->getVec()->at(1)*other->getVec()->at(1) - this->getVec()->at(2)*other->getVec()->at(2) + this->getVec()->at(3)*other->getVec()->at(3);
+    product->getVec()->at(1) = this->getVec()->at(0)*other->getVec()->at(1) + this->getVec()->at(1)*other->getVec()->at(0) + this->getVec()->at(2)*other->getVec()->at(3) - this->getVec()->at(3)*other->getVec()->at(2);
+    product->getVec()->at(2) = this->getVec()->at(0)*other->getVec()->at(2) - this->getVec()->at(1)*other->getVec()->at(3) + this->getVec()->at(2)*other->getVec()->at(0) + this->getVec()->at(3)*other->getVec()->at(1);
+    product->getVec()->at(3) = this->getVec()->at(0)*other->getVec()->at(3) + this->getVec()->at(1)*other->getVec()->at(2) - this->getVec()->at(2)*other->getVec()->at(1) + this->getVec()->at(3)*other->getVec()->at(0);
     return *product;
 }
 
 void Quaternion::operator*=(Quaternion& other)
 {
     this->getVec()->at(0) = this->getVec()->at(0)*other->getVec()->at(0) - this->getVec()->at(1)*other->getVec()->at(1) - this->getVec()->at(2)*other->getVec()->at(2) - this->getVec()->at(3)*other->getVec()->at(3);
-    this->getVec()->at(1) = this->getVec()->at(0)*other->getVec()->at(0) + this->getVec()->at(1)*other->getVec()->at(1) + this->getVec()->at(2)*other->getVec()->at(2) - this->getVec()->at(3)*other->getVec()->at(3);
-    this->getVec()->at(2) = this->getVec()->at(0)*other->getVec()->at(0) - this->getVec()->at(1)*other->getVec()->at(1) + this->getVec()->at(2)*other->getVec()->at(2) + this->getVec()->at(3)*other->getVec()->at(3);
-    this->getVec()->at(3) = this->getVec()->at(0)*other->getVec()->at(0) + this->getVec()->at(1)*other->getVec()->at(1) - this->getVec()->at(2)*other->getVec()->at(2) + this->getVec()->at(3)*other->getVec()->at(3);
+    this->getVec()->at(1) = this->getVec()->at(1)*other->getVec()->at(0) + this->getVec()->at(0)*other->getVec()->at(1) + this->getVec()->at(3)*other->getVec()->at(2) - this->getVec()->at(2)*other->getVec()->at(3);
+    this->getVec()->at(2) = this->getVec()->at(2)*other->getVec()->at(0) - this->getVec()->at(3)*other->getVec()->at(1) + this->getVec()->at(0)*other->getVec()->at(2) + this->getVec()->at(1)*other->getVec()->at(3);
+    this->getVec()->at(3) = this->getVec()->at(3)*other->getVec()->at(0) + this->getVec()->at(2)*other->getVec()->at(1) - this->getVec()->at(1)*other->getVec()->at(2) + this->getVec()->at(0)*other->getVec()->at(3);
 }
 
 #endif
