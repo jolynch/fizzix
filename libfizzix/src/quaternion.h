@@ -64,9 +64,9 @@ class Quaternion
         void operator-=(Quaternion&);
         /* Return the product of this and another quaternion
            wnew = w1*w2 - x1*x2 - y1*y2 - z1*z2
-           xnew = w1*w2 + x1*x2 + y1*y2 - z1*z2
-           ynew = w1*w2 - x1*x2 + y1*y2 + z1*z2
-           znew = w1*w2 + x1*x2 - y1*y2 + z1*z2 */
+           xnew = w1*x2 + x1*w2 + y1*z2 - z1*y2
+           ynew = w1*y2 - x1*z2 + y1*w2 + z1*x2
+           znew = w1*z2 + x1*y2 - y1*x2 + z1*w2 */
         Quaternion operator*(Quaternion&);
         /* Multiply another quaternion on this one on the left
            qnew = other * q */
