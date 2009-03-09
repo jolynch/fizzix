@@ -27,50 +27,51 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef QUATERNION_H
 #define QUATERNION_H
 
-#include <vector.h>
+#include <vector>
+using namespace std;
 
 /* This class defines a quaternion, with methods for multiplication, addition, and normalization. */
 class Quaternion
 {
     private:
-        *vector<double> values; // (w,x,y,z)
+        vector<double> * values; // (w,x,y,z)
     public:
         /* Default constructor
          * Creates a unit quaternion with value (1,0,0,0). */
         Quaternion();
         /* Copy constructor */
-        Quaternion(*Quaternion);
+        Quaternion(Quaternion * toCopy);
         /* Constructor with a vector of length 4. */
-        Quaternion(*vector)
+        Quaternion(vector<double> * vec);
 	/* Creates a quaternion with value (w,x,y,z) */
         Quaternion(double w,double x,double y,double z);
         /* Default destructor */
         ~Quaternion();
         /* Get a reference to this quaternion's vector */
-        vector getVec();
+        vector<double> * getVec();
         /* Set this quaternion's vector */
-        void setVec(*vector);
+        void setVec(vector<double> * vec);
         /* Normalize this quaternion
            Automatically checks that it is unit within tolerance,
              and will not change if it is close enough */
         void normalize(double tolerance);
         /* Return the sum of this and another quaternion */
-        Quaternion operator+(Quaternion&);
+        Quaternion operator+(Quaternion * other);
         /* Add another quaternion to this one */
-        void operator+=(Quaternion&);
+        void operator+=(Quaternion * other);
         /* Return the difference of this and another quaternion */
-        Quaternion operator-(Quaternion&);
+        Quaternion operator-(Quaternion * other);
         /* Subtract another quaternion from this one */
-        void operator-=(Quaternion&);
+        void operator-=(Quaternion * other);
         /* Return the product of this and another quaternion
            wnew = w1*w2 - x1*x2 - y1*y2 - z1*z2
            xnew = w1*x2 + x1*w2 + y1*z2 - z1*y2
            ynew = w1*y2 - x1*z2 + y1*w2 + z1*x2
            znew = w1*z2 + x1*y2 - y1*x2 + z1*w2 */
-        Quaternion operator*(Quaternion&);
+        Quaternion operator*(Quaternion * other);
         /* Multiply another quaternion on this one on the left
            qnew = other * q */
-        void operator*=(Quaternion&);
+        void operator*=(Quaternion * other);
 };
 
 #endif

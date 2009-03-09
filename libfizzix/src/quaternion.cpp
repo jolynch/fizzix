@@ -31,27 +31,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 Quaternion::Quaternion()
 {
-    values = new vector(4,0.0);
-    values[0] = 1.0;
+    values = new vector<double>(4,0.0);
+    values->at(0) = 1.0;
 }
 
-Quaternion::Quaternion(*vector rot)
+Quaternion::Quaternion(vector<double> * rot)
 {
     values = rot;
 }
 
-Quaternion::Quaternion(*Quaternion toCopy)
+Quaternion::Quaternion(Quaternion * toCopy)
 {
-    values = new vector(toCopy.getVec());
+    values = new vector<double>(*toCopy->getVec());
 }
 
 Quaternion::Quaternion(double w,double x,double y,double z)
 {
-    values = new vector(4,0.0);
-    values[0] = w;
-    values[1] = x;
-    values[2] = y;
-    values[3] = z;
+    values = new vector<double>(4,0.0);
+    values->at(0) = w;
+    values->at(1) = x;
+    values->at(2) = y;
+    values->at(3) = z;
 }
 
 Quaternion::~Quaternion()
@@ -59,12 +59,12 @@ Quaternion::~Quaternion()
     delete values;
 }
 
-*vector Quaternion::getVec()
+vector<double> * Quaternion::getVec()
 {
     return values;
 }
 
-void Quaternion::setVec(*vector v)
+void Quaternion::setVec(vector<double> * v)
 {
     values = v;
 }
@@ -75,19 +75,19 @@ void Quaternion::normalize(double tolerance)
     if (magsquared > tolerance*tolerance)
     {
         double mag = sqrt(magsquared);
-        this->getVec->at(0) /= mag;
-        this->getVec->at(1) /= mag;
-        this->getVec->at(2) /= mag;
-        this->getVec->at(3) /= mag;
+        this->getVec()->at(0) /= mag;
+        this->getVec()->at(1) /= mag;
+        this->getVec()->at(2) /= mag;
+        this->getVec()->at(3) /= mag;
     }
 }
 
-Quaternion Quaternion::operator+(Quaternion& other)
+Quaternion Quaternion::operator+(Quaternion * other)
 {
     return new Quaternion(this->getVec()->at(0)+other->getVec()->at(0),this->getVec()->at(1)+other->getVec()->at(1),this->getVec()->at(2)+other->getVec()->at(2),this->getVec()->at(3)+other->getVec()->at(3));
 }
 
-void Quaternion::operator+=(Quaternion& other)
+void Quaternion::operator+=(Quaternion * other)
 {
     this->getVec()->at(0)+=other->getVec()->at(0);
     this->getVec()->at(1)+=other->getVec()->at(1);
@@ -95,12 +95,12 @@ void Quaternion::operator+=(Quaternion& other)
     this->getVec()->at(3)+=other->getVec()->at(3);
 }
 
-Quaternion Quaternion::operator-(Quaternion& other)
+Quaternion Quaternion::operator-(Quaternion * other)
 {
     return new Quaternion(this->getVec()->at(0)-other->getVec()->at(0),this->getVec()->at(1)-other->getVec()->at(1),this->getVec()->at(2)-other->getVec()->at(2),this->getVec()->at(3)-other->getVec()->at(3));
 }
 
-void Quaternion::operator-=(Quaternion& other)
+void Quaternion::operator-=(Quaternion * other)
 {
     this->getVec()->at(0)-=other->getVec()->at(0);
     this->getVec()->at(1)-=other->getVec()->at(1);
@@ -108,9 +108,9 @@ void Quaternion::operator-=(Quaternion& other)
     this->getVec()->at(3)-=other->getVec()->at(3);
 }
 
-Quaternion Quaternion::operator*(Quaternion& other)
+Quaternion Quaternion::operator*(Quaternion * other)
 {
-    *Quaternion product = new Quaternion();
+    Quaternion * product = new Quaternion();
     product->getVec()->at(0) = this->getVec()->at(0)*other->getVec()->at(0) - this->getVec()->at(1)*other->getVec()->at(1) - this->getVec()->at(2)*other->getVec()->at(2) - this->getVec()->at(3)*other->getVec()->at(3);
     product->getVec()->at(1) = this->getVec()->at(0)*other->getVec()->at(1) + this->getVec()->at(1)*other->getVec()->at(0) + this->getVec()->at(2)*other->getVec()->at(3) - this->getVec()->at(3)*other->getVec()->at(2);
     product->getVec()->at(2) = this->getVec()->at(0)*other->getVec()->at(2) - this->getVec()->at(1)*other->getVec()->at(3) + this->getVec()->at(2)*other->getVec()->at(0) + this->getVec()->at(3)*other->getVec()->at(1);
@@ -118,7 +118,7 @@ Quaternion Quaternion::operator*(Quaternion& other)
     return *product;
 }
 
-void Quaternion::operator*=(Quaternion& other)
+void Quaternion::operator*=(Quaternion * other)
 {
     this->getVec()->at(0) = this->getVec()->at(0)*other->getVec()->at(0) - this->getVec()->at(1)*other->getVec()->at(1) - this->getVec()->at(2)*other->getVec()->at(2) - this->getVec()->at(3)*other->getVec()->at(3);
     this->getVec()->at(1) = this->getVec()->at(1)*other->getVec()->at(0) + this->getVec()->at(0)*other->getVec()->at(1) + this->getVec()->at(3)*other->getVec()->at(2) - this->getVec()->at(2)*other->getVec()->at(3);
