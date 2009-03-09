@@ -29,101 +29,106 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "quaternion.h"
 #include <math.h>
 
+using namespace std;
+
 Quaternion::Quaternion()
 {
-    values = new vector<double>(4,0.0);
-    values->at(0) = 1.0;
+    values = vector<double>(4,0.0);
+    values[0] = 1.0;
 }
 
-Quaternion::Quaternion(vector<double> * rot)
+Quaternion::Quaternion(vector<double> rot)
 {
     values = rot;
 }
 
-Quaternion::Quaternion(Quaternion * toCopy)
+Quaternion::Quaternion(const Quaternion & toCopy)
 {
-    values = new vector<double>(*toCopy->getVec());
+    values = vector<double>(toCopy.getVec());
 }
 
 Quaternion::Quaternion(double w,double x,double y,double z)
 {
-    values = new vector<double>(4,0.0);
-    values->at(0) = w;
-    values->at(1) = x;
-    values->at(2) = y;
-    values->at(3) = z;
+    values = vector<double>(4,0.0);
+    values[0] = w;
+    values[1] = x;
+    values[2] = y;
+    values[3] = z;
 }
 
 Quaternion::~Quaternion()
 {
-    delete values;
+    delete &values;
 }
 
-vector<double> * Quaternion::getVec()
+vector<double> Quaternion::getVec() const
 {
     return values;
 }
 
-void Quaternion::setVec(vector<double> * v)
+void Quaternion::setVec(vector<double> v)
 {
     values = v;
 }
 
 void Quaternion::normalize(double tolerance)
 {
-    double magsquared = this->getVec()->at(0)*this->getVec()->at(0)+this->getVec()->at(1)*this->getVec()->at(1)+this->getVec()->at(2)*this->getVec()->at(2)+this->getVec()->at(3)*this->getVec()->at(3);
+    double magsquared = values[0]*values[0] + values[1]*values[1] + values[2]*values[2] + values[3]*values[3];
     if (magsquared > tolerance*tolerance)
     {
         double mag = sqrt(magsquared);
-        this->getVec()->at(0) /= mag;
-        this->getVec()->at(1) /= mag;
-        this->getVec()->at(2) /= mag;
-        this->getVec()->at(3) /= mag;
+        values[0] /= mag;
+        values[1] /= mag;
+        values[2] /= mag;
+        values[3] /= mag;
     }
 }
 
-Quaternion Quaternion::operator+(Quaternion * other)
+double Quaternion::operator[](const int index) const
 {
-    return new Quaternion(this->getVec()->at(0)+other->getVec()->at(0),this->getVec()->at(1)+other->getVec()->at(1),this->getVec()->at(2)+other->getVec()->at(2),this->getVec()->at(3)+other->getVec()->at(3));
+    return values[index];
 }
 
-void Quaternion::operator+=(Quaternion * other)
+Quaternion Quaternion::operator+(const Quaternion & other) const
 {
-    this->getVec()->at(0)+=other->getVec()->at(0);
-    this->getVec()->at(1)+=other->getVec()->at(1);
-    this->getVec()->at(2)+=other->getVec()->at(2);
-    this->getVec()->at(3)+=other->getVec()->at(3);
+    return Quaternion(values[0]+other[0],values[1]+other[1],values[2]+other[2],values[3]+other[3]);
 }
 
-Quaternion Quaternion::operator-(Quaternion * other)
+void Quaternion::operator+=(const Quaternion & other)
 {
-    return new Quaternion(this->getVec()->at(0)-other->getVec()->at(0),this->getVec()->at(1)-other->getVec()->at(1),this->getVec()->at(2)-other->getVec()->at(2),this->getVec()->at(3)-other->getVec()->at(3));
+    values[0]+=other[0];
+    values[1]+=other[1];
+    values[2]+=other[2];
 }
 
-void Quaternion::operator-=(Quaternion * other)
+Quaternion Quaternion::operator-(const Quaternion & other) const
 {
-    this->getVec()->at(0)-=other->getVec()->at(0);
-    this->getVec()->at(1)-=other->getVec()->at(1);
-    this->getVec()->at(2)-=other->getVec()->at(2);
-    this->getVec()->at(3)-=other->getVec()->at(3);
+    return Quaternion(values[0]-other[0],values[1]-other[1],values[2]-other[2],values[3]-other[3]);
 }
 
-Quaternion Quaternion::operator*(Quaternion * other)
+void Quaternion::operator-=(const Quaternion & other)
 {
-    Quaternion * product = new Quaternion();
-    product->getVec()->at(0) = this->getVec()->at(0)*other->getVec()->at(0) - this->getVec()->at(1)*other->getVec()->at(1) - this->getVec()->at(2)*other->getVec()->at(2) - this->getVec()->at(3)*other->getVec()->at(3);
-    product->getVec()->at(1) = this->getVec()->at(0)*other->getVec()->at(1) + this->getVec()->at(1)*other->getVec()->at(0) + this->getVec()->at(2)*other->getVec()->at(3) - this->getVec()->at(3)*other->getVec()->at(2);
-    product->getVec()->at(2) = this->getVec()->at(0)*other->getVec()->at(2) - this->getVec()->at(1)*other->getVec()->at(3) + this->getVec()->at(2)*other->getVec()->at(0) + this->getVec()->at(3)*other->getVec()->at(1);
-    product->getVec()->at(3) = this->getVec()->at(0)*other->getVec()->at(3) + this->getVec()->at(1)*other->getVec()->at(2) - this->getVec()->at(2)*other->getVec()->at(1) + this->getVec()->at(3)*other->getVec()->at(0);
-    return *product;
+    values[0]-=other[0];
+    values[1]-=other[1];
+    values[2]-=other[2];
 }
 
-void Quaternion::operator*=(Quaternion * other)
+Quaternion Quaternion::operator*(const Quaternion & other) const
 {
-    this->getVec()->at(0) = this->getVec()->at(0)*other->getVec()->at(0) - this->getVec()->at(1)*other->getVec()->at(1) - this->getVec()->at(2)*other->getVec()->at(2) - this->getVec()->at(3)*other->getVec()->at(3);
-    this->getVec()->at(1) = this->getVec()->at(1)*other->getVec()->at(0) + this->getVec()->at(0)*other->getVec()->at(1) + this->getVec()->at(3)*other->getVec()->at(2) - this->getVec()->at(2)*other->getVec()->at(3);
-    this->getVec()->at(2) = this->getVec()->at(2)*other->getVec()->at(0) - this->getVec()->at(3)*other->getVec()->at(1) + this->getVec()->at(0)*other->getVec()->at(2) + this->getVec()->at(1)*other->getVec()->at(3);
-    this->getVec()->at(3) = this->getVec()->at(3)*other->getVec()->at(0) + this->getVec()->at(2)*other->getVec()->at(1) - this->getVec()->at(1)*other->getVec()->at(2) + this->getVec()->at(0)*other->getVec()->at(3);
+    vector<double> vec;
+    vec[0] = values[0] * other[0] - values[1] * other[1] - values[2] * other[2] - values[3] * other[3];
+    vec[1] = values[0] * other[1] + values[1] * other[0] + values[2] * other[3] - values[3] * other[2];
+    vec[2] = values[0] * other[2] + values[1] * other[3] + values[2] * other[0] - values[3] * other[1];
+    vec[3] = values[0] * other[3] + values[1] * other[2] + values[2] * other[1] - values[3] * other[0];
+    return Quaternion(vec);
+}
+
+void Quaternion::operator*=(const Quaternion & other)
+{
+    values[0] = values[0] * other[0] - values[1] * other[1] - values[2] * other[2] - values[3] * other[3];
+    values[1] = values[1] * other[0] + values[0] * other[1] + values[3] * other[2] - values[2] * other[3];
+    values[2] = values[2] * other[0] + values[3] * other[1] + values[0] * other[2] - values[1] * other[3];
+    values[3] = values[3] * other[0] + values[2] * other[1] + values[1] * other[2] - values[0] * other[3];
 }
 
 #endif
