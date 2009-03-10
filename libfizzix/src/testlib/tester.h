@@ -27,7 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define TESTER_H
 #include <vector>
 #include <iostream>
-#include "../tests/test.include.index"
+#include "codetest.h"
+#include "../tests/tests.include.index"
 
 class Tester
 {
