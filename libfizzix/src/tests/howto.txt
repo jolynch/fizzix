@@ -1,0 +1,4 @@
+* Create a class implementing CodeTest. NO CPP OR H.
+* Save this as "foo.test" where foo is your classname.
+* Add the filename to tests.include.index.
+* Add the filename to tests.compile.index.
