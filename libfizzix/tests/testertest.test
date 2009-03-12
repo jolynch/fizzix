@@ -1,0 +1,13 @@
+class TesterTest:public CodeTest
+{
+	public:
+		const char * name (void)
+		{
+			return "Tests the code testing system for sanity";
+		}
+	
+		bool execute (char * error)
+		{
+			return true;
+		}
+};
