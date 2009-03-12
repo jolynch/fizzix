@@ -22,15 +22,19 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef TESTS_INCLUDE_INDEX
-#define TESTS_INCLUDE_INDEX
+#indef TESTS_COMPILE_INDEX
+#define TESTS_COMPILE_INDEX
+#define INTIT tests.push_back(new 
+#define CLOSE ());
 
-#define TESTDIR ../tests/
+//Example:
+	INIT TesterTest BEGIN
 
-//EXAMPLE:
-//#include "TESTDIR/foo.test"
 
-//Begin test classes:
+//Begin class creation:
+
+
+
 
 
 
