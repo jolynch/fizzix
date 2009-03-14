@@ -27,12 +27,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define QUATERNION_H
 
 #include <vector>
+#include "geometricshapes.h"
 
 /* This class defines a quaternion, with methods for multiplication, addition, and normalization. */
 class Quaternion
 {
 	private:
-		std::vector<double> values; // (w,x,y,z)
+		vec4 values;
 	public:
 		/* Default constructor
 		   Creates a unit quaternion with value (1,0,0,0). */
@@ -41,12 +42,16 @@ class Quaternion
 		Quaternion(const Quaternion & toCopy);
 		/* Constructor with a vector of length 4. */
 		Quaternion(const std::vector<double> & vec);
+		/*Creates a quaternion with vector vec. */
+		Quaternion(const vec4 & vec);
 		/* Creates a quaternion with value (w,x,y,z) */
 		Quaternion(double w,double x,double y,double z);
 		/* Get a reference to this quaternion's vector */
-		const std::vector<double> getVec() const;
+		const vec4 & getVec() const;
+		/* Manipulate this quaternion's vector */
+		vec4 & getVec();
 		/* Set this quaternion's vector */
-		void setVec(std::vector<double> vec);
+		void setVec(vec4 vec);
 		/* Normalize this quaternion
 		   Automatically checks that it is unit within tolerance,
 			 and will not change if it is close enough */

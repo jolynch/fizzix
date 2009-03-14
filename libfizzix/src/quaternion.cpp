@@ -33,102 +33,132 @@ using namespace std;
 
 Quaternion::Quaternion()
 {
-	values = vector<double>(4,0.0);
-	values[0] = 1.0;
+	values.w = 1.0;
+	values.x = 0.0;
+	values.y = 0.0;
+	values.z = 0.0;
 }
 
 Quaternion::Quaternion(const vector<double> & rot)
 {
-	values = rot;
+	values.w = rot[0];
+	values.x = rot[1];
+	values.y = rot[2];
+	values.z = rot[3];
 }
 
 Quaternion::Quaternion(const Quaternion & toCopy)
 {
-	values = vector<double>(toCopy.getVec());
+	values.w = 1.0;
+	values.x = 0.0;
+	values.y = 0.0;
+	values.z = 0.0;
 }
 
-Quaternion::Quaternion(double w,double x,double y,double z)
+Quaternion::Quaternion(const vec4 & vec)
 {
-	values = vector<double>(4,0.0);
-	values[0] = w;
-	values[1] = x;
-	values[2] = y;
-	values[3] = z;
+	values.w = vec.w;
+	values.x = vec.x;
+	values.y = vec.y;
+	values.z = vec.z;
 }
 
-const vector<double> Quaternion::getVec() const
+Quaternion::Quaternion(const double w, const double x, const double y, const double z)
+{
+	values.w = w;
+	values.x = x;
+	values.y = y;
+	values.z = z;
+}
+
+const vec4 & Quaternion::getVec() const
 {
 	return values;
 }
 
-void Quaternion::setVec(vector<double> v)
+vec4 & Quaternion::getVec()
+{
+	return values;
+}
+
+void Quaternion::setVec(vec4 v)
 {
 	values = v;
 }
 
 void Quaternion::normalize(double tolerance)
 {
-	double magsquared = values[0]*values[0] + values[1]*values[1] + values[2]*values[2] + values[3]*values[3];
+	double magsquared = values.w*values.w + values.x*values.x + values.y*values.y + values.z*values.z;
 	if (magsquared > tolerance*tolerance)
 	{
 		double mag = sqrt(magsquared);
-		values[0] /= mag;
-		values[1] /= mag;
-		values[2] /= mag;
-		values[3] /= mag;
+		values.w /= mag;
+		values.x /= mag;
+		values.y /= mag;
+		values.z /= mag;
 	}
-}
-
-double & Quaternion::operator[](const int index)
-{
-	return values[index];
 }
 
 const double Quaternion::operator[](const int index) const
 {
-	return values[index];
+	if (index == 0) return values.w;
+	if (index == 1) return values.x;
+	if (index == 2) return values.y;
+	if (index == 3) return values.z;
+}
+
+double & Quaternion::operator[](const int index)
+{
+	if (index == 0) return values.w;
+	if (index == 1) return values.x;
+	if (index == 2) return values.y;
+	if (index == 3) return values.z;
 }
 
 Quaternion Quaternion::operator+(const Quaternion & other) const
 {
-	return Quaternion(values[0]+other[0],values[1]+other[1],values[2]+other[2],values[3]+other[3]);
+	return Quaternion(values.w+other[0],values.x+other[1],values.y+other[2],values.z+other[3]);
 }
 
 void Quaternion::operator+=(const Quaternion & other)
 {
-	values[0]+=other[0];
-	values[1]+=other[1];
-	values[2]+=other[2];
+	values.w+=other[0];
+	values.x+=other[1];
+	values.y+=other[2];
+	values.z+=other[3];
 }
 
 Quaternion Quaternion::operator-(const Quaternion & other) const
 {
-	return Quaternion(values[0]-other[0],values[1]-other[1],values[2]-other[2],values[3]-other[3]);
+	return Quaternion(values.w-other[0],values.x-other[1],values.y-other[2],values.z-other[3]);
 }
 
 void Quaternion::operator-=(const Quaternion & other)
 {
-	values[0]-=other[0];
-	values[1]-=other[1];
-	values[2]-=other[2];
+	values.w-=other[0];
+	values.x-=other[1];
+	values.y-=other[2];
+	values.z-=other[3];
 }
 
 Quaternion Quaternion::operator*(const Quaternion & other) const
 {
-	vector<double> vec;
-	vec[0] = values[0] * other[0] - values[1] * other[1] - values[2] * other[2] - values[3] * other[3];
-	vec[1] = values[0] * other[1] + values[1] * other[0] + values[2] * other[3] - values[3] * other[2];
-	vec[2] = values[0] * other[2] + values[1] * other[3] + values[2] * other[0] - values[3] * other[1];
-	vec[3] = values[0] * other[3] + values[1] * other[2] + values[2] * other[1] - values[3] * other[0];
+	vec4 vec;
+	vec.w = values.w * other[0] - values.x * other[1] - values.y * other[2] - values.z * other[3];
+	vec.x = values.w * other[1] + values.x * other[0] + values.y * other[3] - values.z * other[2];
+	vec.y = values.w * other[2] + values.x * other[3] + values.y * other[0] - values.z * other[1];
+	vec.z = values.w * other[3] + values.x * other[2] + values.y * other[1] - values.z * other[0];
 	return Quaternion(vec);
 }
 
 void Quaternion::operator*=(const Quaternion & other)
 {
-	values[0] = values[0] * other[0] - values[1] * other[1] - values[2] * other[2] - values[3] * other[3];
-	values[1] = values[1] * other[0] + values[0] * other[1] + values[3] * other[2] - values[2] * other[3];
-	values[2] = values[2] * other[0] + values[3] * other[1] + values[0] * other[2] - values[1] * other[3];
-	values[3] = values[3] * other[0] + values[2] * other[1] + values[1] * other[2] - values[0] * other[3];
+	vec4 vec;
+	vec.w = values.w * other[0] - values.x * other[1] - values.y * other[2] - values.z * other[3];
+	vec.x = values.w * other[1] + values.x * other[0] + values.y * other[3] - values.z * other[2];
+	vec.y = values.w * other[2] + values.x * other[3] + values.y * other[0] - values.z * other[1];
+	vec.z = values.w * other[3] + values.x * other[2] + values.y * other[1] - values.z * other[0];
+	values = vec;
 }
 
 #endif

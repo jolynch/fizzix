@@ -26,12 +26,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 //#include <matrix.h>
 
+struct vec3
+{
+	double x;
+ 	double y;
+	double z;
+};
+
+struct vec4
+{
+    double x;
+    double y;
+    double z;
+    double w;
+};
+
 struct point
 {
 	double x;
 	double y;
 	double z;
-}
+};
 
 struct triangle 
 {
