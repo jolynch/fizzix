@@ -23,7 +23,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
-
 #ifndef QUATERNION_H
 #define QUATERNION_H
 
@@ -32,47 +31,47 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 /* This class defines a quaternion, with methods for multiplication, addition, and normalization. */
 class Quaternion
 {
-    private:
-        std::vector<double> values; // (w,x,y,z)
-    public:
-        /* Default constructor
-         * Creates a unit quaternion with value (1,0,0,0). */
-        Quaternion();
-        /* Copy constructor */
-        Quaternion(const Quaternion & toCopy);
-        /* Constructor with a vector of length 4. */
-        Quaternion(std::vector<double> vec);
-	/* Creates a quaternion with value (w,x,y,z) */
-        Quaternion(double w,double x,double y,double z);
-        /* Default destructor */
-        ~Quaternion();
-        /* Get a reference to this quaternion's vector */
-        std::vector<double> getVec() const;
-        /* Set this quaternion's vector */
-        void setVec(std::vector<double> vec);
-        /* Normalize this quaternion
-           Automatically checks that it is unit within tolerance,
-             and will not change if it is close enough */
-        void normalize(double tolerance);
-        /* Return the element of this quaternion at index.  0 = w, 1 = x, 2 = y, 3 = z */
-        double operator[](const int index) const;
-        /* Return the sum of this and another quaternion */
-        Quaternion operator+(const Quaternion & other) const;
-        /* Add another quaternion to this one */
-        void operator+=(const Quaternion & other);
-        /* Return the difference of this and another quaternion */
-        Quaternion operator-(const Quaternion & other) const;
-        /* Subtract another quaternion from this one */
-        void operator-=(const Quaternion & other);
-        /* Return the product of this and another quaternion
-           wnew = w1*w2 - x1*x2 - y1*y2 - z1*z2
-           xnew = w1*x2 + x1*w2 + y1*z2 - z1*y2
-           ynew = w1*y2 - x1*z2 + y1*w2 + z1*x2
-           znew = w1*z2 + x1*y2 - y1*x2 + z1*w2 */
-        Quaternion operator*(const Quaternion & other) const;
-        /* Multiply another quaternion on this one on the left
-           qnew = other * q */
-        void operator*=(const Quaternion & other);
+	private:
+		std::vector<double> values; // (w,x,y,z)
+	public:
+		/* Default constructor
+		   Creates a unit quaternion with value (1,0,0,0). */
+		Quaternion();
+		/* Copy constructor */
+		Quaternion(const Quaternion & toCopy);
+		/* Constructor with a vector of length 4. */
+		Quaternion(const std::vector<double> & vec);
+		/* Creates a quaternion with value (w,x,y,z) */
+		Quaternion(double w,double x,double y,double z);
+		/* Get a reference to this quaternion's vector */
+		const std::vector<double> getVec() const;
+		/* Set this quaternion's vector */
+		void setVec(std::vector<double> vec);
+		/* Normalize this quaternion
+		   Automatically checks that it is unit within tolerance,
+			 and will not change if it is close enough */
+		void normalize(double tolerance);
+		/* Return the element of this quaternion to set it.  0 = w, 1 = x, 2 = y, 3 = z */
+		double & operator[](const int index);
+		/* Return the element of this quaternion at index.  0 = w, 1 = x, 2 = y, 3 = z */
+		const double operator[](const int index) const;
+		/* Return the sum of this and another quaternion */
+		Quaternion operator+(const Quaternion & other) const;
+		/* Add another quaternion to this one */
+		void operator+=(const Quaternion & other);
+		/* Return the difference of this and another quaternion */
+		Quaternion operator-(const Quaternion & other) const;
+		/* Subtract another quaternion from this one */
+		void operator-=(const Quaternion & other);
+		/* Return the product of this and another quaternion
+		   wnew = w1*w2 - x1*x2 - y1*y2 - z1*z2
+		   xnew = w1*x2 + x1*w2 + y1*z2 - z1*y2
+		   ynew = w1*y2 - x1*z2 + y1*w2 + z1*x2
+		   znew = w1*z2 + x1*y2 - y1*x2 + z1*w2 */
+		Quaternion operator*(const Quaternion & other) const;
+		/* Multiply another quaternion on this one on the left
+		   qnew = other * q */
+		void operator*=(const Quaternion & other);
 };
 
 #endif
