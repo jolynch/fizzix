@@ -31,7 +31,22 @@ struct vec3
 	double x;
  	double y;
 	double z;
+	const double operator[](int index) const
+	{
+		if (index == 0) return x;
+		if (index == 1) return y;
+		if (index == 2) return z;
+	}
+	double & operator[](int index)
+	{
+		if (index == 0) return x;
+		if (index == 1) return y;
+		if (index == 2) return z;
+	}
+
 };
+
+typedef vec3 point;
 
 struct vec4
 {
@@ -39,13 +54,20 @@ struct vec4
     double y;
     double z;
     double w;
-};
-
-struct point
-{
-	double x;
-	double y;
-	double z;
+	const double operator[](int index) const
+	{
+		if (index == 0) return w;
+		if (index == 1) return x;
+		if (index == 2) return y;
+		if (index == 3) return z;
+	}
+	double & operator[](int index)
+	{
+		if (index == 0) return w;
+		if (index == 1) return x;
+		if (index == 2) return y;
+		if (index == 3) return z;
+	}
 };
 
 struct triangle 
@@ -53,7 +75,7 @@ struct triangle
 	//3x3 matrix essentially.  (x,y,z) of each vertice
 	std::vector< point > vertices;
 	//Normal vector to surface <x,y,z>
-	std::vector<double> unitNormal;
+	vec3 unitNormal;
 	//For use in center of mass computations
 	double mass;
 

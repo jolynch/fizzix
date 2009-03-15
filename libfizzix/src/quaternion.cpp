@@ -117,47 +117,47 @@ double & Quaternion::operator[](const int index)
 
 Quaternion Quaternion::operator+(const Quaternion & other) const
 {
-	return Quaternion(values.w+other[0],values.x+other[1],values.y+other[2],values.z+other[3]);
+	return Quaternion(values[0]+other[0],values[1]+other[1],values[2]+other[2],values[3]+other[3]);
 }
 
 void Quaternion::operator+=(const Quaternion & other)
 {
-	values.w+=other[0];
-	values.x+=other[1];
-	values.y+=other[2];
-	values.z+=other[3];
+	values[0]+=other[0];
+	values[1]+=other[1];
+	values[2]+=other[2];
+	values[3]+=other[3];
 }
 
 Quaternion Quaternion::operator-(const Quaternion & other) const
 {
-	return Quaternion(values.w-other[0],values.x-other[1],values.y-other[2],values.z-other[3]);
+	return Quaternion(values[0]-other[0],values[1]-other[1],values[2]-other[2],values[3]-other[3]);
 }
 
 void Quaternion::operator-=(const Quaternion & other)
 {
-	values.w-=other[0];
-	values.x-=other[1];
-	values.y-=other[2];
-	values.z-=other[3];
+	values[0]-=other[0];
+	values[1]-=other[1];
+	values[2]-=other[2];
+	values[3]-=other[3];
 }
 
 Quaternion Quaternion::operator*(const Quaternion & other) const
 {
 	vec4 vec;
-	vec.w = values.w * other[0] - values.x * other[1] - values.y * other[2] - values.z * other[3];
-	vec.x = values.w * other[1] + values.x * other[0] + values.y * other[3] - values.z * other[2];
-	vec.y = values.w * other[2] + values.x * other[3] + values.y * other[0] - values.z * other[1];
-	vec.z = values.w * other[3] + values.x * other[2] + values.y * other[1] - values.z * other[0];
+	vec[0] = values[0] * other[0] - values[1] * other[1] - values[2] * other[2] - values[3] * other[3];
+	vec[1] = values[0] * other[1] + values[1] * other[0] + values[2] * other[3] - values[3] * other[2];
+	vec[2] = values[0] * other[2] + values[1] * other[3] + values[2] * other[0] - values[3] * other[1];
+	vec[3] = values[0] * other[3] + values[1] * other[2] + values[2] * other[1] - values[3] * other[0];
 	return Quaternion(vec);
 }
 
 void Quaternion::operator*=(const Quaternion & other)
 {
 	vec4 vec;
-	vec.w = values.w * other[0] - values.x * other[1] - values.y * other[2] - values.z * other[3];
-	vec.x = values.w * other[1] + values.x * other[0] + values.y * other[3] - values.z * other[2];
-	vec.y = values.w * other[2] + values.x * other[3] + values.y * other[0] - values.z * other[1];
-	vec.z = values.w * other[3] + values.x * other[2] + values.y * other[1] - values.z * other[0];
+	vec[0] = values[0] * other[0] - values[1] * other[1] - values[2] * other[2] - values[3] * other[3];
+	vec[1] = values[0] * other[1] + values[1] * other[0] + values[2] * other[3] - values[3] * other[2];
+	vec[2] = values[0] * other[2] + values[1] * other[3] + values[2] * other[0] - values[3] * other[1];
+	vec[3] = values[0] * other[3] + values[1] * other[2] + values[2] * other[1] - values[3] * other[0];
 	values = vec;
 }
 
