@@ -69,7 +69,7 @@ class FizEngine
 		 *  @param force A pointer to the force to be evaluated
 		 *  @note The forces and objects must be inititalized via step
 		 */
-		void evalForce(FizeForce * force);
+		void evalForce(FizForce * force);
 	public:
 		/** Steps the physics engine, calculating and storing the next step
 		 *  @param thisStep A pointer to a vector of FizObjects representing the current state

@@ -22,6 +22,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef GEOMETRICSHAPES_H
+#define GEOMETRICSHAPES_H
+
 #include <vector>
 
 //#include <matrix.h>
@@ -86,3 +89,6 @@ struct line
 	point p1;
 	point p2;
 };
+
+#endif
+

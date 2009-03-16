@@ -30,14 +30,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <string>
 #include <vector>
 #include <map>
+#include <stdexcept>
 
 //LibFizzix includes
 #include "quaternion.h"
 #include "geometricshapes.h"
-/*When Finished
 #include "matrix.h"
-*/
-class Matrix;
 
 /** @class FizObject fizobject.h "libfizzix/src/fizengine.h"
  *  @brief This class represents an object in space
@@ -48,18 +46,18 @@ class Matrix;
  *  and an inertia tensor, along with methods to access, change, or 
  *  interact with other FizObjects
  */
-class FizObject: 
+class FizObject 
 {
 	private:
 		std::map<std::string, double> userProps;
 		
 		/** Time dependant properties
 		 */
-		std::vector<double> pos;
-		std::vector<double> vel;
-		std::vector<double> acc;
-		std::vector<double> ome;
-		std::vector<double> alp;
+		vec3 pos;
+		vec3 vel;
+		vec3 acc;
+		vec3 ome;
+		vec3 alp;
 			
 		/** List of the bounding triangles
 		 */
@@ -89,64 +87,63 @@ class FizObject:
 		 *  @param key A string name for the property, mass would be "mass", center of mass "COM", etc ...
 		 *  @return a result_t struct containing any values if found (otherwise 0,NULL,NULL)
 		 */
-		double operator[](std::string key) 
-		{
-			map<std::string, double>::iterator it1 = userProps.find(key);
-			if(it1 != map::end) return *it1;
-			return 0.0;
-		}
+		double operator[](const std::string& key);
+
+		bool contains(const std::string& key);
 		
 		/** Time dependant property access and modification 
 		 */
-		const std::vector<double> pos() 	{ return pos; }
-		std::vector<double>& rpos() 		{ return pos; }
-		void spos(std::vector<double> newpos)	{ pos = newpos; }
+		const vec3 getPos();
+		vec3& rgetPos(); 
+		void setPos(vec3 newpos);
 			
-		const std::vector<double> vel() 	{ return vel; }
-		std::vector<double>& rvel() 		{ return vel; }
-		void svel(std::vector<double> newvel) 	{ vel = newvel; }
+		const vec3 getVel(); 
+		vec3& rgetVel(); 
+		void setVel(vec3 newvel); 
 
-		const std::vector<double> acc() 	{ return acc; }
-		std::vector<double>& racc() 		{ return acc; }
-		void sacc(std::vector<double> newacc) 	{ acc = newacc; }
+		const vec3 getAcc();
+		vec3& rgetAcc(); 
+		void setAcc(vec3 newacc);	
 	
-		const std::vector<double> ome() 	{ return ome; }
-		std::vector<double>& rome() 		{ return ome; }
-		void some(std::vector<double> newome) 	{ vel = newome; }
-
-		const std::vector<double> alp() 	{ return alp; }
-		std::vector<double>& ralp() 		{ return alp; }
-		void salp(std::vector<double> newalp) 	{ vel = newalp; }
+		const vec3 getOme(); 
+		vec3& rgetOme(); 
+		void setOme(vec3 newome); 	
+		const vec3 getAlp(); 	
+		vec3& rgetAlp();	
+		void setAlp(vec3 newalp);			
 			
 		/** List of the bounding triangles access and modification
 		 */
-		const std::vector<triangle> vertices() 	{ return vertices; }
-		std::vector<triangle>& rvertices() 	{ return vertices; }
-		void svertices(std::vector<double> newvertices) { vertices = newvertices; }
+		const std::vector<triangle> getVertices();	
+		std::vector<triangle>& rgetVertices(); 	
+		void setVertices(std::vector<triangle> newvertices);
 		
 		/** Rotation specific members
 		 */
 
-		const Quaternion quaternion() 		{ return quaternion; }
-		Quaternion& rquaternion()		{ return quaternion; }
-		void squaternion(Quaternion newquat)	{ quaternion = newquat; }
-		
-		const Matrix inertiaTensor()		{ return inertiaTensor; }
-		Matrix& rinertiaTensor()		{ return inertiaTensor; }
-		void sinertiaTensor(Matrix newtensor)	{ inertiaTensor = newtensor; }
+		const Quaternion getQuaternion();
+		Quaternion& rgetQuaternion();
+		void setQuaternion(Quaternion newquat);
+
+		const Matrix getInertiaTensor();
+		Matrix& rgetInertiaTensor();
+		void setInertiaTensor(Matrix newtensor);
                 
-		const Matrix inertiaTensorInv()            { return inertiaTensor; }
-		Matrix& rinertiatensor()                { return inertiaTensorInv; }
-		void sinertiaTensorInv(Matrix newtensor)   { inertiaTensorInv = newtensor; }
-
+		const Matrix getInertiaTensorInv();
+		Matrix& rgetInertiatensor();
+		void setInertiaTensorInv(Matrix newtensor);
 		
-		//Unless we need it
-		//Matrix rotation
-
 		/** Other properties
 		 */
-		double mass;
+		double getMass();
+		double& rgetMass();
+		void setMass(double newmass);
 
+
+		/** User defined properties
+		 */
+		double getProperty(std::string key);
+		void setProperty(std::string key, double value);
 
 };
 
