@@ -23,30 +23,19 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
-#ifndef FIZFORMULA_H
-#define FIZFORMULA_H
+#ifndef FIZFORMANONCONST_H
+#define FIZFORMANONCONST_H
 
-#include <vector>
+#include "fizobject.h"
 
-#include "fizformnode.h"
-#include "fizformoperation.h"
-#include "fizformnamedconst.h"
-#include "fizformanonconst.h"
-#include "fizformvariable.h"
-
-class FizFormula 
+class FizFormAnonConst : public FizFormNode
 {
 	private:
-		std::vector<FizFormNode> stack; /* This is not a stack because a stack would be destroyed upon evaluation */
+		double value; /* Holds the constant's value */
 	public:
-		/* Constructs a new FizFormula with the given node stack */
-		FizFormula(std::vector<FizFormNode> stack);
-		/* Evaluate the formula between two FizObjects */
-		const double eval(const FizObject obj1, const FizObject obj2);
-		/* Adds an operation to the stack */
-		void push(const FizFormNode x);
-		const std::vector<FizFormNode> getStack();
-		void setStack(std::vector<FizFormNode> stack);
+		const double eval(const std::vector<FizFormNode> stack, int current, const FizObject obj1, const FizObject obj2); /* Returns the constant */
+		void set(double value); /* Set the constant's value */
+		const double get(); /* Get the constant's value */
 };
 
 #endif
