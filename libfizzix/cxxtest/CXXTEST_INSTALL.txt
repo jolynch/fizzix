@@ -1,0 +1,15 @@
+To install cxxtest on a linux machine:
+
+cd into the top directory labeled cxxtest.  You should see another directory called cxxtest, a python script (.py), and a perl script (.pl), but no headers.  Then,
+
+cd /usr/include/c++
+
+go into the highest numbered folder name, and remember the path to this place.  Go back to the top level of the cxxtest stuff, and execture:
+
+sudo cp -rf cxxtest <filepath>, where filepath is the one you just found.
+
+If you want to be able to use the generating scripts (the .py or .pl files you see) as a command, rather than having to cd into the cxxfolder every time, do:
+
+sudo cp cxxtestgen.py /usr/bin/cxxtestgen.  (This may not be recommended, but I did it cause I'm lazy.)
+
+Then, go to http://cxxtest.sourceforge.net/guide.html for instructinos on how to use cxxtest.
