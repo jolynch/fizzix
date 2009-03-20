@@ -78,6 +78,8 @@ struct triangle
 	//3x3 matrix essentially.  (x,y,z) of each vertice
 	std::vector< point > vertices;
 	//Normal vector to surface <x,y,z>
+	vec3 normal;
+	//Normal vector to surface <x,y,z>
 	vec3 unitNormal;
 	//For use in center of mass computations
 	double mass;
@@ -88,6 +90,15 @@ struct line
 {
 	point p1;
 	point p2;
+};
+
+enum Type {SCALAR, VECTOR};
+
+struct fizdatum
+{
+	double dval;
+	vec3 vecval;
+	Type type;
 };
 
 #endif

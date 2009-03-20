@@ -77,17 +77,30 @@ class FizObject
 		 */
 		double mass;
 
+		/** Calculate COM, Inertia Tensor, and relative masses of triangles
+		 *  @note This will redefine the pos, inertiaTensor, and the triangles
+		 */
+		void compute();
+
+		/** Knowing the mass and the volume, now calculate the correct masses of triangles 
+		 */
+
+		void adjustMasses(double volume);
 	public:
 	
 		/** Default Constructor
 		 */
 		FizObject();
+		
+		/** Constructor that inits the vertices
+		 */
+		FizObject(std::vector<triangle> init);
 
 		/** Return a property given the key, so this["mass"] should return a result
 		 *  @param key A string name for the property, mass would be "mass", center of mass "COM", etc ...
 		 *  @return a result_t struct containing any values if found (otherwise 0,NULL,NULL)
 		 */
-		double operator[](const std::string& key);
+		const double operator[](const std::string& key);
 
 		bool contains(const std::string& key);
 		
@@ -108,6 +121,7 @@ class FizObject
 		const vec3 getOme(); 
 		vec3& rgetOme(); 
 		void setOme(vec3 newome); 	
+		
 		const vec3 getAlp(); 	
 		vec3& rgetAlp();	
 		void setAlp(vec3 newalp);			
