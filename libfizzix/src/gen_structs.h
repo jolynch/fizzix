@@ -96,8 +96,8 @@ enum Type {SCALAR, VECTOR};
 
 struct fizdatum
 {
-	double dval;
-	vec3 vecval;
+	double scalar;
+	vec3 vector;
 	Type type;
 };
 
