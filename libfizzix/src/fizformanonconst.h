@@ -26,16 +26,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef FIZFORMANONCONST_H
 #define FIZFORMANONCONST_H
 
+#include <stack>
+
+#include "fizformnode.h"
+#include "gen_structs.h"
 #include "fizobject.h"
 
 class FizFormAnonConst : public FizFormNode
 {
 	private:
-		double value; /* Holds the constant's value */
+		fizdatum value; /* Holds the constant's value */
 	public:
-		const double eval(const std::vector<FizFormNode> stack, int current, const FizObject obj1, const FizObject obj2); /* Returns the constant */
-		void set(double value); /* Set the constant's value */
-		const double get(); /* Get the constant's value */
+		/*Default constructor creates 0 scalar*/
+		FizFormAnonConst();
+		/*constructor takes a fizdatum value*/
+		FizFormAnonConst(fizdatum value);
+		const fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Returns the constant */
+		//the below method is unneeded, as when forces are changed, they will simply be reparsed
+		//void set(fizdatum value); /* Set the constant's value */
+		const fizdatum get(); /* Get the constant's value */
 };
 
 #endif

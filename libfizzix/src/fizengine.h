@@ -27,15 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <iostream>
 #include <vector>
-
-/* For whenever these get written
-#include "fizobject.h"
 #include "fizforce.h"
-
-Forward declarations untill then
-*/
-class FizObject;
-class FizForce;
+#include "fizobject.h"
 
 /** @class FizEngine fizengine.h "libfizzix/src/fizengine.h"
  *  @brief This class computes object positions from the last step 

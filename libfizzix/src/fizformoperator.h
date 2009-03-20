@@ -23,36 +23,22 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
-#ifndef FIZFORMULA_H
-#define FIZFORMULA_H
+#ifndef FIZFORMOPERATOR_H
+#define FIZFORMOPERATOR_H
 
 #include <vector>
 #include <stack>
 
-#include "gen_structs.h"
 #include "fizformnode.h"
-#include "fizformoperator.h"
-#include "fizformanonconst.h"
-#include "fizformvariable.h"
+#include "gen_structs.h"
+#include "fizobject.h"
 
-class FizFormula
+class FizFormOperator:public FizFormNode 
 {
 	private:
-		//std::vector<FizFormNode> stack; /* This is not a stack because a stack would be destroyed upon evaluation */
-		std::stack<FizFormNode> stack; //various operators pop different number of operands off the stack, and you can't just do current++
-		std::stack<FizFormNode> stackCopy; //created and destroyed upon every evaluation
+		int numOperands;
 	public:
-		/* Constructs a new FizFormula with the given node stack */
-		//FizFormula(std::vector<FizFormNode> stack);
-		FizFormula(std::stack<FizFormNode> stack);
-		/* Evaluate the formula between two FizObjects */
-		const fizdatum eval(const FizObject& obj1, const FizObject& obj2);
-		/* Adds an operation to the stack */
-		void push(const FizFormNode x);
-		//const std::vector<FizFormNode> getStack();
-		const std::stack<FizFormNode> getStack();
-		//void setStack(std::vector<FizFormNode> stack);
-		void setStack(std::stack<FizFormNode> stack);
+		fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
 };
 
 #endif

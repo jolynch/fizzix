@@ -92,7 +92,7 @@ struct line
 	point p2;
 };
 
-enum Type {SCALAR, VECTOR};
+enum Type {SCALAR, VECTOR, PROPERTY, FORCE};
 
 struct fizdatum
 {

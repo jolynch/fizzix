@@ -27,13 +27,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define FIZFORMNODE_H
 
 #include <vector>
+#include <stack>
 
+#include "gen_structs.h"
 #include "fizobject.h"
 
 class FizFormNode 
 {
 	public:
-		virtual double eval(const std::vector<FizFormNode> stack, int current, const FizObject obj1, const FizObject obj2); /* Gets the value of the node */
+		virtual fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
 };
 
 #endif
