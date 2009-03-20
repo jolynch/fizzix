@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define QUATERNION_H
 
 #include <vector>
-#include "geometricshapes.h"
+#include "gen_structs.h"
 
 /* This class defines a quaternion, with methods for multiplication, addition, and normalization. */
 class Quaternion

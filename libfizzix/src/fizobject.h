@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 //LibFizzix includes
 #include "quaternion.h"
-#include "geometricshapes.h"
+#include "gen_structs.h"
 #include "matrix.h"
 
 /** @class FizObject fizobject.h "libfizzix/src/fizengine.h"
@@ -49,8 +49,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class FizObject 
 {
 	private:
-		std::map<std::string, double> userProps;
-		
+		std::map<std::string, fizdatum> props;
 		/** Time dependant properties
 		 */
 		vec3 pos;
@@ -58,7 +57,7 @@ class FizObject
 		vec3 acc;
 		vec3 ome;
 		vec3 alp;
-			
+		
 		/** List of the bounding triangles
 		 */
 		std::vector<triangle> vertices;
@@ -67,8 +66,8 @@ class FizObject
 		 */
 
 		Quaternion quaternion;
-		Matrix inertiaTensor;
-		Matrix inertiaTensorInv;
+		vec3 inertiaTensor;
+		vec3 inertiaTensorInv;
 		
 		//Unless we need it
 		//Matrix rotation
@@ -76,6 +75,7 @@ class FizObject
 		/** Other properties
 		 */
 		double mass;
+		std::string name;
 
 		/** Calculate COM, Inertia Tensor, and relative masses of triangles
 		 *  @note This will redefine the pos, inertiaTensor, and the triangles
@@ -90,17 +90,17 @@ class FizObject
 	
 		/** Default Constructor
 		 */
-		FizObject();
+		FizObject(std::string newname);
 		
 		/** Constructor that inits the vertices
 		 */
-		FizObject(std::vector<triangle> init);
+		FizObject(std::string newname, std::vector<triangle> init);
 
 		/** Return a property given the key, so this["mass"] should return a result
 		 *  @param key A string name for the property, mass would be "mass", center of mass "COM", etc ...
 		 *  @return a result_t struct containing any values if found (otherwise 0,NULL,NULL)
 		 */
-		const double operator[](const std::string& key);
+		const fizdatum operator[](const std::string& key);
 
 		bool contains(const std::string& key);
 		
@@ -139,13 +139,13 @@ class FizObject
 		Quaternion& rgetQuaternion();
 		void setQuaternion(Quaternion newquat);
 
-		const Matrix getInertiaTensor();
-		Matrix& rgetInertiaTensor();
-		void setInertiaTensor(Matrix newtensor);
+		const vec3 getInertiaTensor();
+		vec3& rgetInertiaTensor();
+		void setInertiaTensor(vec3 newtensor);
                 
-		const Matrix getInertiaTensorInv();
-		Matrix& rgetInertiatensor();
-		void setInertiaTensorInv(Matrix newtensor);
+		const vec3 getInertiaTensorInv();
+		vec3& rgetInertiatensor();
+		void setInertiaTensorInv(vec3 newtensor);
 		
 		/** Other properties
 		 */
@@ -153,11 +153,13 @@ class FizObject
 		double& rgetMass();
 		void setMass(double newmass);
 
+		std::string getName();
+		void setName(std::string newname);
 
 		/** User defined properties
 		 */
-		double getProperty(std::string key);
-		void setProperty(std::string key, double value);
+		fizdatum getProperty(std::string key);
+		void setProperty(std::string key, fizdatum);
 
 };
 
