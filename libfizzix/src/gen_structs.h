@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define GEOMETRICSHAPES_H
 
 #include <vector>
+#include <string>
 
 //#include <matrix.h>
 
@@ -73,10 +74,18 @@ struct vec4
 	}
 };
 
+struct triangle;
+
+struct vertex
+{
+	point p;
+	std::vector<triangle> triangles;
+};
+
 struct triangle 
 {
 	//3x3 matrix essentially.  (x,y,z) of each vertice
-	std::vector< point > vertices;
+	std::vector<vertex> vertices;
 	//Normal vector to surface <x,y,z>
 	vec3 normal;
 	//Normal vector to surface <x,y,z>
