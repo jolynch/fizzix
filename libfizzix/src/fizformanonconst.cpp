@@ -22,26 +22,32 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef FIZFORMANONCONST_CPP
+#define FIZFORMANONCONST_CPP
 
-#ifndef FIZFORMOPERATOR_H
-#define FIZFORMOPERATOR_H
+#include "fizformanonconst.cpp"
 
-#include <vector>
-#include <stack>
-#include <string>
+using namespace std;
 
-#include "fizformnode.h"
-#include "gen_structs.h"
-#include "fizobject.h"
-
-class FizFormOperator:public FizFormNode 
+FizFormAnonConst::FizFormAnonConst()
 {
-	private:
-		int numOperands; /* The number of parameters the function takes */
-		string token; /* The token used to identify this function in the editor */
-		string description; /* "Help" text */
-	public:
-		fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
-};
+	value.type=SCALAR;
+	value.scalar=0;
+}
+
+FizFormAnonConst::FizFormAnonConst(const fizdatum value)
+{
+	this.value=value;
+}
+
+const FizFormAnonConst::get()
+{
+	return value;
+}
+
+fizdatum FizFormAnonConst::eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+{
+	return value;
+}
 
 #endif
