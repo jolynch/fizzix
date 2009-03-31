@@ -111,5 +111,7 @@ struct fizdatum
 	Type type;
 };
 
+double div_consts[] = {1.0/6.0, 1.0/24.0, 1.0/60.0, 1.0/120.0};
+
 #endif
 

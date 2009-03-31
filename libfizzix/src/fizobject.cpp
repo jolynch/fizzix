@@ -64,9 +64,9 @@ FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle> init
 // Init the object
 void FizObject::init(std::string name, vec3 color, bool smooth, std::vector<triangle> tinit)
 {
-	init_object(name,color,smooth, tinit);
-	compute();
-	adjustMasses(1.0);
+	this->init_object(name,color,smooth, tinit);
+	this->compute();
+	this->adjustMasses(1.0);
 }
 
 /** Initialized the structure, used by constructors
@@ -79,6 +79,47 @@ void FizObject::init_object(std::string name, vec3 color, bool smooth, std::vect
 	props["color"] = col;
 	fizdatum smo = {(double)smooth, {0.0,0.0,0.0},SCALAR};
 	props["smooth"] = smo;
+}
+
+/** Next two methods complements to Game Physics, 2nd Edition, by David H Elberly,
+ *  Chapter 2.5, Momenta
+ *
+ *  These formulas found on pg 75 - 79
+ */
+
+//NOT A MEMBER OF FIZOBJECT. helper
+void sub_compute(const double& w0, const double& w1, const double& w2, 
+		 double& f1, double& f2, double& f3,
+	       	 double& g0, double& g1, double& g2) 
+{
+	double temp0 = w0 + w1;
+	f1 = temp0 + w2;
+	double temp1 = w0 * w0;
+	double temp2 = temp1 + w1 * temp0;
+	f2 = temp2 + w2 * f1;
+	f3 = w0 * temp1 + w1 * temp2 + w2 * f2;
+	g0 = f2 + w0 * (f1 + w0);
+	g1 = f2 + w1 * (f1 + w1);
+	g2 = f2 + w2 * (f1 + w2);
+}
+
+//div_consts
+// Compute the COM, etc
+void FizObject::compute() 
+{
+	double integral[10] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	double f1x, f2x, f3x, g0x, g1x, g2x;
+	double f1y, f2y, f3y, g0y, g1y, g2y;
+	double f1z, f2z, f3z, g0z, g1z, g2z;
+	point p0,p1,p2;
+	for(int i = 0; i < vertices.size(); i++) 
+	{
+		const triangle& t = vertices[i];
+		sub_compute(t[0][0], t[1][0], t2[0], f1x, f2x, f3x, g0x, g1x, g2x);
+		sub_compute(t[0][1], t[1][1], t2[1], f1y, f2y, f3y, g0y, g1y, g2y);
+		sub_compute(t[0][2], t[1][2], t2[2], f1z, f2z, f3z, g0z, g1z, g2z);
+		
+	}
 }
 
 const fizdatum FizObject::operator[](const std::string& key) 
