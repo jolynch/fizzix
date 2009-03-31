@@ -27,20 +27,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using namespace std;
 
-FizOper::Sum::Sum(int numOperands)
+Sum::Sum(int numOperands)
 {
-	this->numOperands==numOperands;
+	Sum::numOperands==numOperands;
 	token="sum";
 	description="Finds the sum of scalars or vectors";
 }
 
-fizdatum FizOper::Sum::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Sum::eval(std::stack<FizFormNode>& stack, const FizObject &obj1, const FizObject &obj2)
 {
-	fizdatum sum=stack.pop().eval(stack,obj1,obj2);
+	fizdatum sum=stack.top().eval(stack,obj1,obj2);
+	stack.pop();
 	fizdatum next;
 	for(int i=1;i<numOperands;i++)
 	{
-		next=stack.pop().eval(stack,obj1,obj2);
+		next=stack.top().eval(stack,obj1,obj2);
+		stack.pop();
 		if(next.type!=sum.type) throw logic_error("Cannot mix scalars and vectors in sum");
 		if(sum.type==SCALAR) sum.scalar+=next.scalar; else sum.vector+=next.vector;
 	}
