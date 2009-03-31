@@ -38,10 +38,10 @@ class FizFormOperator:public FizFormNode
 {
 	private:
 		int numOperands; /* The number of parameters the function takes */
-		string token; /* The token used to identify this function in the editor */
-		string description; /* "Help" text */
+		std::string token; /* The token used to identify this function in the editor */
+		std::string description; /* "Help" text */
 	public:
-		fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
+		const fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
 };
 
 #endif

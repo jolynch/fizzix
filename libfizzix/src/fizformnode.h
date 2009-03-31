@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class FizFormNode 
 {
 	public:
-		virtual fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
+		virtual const fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
 };
 
 #endif

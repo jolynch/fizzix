@@ -46,7 +46,7 @@ class FizFormula
 		//FizFormula(std::vector<FizFormNode> stack);
 		FizFormula(std::stack<FizFormNode> stack);
 		/* Evaluate the formula between two FizObjects */
-		const fizdatum eval(const FizObject& obj1, const FizObject& obj2);
+		virtual const fizdatum eval(const FizObject& obj1, const FizObject& obj2);
 		/* Adds an operation to the stack */
 		void push(const FizFormNode x);
 		//const std::vector<FizFormNode> getStack();

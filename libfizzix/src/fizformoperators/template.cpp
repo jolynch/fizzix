@@ -25,14 +25,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "operators.h"
 
-Operate::Operate(int numOperands)
+Operator::Operate(int numOperands)
 {
 	this->numOperands==numOperands;
 	token="operate";
 	description="Operates.";
 }
 
-fizdatum Operator::eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2)
+const fizdatum Operate::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
 {
 
 }

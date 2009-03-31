@@ -45,7 +45,7 @@ const FizFormAnonConst::get()
 	return value;
 }
 
-fizdatum FizFormAnonConst::eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+const fizdatum FizFormAnonConst::eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
 {
 	return value;
 }
