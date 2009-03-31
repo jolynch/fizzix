@@ -6,14 +6,14 @@
 #include <libfizzix/gen_structs.h>
 #include <libfizzix/quaternion.h>
 
-class GLDrawPanel: public QGLWidget
+class GLDrawPane: public QGLWidget
 { Q_OBJECT
 	private:
 		//Rotate the current quaternion
 		//  @param up:  How much to rotate following the up vector.  Negative for down.
 		//  @param left:  How much to rotate following the left vector.  Negative for right.
-		void rotate(double up, double left);
-		//Zoom in by amound (out if amount is negative) scaled by zoomSpeed.
+		void rotate(double upAmt, double leftAmt);
+		//Zoom in by amount (out if amount is negative) scaled by zoomSpeed.
 		void zoom(double amount);
 		//Move and rotate the camera corresponding to the current quaternion.  Requires a current gl context.
 		void moveCamera();
@@ -54,9 +54,10 @@ class GLDrawPanel: public QGLWidget
 
 	public:
 		//Create the GL panel
-		GLDrawPanel(QWidget * parent = 0);
-		//Destructor
-		~GLDrawPanel();
+		GLDrawPane(QWidget * parent = 0);
 
 		//Return the requested size of this widget.
 		QSize sizeHint() const;
+}
+
+#endif
