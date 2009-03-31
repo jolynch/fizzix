@@ -38,7 +38,7 @@ class FizFormVariable:public FizFormNode
 	private:
 		Type variableType;
 	public:
-		const fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
 };
 
 #endif

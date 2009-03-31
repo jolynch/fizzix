@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "gen_structs.h"
 #include "fizobject.h"
 
-class FizFormAnonConst : public FizFormNode
+class FizFormAnonConst:public FizFormNode
 {
 	private:
 		fizdatum value; /* Holds the constant's value */
@@ -41,10 +41,10 @@ class FizFormAnonConst : public FizFormNode
 		FizFormAnonConst();
 		/*constructor takes a fizdatum value*/
 		FizFormAnonConst(fizdatum value);
-		const fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Returns the constant */
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Returns the constant */
 		//the below method is unneeded, as when forces are changed, they will simply be reparsed
 		//void set(fizdatum value); /* Set the constant's value */
-		const fizdatum get(); /* Get the constant's value */
+		//const fizdatum get(); /* Get the constant's value */
 };
 
 #endif

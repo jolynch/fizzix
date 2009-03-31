@@ -22,27 +22,27 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
 
-#include "fizformanonconst.h"
+#include "operators.h"
 
-using namespace std;
-
-FizFormAnonConst::FizFormAnonConst()
+Factorial::Factorial(int numOperands)
 {
-	value.type=SCALAR;
-	value.scalar=0;
+	this->numOperands==numOperands;
+	description = "Takes the factorial of a scalar.";
+	token = "factorial";
 }
 
-FizFormAnonConst::FizFormAnonConst(const fizdatum value)
+const fizdatum Factorial::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2)
 {
-	this.value=value;
+	fizdatum a = stack.top().eval(stack, obj1, obj2);
+	stack.pop();
+	fizdatum c;
+	c.type = SCALAR;
+	if (numOperands == 1 && a.type == SCALAR && a.scalar >= 0)
+	{
+		c.scalar = 1;
+		for (int i = 2; i <= a.scalar; i++) c.scalar *= i;
+	}
+	else throw new std::logic_error("Cannot take the factorial of multiple numbers, negative numbers, or vectors.");
+	return c;
 }
-
-const fizdatum FizFormAnonConst::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
-{
-	return value;
-}
-
-#endif

@@ -27,14 +27,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using namespace std;
 
-FizFormOp::Sum::Sum(int numOperands)
+FizOper::Sum::Sum(int numOperands)
 {
 	this->numOperands==numOperands;
 	token="sum";
 	description="Finds the sum of scalars or vectors";
 }
 
-fizdatum FizForOp::Sum::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+fizdatum FizOper::Sum::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
 {
 	fizdatum sum=stack.pop().eval(stack,obj1,obj2);
 	fizdatum next;

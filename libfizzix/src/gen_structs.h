@@ -22,8 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef GEOMETRICSHAPES_H
-#define GEOMETRICSHAPES_H
+#ifndef GEN_STRUCTS_H
+#define GEN_STRUCTS_H
 
 #include <vector>
 #include <string>
@@ -102,6 +102,7 @@ struct line
 };
 
 enum Type {SCALAR, VECTOR};
+enum Type2 {PROPERTY1, PROPERTY2, PROPERTYJOINT, FORCE};
 
 struct fizdatum
 {

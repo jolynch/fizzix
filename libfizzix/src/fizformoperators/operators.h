@@ -27,30 +27,89 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <stack>
 #include <string>
 #include <stdexcept>
+#include <cmath>
 
 #include "../fizformoperator.h"
 
 namespace FizOper
-{	class Dot: public FizFormOperator {};
-	class Cross: public FizFormOperator {};
+{
+	class Dot: public FizFormOperator
+	{	public: Dot(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Cross: public FizFormOperator
+	{	public: Cross(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
 	
-	class Sum: public FizFormOperator {};
-	class Difference: public FizFormOperator {};
-	class Product: public FizFormOperator {};
-	class Quotient: public FizFormOperator {};
+	class Sum: public FizFormOperator
+	{	public: Sum(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Difference: public FizFormOperator
+	{	public: Difference(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Product: public FizFormOperator
+	{	public: Product(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Quotient: public FizFormOperator
+	{	public: Quotient(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
 	
-	class Cosine: public FizFormOperator {};
-	class Sine: public FizFormOperator {};
-	class Tangent: public FizFormOperator {};
-	class Arcsin: public FizFormOperator {};
-	class Arccos: public FizFormOperator {};
-	class Arctan: public FizFormOperator {};
+	class Cosine: public FizFormOperator
+	{	public: Cosine(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Sine: public FizFormOperator
+	{	public: Sine(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Tangent: public FizFormOperator
+	{	public: Tangent(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Arcsin: public FizFormOperator
+	{	public: Arcsin(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Arccos: public FizFormOperator
+	{	public: Arccos(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Arctan: public FizFormOperator
+	{	public: Arctan(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
 	
-	class Factorial: public FizFormOperator{};
-	class Magnitude: public FizFormOperator {};
-	class Square: public FizFormOperator {};
-	class Exponentiate: public FizFormOperator {};
-	class Random: public FizFormOperator {};
-	class Vectorize: public FizFormOperator {};
-	class Logarithm: public FizFormOperator {};
+	class Factorial: public FizFormOperator
+	{	public: Factorial(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Magnitude: public FizFormOperator
+	{	public: Magnitude(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Square: public FizFormOperator
+	{	public: Square(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Exponentiate: public FizFormOperator
+	{	public: Exponentiate(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Random: public FizFormOperator
+	{	public: Random(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Vectorize: public FizFormOperator
+	{	public: Vectorize(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Logarithm: public FizFormOperator
+	{	public: Logarithm(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
 }

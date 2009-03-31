@@ -34,14 +34,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "gen_structs.h"
 #include "fizobject.h"
 
-class FizFormOperator:public FizFormNode 
+namespace FizOper
 {
-	private:
-		int numOperands; /* The number of parameters the function takes */
-		std::string token; /* The token used to identify this function in the editor */
-		std::string description; /* "Help" text */
-	public:
-		const fizdatum eval(const std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
-};
+	class FizFormOperator:public FizFormNode 
+	{
+		protected:
+			int numOperands; /* The number of parameters the function takes */
+			std::string token; /* The token used to identify this function in the editor */
+			std::string description; /* "Help" text */
+		public:
+			virtual const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
+	};
+}
 
 #endif

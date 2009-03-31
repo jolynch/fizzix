@@ -22,27 +22,23 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
 
-#include "fizformanonconst.h"
+#include "operators.h"
 
-using namespace std;
-
-FizFormAnonConst::FizFormAnonConst()
+Square::Square(int numOperands)
 {
-	value.type=SCALAR;
-	value.scalar=0;
+	this->numOperands==numOperands;
+	description = "Takes the square of a scalar.";
+	token = "square";
 }
 
-FizFormAnonConst::FizFormAnonConst(const fizdatum value)
+const fizdatum Square::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2)
 {
-	this.value=value;
+	fizdatum a = stack.top().eval(stack, obj1, obj2);
+	stack.pop();
+	fizdatum b;
+	b.type = SCALAR;
+	if (a.type == SCALAR) b.scalar = a.scalar*a.scalar;
+	else throw new std::logic_error("Cannot square a vector.");
+	return b;
 }
-
-const fizdatum FizFormAnonConst::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
-{
-	return value;
-}
-
-#endif

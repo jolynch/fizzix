@@ -22,27 +22,33 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
 
-#include "fizformanonconst.h"
+#include "operators.h"
 
-using namespace std;
-
-FizFormAnonConst::FizFormAnonConst()
+Cross::Cross(int numOperands)
 {
-	value.type=SCALAR;
-	value.scalar=0;
+	this->numOperands==numOperands;
+	description = "Takes the cross product (vector product) of two vectors.";
+	token = "cross";
 }
 
-FizFormAnonConst::FizFormAnonConst(const fizdatum value)
+const fizdatum Cross::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2)
 {
-	this.value=value;
+	fizdatum c;
+	c.type = VECTOR;
+	if (numOperands == 2)
+	{	fizdatum b = stack.top().eval(stack, obj1, obj2);
+		stack.pop();
+		fizdatum a = stack.top().eval(stack, obj1, obj2);
+		stack.pop();
+		if (a.type == VECTOR && b.type == VECTOR)
+		{
+			c.vector[0] = a.vector[1]*b.vector[2] - a.vector[2]*b.vector[1];
+			c.vector[1] = a.vector[2]*b.vector[0] - a.vector[0]*b.vector[2];
+			c.vector[2] = a.vector[0]*b.vector[1] - a.vector[1]*b.vector[0];
+		}
+		else throw new std::logic_error("Can only take the cross product of two vectors.");
+	}
+	else throw new std::logic_error("Can only take the cross product of two vectors.");
+	return c;
 }
-
-const fizdatum FizFormAnonConst::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
-{
-	return value;
-}
-
-#endif

@@ -22,27 +22,33 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
 
-#include "fizformanonconst.h"
+#include "operators.h"
 
-using namespace std;
-
-FizFormAnonConst::FizFormAnonConst()
+Dot::Dot(int numOperands)
 {
-	value.type=SCALAR;
-	value.scalar=0;
+	this->numOperands==numOperands;
+	description = "Takes the dot product (scalar product) of two vectors.";
+	token = "dot";
 }
 
-FizFormAnonConst::FizFormAnonConst(const fizdatum value)
+const fizdatum Dot::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2)
 {
-	this.value=value;
+	fizdatum c;
+	c.type = SCALAR;
+	if (numOperands == 2)
+	{
+		fizdatum b = stack.top().eval(stack, obj1, obj2);
+		stack.pop();
+		fizdatum a = stack.top().eval(stack, obj1, obj2);
+		stack.pop();
+		if (a.type == VECTOR && b.type == VECTOR)
+		{
+			c.scalar = a.vector[0]*b.vector[0]+a.vector[1]*b.vector[1]+a.vector[2]*b.vector[2];
+		}
+		else throw new std::logic_error("Can only take the dot product of two vectors.");
+	}
+	else throw new std::logic_error("Can only take the dot product of two vectors.");
+	return c;
 }
 
-const fizdatum FizFormAnonConst::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
-{
-	return value;
-}
-
-#endif
