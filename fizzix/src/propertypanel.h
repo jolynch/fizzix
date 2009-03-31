@@ -5,7 +5,7 @@
 #include <QGridLayout>
 
 public PropertyPanel:public QWidget
-{	Q_WIDGET
+{	Q_OBJECT
 public:
 	PropertyPanel();
 };
