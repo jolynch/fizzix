@@ -25,15 +25,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "operators.h"
 
-Operator::Operate(int numOperands)
+Vectorize::Vectorize(int numOperands)
 {
 	this->numOperands=numOperands;
-	token="operate";
-	description="Operates.";
+	token="vector";
+	description="Takes three scalars and puts them into a vector";
 }
 
-const fizdatum Operate::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Vectorize::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
 {
-
+	fizdatum c = stack.top().eval(stack, obj1, obj2);
+	stack.pop();
+	fizdatum b = stack.top().eval(stack, obj1, obj2);
+	stack.pop();
+	fizdatum a = stack.top().eval(stack, obj1, obj2);
+	stack.pop();
+	fizdatum d;
+	d.type = VECTOR;
+	if (c.type == SCALAR && b.type == SCALAR && a.type == SCALAR)
+	{
+		d.vector[0] = a.scalar;
+		d.vector[1] = b.scalar;
+		d.vector[2] = c.scalar;
+	}
+	else throw new std::logic_error("Can only make a vector from three scalars");
 }
 
