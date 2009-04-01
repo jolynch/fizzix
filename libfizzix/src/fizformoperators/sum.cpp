@@ -29,7 +29,7 @@ using namespace std;
 
 Sum::Sum(int numOperands)
 {
-	Sum::numOperands==numOperands;
+	Sum::numOperands=numOperands;
 	token="sum";
 	description="Finds the sum of scalars or vectors";
 }
@@ -43,7 +43,7 @@ const fizdatum Sum::eval(std::stack<FizFormNode>& stack, const FizObject &obj1, 
 	{
 		next=stack.top().eval(stack,obj1,obj2);
 		stack.pop();
-		if(next.type!=sum.type) throw logic_error("Cannot mix scalars and vectors in sum");
+		if(next.type!=sum.type) throw new logic_error("Cannot mix scalars and vectors in sum");
 		if(sum.type==SCALAR) sum.scalar+=next.scalar; else sum.vector+=next.vector;
 	}
 	return sum;

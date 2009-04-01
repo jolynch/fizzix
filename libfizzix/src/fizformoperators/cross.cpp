@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 Cross::Cross(int numOperands)
 {
-	this->numOperands==numOperands;
+	this->numOperands=numOperands;
 	description = "Takes the cross product (vector product) of two vectors.";
 	token = "cross";
 }

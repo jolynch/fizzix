@@ -22,27 +22,42 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
 
-#include "fizformanonconst.h"
+#include "operators.h"
 
 using namespace std;
 
-FizFormAnonConst::FizFormAnonConst()
+Quotient::Quotient(int numOperands)
 {
-	value.type=SCALAR;
-	value.scalar=0;
+	Quotient::numOperands=numOperands;
+	token="quotient";
+	description="Finds the quotient of scalars and at most one vector (as the numerator)";
 }
 
-FizFormAnonConst::FizFormAnonConst(const fizdatum value)
+const fizdatum Quotient::eval(std::stack<FizFormNode>& stack, const FizObject &obj1, const FizObject &obj2)
 {
-	this->value=value;
+	fizdatum quotient = {1, {0.0,0.0,0.0}, SCALAR};
+	fizdatum next;
+	for(int i = 0; i < numOperands-1; i++)
+	{
+		next = stack.top().eval(stack, obj1, obj2);
+		stack.pop();
+		if(next.type == SCALAR) quotient.scalar /= next.scalar;
+		else throw new logic_error("Cannot have a vector in denominator");
+		
+	}
+	if (numOperands > 0)
+	{
+		next = stack.top().eval(stack, obj1, obj2);
+		stack.pop();
+		if(next.type == SCALAR) quotient.scalar *= next.scalar;
+		else
+		{
+			quotient.type = VECTOR;
+			quotient.vector[0] = next.vector[0]/quotient.scalar;
+			quotient.vector[1] = next.vector[1]/quotient.scalar;
+			quotient.vector[2] = next.vector[2]/quotient.scalar;
+		}
+	}
+	return quotient;
 }
-
-const fizdatum FizFormAnonConst::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
-{
-	return value;
-}
-
-#endif

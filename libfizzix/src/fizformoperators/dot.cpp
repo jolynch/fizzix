@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 Dot::Dot(int numOperands)
 {
-	this->numOperands==numOperands;
+	this->numOperands=numOperands;
 	description = "Takes the dot product (scalar product) of two vectors.";
 	token = "dot";
 }

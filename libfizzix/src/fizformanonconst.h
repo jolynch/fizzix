@@ -42,9 +42,6 @@ class FizFormAnonConst:public FizFormNode
 		/*constructor takes a fizdatum value*/
 		FizFormAnonConst(fizdatum value);
 		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Returns the constant */
-		//the below method is unneeded, as when forces are changed, they will simply be reparsed
-		//void set(fizdatum value); /* Set the constant's value */
-		//const fizdatum get(); /* Get the constant's value */
 };
 
 #endif

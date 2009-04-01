@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 Logarithm::Logarithm(int numOperands)
 {
-	this->numOperands==numOperands;
+	this->numOperands=numOperands;
 	description = "Finds the log of a scalar to a base, and takes the natural log if no base is specified.";
 	token = "log";
 }

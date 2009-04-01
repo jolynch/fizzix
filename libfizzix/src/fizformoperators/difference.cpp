@@ -22,27 +22,28 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
 
-#include "fizformanonconst.h"
+#include "operators.h"
 
 using namespace std;
 
-FizFormAnonConst::FizFormAnonConst()
+FizOper::Difference::Difference(int numOperands)
 {
-	value.type=SCALAR;
-	value.scalar=0;
+	Difference::numOperands=numOperands;
+	token="diff";
+	description="Finds the difference of scalars or vectors";
 }
 
-FizFormAnonConst::FizFormAnonConst(const fizdatum value)
+const fizdatum FizOper::Difference::eval(stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
 {
-	this->value=value;
+	fizdatum sum=stack.pop().eval(&stack,&obj1,&obj2);
+	fizdatum next;
+	for(int i=1;i<numOperands;i++)
+	{
+		next=stack.pop().eval(&stack,&obj1,&obj2);
+		if(next.type!=sum.type) throw new logic_error("Cannot mix scalars and vectors in difference");
+		if(sum.type==SCALAR) sum.scalar-=next.scalar; else sum.vector-=next.vector;
+	}
+	return sum;
 }
 
-const fizdatum FizFormAnonConst::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
-{
-	return value;
-}
-
-#endif

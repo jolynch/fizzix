@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 Square::Square(int numOperands)
 {
-	this->numOperands==numOperands;
+	this->numOperands=numOperands;
 	description = "Takes the square of a scalar.";
 	token = "square";
 }

@@ -27,23 +27,43 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using namespace std;
 
-FizFormOp::Diff::Diff(int numOperands)
+Product::Product(int numOperands)
 {
-	Diff::numOperands==numOperands;
-	token="diff";
-	description="Finds the difference of scalars or vectors";
+	Product::numOperands=numOperands;
+	token="product";
+	description="Finds the product of scalars and at most one vector";
 }
 
-const fizdatum FizFormOp::Diff::eval(stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Product::eval(std::stack<FizFormNode>& stack, const FizObject &obj1, const FizObject &obj2)
 {
-	fizdatum sum=stack.pop().eval(&stack,&obj1,&obj2);
+	fizdatum product=stack.top().eval(stack,obj1,obj2);
+	stack.pop();
 	fizdatum next;
 	for(int i=1;i<numOperands;i++)
 	{
-		next=stack.pop().eval(&stack,&obj1,&obj2);
-		if(next.type!=sum.type) throw logic_error("Cannot mix scalars and vectors in difference");
-		if(sum.type==SCALAR) sum.scalar-=next.scalar; else sum.vector-=next.vector;
+		next=stack.top().eval(stack,obj1,obj2);
+		stack.pop();
+		if(product.type == VECTOR)
+		{
+			if(next.type == SCALAR)
+			{
+				product.vector[0]*=next.scalar;
+				product.vector[1]*=next.scalar;
+				product.vector[2]*=next.scalar;
+			}
+			else throw new logic_error("Cannot use scalar multiplication on multiple vectors.");
+		}
+		else
+		{
+			if(next.type == SCALAR) product.scalar *= next.scalar;
+			else
+			{
+				product.type = VECTOR;
+				product.vector[0] = product.scalar*next.vector[0];
+				product.vector[1] = product.scalar*next.vector[1];
+				product.vector[2] = product.scalar*next.vector[2];
+			}
+		}
 	}
-	return sum;
+	return product;
 }
-
