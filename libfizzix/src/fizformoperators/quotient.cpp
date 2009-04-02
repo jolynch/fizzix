@@ -30,7 +30,7 @@ using namespace std;
 Quotient::Quotient(int numOperands)
 {
 	Quotient::numOperands=numOperands;
-	token="quotient";
+	token="div";
 	description="Finds the quotient of scalars and at most one vector (as the numerator)";
 }
 

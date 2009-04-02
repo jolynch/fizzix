@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <string>
 #include <stdexcept>
 #include <cmath>
+#include <cstdlib>
 
 #include "../fizformoperator.h"
 
@@ -83,6 +84,18 @@ namespace FizOper
 	{	public: Arctan(int numOperands);
 		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
 	};
+	class Sinh: public FizFormOperator
+	{	public: Sinh(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Cosh: public FizFormOperator
+	{	public: Cosh(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Tanh: public FizFormOperator
+	{	public: Tanh(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
 	
 	class Factorial: public FizFormOperator
 	{	public: Factorial(int numOperands);
@@ -94,6 +107,10 @@ namespace FizOper
 	};
 	class Square: public FizFormOperator
 	{	public: Square(int numOperands);
+		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
+	};
+	class Exponent: public FizFormOperator
+	{	public: Exponent(int numOperands);
 		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2);
 	};
 	class Exponentiate: public FizFormOperator

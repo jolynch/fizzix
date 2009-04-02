@@ -25,45 +25,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "operators.h"
 
-using namespace std;
-
-Product::Product(int numOperands)
+Random::Random(int numOperands)
 {
-	Product::numOperands=numOperands;
-	token="mult";
-	description="Finds the product of scalars and at most one vector";
+	this->numOperands=numOperands;
+	token="rand";
+	description="Generates a random number.";
 }
 
-const fizdatum Product::eval(std::stack<FizFormNode>& stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Operate::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
 {
-	fizdatum product=stack.top().eval(stack,obj1,obj2);
-	stack.pop();
-	fizdatum next;
-	for(int i=1;i<numOperands;i++)
-	{
-		next=stack.top().eval(stack,obj1,obj2);
-		stack.pop();
-		if(product.type == VECTOR)
-		{
-			if(next.type == SCALAR)
-			{
-				product.vector[0]*=next.scalar;
-				product.vector[1]*=next.scalar;
-				product.vector[2]*=next.scalar;
-			}
-			else throw new logic_error("Cannot use scalar multiplication on multiple vectors.");
-		}
-		else
-		{
-			if(next.type == SCALAR) product.scalar *= next.scalar;
-			else
-			{
-				product.type = VECTOR;
-				product.vector[0] = product.scalar*next.vector[0];
-				product.vector[1] = product.scalar*next.vector[1];
-				product.vector[2] = product.scalar*next.vector[2];
-			}
-		}
-	}
-	return product;
+	for (int i = 0; i < numOperands; i++) stack.pop();
+	fizdatum a;
+	a.type = SCALAR;
+	a.scalar = rand();
+	return a;
 }
+

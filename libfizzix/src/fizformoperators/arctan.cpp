@@ -25,45 +25,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "operators.h"
 
-using namespace std;
-
-Product::Product(int numOperands)
+Arctan::Arctan(int numOperands)
 {
-	Product::numOperands=numOperands;
-	token="mult";
-	description="Finds the product of scalars and at most one vector";
+	this->numOperands=numOperands;
+	token="arctan";
+	description="Takes the arctangent of a number.";
 }
 
-const fizdatum Product::eval(std::stack<FizFormNode>& stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Arctan::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
 {
-	fizdatum product=stack.top().eval(stack,obj1,obj2);
-	stack.pop();
-	fizdatum next;
-	for(int i=1;i<numOperands;i++)
+	fizdatum c;
+	c.type = SCALAR;
+	if (numOperands == 1)
 	{
-		next=stack.top().eval(stack,obj1,obj2);
+		fizdatum a = stack.top().eval(stack, obj1, obj2);
 		stack.pop();
-		if(product.type == VECTOR)
-		{
-			if(next.type == SCALAR)
-			{
-				product.vector[0]*=next.scalar;
-				product.vector[1]*=next.scalar;
-				product.vector[2]*=next.scalar;
-			}
-			else throw new logic_error("Cannot use scalar multiplication on multiple vectors.");
-		}
-		else
-		{
-			if(next.type == SCALAR) product.scalar *= next.scalar;
-			else
-			{
-				product.type = VECTOR;
-				product.vector[0] = product.scalar*next.vector[0];
-				product.vector[1] = product.scalar*next.vector[1];
-				product.vector[2] = product.scalar*next.vector[2];
-			}
-		}
+		if (a.type == SCALAR) c.scalar = atan(a.scalar);
+		else throw new std::logic_error("Cannot take the arctan of a vector.");
 	}
-	return product;
+	else throw new std::logic_error("Can only take the arctan of a single value.");
+	return c;
 }
+
