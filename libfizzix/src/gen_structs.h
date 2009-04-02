@@ -35,9 +35,25 @@ struct vec3
 	double x;
  	double y;
 	double z;
+<<<<<<< .mine
+	int operator[](int index) const
+	{
+		if (index == 0) return x;
+		if (index == 1) return y;
+		if (index == 2) return z;
+	}
+	double & operator[](int index)
+	{
+		if (index == 0) return x;
+		if (index == 1) return y;
+		if (index == 2) return z;
+	}
+
+=======
 	const double operator[](int index) const;
 	double& operator[](int index);
 	vec3(int x, int y, int z);
+>>>>>>> .r84
 };
 
 typedef vec3 point;
