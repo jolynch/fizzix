@@ -4,8 +4,8 @@
 #include <QPushButton>
 #include <QGridLayout>
 
-public ButtonPanel:public QWidget
-{	Q_WIDGET
+class ButtonPanel:public QWidget
+{	Q_OBJECT
 	public:
 		ButtonPanel();
 };

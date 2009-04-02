@@ -2,7 +2,7 @@
 #define OBJECTPANEL_CPP
 #include "objectpanel.h"
 
-PropertyPanel::PropertyePanel():QWidget()
+ObjectPanel::ObjectPanel():QWidget()
 {
 	QGridLayout * layout = new QGridLayout();
 	layout->addWidget(new QLabel ("Objects"),0,0);

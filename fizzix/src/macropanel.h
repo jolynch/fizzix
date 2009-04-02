@@ -4,10 +4,10 @@
 #include <QLabel>
 #include <QGridLayout>
 
-public MacroPanel:public QWidget
-{	Q_WIDGET
-public:
-	MacroPanel();
+class MacroPanel:public QWidget
+{	Q_OBJECT
+	public:
+		MacroPanel();
 };
 
 #endif

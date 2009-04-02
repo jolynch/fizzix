@@ -32,3 +32,5 @@ void GLDrawPane::rotate(double upAmt, double leftAmt)
 	vec3 comb = up*upAmt + left*leftAmt;
 
 }
+	
+#endif

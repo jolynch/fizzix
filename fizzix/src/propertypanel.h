@@ -4,10 +4,10 @@
 #include <QLabel>
 #include <QGridLayout>
 
-public PropertyPanel:public QWidget
+class PropertyPanel:public QWidget
 {	Q_OBJECT
-public:
-	PropertyPanel();
+	public:
+		PropertyPanel();
 };
 
 #endif

@@ -4,10 +4,10 @@
 #include <QLabel>
 #include <QGridLayout>
 
-public ForcePanel:public QWidget
-{	Q_WIDGET
-public:
-	ForcePanel();
+class ForcePanel:public QWidget
+{	Q_OBJECT
+	public:
+		ForcePanel();
 };
 
 #endif

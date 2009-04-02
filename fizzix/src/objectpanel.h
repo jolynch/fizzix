@@ -4,7 +4,7 @@
 #include <QLabel>
 #include <QGridLayout>
 
-public ObjectPanel:public QWidget
+class ObjectPanel:public QWidget
 {	Q_OBJECT
 public:
 	ObjectPanel();
