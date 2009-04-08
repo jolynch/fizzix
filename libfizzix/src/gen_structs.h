@@ -116,5 +116,18 @@ struct fizdatum
 
 double div_consts[] = {1.0/6.0, 1.0/24.0, 1.0/60.0, 1.0/120.0};
 
+class FizFormNode;
+
+struct fizstack
+{
+	std::vector<FizFormNode> stack;
+	int index;
+	
+	reset();
+	const FizFormNode pop();
+	
+	fizstack(std::vector<FizFormNode> s);
+}
+
 #endif
 

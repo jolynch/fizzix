@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define GEN_STRUCTS_CPP
 
 #include "gen_structs.h"
+#include <stdexcept>
 
 /******************** VEC3 ********************/
 vec3::vec3(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
@@ -196,5 +197,24 @@ fizdatum::fizdatum(double s) : scalar(s), type(SCALAR) {}
 fizdatum::fizdatum(vec3 v) : vector(v), type(VECTOR) {}
 fizdatum::fizdatum() : scalar(0), type(SCALAR) {}
 /****************** FIZDATUM ******************/
+
+/****************** FIZSTACK ******************/
+fizstack::fizstack(std::vector<FizFormNode> s)
+{
+	stack = s;
+	this->reset();
+}
+
+fizstack::reset()
+{
+	index = stack.size() - 1;
+}
+
+fizstack::const FizFormNode pop()
+{
+	if (index < 0) throw new std::out_of_range("Can't pop an empty stack");
+	return stack[index--];
+}
+/****************** FIZSTACK ******************/
 
 #endif
