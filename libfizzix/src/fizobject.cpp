@@ -31,14 +31,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //Default Constructor 
 FizObject::FizObject() 
 {
-	vec3 color = {64.0, 64.0, 64.0};
+	vec3 color(64.0, 64.0, 64.0);
 	this->init("UnNamed", color, true, std::vector<triangle>());
 }
 	
 //Constructor that inits the name
 FizObject::FizObject(std::string newname) 
 {
-	vec3 color = {64.0,64.0,64.0};
+	vec3 color(64.0,64.0,64.0);
 	this->init(newname, color, true, std::vector<triangle>());
 }
 
@@ -51,7 +51,7 @@ FizObject::FizObject(std::string newname, vec3 color, bool smooth)
 // Constructor that inits the name and vertices and possibly the smoothity
 FizObject::FizObject(std::string newname, std::vector<triangle> init, bool smooth) 
 {
-	vec3 color = {64.0, 64.0, 64.0};
+	vec3 color(64.0, 64.0, 64.0);
 	this->init(newname,color,smooth,init);
 }
 
@@ -75,10 +75,8 @@ void FizObject::init_object(std::string name, vec3 color, bool smooth, std::vect
 {
 	this->name = name;
 	vertices = tinit;
-	fizdatum col = {0.0, color, VECTOR};
-	props["color"] = col;
-	fizdatum smo = {(double)smooth, {0.0,0.0,0.0},SCALAR};
-	props["smooth"] = smo;
+	props["color"] = fizdatum(0.0, color, VECTOR);
+	props["smooth"] = fizdatum((double)smooth, vec3(), SCALAR);
 }
 
 /** Next two methods complements to Game Physics, 2nd Edition, by David H Elberly,
@@ -115,11 +113,35 @@ void FizObject::compute()
 	for(int i = 0; i < vertices.size(); i++) 
 	{
 		const triangle& t = vertices[i];
-		sub_compute(t[0][0], t[1][0], t2[0], f1x, f2x, f3x, g0x, g1x, g2x);
-		sub_compute(t[0][1], t[1][1], t2[1], f1y, f2y, f3y, g0y, g1y, g2y);
-		sub_compute(t[0][2], t[1][2], t2[2], f1z, f2z, f3z, g0z, g1z, g2z);
-		
+		sub_compute(t[0][0], t[1][0], t[2][0], f1x, f2x, f3x, g0x, g1x, g2x);
+		sub_compute(t[0][1], t[1][1], t[2][1], f1y, f2y, f3y, g0y, g1y, g2y);
+		sub_compute(t[0][2], t[1][2], t[2][2], f1z, f2z, f3z, g0z, g1z, g2z);
+		const vec3& d = t.normal;
+		integral[0] += d[0] * f1x;
+		integral[1] += d[0] * f2x;
+		integral[2] += d[1] * f2y;
+		integral[3] += d[2] * f2z;
+		integral[4] += d[0] * f3x;
+		integral[5] += d[1] * f3y;
+		integral[6] += d[2] * f3z;
+		integral[7] += d[0] * (t[0][1] * g0x + t[1][1] * g1x + t[2][1] * g2x);
+		integral[8] += d[1] * (t[0][2] * g0y + t[1][2] * g1y + t[2][2] * g2y);
+		integral[9] += d[2] * (t[0][0] * g0z + t[1][0] * g1z + t[2][0] * g2z);
 	}
+
+	integral[0] *= div_consts[0];
+	integral[1] *= div_consts[1];
+	integral[2] *= div_consts[1];
+	integral[3] *= div_consts[1];
+	integral[4] *= div_consts[2];
+	integral[5] *= div_consts[2];
+	integral[6] *= div_consts[2];
+	integral[7] *= div_consts[3];
+	integral[8] *= div_consts[3];
+	integral[9] *= div_consts[3];
+
+	setMass(integral[0]);
+	setPos(vec3(integral[1]/mass, integral[2]/mass, integral[3]/mass));
 }
 
 const fizdatum FizObject::operator[](const std::string& key) 
@@ -143,36 +165,31 @@ bool FizObject::contains(const std::string& key)
 const vec3 FizObject::getPos() 				{ return pos; }
 vec3& FizObject::rgetPos() 				{ return pos; }
 void FizObject::setPos(vec3 newpos)			{ pos = newpos; 
-							  fizdatum data = {0.0, pos, VECTOR};
-							  props["position"] = data; 
+							  props["position"] = fizdatum(0.0, pos, VECTOR); 
 							}
 
 const vec3 FizObject::getVel() 				{ return vel; }
 vec3& FizObject::rgetVel() 				{ return vel; }
 void FizObject::setVel(vec3 newvel) 			{ vel = newvel; 
-							  fizdatum data = {0.0, vel, VECTOR};
-							  props["velocity"] = data;
+							  props["velocity"] = fizdatum(0.0, vel, VECTOR);
 							}
 
 const vec3 FizObject::getAcc() 				{ return acc; }
 vec3& FizObject::rgetAcc() 				{ return acc; }
 void FizObject::setAcc(vec3 newacc)			{ acc = newacc; 
-							  fizdatum data = {0.0, acc, VECTOR};	
-						          props["acceleration"] = data;
+						          props["acceleration"] = fizdatum(0.0, acc, VECTOR);
 							}
 
 const vec3 FizObject::getOme() 				{ return ome; }
 vec3& FizObject::rgetOme() 				{ return ome; }
 void FizObject::setOme(vec3 newome) 			{ ome = newome; 
-							  fizdatum data = {0.0, ome, VECTOR};
-							  props["angular_velocity"] = data; 
+							  props["angular_velocity"] = fizdatum(0.0, ome, VECTOR); 
 							}
 
 const vec3 FizObject::getAlp() 				{ return alp; }
 vec3& FizObject::rgetAlp() 				{ return alp; }
 void FizObject::setAlp(vec3 newalp)			{ alp = newalp; 
-							  fizdatum data = {0.0, alp, VECTOR};
-							  props["angular_acceleration"] = data;
+							  props["angular_acceleration"] = fizdatum(0.0, alp, VECTOR);
 							}
 	
 const std::vector<triangle> FizObject::getVertices()		{ return vertices; }
@@ -196,8 +213,7 @@ void FizObject::setInertiaTensorInv(vec3 newtensor)  	{ inertiaTensorInv = newte
 double FizObject::getMass()				{ return mass; }
 double& FizObject::rgetMass()				{ return mass; }
 void FizObject::setMass(double newmass)			{ mass = newmass; 
-							  fizdatum data = {mass, {0.0,0.0,0.0}, SCALAR};
-      						          props["mass"] = data;
+      						          props["mass"] = fizdatum(mass, vec3(), SCALAR);
 							}
 
 std::string FizObject::getName()			{ return name; }
