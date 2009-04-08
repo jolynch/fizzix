@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 /******************** VEC3 ********************/
 vec3::vec3(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
 
+vec3::vec3() : x(0.0), y(0.0), z(0.0) {}
 const double vec3::operator[](int index) const
 {
 	if (index == 0) return x;
@@ -53,7 +54,7 @@ vec3 vec3::cross(const vec3& other)
 {
 	return vec3(y * other.z - z * other.y,
 		    z * other.x - x * other.z,
-		    x * other.y - y * other.x)
+		    x * other.y - y * other.x);
 }
 
 double vec3::mag() 
@@ -104,10 +105,9 @@ double vec4::mag()
 /******************** VEC4 ********************/
 
 /******************* VERTEX *******************/
-vertex::vertex(int _x, int _y, int _z)
-{
-	p = point(_x, _y, _z);
-}
+vertex::vertex(int _x, int _y, int _z) : p(vec3(_x, _y, _z)) {};
+
+vertex::vertex() : p(vec3()) {}
 
 const double vertex::operator[](int index) const
 {
@@ -121,9 +121,9 @@ double& vertex::operator[](int index)
 
 const triangle * vertex::operator()(int index) const
 {
-	if (vertices.size() > index)
+	if (triangles.size() > index)
 	{
-		return vertices[index];
+		return triangles[index];
 	}
 	else
 	{
@@ -133,9 +133,9 @@ const triangle * vertex::operator()(int index) const
 
 triangle * vertex::operator()(int index)
 {
-	if (vertices.size() > index)
+	if (triangles.size() > index)
 	{
-		return vertices[index];
+		return triangles[index];
 	}
 	else
 	{
@@ -152,10 +152,10 @@ void vertex::add_triangle(triangle * t)
 /****************** TRIANGLE ******************/
 triangle::triangle(vertex v1, vertex v2, vertex v3)
 {
-	vertices = {v1, v2, v3}
+	vertices[0] = v1; vertices[1] =  v2; vertices[2] = v3;
 	mass = 0.0;
-	e1 = vec3(v1[0]-v2[0],v1[1]-v2[1],v1[2]-v2[2]);
-	e2 = vec3(v1[0]-v3[0],v1[1]-v3[1],v1[2]-v3[2]);
+	vec3 e1 = vec3(v1[0]-v2[0],v1[1]-v2[1],v1[2]-v2[2]);
+	vec3 e2 = vec3(v1[0]-v3[0],v1[1]-v3[1],v1[2]-v3[2]);
 	normal = e1.cross(e2);
 	unit_normal = vec3(normal[0]/normal.mag(), 
 			   normal[1]/normal.mag(), 

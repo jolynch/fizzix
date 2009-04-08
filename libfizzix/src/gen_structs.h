@@ -42,6 +42,7 @@ struct vec3
 	double& operator[](int index);
 	
 	vec3(int _x, int _y, int _z);
+	vec3();
 
 	vec3 dot(const vec3& other);
 	vec3 cross(const vec3& other);
@@ -76,11 +77,12 @@ struct vertex
 
 	const double operator[](int index) const;
 	double& operator[](int index);
-	const triangle operator()(int index) const;
-	triangle& operator()(int index); 
+	const triangle * operator()(int index) const;
+	triangle * operator()(int index); 
 	
 	void add_triangle(triangle* t);
 	vertex(int _x, int _y, int _z);
+	vertex();
 };
 
 struct triangle 
