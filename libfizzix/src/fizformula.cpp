@@ -25,15 +25,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizformula.h"
 
-const fizdatum eval(const FizObject& obj1, const FizObject& obj2);
+const fizdatum FizFormula::eval(const FizObject& obj1, const FizObject& obj2)
 {
 	stack=stackCopy; // Copy it!
-	FizDatum &top=stack.top();
+	FizFormNode &top=stack.top();
 	stack.pop();
 	return top.eval(stack,obj1,obj2);
 }
 
-const std::stack<FizFormNode> getStack()
+const std::stack<FizFormNode> FizFormula::getStack()
 {
 	return stackCopy;
 }

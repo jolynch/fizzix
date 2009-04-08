@@ -37,14 +37,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class FizFormula
 {
-	private:
+	protected:
 		//std::vector<FizFormNode> stack; /* This is not a stack because a stack would be destroyed upon evaluation */
 		std::stack<FizFormNode> stack; //various operators pop different number of operands off the stack, and you can't just do current++
 		std::stack<FizFormNode> stackCopy; //created and destroyed upon every evaluation
 	public:
 		/* Constructs a new FizFormula with the given node stack */
 		//FizFormula(std::vector<FizFormNode> stack);
-		FizFormula(const std::stack<FizFormNode> stack) stackCopy(stack);
+		FizFormula(const std::stack<FizFormNode> stack) : stackCopy(stack) {};
 		/* Evaluate the formula between two FizObjects */
 		const fizdatum eval(const FizObject& obj1, const FizObject& obj2);
 		//const std::vector<FizFormNode> getStack();
