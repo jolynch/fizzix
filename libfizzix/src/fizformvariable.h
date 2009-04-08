@@ -28,16 +28,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <vector>
 #include <stack>
+#include <string>
 
 #include "fizformnode.h"
 #include "gen_structs.h"
 #include "fizobject.h"
 
-class FizFormVariable:public FizFormNode
+class FizFormVariable : public FizFormNode
 {
 	private:
 		Type2 variableType;
+		std::string identifier;
 	public:
+		FizFormVariable(Type2 varType,std::string id);
 		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
 };
 

@@ -22,20 +22,19 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
+#ifndef FIZFORMVARIABLE_CPP
+#define FIZFORMVARIABLE_CPP
 
-#include "fizformanonconst.h"
+#include "fizformvariable.h"
 
 using namespace std;
 
-FizFormAnonConst::FizFormAnonConst() {}
+FizFormVariable::FizFormVariable(Type2 varType,string id) : variableType(varType),identifier(id) {};
 
-FizFormAnonConst::FizFormAnonConst(const fizdatum val) : value(val) {};
-
-const fizdatum FizFormAnonConst::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2)
+const fizdatum FizFormVariable::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2)
 {
-	return value;
+	// Uh oh...
+	return fizdatum();
 }
 
 #endif

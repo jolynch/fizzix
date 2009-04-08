@@ -99,7 +99,7 @@ struct triangle
 };
 
 enum Type {SCALAR, VECTOR};
-enum Type2 {PROPERTY1, PROPERTY2, PROPERTYJOINT, FORCE};
+enum Type2 {PROPERTY1, PROPERTY2, PROPERTYJOINT, FORCE, NAMEDCONST};
 
 struct fizdatum
 {
@@ -108,6 +108,10 @@ struct fizdatum
 	Type type;
 
 	fizdatum(double s, vec3 v, Type t);
+	fizdatum(double s);
+	fizdatum(vec3 v);
+	fizdatum();
+
 };
 
 double div_consts[] = {1.0/6.0, 1.0/24.0, 1.0/60.0, 1.0/120.0};

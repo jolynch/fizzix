@@ -40,7 +40,7 @@ class FizFormAnonConst:public FizFormNode
 		/*Default constructor creates 0 scalar*/
 		FizFormAnonConst();
 		/*constructor takes a fizdatum value*/
-		FizFormAnonConst(fizdatum value);
+		FizFormAnonConst(fizdatum val);
 		const fizdatum eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2); /* Returns the constant */
 };
 
