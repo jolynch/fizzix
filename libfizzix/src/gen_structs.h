@@ -125,6 +125,8 @@ struct fizstack
 	
 	reset();
 	const FizFormNode pop();
+	push(FizFormNode f);
+	boolean empty();
 	
 	fizstack(std::vector<FizFormNode> s);
 }

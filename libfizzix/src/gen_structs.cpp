@@ -210,10 +210,20 @@ fizstack::reset()
 	index = stack.size() - 1;
 }
 
+fizstack::empty()
+{
+	return index < 0;
+}
+
 fizstack::const FizFormNode pop()
 {
-	if (index < 0) throw new std::out_of_range("Can't pop an empty stack");
+	if (this->empty()) throw new std::out_of_range("Can't pop an empty stack");
 	return stack[index--];
+}
+
+fizstack::push(FizFormNode f)
+{
+	stack.push_back(f);
 }
 /****************** FIZSTACK ******************/
 
