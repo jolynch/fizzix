@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <vector>
 #include <string>
+#include <math.h>
+#include <stdexcept>
 
 //#include <matrix.h>
 
@@ -35,25 +37,15 @@ struct vec3
 	double x;
  	double y;
 	double z;
-<<<<<<< .mine
-	int operator[](int index) const
-	{
-		if (index == 0) return x;
-		if (index == 1) return y;
-		if (index == 2) return z;
-	}
-	double & operator[](int index)
-	{
-		if (index == 0) return x;
-		if (index == 1) return y;
-		if (index == 2) return z;
-	}
-
-=======
+	
 	const double operator[](int index) const;
 	double& operator[](int index);
-	vec3(int x, int y, int z);
->>>>>>> .r84
+	
+	vec3(int _x, int _y, int _z);
+
+	vec3 dot(const vec3& other);
+	vec3 cross(const vec3& other);
+	double mag();
 };
 
 typedef vec3 point;
@@ -64,9 +56,15 @@ struct vec4
 	double y;
 	double z;
 	double w;
+
 	const double operator[](int index) const;
 	double& operator[](int index);
-	vec4(int x, int y, int z, int w);
+	
+	vec4(int _x, int _y, int _z, int _w);
+	
+	vec4 dot(const vec4& other);
+	vec4 cross(const vec4& other);
+	double mag();
 };
 
 struct triangle;
@@ -74,31 +72,28 @@ struct triangle;
 struct vertex
 {
 	point p;
-	std::vector<triangle> triangles;
+	std::vector<triangle*> triangles;
+
 	const double operator[](int index) const;
-	double & operator[](int index);
+	double& operator[](int index);
 	const triangle operator()(int index) const;
-	triangle operator()(int index) 
+	triangle& operator()(int index); 
+	
+	void add_triangle(triangle* t);
+	vertex(int _x, int _y, int _z);
 };
 
 struct triangle 
 {
-	//3x3 matrix essentially.  (x,y,z) of each vertice
-	std::vector<vertex> vertices;
-	//Normal vector to surface <x,y,z>
+	vertex vertices[3];
 	vec3 normal;
-	//Normal vector to surface <x,y,z>
-	vec3 unitNormal;
-	//For use in center of mass computations
+	vec3 unit_normal;
 	double mass;
-	const double operator
 
-};
-
-struct line
-{
-	point p1;
-	point p2;
+	const vertex operator[](int index) const;
+	vertex& operator[](int index);
+	
+	triangle(vertex v1, vertex v2, vertex v3);
 };
 
 enum Type {SCALAR, VECTOR};
@@ -109,6 +104,8 @@ struct fizdatum
 	double scalar;
 	vec3 vector;
 	Type type;
+
+	fizdatum(double s, vec3 v, Type t);
 };
 
 double div_consts[] = {1.0/6.0, 1.0/24.0, 1.0/60.0, 1.0/120.0};

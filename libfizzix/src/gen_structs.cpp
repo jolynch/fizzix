@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "gen_structs.h"
 
-
+/******************** VEC3 ********************/
 vec3::vec3(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
 
 const double vec3::operator[](int index) const
@@ -44,8 +44,28 @@ double & vec3::operator[](int index)
 	if (index == 2) return z;
 }
 
-vec4::vec4(int _x, int _y, int _z, int _w) : x(_x), y(_y), z(_z), w(_w) {}
+vec3 vec3::dot(const vec3& other) 
+{
+	return vec3(x * other.x, y * other.y, z * other.z);
+}
 
+vec3 vec3::cross(const vec3& other) 
+{
+	return vec3(y * other.z - z * other.y,
+		    z * other.x - x * other.z,
+		    x * other.y - y * other.x)
+}
+
+double vec3::mag() 
+{
+	return sqrt(x * x + y * y + z * z);
+}
+
+/******************** VEC3 ********************/
+
+/******************** VEC4 ********************/
+vec4::vec4(int _x, int _y, int _z, int _w) : x(_x), y(_y), z(_z), w(_w) {}
+ 
 const double vec4::operator[](int index) const
 {
 	if (index == 0) return w;
@@ -62,7 +82,116 @@ double & vec4::operator[](int index)
 	if (index == 3) return z;
 }
 
+vec4 vec4::dot(const vec4& other) 
+{
+	return vec4(x * other.x, y * other.y, z * other.z, w * other.w);
+}
 
+vec4 vec4::cross(const vec4& other) {}
+/* Cross products in 4space require 3 vectors to not have infinite results
+ * How to deal with this ...
+{
+	return vec4(y * other.z - z * other.y,
+		    z * other.x - x * other.z,
+		    x * other.y - y * other.x)
+}
+*/
+
+double vec4::mag()
+{
+	return sqrt(x * x + y * y + z * z + w * w);
+}
+/******************** VEC4 ********************/
+
+/******************* VERTEX *******************/
+vertex::vertex(int _x, int _y, int _z)
+{
+	p = point(_x, _y, _z);
+}
+
+const double vertex::operator[](int index) const
+{
+	return p[index];
+}
+
+double& vertex::operator[](int index)
+{
+	return p[index];
+}
+
+const triangle * vertex::operator()(int index) const
+{
+	if (vertices.size() > index)
+	{
+		return vertices[index];
+	}
+	else
+	{
+		throw std::out_of_range("Index out of range");
+	}
+}
+
+triangle * vertex::operator()(int index)
+{
+	if (vertices.size() > index)
+	{
+		return vertices[index];
+	}
+	else
+	{
+		throw std::out_of_range("Index out of range");
+	}
+}
+
+void vertex::add_triangle(triangle * t) 
+{
+	triangles.push_back(t);
+}
+/******************* VERTEX *******************/
+
+/****************** TRIANGLE ******************/
+triangle::triangle(vertex v1, vertex v2, vertex v3)
+{
+	vertices = {v1, v2, v3}
+	mass = 0.0;
+	e1 = vec3(v1[0]-v2[0],v1[1]-v2[1],v1[2]-v2[2]);
+	e2 = vec3(v1[0]-v3[0],v1[1]-v3[1],v1[2]-v3[2]);
+	normal = e1.cross(e2);
+	unit_normal = vec3(normal[0]/normal.mag(), 
+			   normal[1]/normal.mag(), 
+			   normal[2]/normal.mag());
+	v1.add_triangle(this);
+	v2.add_triangle(this);
+	v3.add_triangle(this);
+}
+
+const vertex triangle::operator[](int index) const
+{
+	if (index < 3)
+	{
+		return vertices[index];
+	}
+	else
+	{
+		throw std::out_of_range("Index out of range");
+	}
+}
+
+vertex& triangle::operator[](int index)
+{
+	if (index < 3)
+	{
+		return vertices[index];
+	}
+	else
+	{
+		throw std::out_of_range("Index out of range");
+	}
+}
+/****************** TRIANGLE ******************/
+
+/****************** FIZDATUM ******************/
+fizdatum::fizdatum(double s, vec3 v, Type t) : scalar(s), vector(v), type(t) {}
+/****************** FIZDATUM ******************/
 
 #endif
-
