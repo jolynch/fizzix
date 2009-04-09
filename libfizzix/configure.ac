@@ -1,7 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Modified from a file by Anjuta of the libgen3d library - will *NOT* be overwritten
 
-AC_PREREQ(2.59)
 AC_INIT(Library of optionally retarded physics, 0.1, code.google.com/p/fizzix)
 AM_INIT_AUTOMAKE(libfizzix, 0.1)
 AC_CONFIG_HEADER(config.h)
