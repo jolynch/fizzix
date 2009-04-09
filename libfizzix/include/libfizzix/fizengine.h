@@ -29,11 +29,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <vector>
 #include <map>
 #include <stdexcept>
+#include <algorithm>
 
-#include "fizforce.h"
-#include "fizformula.h"
+//#include "fizforce.h"
+class FizForce;
+class FizFormula;
+//#include "fizformula.h"
 #include "fizobject.h"
-#include "gen_strcuts.h"
+#include "gen_structs.h"
 
 /** @class FizEngine fizengine.h "libfizzix/src/fizengine.h"
  *  @brief This class computes object positions from the last step 
@@ -72,7 +75,7 @@ class FizEngine
 		 *  @param force A pointer to the force to be evaluated
 		 *  @note The forces and objects must be inititalized via step
 		 */
-		void evalForce(FizForce * force);
+		void evalForce(FizForce * force, FizObject * o1, FizObject * o2);
 	public:
 		/** Steps the physics engine, calculating and storing the next step
 		 *  @param thisStep A pointer to a vector of FizObjects representing the current state
@@ -82,7 +85,7 @@ class FizEngine
 		 *  
 		 *  @note This function modifies the nextStep vector IN PLACE
 		 */
-		void step(vector<FizObject*> * thisStep, vector<FizObject*> * nextStep, vector<FizForce*> * forces, double dt);		
+		void step(std::vector<FizObject*> * thisStep, std::vector<FizObject*> * nextStep, std::vector<FizForce*> * forces, double dt);		
 		
 		/** Constructor
 		 */
@@ -94,7 +97,7 @@ class FizEngine
 		
 		//Constant cache	
 		std::map<std::string, fizdatum> ccache;
-		
+		std::map<std::string, bool> propdist;	
 };
 
 #endif
