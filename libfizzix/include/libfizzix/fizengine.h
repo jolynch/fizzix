@@ -27,8 +27,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <iostream>
 #include <vector>
+#include <map>
+#include <stdexcept>
+
 #include "fizforce.h"
+#include "fizformula.h"
 #include "fizobject.h"
+#include "gen_strcuts.h"
 
 /** @class FizEngine fizengine.h "libfizzix/src/fizengine.h"
  *  @brief This class computes object positions from the last step 
@@ -42,18 +47,23 @@ class FizEngine
 {
 	private:
 		//Vector containing current object information
-		vector<FizObject*> * thisStep;
+		std::vector<FizObject*> * thisStep;
 		
 		//Vector to store new object information in
-		vector<FizObject*> * nextStep;
+		std::vector<FizObject*> * nextStep;
 		
-		//Vector of forces to be applied to the objects
-		vector<FizForce*> * forces;		
-		
+		//Map of forces to be applied to the objects
+		std::map<std::string, FizForce *> * forces;	
+
+		//Map of properties
+		std::map<std::string, FizFormula *> * props;
+
 		//How much time does this step represent
 		double dt;
 
-		/** Loop through every force calling evalForce on it
+		//TODO: Make sure that 
+		/** Loop through every object, and then
+		 *  forces calling evalForce on it
 		 *  @note The forces looped through are those passed into step
 		 */
 		void evalForces();
@@ -77,6 +87,14 @@ class FizEngine
 		/** Constructor
 		 */
 		FizEngine();
+
+		//Cache of Forces and Properties
+		std::map<std::string, fizdatum> fcache;
+		std::map<std::string, fizdatum> pcache;
+		
+		//Constant cache	
+		std::map<std::string, fizdatum> ccache;
+		
 };
 
 #endif

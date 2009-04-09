@@ -40,7 +40,7 @@ class FizFormNode;
 /* Some enums, typedefs and global constant like things
  */
 
-enum Type {SCALAR, VECTOR};
+enum Type {SCALAR, VECTOR, NIL};
 enum Type2 {PROPERTY1, PROPERTY2, PROPERTYJOINT, FORCE, NAMEDCONST};
 
 typedef FizStack<FizFormNode*> fizstack;
@@ -77,7 +77,8 @@ struct vec4
 	double& operator[](int index);
 	
 	vec4(int _x, int _y, int _z, int _w);
-	
+	vec4();
+
 	vec4 dot(const vec4& other);
 	vec4 cross(const vec4& other);
 	double mag();
