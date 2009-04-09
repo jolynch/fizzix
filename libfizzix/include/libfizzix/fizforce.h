@@ -47,7 +47,7 @@ class FizForce
 		//default destructor
 		~FizForce();
 		//applies and evaluates force and torque between two different objects
-		vec3[2] eval(FizObject& obj1, FizObject& obj2);
+		vec3[4] eval(FizObject& obj1, FizObject& obj2); //first is F about COM on the first, second is T, F2, T2
 };
 
 #endif

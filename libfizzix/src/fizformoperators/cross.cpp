@@ -32,7 +32,7 @@ Cross::Cross(int numOperands)
 	token = "cross";
 }
 
-const fizdatum Cross::eval(fizstack& stack, const FizObject& obj1, const FizObject& obj2)
+const fizdatum Cross::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = VECTOR;
