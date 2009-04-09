@@ -196,7 +196,7 @@ vertex& triangle::operator[](int index)
 fizdatum::fizdatum(double s, vec3 v, Type t) : scalar(s), vector(v), type(t) {}
 fizdatum::fizdatum(double s) : scalar(s), type(SCALAR) {}
 fizdatum::fizdatum(vec3 v) : vector(v), type(VECTOR) {}
-fizdatum::fizdatum() : scalar(0), type(SCALAR) {}
+fizdatum::fizdatum() : scalar(0), vector(vex3()), type(NIL) {}
 /****************** FIZDATUM ******************/
 
 #endif
