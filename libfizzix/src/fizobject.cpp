@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define FIZOBJECT_CPP
 
 //LibFizzix includes
-#include "fizobject.h"
+#include "../include/libfizzix/fizobject.h"
 
 //Default Constructor 
 FizObject::FizObject() 

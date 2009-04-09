@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef FIZFORMANONCONST_CPP
 #define FIZFORMANONCONST_CPP
 
-#include "fizformanonconst.h"
+#include "../include/libfizzix/fizformanonconst.h"
 
 using namespace std;
 

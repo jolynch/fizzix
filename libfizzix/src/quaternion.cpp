@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef QUATERNION_CPP
 #define QUATERNION_CPP
 
-#include "quaternion.h"
+#include "../include/libfizzix/quaternion.h"
 #include <math.h>
 
 using namespace std;

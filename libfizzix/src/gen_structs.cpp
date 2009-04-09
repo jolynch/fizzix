@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef GEN_STRUCTS_CPP
 #define GEN_STRUCTS_CPP
 
-#include "gen_structs.h"
+#include "../include/libfizzix/gen_structs.h"
 #include <stdexcept>
 
 /******************** VEC3 ********************/
