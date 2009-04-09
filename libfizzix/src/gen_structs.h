@@ -100,6 +100,7 @@ struct triangle
 
 enum Type {SCALAR, VECTOR};
 enum Type2 {PROPERTY1, PROPERTY2, PROPERTYJOINT, FORCE, NAMEDCONST};
+double div_consts[] = {1.0/6.0, 1.0/24.0, 1.0/60.0, 1.0/120.0};
 
 struct fizdatum
 {
@@ -114,22 +115,40 @@ struct fizdatum
 
 };
 
-double div_consts[] = {1.0/6.0, 1.0/24.0, 1.0/60.0, 1.0/120.0};
 
-class FizFormNode;
+//Have to use pointers, as we don't know how big 
+//FizFormNode is
+template <class T>
+class fizstack
+{
+	private:
+		std::vector<T> stack;
+		int index;
+	public:
+		fizstack(std::vector<T> s);	
+		void reset();
+		bool empty();
+		
+		T pop();
+		void push(T f);
+};
 
+/*
+ * This will not work unless you use pointers, the compiler 
+ * can't know how big FizFormNode is, so it will fail
+ * **
 struct fizstack
 {
 	std::vector<FizFormNode> stack;
 	int index;
 	
-	reset();
-	const FizFormNode pop();
-	push(FizFormNode f);
-	boolean empty();
+	void reset();
+	FizFormNode* pop();
+	void push(FizFormNode* f);
+	bool empty();
 	
 	fizstack(std::vector<FizFormNode> s);
-}
-
+};
+*/
 #endif
 

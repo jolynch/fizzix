@@ -146,14 +146,7 @@ void FizObject::compute()
 
 const fizdatum FizObject::operator[](const std::string& key) 
 {
-	if(contains(key))
-	{
-		return props.find(key)->second;
-	}	
-	else 
-	{
-		throw std::out_of_range("Key does not exist");
-	}
+	return getProperty(key);
 }
 
 bool FizObject::contains(const std::string& key) 

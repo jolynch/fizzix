@@ -199,32 +199,70 @@ fizdatum::fizdatum() : scalar(0), type(SCALAR) {}
 /****************** FIZDATUM ******************/
 
 /****************** FIZSTACK ******************/
+template< typename T >
+fizstack<T>::fizstack(std::vector<T> s)
+{
+	stack = s;
+	reset();
+}
+
+template< typename T >
+void fizstack<T>::reset()
+{
+	index = stack.size() - 1;
+}
+
+template< typename T >
+bool fizstack<T>::empty()
+{
+	return index < 0;
+}
+
+template< typename T >
+T fizstack<T>::pop()
+{
+	if(empty()) throw new std::out_of_range("Can't pop an empty stack");
+	return stack[index--];
+}
+
+template< typename T >
+void fizstack<T>::push(T f)
+{
+	//All those items you popped will magically reappear, be careful
+	stack.push_back(f);
+	reset();
+}
+
+/****************** FIZSTACK ******************/
+
+/****************** FIZSTACK ******************/
+/* OLD implementation, does not compile
 fizstack::fizstack(std::vector<FizFormNode> s)
 {
 	stack = s;
 	this->reset();
 }
 
-fizstack::reset()
+void fizstack::reset()
 {
 	index = stack.size() - 1;
 }
 
-fizstack::empty()
+bool fizstack::empty()
 {
 	return index < 0;
 }
 
-fizstack::const FizFormNode pop()
+FizFormNode fizstack::pop()
 {
 	if (this->empty()) throw new std::out_of_range("Can't pop an empty stack");
 	return stack[index--];
 }
 
-fizstack::push(FizFormNode f)
+void fizstack::push(FizFormNode f)
 {
 	stack.push_back(f);
-}
+}*/
 /****************** FIZSTACK ******************/
 
 #endif
