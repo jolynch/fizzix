@@ -1,9 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include <QWidget>
+#include <QMainWindow>
 #include <QLabel>
-#include <QGridLayout>
 #include <QTabWidget>
+#include <QMenu>
+#include <QMenuBar>
+#include <QDockWidget>
+#include <QDesktopWidget>
 
 #include "buttonpanel.h"
 #include "forcepanel.h"
@@ -11,10 +14,10 @@
 #include "objectpanel.h"
 #include "propertypanel.h"
 
-class MainWindow:public QWidget
+class MainWindow:public QMainWindow
 {	Q_OBJECT
 	public:
-		MainWindow ();
+		MainWindow (QDesktopWidget * d);
 };
 
 #endif

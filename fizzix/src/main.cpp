@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
 	QCoreApplication::setApplicationName("Fizzix");
 	app.setWindowIcon(QIcon(":images/logomini"));
-	MainWindow * mainwindow= new MainWindow();
+	MainWindow * mainwindow= new MainWindow(app.desktop());
 	mainwindow->show();
 	return app.exec();
 }
