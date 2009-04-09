@@ -117,6 +117,7 @@ void FizObject::compute()
 		sub_compute(t[0][1], t[1][1], t[2][1], f1y, f2y, f3y, g0y, g1y, g2y);
 		sub_compute(t[0][2], t[1][2], t[2][2], f1z, f2z, f3z, g0z, g1z, g2z);
 		const vec3& d = t.normal;
+		t.mass = d[0] * f1x;
 		integral[0] += d[0] * f1x;
 		integral[1] += d[0] * f2x;
 		integral[2] += d[1] * f2y;

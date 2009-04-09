@@ -65,9 +65,10 @@ double vec3::mag()
 
 /******************** VEC3 ********************/
 
-/******************** VEC4 ********************/
+/******************** VEC4 ********************/ 
 vec4::vec4(int _x, int _y, int _z, int _w) : x(_x), y(_y), z(_z), w(_w) {}
- 
+vec4::vec4() : x(0.0), y(0.0), z(0.0), w(0.0) {}
+
 const double vec4::operator[](int index) const
 {
 	if (index == 0) return w;
