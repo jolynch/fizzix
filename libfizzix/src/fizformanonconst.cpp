@@ -33,7 +33,7 @@ FizFormAnonConst::FizFormAnonConst() {}
 
 FizFormAnonConst::FizFormAnonConst(const fizdatum val) : value(val) {};
 
-const fizdatum FizFormAnonConst::eval(std::stack<FizFormNode>& stack, const FizObject& obj1, const FizObject& obj2)
+const fizdatum FizFormAnonConst::eval(fizstack& stack, const FizObject& obj1, const FizObject& obj2)
 {
 	return value;
 }

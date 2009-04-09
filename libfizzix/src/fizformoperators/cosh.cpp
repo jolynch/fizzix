@@ -32,18 +32,18 @@ Cosh::Cosh(int numOperands)
 	description="Takes the hyperbolic cosine of a number.";
 }
 
-const fizdatum Cosh::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Cosh::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
 	if (numOperands == 1)
 	{
-		fizdatum a = stack.top().eval(stack, obj1, obj2);
-		stack.pop();
+		fizdatum a = stack.pop().eval(stack, obj1, obj2);
+
 		if (a.type == SCALAR) c.scalar = cosh(a.scalar);
-		else throw new std::logic_error("Cannot take the cosh of a vector.");
+		else throw std::logic_error("Cannot take the cosh of a vector.");
 	}
-	else throw new std::logic_error("Can only take the cosh of a single value.");
+	else throw std::logic_error("Can only take the cosh of a single value.");
 	return c;
 }
 

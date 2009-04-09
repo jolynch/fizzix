@@ -36,12 +36,12 @@ FizOper::Difference::Difference(int numOperands)
 
 const fizdatum FizOper::Difference::eval(stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
 {
-	fizdatum sum=stack.pop().eval(&stack,&obj1,&obj2);
+	fizdatum sum=.eval(&stack,&obj1,&obj2);
 	fizdatum next;
 	for(int i=1;i<numOperands;i++)
 	{
-		next=stack.pop().eval(&stack,&obj1,&obj2);
-		if(next.type!=sum.type) throw new logic_error("Cannot mix scalars and vectors in difference");
+		next=.eval(&stack,&obj1,&obj2);
+		if(next.type!=sum.type) throw logic_error("Cannot mix scalars and vectors in difference");
 		if(sum.type==SCALAR) sum.scalar-=next.scalar; else sum.vector-=next.vector;
 	}
 	return sum;

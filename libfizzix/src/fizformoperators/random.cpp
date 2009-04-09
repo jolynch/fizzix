@@ -32,9 +32,9 @@ Random::Random(int numOperands)
 	description="Generates a random number.";
 }
 
-const fizdatum Operate::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Operate::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
 {
-	for (int i = 0; i < numOperands; i++) stack.pop();
+	for (int i = 0; i < numOperands; i++) ;
 	fizdatum a;
 	a.type = SCALAR;
 	a.scalar = rand();

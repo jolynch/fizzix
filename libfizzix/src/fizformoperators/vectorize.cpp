@@ -32,14 +32,11 @@ Vectorize::Vectorize(int numOperands)
 	description="Takes three scalars and puts them into a vector";
 }
 
-const fizdatum Vectorize::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Vectorize::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
 {
-	fizdatum c = stack.top().eval(stack, obj1, obj2);
-	stack.pop();
-	fizdatum b = stack.top().eval(stack, obj1, obj2);
-	stack.pop();
-	fizdatum a = stack.top().eval(stack, obj1, obj2);
-	stack.pop();
+	fizdatum c = stack.pop().eval(stack, obj1, obj2);
+	fizdatum b = stack.pop().eval(stack, obj1, obj2);
+	fizdatum a = stack.pop().eval(stack, obj1, obj2);
 	fizdatum d;
 	d.type = VECTOR;
 	if (c.type == SCALAR && b.type == SCALAR && a.type == SCALAR)
@@ -47,7 +44,7 @@ const fizdatum Vectorize::eval(std::stack<FizFormNode> &stack, const FizObject &
 		d.vector[0] = a.scalar;
 		d.vector[1] = b.scalar;
 		d.vector[2] = c.scalar;
+		return d;
 	}
-	else throw new std::logic_error("Can only make a vector from three scalars");
+	else throw std::logic_error("Can only make a vector from three scalars");
 }
-

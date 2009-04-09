@@ -34,22 +34,22 @@ Quotient::Quotient(int numOperands)
 	description="Finds the quotient of scalars and at most one vector (as the numerator)";
 }
 
-const fizdatum Quotient::eval(std::stack<FizFormNode>& stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Quotient::eval(fizstack& stack, const FizObject &obj1, const FizObject &obj2)
 {
 	fizdatum quotient = {1, {0.0,0.0,0.0}, SCALAR};
 	fizdatum next;
 	for(int i = 0; i < numOperands-1; i++)
 	{
-		next = stack.top().eval(stack, obj1, obj2);
-		stack.pop();
+		next = stack.pop().eval(stack, obj1, obj2);
+
 		if(next.type == SCALAR) quotient.scalar /= next.scalar;
-		else throw new logic_error("Cannot have a vector in denominator");
+		else throw logic_error("Cannot have a vector in denominator");
 		
 	}
 	if (numOperands > 0)
 	{
-		next = stack.top().eval(stack, obj1, obj2);
-		stack.pop();
+		next = stack.pop().eval(stack, obj1, obj2);
+
 		if(next.type == SCALAR) quotient.scalar *= next.scalar;
 		else
 		{

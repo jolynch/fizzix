@@ -25,16 +25,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "../include/libfizzix/fizformula.h"
 
+FizFormula::FizFormula(fizstack stk) : stack(stk) {}
+
 const fizdatum FizFormula::eval(const FizObject& obj1, const FizObject& obj2)
 {
-	stack=stackCopy; // Copy it!
-	FizFormNode &top=stack.top();
-	stack.pop();
-	return top.eval(stack,obj1,obj2);
+	return stack.pop().eval(stack,obj1,obj2);
 }
 
-const std::stack<FizFormNode> FizFormula::getStack()
+const fizstack FizFormula::getStack()
 {
-	return stackCopy;
+	return stack;
 }
-

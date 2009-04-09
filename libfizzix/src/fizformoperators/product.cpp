@@ -34,15 +34,14 @@ Product::Product(int numOperands)
 	description="Finds the product of scalars and at most one vector";
 }
 
-const fizdatum Product::eval(std::stack<FizFormNode>& stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Product::eval(fizstack& stack, const FizObject &obj1, const FizObject &obj2)
 {
-	fizdatum product=stack.top().eval(stack,obj1,obj2);
-	stack.pop();
+	fizdatum product=stack.pop().eval(stack,obj1,obj2);
 	fizdatum next;
 	for(int i=1;i<numOperands;i++)
 	{
-		next=stack.top().eval(stack,obj1,obj2);
-		stack.pop();
+		next=stack.pop().eval(stack,obj1,obj2);
+
 		if(product.type == VECTOR)
 		{
 			if(next.type == SCALAR)
@@ -51,7 +50,7 @@ const fizdatum Product::eval(std::stack<FizFormNode>& stack, const FizObject &ob
 				product.vector[1]*=next.scalar;
 				product.vector[2]*=next.scalar;
 			}
-			else throw new logic_error("Cannot use scalar multiplication on multiple vectors.");
+			else throw logic_error("Cannot use scalar multiplication on multiple vectors.");
 		}
 		else
 		{

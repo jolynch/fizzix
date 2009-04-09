@@ -34,16 +34,15 @@ Sum::Sum(int numOperands)
 	description="Finds the sum of scalars or vectors";
 }
 
-const fizdatum Sum::eval(std::stack<FizFormNode>& stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Sum::eval(fizstack& stack, const FizObject &obj1, const FizObject &obj2)
 {
-	fizdatum sum=stack.top().eval(stack,obj1,obj2);
-	stack.pop();
+	fizdatum sum=stack.pop().eval(stack,obj1,obj2);
 	fizdatum next;
 	for(int i=1;i<numOperands;i++)
 	{
-		next=stack.top().eval(stack,obj1,obj2);
-		stack.pop();
-		if(next.type!=sum.type) throw new logic_error("Cannot mix scalars and vectors in sum");
+		next=stack.pop().eval(stack,obj1,obj2);
+
+		if(next.type!=sum.type) throw logic_error("Cannot mix scalars and vectors in sum");
 		if(sum.type==SCALAR) sum.scalar+=next.scalar; else sum.vector+=next.vector;
 	}
 	return sum;

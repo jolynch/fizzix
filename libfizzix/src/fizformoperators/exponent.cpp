@@ -32,20 +32,20 @@ Exponent::Exponent(int numOperands)
 	description="Raises a scalar to an exponent.";
 }
 
-const fizdatum Exponent::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Exponent::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
 	if (numOperands == 2)
 	{
-		fizdatum b = stack.top().eval(stack, obj1, obj2);
-		stack.pop();
-		fizdatum a = stack.top().eval(stack, obj1, obj2);
-		stack.pop();
+		fizdatum b = stack.pop().eval(stack, obj1, obj2);
+
+		fizdatum a = stack.pop().eval(stack, obj1, obj2);
+
 		if (a.type == SCALAR && b.type == SCALAR) c.scalar = pow(a.scalar,b.scalar);
-		else throw new std::logic_error("Cannot exponentiate with vectors.");
+		else throw std::logic_error("Cannot exponentiate with vectors.");
 	}
-	else throw new std::logic_error("Can only exponentiate two scalars at a time.");
+	else throw std::logic_error("Can only exponentiate two scalars at a time.");
 	return c;
 }
 

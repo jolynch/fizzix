@@ -32,18 +32,18 @@ Cosine::Cosine(int numOperands)
 	description="Takes the cosine of a number.";
 }
 
-const fizdatum Cosine::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Cosine::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
 	if (numOperands == 1)
 	{
-		fizdatum a = stack.top().eval(stack, obj1, obj2);
-		stack.pop();
+		fizdatum a = stack.pop().eval(stack, obj1, obj2);
+
 		if (a.type == SCALAR) c.scalar = cos(a.scalar);
-		else throw new std::logic_error("Cannot take the cos of a vector.");
+		else throw std::logic_error("Cannot take the cos of a vector.");
 	}
-	else throw new std::logic_error("Can only take the cos of a single value.");
+	else throw std::logic_error("Can only take the cos of a single value.");
 	return c;
 }
 

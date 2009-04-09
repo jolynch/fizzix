@@ -32,20 +32,20 @@ Magnitude::Magnitude(int numOperands)
 	description="Takes the magnitude of a value: absolute value of a scalar, length of a vector.";
 }
 
-const fizdatum Magnitude::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Magnitude::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
 	if (numOperands == 1)
 	{
-		fizdatum a = stack.top().eval(stack, obj1, obj2);
-		stack.pop();
+		fizdatum a = stack.pop().eval(stack, obj1, obj2);
+
 		if (a.type == VECTOR)
 			c.scalar = sqrt(a.vector[0]*a.vector[0] + a.vector[1]*a.vector[1] + a.vector[2]*a.vector[2]);
 		else
 			c.scalar = abs(a.scalar);
 	}
-	else throw new std::logic_error("Cannot take the magnitude of multiple values");
+	else throw std::logic_error("Cannot take the magnitude of multiple values");
 	return c;
 }
 

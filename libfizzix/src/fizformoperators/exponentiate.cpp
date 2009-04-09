@@ -32,18 +32,18 @@ Exponentiate::Exponentiate(int numOperands)
 	description="Raises e to a power.";
 }
 
-const fizdatum Exponentiate::eval(std::stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Exponentiate::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
 {
 	fizdatum b;
 	b.type = SCALAR;
 	if (numOperands == 1)
 	{
-		fizdatum a = stack.top().eval(stack, obj1, obj2);
-		stack.pop();
+		fizdatum a = stack.pop().eval(stack, obj1, obj2);
+
 		if (a.type == SCALAR) b.scalar = exp(a.scalar);
-		else throw new std::logic_error("Cannot raise e to a vector power.");
+		else throw std::logic_error("Cannot raise e to a vector power.");
 	}
-	else throw new std::logic_error("Raising e to multiple powers is ambiguous.");
+	else throw std::logic_error("Raising e to multiple powers is ambiguous.");
 	return b;
 }
 
