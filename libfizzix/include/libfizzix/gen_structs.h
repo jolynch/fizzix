@@ -58,6 +58,13 @@ struct vec3
 	const double operator[](int index) const;
 	double& operator[](int index);
 	
+	vec3 operator*(vec3 other);
+	vec3 operator*(double other);
+	vec3 operator/(vec3 other);
+	vec3 operator/(double other);
+	vec3 operator+(vec3 other);
+	vec3 operator-(vec3 other);
+
 	vec3(int _x, int _y, int _z);
 	vec3();
 
@@ -104,7 +111,7 @@ struct triangle
 	vertex vertices[3];
 	vec3 normal;
 	vec3 unit_normal;
-	double mass;
+	double massp;
 
 	const vertex operator[](int index) const;
 	vertex& operator[](int index);

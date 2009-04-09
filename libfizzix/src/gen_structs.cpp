@@ -46,6 +46,36 @@ double & vec3::operator[](int index)
 	if (index == 2) return z;
 }
 
+vec3 vec3::operator*(vec3 other)
+{
+	return vec3(x * other[0], y * other[1], z * other[2]);
+}
+
+vec3 vec3::operator*(double other)
+{
+	return vec3(x * other, y * other, z * other);
+}
+
+vec3 vec3::operator/(vec3 other)
+{
+	return vec3(x / other[0], y / other[1], z / other[2]);
+}
+
+vec3 vec3::operator/(double other)
+{
+	return vec3(x / other, y / other, z / other);
+}
+
+vec3 vec3::operator+(vec3 other)
+{
+	return vec3(x + other[0], y + other[1], z + other[2]);
+}
+
+vec3 vec3::operator-(vec3 other)
+{
+	return vec3(x - other[0], y - other[1], z - other[2]);
+}
+
 vec3 vec3::dot(const vec3& other) 
 {
 	return vec3(x * other.x, y * other.y, z * other.z);
@@ -155,7 +185,7 @@ void vertex::add_triangle(triangle * t)
 triangle::triangle(vertex v1, vertex v2, vertex v3)
 {
 	vertices[0] = v1; vertices[1] =  v2; vertices[2] = v3;
-	mass = 0.0;
+	massp = 0.0;
 	vec3 e1 = vec3(v1[0]-v2[0],v1[1]-v2[1],v1[2]-v2[2]);
 	vec3 e2 = vec3(v1[0]-v3[0],v1[1]-v3[1],v1[2]-v3[2]);
 	normal = e1.cross(e2);
@@ -196,7 +226,7 @@ vertex& triangle::operator[](int index)
 fizdatum::fizdatum(double s, vec3 v, Type t) : scalar(s), vector(v), type(t) {}
 fizdatum::fizdatum(double s) : scalar(s), type(SCALAR) {}
 fizdatum::fizdatum(vec3 v) : vector(v), type(VECTOR) {}
-fizdatum::fizdatum() : scalar(0), vector(vex3()), type(NIL) {}
+fizdatum::fizdatum() : scalar(0), vector(vec3()), type(NIL) {}
 /****************** FIZDATUM ******************/
 
 #endif

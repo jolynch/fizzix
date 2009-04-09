@@ -112,7 +112,7 @@ void FizObject::compute()
 	point p0,p1,p2;
 	for(int i = 0; i < vertices.size(); i++) 
 	{
-		const triangle& t = vertices[i];
+		triangle& t = vertices[i];
 		sub_compute(t[0][0], t[1][0], t[2][0], f1x, f2x, f3x, g0x, g1x, g2x);
 		sub_compute(t[0][1], t[1][1], t[2][1], f1y, f2y, f3y, g0y, g1y, g2y);
 		sub_compute(t[0][2], t[1][2], t[2][2], f1z, f2z, f3z, g0z, g1z, g2z);
