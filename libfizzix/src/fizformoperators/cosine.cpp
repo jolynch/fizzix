@@ -41,6 +41,7 @@ const fizdatum Cosine::eval(fizstack &stack, const FizObject &obj1, const FizObj
 		fizdatum a = stack.pop().eval(stack, obj1, obj2);
 
 		if (a.type == SCALAR) c.scalar = cos(a.scalar);
+		else if (a.type == NIL) c = fizdatum();
 		else throw std::logic_error("Cannot take the cos of a vector.");
 	}
 	else throw std::logic_error("Can only take the cos of a single value.");

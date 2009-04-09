@@ -34,8 +34,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class FizFormNode 
 {
+	protected:
+		FizEngine* eng;
+	
 	public:
-		virtual const fizdatum eval(fizstack& stack, const FizObject& obj1, const FizObject& obj2); /* Gets the value of the node */
+		FizFormNode();
+		virtual const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2); /* Gets the value of the node */
+		setEngine(FizEngine* e);
+		
 };
 
 #endif

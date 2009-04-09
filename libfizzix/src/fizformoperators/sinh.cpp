@@ -32,7 +32,7 @@ Sinh::Sinh(int numOperands)
 	description="Takes the hyperbolic sine of a number.";
 }
 
-const fizdatum Sinh::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Sinh::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
@@ -41,6 +41,7 @@ const fizdatum Sinh::eval(fizstack &stack, const FizObject &obj1, const FizObjec
 		fizdatum a = stack.pop().eval(stack, obj1, obj2);
 
 		if (a.type == SCALAR) c.scalar = sinh(a.scalar);
+		else if (a.type == NIL) c = fizdatum();
 		else throw std::logic_error("Cannot take the sinh of a vector.");
 	}
 	else throw std::logic_error("Can only take the sinh of a single value.");

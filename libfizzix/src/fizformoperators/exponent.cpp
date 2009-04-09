@@ -32,7 +32,7 @@ Exponent::Exponent(int numOperands)
 	description="Raises a scalar to an exponent.";
 }
 
-const fizdatum Exponent::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Exponent::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
@@ -43,6 +43,7 @@ const fizdatum Exponent::eval(fizstack &stack, const FizObject &obj1, const FizO
 		fizdatum a = stack.pop().eval(stack, obj1, obj2);
 
 		if (a.type == SCALAR && b.type == SCALAR) c.scalar = pow(a.scalar,b.scalar);
+		else if (a.type == NIL || b.type == NIL) c = fizdatum();
 		else throw std::logic_error("Cannot exponentiate with vectors.");
 	}
 	else throw std::logic_error("Can only exponentiate two scalars at a time.");

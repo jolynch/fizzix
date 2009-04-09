@@ -32,7 +32,7 @@ Arctan::Arctan(int numOperands)
 	description="Takes the arctangent of a number.";
 }
 
-const fizdatum Arctan::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Arctan::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
@@ -41,6 +41,7 @@ const fizdatum Arctan::eval(fizstack &stack, const FizObject &obj1, const FizObj
 		fizdatum a = stack.pop().eval(stack, obj1, obj2);
 
 		if (a.type == SCALAR) c.scalar = atan(a.scalar);
+		else if (a.type == NIL) c = fizdatum();
 		else throw std::logic_error("Cannot take the arctan of a vector.");
 	}
 	else throw std::logic_error("Can only take the arctan of a single value.");

@@ -32,7 +32,7 @@ Arcsin::Arcsin(int numOperands)
 	description="Takes the arcsine of a number.";
 }
 
-const fizdatum Arcsin::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Arcsin::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
@@ -41,6 +41,7 @@ const fizdatum Arcsin::eval(fizstack &stack, const FizObject &obj1, const FizObj
 		fizdatum a = stack.pop().eval(stack, obj1, obj2);
 
 		if (a.type == SCALAR) c.scalar = asin(a.scalar);
+		else if (a.type == NIL) c = fizdatum();
 		else throw std::logic_error("Cannot take the arcsin of a vector.");
 	}
 	else throw std::logic_error("Can only take the arcsin of a single value.");

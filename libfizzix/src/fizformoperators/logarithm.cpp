@@ -32,7 +32,7 @@ Logarithm::Logarithm(int numOperands)
 	token = "log";
 }
 
-const fizdatum Logarithm::eval(fizstack& stack, const FizObject& obj1, const FizObject& obj2)
+const fizdatum Logarithm::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
@@ -40,6 +40,7 @@ const fizdatum Logarithm::eval(fizstack& stack, const FizObject& obj1, const Fiz
 	{	fizdatum a = stack.pop().eval(stack, obj1, obj2);
 
 		if (a.type == SCALAR) c.scalar = log(a.scalar); //natural log
+		else if (a.type == NIL ) c = fizdatum();
 		else throw std::logic_error("Cannot take the log of a vector.");
 	}
 	else if (numOperands == 2)
@@ -48,6 +49,7 @@ const fizdatum Logarithm::eval(fizstack& stack, const FizObject& obj1, const Fiz
 		fizdatum a = stack.pop().eval(stack, obj1, obj2);
 
 		if (a.type == SCALAR && b.type == SCALAR) c.scalar = log(a.scalar)/log(b.scalar);
+		else if (a.type == NIL || b.type == NIL ) c = fizdatum();
 		else throw std::logic_error("Cannot take the log of a vector.");
 	}
 	else throw std::logic_error("Cannot take a log with multiple bases.");

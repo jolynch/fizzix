@@ -22,29 +22,17 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef FIZFORMNODE_CPP
+#define FIZFORMNODE_CPP
 
-#include "../../include/libfizzix/operators.h"
+#include "../include/libfizzix/fizformnode.h"
 
-Cosh::Cosh(int numOperands)
+FizFormNode::FizFormNode() {};
+FizFormNode::setEngine(FizEngine* e)
 {
-	this->numOperands=numOperands;
-	token="cosh";
-	description="Takes the hyperbolic cosine of a number.";
+	eng = e;
 }
-
-const fizdatum Cosh::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+FizFormNode::virtual const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
-	fizdatum c;
-	c.type = SCALAR;
-	if (numOperands == 1)
-	{
-		fizdatum a = stack.pop().eval(stack, obj1, obj2);
-
-		if (a.type == SCALAR) c.scalar = cosh(a.scalar);
-		else if (a.type == NIL) c = fizdatum();
-		else throw std::logic_error("Cannot take the cosh of a vector.");
-	}
-	else throw std::logic_error("Can only take the cosh of a single value.");
-	return c;
+	return fizdatum();
 }
-

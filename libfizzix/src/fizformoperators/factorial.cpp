@@ -32,7 +32,7 @@ Factorial::Factorial(int numOperands)
 	token = "factorial";
 }
 
-const fizdatum Factorial::eval(fizstack& stack, const FizObject& obj1, const FizObject& obj2)
+const fizdatum Factorial::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
 	fizdatum a = stack.pop().eval(stack, obj1, obj2);
 	fizdatum c;
@@ -42,6 +42,7 @@ const fizdatum Factorial::eval(fizstack& stack, const FizObject& obj1, const Fiz
 		c.scalar = 1;
 		for (int i = 2; i <= a.scalar; i++) c.scalar *= i;
 	}
+	else if (a.type == NIL) c = fizdatum();
 	else throw std::logic_error("Cannot take the factorial of multiple numbers, negative numbers, or vectors.");
 	return c;
 }

@@ -34,16 +34,18 @@ FizOper::Difference::Difference(int numOperands)
 	description="Finds the difference of scalars or vectors";
 }
 
-const fizdatum FizOper::Difference::eval(stack<FizFormNode> &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum FizOper::Difference::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
-	fizdatum sum=.eval(&stack,&obj1,&obj2);
+	fizdatum diff=stack.pop().eval(&stack,&obj1,&obj2);
+	if (diff.type == NIL) return diff;
 	fizdatum next;
 	for(int i=1;i<numOperands;i++)
 	{
 		next=.eval(&stack,&obj1,&obj2);
-		if(next.type!=sum.type) throw logic_error("Cannot mix scalars and vectors in difference");
-		if(sum.type==SCALAR) sum.scalar-=next.scalar; else sum.vector-=next.vector;
+		if(next.type == NIL) return next;
+		if(next.type!=diff.type) throw logic_error("Cannot mix scalars and vectors in difference");
+		if(diff.type==SCALAR) diff.scalar-=next.scalar; else diff.vector-=next.vector;
 	}
-	return sum;
+	return diff;
 }
 

@@ -34,7 +34,7 @@ Quotient::Quotient(int numOperands)
 	description="Finds the quotient of scalars and at most one vector (as the numerator)";
 }
 
-const fizdatum Quotient::eval(fizstack& stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Quotient::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
 	fizdatum quotient = {1, {0.0,0.0,0.0}, SCALAR};
 	fizdatum next;
@@ -43,6 +43,7 @@ const fizdatum Quotient::eval(fizstack& stack, const FizObject &obj1, const FizO
 		next = stack.pop().eval(stack, obj1, obj2);
 
 		if(next.type == SCALAR) quotient.scalar /= next.scalar;
+		else if (next.type == NIL) return fizdatum();
 		else throw logic_error("Cannot have a vector in denominator");
 		
 	}
@@ -51,6 +52,7 @@ const fizdatum Quotient::eval(fizstack& stack, const FizObject &obj1, const FizO
 		next = stack.pop().eval(stack, obj1, obj2);
 
 		if(next.type == SCALAR) quotient.scalar *= next.scalar;
+		else if (next.type == NIL) return fizdatum();
 		else
 		{
 			quotient.type = VECTOR;

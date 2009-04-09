@@ -31,10 +31,43 @@ using namespace std;
 
 FizFormVariable::FizFormVariable(Type2 varType,string id) : variableType(varType),identifier(id) {};
 
-const fizdatum FizFormVariable::eval(fizstack& stack, const FizObject& obj1, const FizObject& obj2)
+const fizdatum FizFormVariable::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
-	// Uh oh...
-	return fizdatum();
+	fizdatum a;
+	switch (variableType)
+	{
+		case PROPERTY1:
+			try
+			{
+				a = obj1[identifier];
+				if (eng->propdist[identifier])
+					if (a.type == SCALAR) a.scalar *= tri1.massp;
+			}
+			catch (out_of_range)
+			{
+				a = fizdatum();
+			}
+			break;
+		case PROPERTY2:
+			try
+			{
+				a = obj2[identifier];
+			}
+			catch (out_of_range)
+			{
+				a = fizdatum();
+			}
+			break;
+		case PROPERTYJOINT: 
+			a = eng->pcache[identifier];
+			break;
+		case FORCE:
+			a = eng->fcache[identifier];
+			break;
+		case NAMEDCONST:
+			a = eng->ccache[identifier];
+		default: throw new logic_error("wtf"); break;
+	}
 }
 
 #endif

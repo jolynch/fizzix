@@ -32,12 +32,13 @@ Square::Square(int numOperands)
 	token = "square";
 }
 
-const fizdatum Square::eval(fizstack& stack, const FizObject& obj1, const FizObject& obj2)
+const fizdatum Square::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
 	fizdatum a = stack.pop().eval(stack, obj1, obj2);
 	fizdatum b;
 	b.type = SCALAR;
 	if (a.type == SCALAR) b.scalar = a.scalar*a.scalar;
+	else if (a.type == NIL) b = fizdatum();
 	else throw std::logic_error("Cannot square a vector.");
 	return b;
 }

@@ -41,6 +41,7 @@ const fizdatum Exponentiate::eval(fizstack &stack, const FizObject &obj1, const 
 		fizdatum a = stack.pop().eval(stack, obj1, obj2);
 
 		if (a.type == SCALAR) b.scalar = exp(a.scalar);
+		else if (a.type == NIL) b = fizdatum();
 		else throw std::logic_error("Cannot raise e to a vector power.");
 	}
 	else throw std::logic_error("Raising e to multiple powers is ambiguous.");
