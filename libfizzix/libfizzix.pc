@@ -1,0 +1,13 @@
+prefix=/usr/local
+exec_prefix=/usr/local
+libdir=${prefix}/lib
+includedir=/usr/local/include
+
+Name: libfizzix
+Description: Library of optionally retarded physics
+Version: 0.1
+Requires: 
+Conflicts: 
+Libs: -L${libdir} -lfizzix
+Cflags: -I${includedir}
+

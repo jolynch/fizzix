@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@prefix@
+libdir=@exec_prefix@/lib
+includedir=@prefix@/include
+
+Name: @PACKAGE@
+Description: Library of optionally retarded physics
+Version: @VERSION@
+Requires: 
+Conflicts: 
+Libs: -L${libdir} -lfizzix
+Cflags: -I${includedir}
+
