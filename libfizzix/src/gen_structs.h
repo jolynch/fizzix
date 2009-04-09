@@ -29,8 +29,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <string>
 #include <math.h>
 #include <stdexcept>
+#include "fizstack.h"
 
-//#include <matrix.h>
+/* Forward declarations (all are implemented or used below)
+ */
+struct vec3;
+struct triangle;
+class FizFormNode;
+
+/* Some enums, typedefs and global constant like things
+ */
+
+enum Type {SCALAR, VECTOR};
+enum Type2 {PROPERTY1, PROPERTY2, PROPERTYJOINT, FORCE, NAMEDCONST};
+
+typedef FizStack<FizFormNode*> fizstack;
+typedef vec3 point;
+
+double div_consts[] = {1.0/6.0, 1.0/24.0, 1.0/60.0, 1.0/120.0};
+
 
 struct vec3
 {
@@ -49,8 +66,6 @@ struct vec3
 	double mag();
 };
 
-typedef vec3 point;
-
 struct vec4
 {
 	double x;
@@ -67,8 +82,6 @@ struct vec4
 	vec4 cross(const vec4& other);
 	double mag();
 };
-
-struct triangle;
 
 struct vertex
 {
@@ -98,10 +111,6 @@ struct triangle
 	triangle(vertex v1, vertex v2, vertex v3);
 };
 
-enum Type {SCALAR, VECTOR};
-enum Type2 {PROPERTY1, PROPERTY2, PROPERTYJOINT, FORCE, NAMEDCONST};
-double div_consts[] = {1.0/6.0, 1.0/24.0, 1.0/60.0, 1.0/120.0};
-
 struct fizdatum
 {
 	double scalar;
@@ -115,40 +124,5 @@ struct fizdatum
 
 };
 
-
-//Have to use pointers, as we don't know how big 
-//FizFormNode is
-template <class T>
-class fizstack
-{
-	private:
-		std::vector<T> stack;
-		int index;
-	public:
-		fizstack(std::vector<T> s);	
-		void reset();
-		bool empty();
-		
-		T pop();
-		void push(T f);
-};
-
-/*
- * This will not work unless you use pointers, the compiler 
- * can't know how big FizFormNode is, so it will fail
- * **
-struct fizstack
-{
-	std::vector<FizFormNode> stack;
-	int index;
-	
-	void reset();
-	FizFormNode* pop();
-	void push(FizFormNode* f);
-	bool empty();
-	
-	fizstack(std::vector<FizFormNode> s);
-};
-*/
 #endif
 
