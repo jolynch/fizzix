@@ -35,7 +35,7 @@ Quotient::Quotient(int numOperands)
 	description="Finds the quotient of scalars and at most one vector (as the numerator)";
 }
 
-const fizdatum Quotient::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Quotient::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum quotient = {1, {0.0,0.0,0.0}, SCALAR};
 	fizdatum next;

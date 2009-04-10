@@ -33,7 +33,7 @@ Cosine::Cosine(int numOperands)
 	description="Takes the cosine of a number.";
 }
 
-const fizdatum Cosine::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Cosine::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;

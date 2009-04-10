@@ -64,6 +64,12 @@ struct vec3
 	vec3 operator/(double other);
 	vec3 operator+(vec3 other);
 	vec3 operator-(vec3 other);
+	vec3 operator*=(vec3 other);
+	vec3 operator*=(double other);
+	vec3 operator/=(vec3 other);
+	vec3 operator/=(double other);
+	vec3 operator+=(vec3 other);
+	vec3 operator-=(vec3 other);
 
 	vec3(int _x, int _y, int _z);
 	vec3();

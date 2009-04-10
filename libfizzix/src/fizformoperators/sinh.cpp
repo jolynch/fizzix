@@ -33,7 +33,7 @@ Sinh::Sinh(int numOperands)
 	description="Takes the hyperbolic sine of a number.";
 }
 
-const fizdatum Sinh::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Sinh::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;

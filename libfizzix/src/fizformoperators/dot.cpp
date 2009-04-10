@@ -33,7 +33,7 @@ Dot::Dot(int numOperands)
 	token = "dot";
 }
 
-const fizdatum Dot::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Dot::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
@@ -43,10 +43,7 @@ const fizdatum Dot::eval(fizstack& stack, const FizObject& obj1, const triangle 
 
 		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 
-		if (a.type == VECTOR && b.type == VECTOR)
-		{
-			c.scalar = a.vector[0]*b.vector[0]+a.vector[1]*b.vector[1]+a.vector[2]*b.vector[2];
-		}
+		if (a.type == VECTOR && b.type == VECTOR) c.scalar = a.vector.dot(b.vector);
 		else if (a.type == NIL || b.type == NIL) c = fizdatum();
 		else throw std::logic_error("Can only take the dot product of two vectors.");
 	}

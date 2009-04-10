@@ -33,7 +33,7 @@ Exponentiate::Exponentiate(int numOperands)
 	description="Raises e to a power.";
 }
 
-const fizdatum Exponentiate::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Exponentiate::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2)
 {
 	fizdatum b;
 	b.type = SCALAR;

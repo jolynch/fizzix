@@ -33,7 +33,7 @@ Factorial::Factorial(int numOperands)
 	token = "factorial";
 }
 
-const fizdatum Factorial::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Factorial::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 	fizdatum c;

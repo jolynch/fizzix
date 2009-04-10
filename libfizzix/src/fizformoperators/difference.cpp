@@ -35,7 +35,7 @@ FizOper::Difference::Difference(int numOperands)
 	description="Finds the difference of scalars or vectors";
 }
 
-const fizdatum FizOper::Difference::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum FizOper::Difference::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum diff=stack.pop()->eval(&stack,&obj1,&obj2);
 	if (diff.type == NIL) return diff;

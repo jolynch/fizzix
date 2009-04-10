@@ -33,7 +33,7 @@ Magnitude::Magnitude(int numOperands)
 	description="Takes the magnitude of a value: absolute value of a scalar, length of a vector.";
 }
 
-const fizdatum Magnitude::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Magnitude::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;

@@ -76,6 +76,54 @@ vec3 vec3::operator-(vec3 other)
 	return vec3(x - other[0], y - other[1], z - other[2]);
 }
 
+vec3 vec3::operator*=(vec3 other)
+{
+	x *= other[0];
+	y *= other[1];
+	z *= other[2]);
+	return this;
+}
+
+vec3 vec3::operator*=(double other)
+{
+	x *= other;
+	y *= other;
+	z *= other;
+	return this;
+}
+
+vec3 vec3::operator/=(vec3 other)
+{
+	x /= other[0];
+	y /= other[1];
+	z /= other[2];
+	return this;
+}
+
+vec3 vec3::operator/=(double other)
+{
+	x /= other;
+	y /= other;
+	z /= other;
+	return this;
+}
+
+vec3 vec3::operator+=(vec3 other)
+{
+	x += other[0];
+	y += other[1];
+	z += other[2];
+	return this;
+}
+
+vec3 vec3::operator-=(vec3 other)
+{
+	x -= other[0];
+	y -= other[1];
+	z -= other[2];
+	return this;
+}
+
 vec3 vec3::dot(const vec3& other) 
 {
 	return vec3(x * other.x, y * other.y, z * other.z);

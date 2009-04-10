@@ -33,7 +33,7 @@ Arcsin::Arcsin(int numOperands)
 	description="Takes the arcsine of a number.";
 }
 
-const fizdatum Arcsin::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Arcsin::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;

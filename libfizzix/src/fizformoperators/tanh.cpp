@@ -33,7 +33,7 @@ Tanh::Tanh(int numOperands)
 	description="Takes the hyperbolic tangent of a number.";
 }
 
-const fizdatum Tanh::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Tanh::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;

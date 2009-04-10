@@ -33,7 +33,7 @@ Operator::Operate(int numOperands)
 	description="Operates.";
 }
 
-const fizdatum Operate::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Operate::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 
 }

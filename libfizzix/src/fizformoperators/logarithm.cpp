@@ -33,7 +33,7 @@ Logarithm::Logarithm(int numOperands)
 	token = "log";
 }
 
-const fizdatum Logarithm::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Logarithm::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;

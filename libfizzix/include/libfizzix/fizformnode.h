@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "gen_structs.h"
 #include "fizobject.h"
+#include "fizengine.h"
 
 class FizFormNode 
 {
@@ -40,7 +41,7 @@ class FizFormNode
 	public:
 		FizFormNode();
 		virtual const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2); /* Gets the value of the node */
-		setEngine(FizEngine* e);
+		void setEngine(FizEngine* e);
 		
 };
 

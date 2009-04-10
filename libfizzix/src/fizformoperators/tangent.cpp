@@ -33,7 +33,7 @@ Tangent::Tangent(int numOperands)
 	description="Takes the tangent of a number.";
 }
 
-const fizdatum Tangent::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Tangent::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;

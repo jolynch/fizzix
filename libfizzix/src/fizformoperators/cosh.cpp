@@ -33,7 +33,7 @@ Cosh::Cosh(int numOperands)
 	description="Takes the hyperbolic cosine of a number.";
 }
 
-const fizdatum Cosh::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Cosh::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;

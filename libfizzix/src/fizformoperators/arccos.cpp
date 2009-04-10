@@ -33,7 +33,7 @@ Arccos::Arccos(int numOperands)
 	description="Takes the arccosine of a number.";
 }
 
-const fizdatum Arccos::eval(fizstack &stack, const FizObject &obj1, const FizObject &obj2)
+const fizdatum Arccos::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;
@@ -42,6 +42,7 @@ const fizdatum Arccos::eval(fizstack &stack, const FizObject &obj1, const FizObj
 		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 
 		if (a.type == SCALAR) c.scalar = acos(a.scalar);
+		else if (a.type == NIL) c = fizdatum();
 		else throw std::logic_error("Cannot take the arccos of a vector.");
 	}
 	else throw std::logic_error("Can only take the arccos of a single value.");

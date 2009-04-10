@@ -33,7 +33,7 @@ Arctan::Arctan(int numOperands)
 	description="Takes the arctangent of a number.";
 }
 
-const fizdatum Arctan::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Arctan::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum c;
 	c.type = SCALAR;

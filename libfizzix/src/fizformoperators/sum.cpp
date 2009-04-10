@@ -35,7 +35,7 @@ Sum::Sum(int numOperands)
 	description="Finds the sum of scalars or vectors";
 }
 
-const fizdatum Sum::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum Sum::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
 	fizdatum sum=stack.pop()->eval(stack, obj1, tri1, obj2);
 	if (sum.type == NIL) return sum;
