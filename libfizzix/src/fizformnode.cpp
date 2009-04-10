@@ -28,11 +28,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "../include/libfizzix/fizformnode.h"
 
 FizFormNode::FizFormNode() {};
-FizFormNode::void setEngine(FizEngine* e)
+void FizFormNode::setEngine(FizEngine* e)
 {
 	eng = e;
 }
-FizFormNode::virtual const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum FizFormNode::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
 	return fizdatum();
 }
+#endif

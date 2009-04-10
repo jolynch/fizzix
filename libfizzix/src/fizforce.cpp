@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "../include/libfizzix/fizforce.h"
 
-FizForce::eval(FizObject& obj1, FizObject& obj2)
+vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 {
 	vec3[4] result;
 	std::vector<triangle>& tris1 = obj1.rgetVertices();
