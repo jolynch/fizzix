@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 #include "../../include/libfizzix/operators.h"
+using namespace FizOper;
 
 Arccos::Arccos(int numOperands)
 {
@@ -38,7 +39,7 @@ const fizdatum Arccos::eval(fizstack &stack, const FizObject &obj1, const FizObj
 	c.type = SCALAR;
 	if (numOperands == 1)
 	{
-		fizdatum a = stack.pop().eval(stack, obj1, obj2);
+		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 
 		if (a.type == SCALAR) c.scalar = acos(a.scalar);
 		else throw std::logic_error("Cannot take the arccos of a vector.");

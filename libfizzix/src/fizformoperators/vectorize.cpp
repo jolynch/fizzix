@@ -23,7 +23,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
-#include "../include/libfizzix/operators.h"
+#include "../../include/libfizzix/operators.h"
+using namespace FizOper;
 
 Vectorize::Vectorize(int numOperands)
 {
@@ -34,9 +35,9 @@ Vectorize::Vectorize(int numOperands)
 
 const fizdatum Vectorize::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
-	fizdatum c = stack.pop().eval(stack, obj1, obj2);
-	fizdatum b = stack.pop().eval(stack, obj1, obj2);
-	fizdatum a = stack.pop().eval(stack, obj1, obj2);
+	fizdatum c = stack.pop()->eval(stack, obj1, tri1, obj2);
+	fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2);
+	fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 	fizdatum d;
 	d.type = VECTOR;
 	if (c.type == SCALAR && b.type == SCALAR && a.type == SCALAR)

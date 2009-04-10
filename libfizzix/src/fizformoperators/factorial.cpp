@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 #include "../../include/libfizzix/operators.h"
+using namespace FizOper;
 
 Factorial::Factorial(int numOperands)
 {
@@ -34,7 +35,7 @@ Factorial::Factorial(int numOperands)
 
 const fizdatum Factorial::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
-	fizdatum a = stack.pop().eval(stack, obj1, obj2);
+	fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 	fizdatum c;
 	c.type = SCALAR;
 	if (numOperands == 1 && a.type == SCALAR && a.scalar >= 0)

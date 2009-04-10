@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 #include "../../include/libfizzix/operators.h"
+using namespace FizOper;
 
 Exponent::Exponent(int numOperands)
 {
@@ -38,9 +39,9 @@ const fizdatum Exponent::eval(fizstack& stack, const FizObject& obj1, const tria
 	c.type = SCALAR;
 	if (numOperands == 2)
 	{
-		fizdatum b = stack.pop().eval(stack, obj1, obj2);
+		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2);
 
-		fizdatum a = stack.pop().eval(stack, obj1, obj2);
+		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 
 		if (a.type == SCALAR && b.type == SCALAR) c.scalar = pow(a.scalar,b.scalar);
 		else if (a.type == NIL || b.type == NIL) c = fizdatum();

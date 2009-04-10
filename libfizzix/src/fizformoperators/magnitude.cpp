@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 #include "../../include/libfizzix/operators.h"
+using namespace FizOper;
 
 Magnitude::Magnitude(int numOperands)
 {
@@ -38,7 +39,7 @@ const fizdatum Magnitude::eval(fizstack& stack, const FizObject& obj1, const tri
 	c.type = SCALAR;
 	if (numOperands == 1)
 	{
-		fizdatum a = stack.pop().eval(stack, obj1, obj2);
+		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 
 		if (a.type == VECTOR)
 			c.scalar = sqrt(a.vector[0]*a.vector[0] + a.vector[1]*a.vector[1] + a.vector[2]*a.vector[2]);

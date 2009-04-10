@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 #include "../../include/libfizzix/operators.h"
+using namespace FizOper;
 
 Tangent::Tangent(int numOperands)
 {
@@ -38,7 +39,7 @@ const fizdatum Tangent::eval(fizstack& stack, const FizObject& obj1, const trian
 	c.type = SCALAR;
 	if (numOperands == 1)
 	{
-		fizdatum a = stack.pop().eval(stack, obj1, obj2);
+		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 
 		if (a.type == SCALAR) c.scalar = tan(a.scalar);
 		else if (a.type == NIL) c = fizdatum();

@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 #include "../../include/libfizzix/operators.h"
+using namespace FizOper;
 
 using namespace std;
 
@@ -36,12 +37,12 @@ Sum::Sum(int numOperands)
 
 const fizdatum Sum::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
-	fizdatum sum=stack.pop().eval(stack,obj1,obj2);
+	fizdatum sum=stack.pop()->eval(stack, obj1, tri1, obj2);
 	if (sum.type == NIL) return sum;
 	fizdatum next;
 	for(int i=1;i<numOperands;i++)
 	{
-		next=stack.pop().eval(stack,obj1,obj2);
+		next=stack.pop()->eval(stack, obj1, tri1, obj2);
 		if (next.type == NIL) return fizdtaum();
 		if(next.type!=sum.type) throw logic_error("Cannot mix scalars and vectors in sum");
 		if(sum.type==SCALAR) sum.scalar+=next.scalar;

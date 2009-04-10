@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 #include "../../include/libfizzix/operators.h"
+using namespace FizOper;
 
 using namespace std;
 
@@ -40,7 +41,7 @@ const fizdatum Quotient::eval(fizstack& stack, const FizObject& obj1, const tria
 	fizdatum next;
 	for(int i = 0; i < numOperands-1; i++)
 	{
-		next = stack.pop().eval(stack, obj1, obj2);
+		next = stack.pop()->eval(stack, obj1, tri1, obj2);
 
 		if(next.type == SCALAR) quotient.scalar /= next.scalar;
 		else if (next.type == NIL) return fizdatum();
@@ -49,7 +50,7 @@ const fizdatum Quotient::eval(fizstack& stack, const FizObject& obj1, const tria
 	}
 	if (numOperands > 0)
 	{
-		next = stack.pop().eval(stack, obj1, obj2);
+		next = stack.pop()->eval(stack, obj1, tri1, obj2);
 
 		if(next.type == SCALAR) quotient.scalar *= next.scalar;
 		else if (next.type == NIL) return fizdatum();

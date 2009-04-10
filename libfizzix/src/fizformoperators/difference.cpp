@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 #include "../../include/libfizzix/operators.h"
+using namespace FizOper;
 
 using namespace std;
 
@@ -36,7 +37,7 @@ FizOper::Difference::Difference(int numOperands)
 
 const fizdatum FizOper::Difference::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
-	fizdatum diff=stack.pop().eval(&stack,&obj1,&obj2);
+	fizdatum diff=stack.pop()->eval(&stack,&obj1,&obj2);
 	if (diff.type == NIL) return diff;
 	fizdatum next;
 	for(int i=1;i<numOperands;i++)

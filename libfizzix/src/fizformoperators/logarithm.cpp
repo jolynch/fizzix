@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 #include "../../include/libfizzix/operators.h"
+using namespace FizOper;
 
 Logarithm::Logarithm(int numOperands)
 {
@@ -37,16 +38,16 @@ const fizdatum Logarithm::eval(fizstack& stack, const FizObject& obj1, const tri
 	fizdatum c;
 	c.type = SCALAR;
 	if (numOperands == 1)
-	{	fizdatum a = stack.pop().eval(stack, obj1, obj2);
+	{	fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 
 		if (a.type == SCALAR) c.scalar = log(a.scalar); //natural log
 		else if (a.type == NIL ) c = fizdatum();
 		else throw std::logic_error("Cannot take the log of a vector.");
 	}
 	else if (numOperands == 2)
-	{	fizdatum b = stack.pop().eval(stack, obj1, obj2);
+	{	fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2);
 
-		fizdatum a = stack.pop().eval(stack, obj1, obj2);
+		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
 
 		if (a.type == SCALAR && b.type == SCALAR) c.scalar = log(a.scalar)/log(b.scalar);
 		else if (a.type == NIL || b.type == NIL ) c = fizdatum();
