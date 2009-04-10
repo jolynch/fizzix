@@ -43,7 +43,7 @@ const fizdatum Sum::eval(fizstack& stack, const FizObject& obj1, const triangle&
 	for(int i=1;i<numOperands;i++)
 	{
 		next=stack.pop()->eval(stack, obj1, tri1, obj2);
-		if (next.type == NIL) return fizdtaum();
+		if (next.type == NIL) return fizdatum();
 		if(next.type!=sum.type) throw logic_error("Cannot mix scalars and vectors in sum");
 		if(sum.type==SCALAR) sum.scalar+=next.scalar;
 		else sum.vector+=next.vector;

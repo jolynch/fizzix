@@ -37,12 +37,12 @@ FizOper::Difference::Difference(int numOperands)
 
 const fizdatum FizOper::Difference::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
-	fizdatum diff=stack.pop()->eval(&stack,&obj1,&obj2);
+	fizdatum diff=stack.pop()->eval(stack,obj1,tri1,obj2);
 	if (diff.type == NIL) return diff;
 	fizdatum next;
 	for(int i=1;i<numOperands;i++)
 	{
-		next=.eval(&stack,&obj1,&obj2);
+		next=stack.pop()->eval(stack,obj1,tri1,obj2);
 		if(next.type == NIL) return next;
 		if(next.type!=diff.type) throw logic_error("Cannot mix scalars and vectors in difference");
 		if(diff.type==SCALAR) diff.scalar-=next.scalar; else diff.vector-=next.vector;

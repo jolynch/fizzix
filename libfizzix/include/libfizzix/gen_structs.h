@@ -74,7 +74,7 @@ struct vec3
 	vec3(int _x, int _y, int _z);
 	vec3();
 
-	vec3 dot(const vec3& other);
+	double dot(const vec3& other);
 	vec3 cross(const vec3& other);
 	double mag();
 };

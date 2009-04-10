@@ -37,7 +37,7 @@ Quotient::Quotient(int numOperands)
 
 const fizdatum Quotient::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
-	fizdatum quotient = {1, {0.0,0.0,0.0}, SCALAR};
+	fizdatum quotient = fizdatum(1);
 	fizdatum next;
 	for(int i = 0; i < numOperands-1; i++)
 	{
