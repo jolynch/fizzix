@@ -24,28 +24,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include <QMainWindow>
-#include <QLabel>
+#ifndef DATABROWSER_H
+#define DATABROWSER_H
 #include <QTabWidget>
-#include <QMenu>
-#include <QMenuBar>
 #include <QDockWidget>
 #include <QDesktopWidget>
 
-#include "databrowser.h"
-#include "dataeditor.h"
-#include "simulationcontrol.h"
+#include "buttonpanel.h"
+#include "forcepanel.h"
+#include "macropanel.h"
+#include "objectpanel.h"
+#include "propertypanel.h"
 
-class MainWindow:public QMainWindow
+class DataBrowser:public QDockWidget
 {	Q_OBJECT
 	private:
-		DataBrowser * databrowser;
-		DataEditor * dataeditor;
-		SimulationControl * simcontrol;
+		QTabWidget * tabs;
+		ObjectPanel * obj;
+		PropertyPanel * prop;
+		ForcePanel * force;
+		MacroPanel * macro;
 	public:
-		MainWindow (QDesktopWidget * d);
+		DataBrowser (QDesktopWidget * d);
+	public slots:
+		void emitCurrent();
+	signals:
+		void tabSelected(int);
+		void newDataSelected(QString);
 };
 
 #endif

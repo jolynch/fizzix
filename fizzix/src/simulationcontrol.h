@@ -24,28 +24,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include <QMainWindow>
-#include <QLabel>
-#include <QTabWidget>
-#include <QMenu>
-#include <QMenuBar>
+#ifndef SIMULATIONCONTROL_H
+#define SIMULATIONCONTROL_H
+#include <QPushButton>
 #include <QDockWidget>
 #include <QDesktopWidget>
 
-#include "databrowser.h"
-#include "dataeditor.h"
-#include "simulationcontrol.h"
-
-class MainWindow:public QMainWindow
+class SimulationControl:public QDockWidget
 {	Q_OBJECT
 	private:
-		DataBrowser * databrowser;
-		DataEditor * dataeditor;
-		SimulationControl * simcontrol;
 	public:
-		MainWindow (QDesktopWidget * d);
+		SimulationControl ();
 };
 
 #endif

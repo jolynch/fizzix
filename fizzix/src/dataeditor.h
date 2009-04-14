@@ -24,28 +24,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include <QMainWindow>
+#ifndef DATAEDITOR_H
+#define DATAEDITOR_H
 #include <QLabel>
-#include <QTabWidget>
-#include <QMenu>
-#include <QMenuBar>
 #include <QDockWidget>
 #include <QDesktopWidget>
+#include <QGridLayout>
+#include <QPushButton>
+#include <QLineEdit>
 
-#include "databrowser.h"
-#include "dataeditor.h"
-#include "simulationcontrol.h"
-
-class MainWindow:public QMainWindow
+class DataEditor:public QDockWidget
 {	Q_OBJECT
 	private:
-		DataBrowser * databrowser;
-		DataEditor * dataeditor;
-		SimulationControl * simcontrol;
+		QLabel * currentTab;
+		QGridLayout * layout;
+		QLineEdit * name;
+		bool modified;
 	public:
-		MainWindow (QDesktopWidget * d);
+		DataEditor (QDesktopWidget * d);
+	public slots:
+		void selectTab(int);
+		void newName(QString);
 };
 
 #endif

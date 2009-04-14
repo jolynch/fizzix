@@ -24,28 +24,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include <QMainWindow>
-#include <QLabel>
-#include <QTabWidget>
-#include <QMenu>
-#include <QMenuBar>
-#include <QDockWidget>
-#include <QDesktopWidget>
+#ifndef SIMULATIONCONTROL_CPP
+#define SIMULATIONCONTROL_CPP
 
-#include "databrowser.h"
-#include "dataeditor.h"
 #include "simulationcontrol.h"
 
-class MainWindow:public QMainWindow
-{	Q_OBJECT
-	private:
-		DataBrowser * databrowser;
-		DataEditor * dataeditor;
-		SimulationControl * simcontrol;
-	public:
-		MainWindow (QDesktopWidget * d);
-};
+SimulationControl::SimulationControl():QDockWidget(tr("Simulation control"))
+{
+	this->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	this->setWidget(new QPushButton("Bar"));
+	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
+}
 
 #endif

@@ -10,21 +10,22 @@ RESOURCES = fizzix.qrc
 
 # Fizzix
 
-HEADERS+=src/about.h \
-src/buttonpanel.h \
-src/forcepanel.h \
+HEADERS+=src/forcepanel.h \
 src/macropanel.h \
 src/mainwindow.h \
 src/objectpanel.h \
 src/propertypanel.h \
+src/databrowser.h \
+src/dataeditor.h \
+src/simulationcontrol.h \
 
 
 SOURCES+=src/main.cpp \
-src/about.cpp \
-src/buttonpanel.cpp \
 src/forcepanel.cpp \
 src/macropanel.cpp \
 src/mainwindow.cpp \
 src/objectpanel.cpp \
 src/propertypanel.cpp \
-
+src/databrowser.cpp \
+src/dataeditor.cpp \
+src/simulationcontrol.cpp \

@@ -1,3 +1,28 @@
+/************************************************************************************************
+This file is a part of the Fizzix project, which provides a physics engine and the visualization.
+The website for this project is http://code.google.com/p/fizzix .
+Copyright (C) 2009
+	Joseph Lynch
+	Anton Frolenkov
+	Purnima Balakrishnan
+	Daniel Stiles
+	Eric Van Albert
+
+This program is free software; you can redistribute it and/or 
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+************************************************************************************************/
+
 #ifndef MAINWINDOW_CPP
 #define MAINWINDOW_CPP
 
@@ -13,24 +38,16 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	this->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
 	this->setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 	
-	QDockWidget * panelsDockWidget = new QDockWidget(tr("Data browser"), this);
-	panelsDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-	QTabWidget * tabs=new QTabWidget();
-	tabs->setMinimumWidth((d->availableGeometry().width()/2)/2);
-	panelsDockWidget->setWidget(tabs);
-	panelsDockWidget->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
-	this->addDockWidget(Qt::RightDockWidgetArea, panelsDockWidget);
+	databrowser=new DataBrowser(d);
+	dataeditor=new DataEditor(d);
+	simcontrol=new SimulationControl();
+	QObject::connect(databrowser,SIGNAL(tabSelected(int)),dataeditor,SLOT(selectTab(int)));
+	QObject::connect(databrowser,SIGNAL(newDataSelected(QString)),dataeditor,SLOT(newName(QString)));
+
+	this->addDockWidget(Qt::RightDockWidgetArea, databrowser);
+	this->addDockWidget(Qt::RightDockWidgetArea, dataeditor);
+	this->addDockWidget(Qt::BottomDockWidgetArea, simcontrol);
 	
-	QDockWidget * buttonDockWidget = new QDockWidget(tr("Simulation control"), this);
-	buttonDockWidget->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-	buttonDockWidget->setWidget(new ButtonPanel());
-	buttonDockWidget->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
-	this->addDockWidget(Qt::BottomDockWidgetArea, buttonDockWidget);
-	
-	tabs->addTab(new ObjectPanel(),tr("Objects"));
-	tabs->addTab(new PropertyPanel(),tr("Properties"));
-	tabs->addTab(new ForcePanel(),tr("Forces"));
-	tabs->addTab(new MacroPanel(),tr("Macros"));
 	QMenu * fileMenu = this->menuBar()->addMenu(tr("File"));
 	fileMenu->addAction("New Project");
 	fileMenu->addAction("Open Project");
@@ -103,7 +120,7 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	QMenu * helpMenu = this->menuBar()->addMenu(tr("Help"));
 	helpMenu->addAction("Manual");
 	helpMenu->addAction("About");
-	this->setMinimumSize(d->availableGeometry().width()/1.25, d->availableGeometry().height()/1.25);
+	this->setMinimumSize(d->availableGeometry().width()/1.15, d->availableGeometry().height()/1.25);
 }
 
 #endif
