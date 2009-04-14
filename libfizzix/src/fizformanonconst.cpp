@@ -35,7 +35,7 @@ FizFormAnonConst::FizFormAnonConst(const fizdatum val) : value(val) {};
 
 const fizdatum FizFormAnonConst::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
 {
-	return value;
+	return value; //returns the anonymous constant (example: 2)
 }
 
 #endif

@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "../include/libfizzix/fizformnode.h"
 
+//FizFormNode is a superclass for all other types of nodes - operators, anonymous constants, variables
+
 FizFormNode::FizFormNode() {};
 void FizFormNode::setEngine(FizEngine* e)
 {

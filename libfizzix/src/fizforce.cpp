@@ -30,10 +30,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 {
-	vec3[4] result;
+	vec3[4] result; //Force on obj1, Torque on obj1, F on obj2, T on obj2
 	std::vector<triangle>& tris1 = obj1.rgetVertices();
 	std::vector<triangle>& tris2 = obj2.rgetVertices();
-	for (int i = 0; i < tris1.size(); i++)
+	for (int i = 0; i < tris1.size(); i++) //iterate through triangles
 	{
 		vec3 force;
 		fizdatum form = formula.eval(obj1, tris1[i], obj2);
@@ -46,10 +46,10 @@ vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 		}
 		else force = vec3();
 		result[0] += force;
-		result[1] += force.cross((tris1[i].vertices[0].p+tris1[i].vertices[1].p+tris1[i].vertices[2].p)/3);
+		result[1] += force.cross((tris1[i].vertices[0].p+tris1[i].vertices[1].p+tris1[i].vertices[2].p)/3); //T = F x r
 	}
-	if (symmetric) result[2] = result[0];
-	for (int i = 0; i < tris2.size(); i++)
+	if (symmetric) result[2] = result[0]; //symmetric forces have equal forces on both objects - at this time, it does not seem to be optimizing anything
+	for (int i = 0; i < tris2.size(); i++) //iterate through triangles of second object
 	{
 		vec3 force;
 		fizdatum form = formula.eval(obj2, tris2[i], obj2);

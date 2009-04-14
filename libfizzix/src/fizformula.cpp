@@ -29,7 +29,7 @@ FizFormula::FizFormula(fizstack stk) : stack(stk) {}
 
 const fizdatum FizFormula::eval(const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
 {
-	fizdatum a = stack.pop()->eval(stack,obj1,tri1,obj2);
+	fizdatum a = stack.pop()->eval(stack,obj1,tri1,obj2); //the stack represents a postfix expression, which is recursively evaluated from the back
 	stack.reset();
 	return a;
 }

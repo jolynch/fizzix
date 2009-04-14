@@ -39,19 +39,19 @@ const fizdatum FizFormVariable::eval(fizstack& stack, const FizObject& obj1, con
 		case PROPERTY1:
 			try
 			{
-				a = obj1[identifier];
+				a = obj1[identifier]; //fetches the property of object 1
 				if (eng->propdist[identifier])
-					if (a.type == SCALAR) a.scalar *= tri1.massp;
+					if (a.type == SCALAR) a.scalar *= tri1.massp; //if it is a distributed property, such as mass, multiplies the property by the correct multiplication factor for the given triangle
 			}
 			catch (out_of_range)
 			{
-				a = fizdatum();
+				a = fizdatum(); //returns a fizdatum of type NIL
 			}
 			break;
 		case PROPERTY2:
 			try
 			{
-				a = obj2[identifier];
+				a = obj2[identifier]; //properties of the second object are for the whole object, since forces are calculated iterating over the first object, to the center of mass of the second
 			}
 			catch (out_of_range)
 			{
@@ -59,13 +59,17 @@ const fizdatum FizFormVariable::eval(fizstack& stack, const FizObject& obj1, con
 			}
 			break;
 		case PROPERTYJOINT: 
-			a = eng->pcache[identifier];
+			a = eng->pcache[identifier]; //fetches value from property cache
 			break;
 		case FORCE:
-			a = eng->fcache[identifier];
+			a = eng->fcache[identifier]; //fetches value from force cache
+			if (a.type == NIL)
+			{	a = eng->forces[identifier]->eval(); //if not in cache, evaluates and stick s it in -- JOEY can you make fizengine.forces public?
+				eng->forces.insert(/*pair something something*/);
+			}
 			break;
 		case NAMEDCONST:
-			a = eng->ccache[identifier];
+			a = eng->ccache[identifier]; //fetches from constant cache
 		default: throw new logic_error("wtf"); break;
 	}
 }
