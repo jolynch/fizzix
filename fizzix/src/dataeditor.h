@@ -33,6 +33,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QPushButton>
 #include <QLineEdit>
 
+/*@class DataEditor
+ @brief Provides a panel to edit data*/
+
 class DataEditor:public QDockWidget
 {	Q_OBJECT
 	private:
@@ -45,6 +48,9 @@ class DataEditor:public QDockWidget
 	public slots:
 		void selectTab(int);
 		void newName(QString);
+		void changeDetected();
+	signals:
+		void holdSwitchForUserConfirmation();
 };
 
 #endif

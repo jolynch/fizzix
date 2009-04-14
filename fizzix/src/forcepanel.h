@@ -27,6 +27,9 @@
 #define FORCEPANEL_H
 #include <QListWidget>
 
+/*@class ForcePanel
+ @brief Provides a panel to show Forces*/
+
 class ForcePanel:public QListWidget
 {	Q_OBJECT
 	public:

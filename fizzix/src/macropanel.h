@@ -27,6 +27,9 @@
 #define MACROPANEL_H
 #include <QListWidget>
 
+/*@class MacroPanel
+ @brief Provides a panel to show Macros*/
+
 class MacroPanel:public QListWidget
 {	Q_OBJECT
 	public:

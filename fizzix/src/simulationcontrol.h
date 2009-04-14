@@ -30,6 +30,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QDockWidget>
 #include <QDesktopWidget>
 
+/*@class SimulationControl
+ @brief Provides a panel to control Simulation running*/
+
 class SimulationControl:public QDockWidget
 {	Q_OBJECT
 	private:

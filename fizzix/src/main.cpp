@@ -31,6 +31,8 @@
 #include <QIcon>
 #include "mainwindow.h"
 
+
+//Program execution begins here.
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);

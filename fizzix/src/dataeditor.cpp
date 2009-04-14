@@ -50,6 +50,8 @@ DataEditor::DataEditor(QDesktopWidget * d):QDockWidget(tr("Data editor"))
 	this->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	this->setWidget(container);
 	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
+	QObject::connect(name, SIGNAL(textEdited()), this, SLOT(changeDetected()));
+	modified=false;
 }
 
 void DataEditor::selectTab(int tab)
@@ -75,6 +77,16 @@ void DataEditor::selectTab(int tab)
 void DataEditor::newName(QString n)
 {
 	name->setText(n);
+	if(modified)
+	{
+		emit holdSwitchForUserConfirmation();
+		modified=false;
+	}
 }
 
+
+void DataEditor::changeDetected()
+{
+	modified=true;
+}
 #endif

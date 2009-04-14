@@ -27,6 +27,9 @@
 #define OBJECTPANEL_H
 #include <QListWidget>
 
+/*@class ObjectPanel
+ @brief Provides a panel to display Objects*/
+
 class ObjectPanel:public QListWidget
 {	Q_OBJECT
 public:

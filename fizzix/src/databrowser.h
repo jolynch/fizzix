@@ -29,12 +29,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QTabWidget>
 #include <QDockWidget>
 #include <QDesktopWidget>
-
-#include "buttonpanel.h"
 #include "forcepanel.h"
 #include "macropanel.h"
 #include "objectpanel.h"
 #include "propertypanel.h"
+
+/*@class DateBrowser
+ @brief Provides a panel to browse data*/
 
 class DataBrowser:public QDockWidget
 {	Q_OBJECT

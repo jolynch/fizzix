@@ -27,6 +27,9 @@
 #define PROPERTYPANEL_H
 #include <QListWidget>
 
+/*@class PropertyPanel
+ @brief Provides a panel to show Properties*/
+
 class PropertyPanel:public QListWidget
 {	Q_OBJECT
 	public:
