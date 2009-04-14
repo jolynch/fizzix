@@ -33,9 +33,9 @@ Square::Square(int numOperands)
 	token = "square";
 }
 
-const fizdatum Square::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
+const fizdatum Square::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
-	fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
+	fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 	fizdatum b;
 	b.type = SCALAR;
 	if (a.type == SCALAR) b.scalar = a.scalar*a.scalar;

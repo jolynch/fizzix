@@ -35,14 +35,14 @@ Product::Product(int numOperands)
 	description="Finds the product of scalars and at most one vector";
 }
 
-const fizdatum Product::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
+const fizdatum Product::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
-	fizdatum product=stack.pop()->eval(stack, obj1, tri1, obj2);
+	fizdatum product=stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 	fizdatum next;
 	if (product.type == NIL) return product;
 	for(int i=1;i<numOperands;i++)
 	{
-		next=stack.pop()->eval(stack, obj1, tri1, obj2);
+		next=stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 
 		if(product.type == VECTOR)
 		{

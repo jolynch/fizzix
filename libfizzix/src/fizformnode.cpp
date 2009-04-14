@@ -34,7 +34,8 @@ void FizFormNode::setEngine(FizEngine* e)
 {
 	eng = e;
 }
-const fizdatum FizFormNode::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+
+const fizdatum FizFormNode::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	return fizdatum();
 }

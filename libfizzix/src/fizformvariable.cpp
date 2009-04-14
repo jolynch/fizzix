@@ -31,7 +31,7 @@ using namespace std;
 
 FizFormVariable::FizFormVariable(Type2 varType,string id) : variableType(varType),identifier(id) {};
 
-const fizdatum FizFormVariable::eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2)
+const fizdatum FizFormVariable::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	fizdatum a;
 	switch (variableType)

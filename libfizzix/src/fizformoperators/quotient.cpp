@@ -35,13 +35,13 @@ Quotient::Quotient(int numOperands)
 	description="Finds the quotient of scalars and at most one vector (as the numerator)";
 }
 
-const fizdatum Quotient::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
+const fizdatum Quotient::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	fizdatum quotient = fizdatum(1);
 	fizdatum next;
 	for(int i = 0; i < numOperands-1; i++)
 	{
-		next = stack.pop()->eval(stack, obj1, tri1, obj2);
+		next = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 
 		if(next.type == SCALAR) quotient.scalar /= next.scalar;
 		else if (next.type == NIL) return fizdatum();
@@ -50,7 +50,7 @@ const fizdatum Quotient::eval(fizstack& stack, const FizObject& obj1, const tria
 	}
 	if (numOperands > 0)
 	{
-		next = stack.pop()->eval(stack, obj1, tri1, obj2);
+		next = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 
 		if(next.type == SCALAR) quotient.scalar *= next.scalar;
 		else if (next.type == NIL) return fizdatum();

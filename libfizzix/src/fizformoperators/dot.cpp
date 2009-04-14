@@ -33,15 +33,15 @@ Dot::Dot(int numOperands)
 	token = "dot";
 }
 
-const fizdatum Dot::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
+const fizdatum Dot::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	fizdatum c;
 	c.type = SCALAR;
 	if (numOperands == 2)
 	{
-		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2);
+		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 
-		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
+		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 
 		if (a.type == VECTOR && b.type == VECTOR) c.scalar = a.vector.dot(b.vector);
 		else if (a.type == NIL || b.type == NIL) c = fizdatum();

@@ -33,11 +33,11 @@ Vectorize::Vectorize(int numOperands)
 	description="Takes three scalars and puts them into a vector";
 }
 
-const fizdatum Vectorize::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
+const fizdatum Vectorize::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
-	fizdatum c = stack.pop()->eval(stack, obj1, tri1, obj2);
-	fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2);
-	fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
+	fizdatum c = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+	fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+	fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 	fizdatum d;
 	d.type = VECTOR;
 	if (c.type == SCALAR && b.type == SCALAR && a.type == SCALAR) d.vector = vec3(a.scalar, b.scalar, c.scalar);

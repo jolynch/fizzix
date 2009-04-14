@@ -159,6 +159,3 @@ void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
 
 #endif
 
-
-
-

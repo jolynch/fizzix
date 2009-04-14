@@ -33,13 +33,13 @@ Sine::Sine(int numOperands)
 	description="Takes the sine of a number.";
 }
 
-const fizdatum Sine::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
+const fizdatum Sine::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	fizdatum c;
 	c.type = SCALAR;
 	if (numOperands == 1)
 	{
-		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
+		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 
 		if (a.type == SCALAR) c.scalar = sin(a.scalar);
 		else if (a.type == NIL) c = fizdatum();

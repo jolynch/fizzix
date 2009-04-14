@@ -41,7 +41,7 @@ class FizFormVariable : public FizFormNode
 		std::string identifier;
 	public:
 		FizFormVariable(Type2 varType,std::string id);
-		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle tri1, const FizObject& obj2); /* Gets the value of the node */
+		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Gets the value of the node */
 };
 
 #endif

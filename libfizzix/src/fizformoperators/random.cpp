@@ -33,7 +33,7 @@ Random::Random(int numOperands)
 	description="Generates a random number.";
 }
 
-const fizdatum Random::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
+const fizdatum Random::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	for (int i = 0; i < numOperands; i++) ;
 	fizdatum a;

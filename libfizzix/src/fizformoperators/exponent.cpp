@@ -33,15 +33,15 @@ Exponent::Exponent(int numOperands)
 	description="Raises a scalar to an exponent.";
 }
 
-const fizdatum Exponent::eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
+const fizdatum Exponent::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	fizdatum c;
 	c.type = SCALAR;
 	if (numOperands == 2)
 	{
-		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2);
+		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 
-		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2);
+		fizdatum a = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 
 		if (a.type == SCALAR && b.type == SCALAR) c.scalar = pow(a.scalar,b.scalar);
 		else if (a.type == NIL || b.type == NIL) c = fizdatum();
