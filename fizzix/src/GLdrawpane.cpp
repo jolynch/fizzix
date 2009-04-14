@@ -50,11 +50,12 @@ void GLDrawPane::moveCamera()
 	double x = rot[1];
 	double y = rot[2];
 	double z = rot[3];
-	GLfloat rotMatrix[] = {1-2*y*y-2*z*z,2*x*y+2*w*z,2*x*z-2*w*y,0,\
-						 2*x*y-2*w*z,1-2*x*x-2*z*z,2*y*z+2*w*x,0,\
-						 2*x*z+2*y*w,2*y*z+2*w*x,1-2*x*x-2*y*y,0,\
-						 0,0,0,1};
-	glMultMatrixf(rotMatrix);
+	Quaternion posq = rot * Quaternion(0,0,0,1) * (rot.conjugate());
+	vec3 pos(posq[1],posq[2],posq[3]);
+	pos *= zoom;
+	Quaternion upq = rot * Quaternion(0,0,1,0) * (rot.conjugate());
+	vec3 up(upq[1],upq[2],upq[3]);
+	gluLookAt(pos.x,pos.y,pos.z,0,0,0,up.x,up.y,up.z);
 }
 
 static int GLDrawPane::boxFrontFaces(double r, double x, double y, double z)
