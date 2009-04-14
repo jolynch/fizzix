@@ -14,7 +14,7 @@ class GLDrawPane: public QGLWidget
 		//  @param left:  How much to rotate following the left vector.  Negative for right.
 		void rotate(double upAmt, double leftAmt);
 		//Zoom in by amount (out if amount is negative) scaled by zoomSpeed.
-		void zoom(double amount);
+		void changeZoom(double amount);
 		//Move and rotate the camera corresponding to the current quaternion.  Requires a current gl context.
 		void moveCamera();
 		//Draw any object composed of a triangle mesh.  The triangles must store unit normals.
@@ -27,7 +27,7 @@ class GLDrawPane: public QGLWidget
 		//    y = -r
 		//    z = +r
 		//    z = -r
-		int boxFrontFaces(double r, double x, double y, double z) const;
+		static int boxFrontFaces(double r, double x, double y, double z);
 		
 		//How fast to rotate
 		const double rotSpeed;
@@ -58,6 +58,6 @@ class GLDrawPane: public QGLWidget
 
 		//Return the requested size of this widget.
 		QSize sizeHint() const;
-}
+};
 
 #endif
