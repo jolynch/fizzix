@@ -2,6 +2,8 @@
 #define GLDRAWPANE_H
 
 #include <vector>
+#include "objectpanel.h"
+#include "drawableobject.h"
 #include <QGLWidget>
 #include <libfizzix/gen_structs.h>
 #include <libfizzix/quaternion.h>
@@ -16,9 +18,13 @@ class GLDrawPane: public QGLWidget
 		//Zoom in by amount (out if amount is negative) scaled by zoomSpeed.
 		void changeZoom(double amount);
 		//Move and rotate the camera corresponding to the current quaternion.  Requires a current gl context.
-		void moveCamera();
+		//  @return:  the current camera position
+		vec3 moveCamera();
 		//Draw any object composed of a triangle mesh.  The triangles must store unit normals.
-		void drawObject(const std::vector<Triangle> & mesh);
+		//  @argument properties:  An integer with bits representing properties of the object:
+		//    Bit 0: hidden
+		//    Bit 1: smooth
+		void drawObject(const DrawableObject & obj);
 		//Given a box with faces (x,y,z) = (+r,-r) which contains objects, return which faces are behind any drawn objects, and which are in front of them as bits in an integer.
 		//  @return:  A 6 bit integer with bits (from least to most significant):
 		//    x = +r
@@ -28,7 +34,10 @@ class GLDrawPane: public QGLWidget
 		//    z = +r
 		//    z = -r
 		static int boxFrontFaces(double r, double x, double y, double z);
-		
+		//Draw the box with faces on as specified by boxFrontFaces()
+		void drawBox(int faces,double alpha);
+		//The Object panel to get the list of objects from
+	   	ObjectPanel * panel;
 		//How fast to rotate
 		const double rotSpeed;
 		//Current orientation
@@ -38,7 +47,8 @@ class GLDrawPane: public QGLWidget
 		const double zoomSpeed;
 		//Current zoom
 		double zoom;
-
+		//Maximum zoom, and the size of the box
+		const double maxZoom;
 		//Information about the window
 		double height;
 		double width;
@@ -50,7 +60,7 @@ class GLDrawPane: public QGLWidget
 		//Render the scene.  Rotate the camera, draw the transparent box, and draw each object
 		void paintGL();
 		//Reset the width and height for projection purposes
-		void resizeGL(int width, int height);
+		void resizeGL(int _width, int _height);
 
 	public:
 		//Create the GL panel
