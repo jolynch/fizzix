@@ -86,11 +86,11 @@ class FizObject
 	protected:
 		/** Initialize the Object by calling init_object, compute and adjustMasses
 		 */
-		void init(std::string name, vec3 color, bool smooth, std::vector<triangle> init);
+		void init(std::string name, vec3 color, std::vector<triangle> init);
 		
 		/** Initialize the object
 		 */
-		virtual void init_object(std::string name, vec3 color, bool smooth, std::vector<triangle> init);
+		virtual void init_object(std::string name, vec3 color, std::vector<triangle> init);
 		
 		/** Calculate COM, Inertia Tensor, and relative masses of triangles
 		 *  @note This will redefine the pos, inertiaTensor, and the triangles
@@ -113,11 +113,11 @@ class FizObject
 		
 		/** Constructor that inits the name, color and possibly the smoothity
 		 */
-		FizObject(std::string newname, vec3 color, bool smooth = true);
+		FizObject(std::string newname, vec3 color);
 
 		/** Constructor that inits the name and vertices and possibly the smoothity
 		 */	
-		FizObject(std::string newname, std::vector<triangle> init, bool smooth = true);
+		FizObject(std::string newname, std::vector<triangle> init);
 
 		/** Constructor that inits the vertices, color, and smoothity
 		 */

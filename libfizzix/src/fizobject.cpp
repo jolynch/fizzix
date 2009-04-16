@@ -39,44 +39,43 @@ FizObject::FizObject()
 FizObject::FizObject(std::string newname) 
 {
 	vec3 color(64.0,64.0,64.0);
-	this->init(newname, color, true, std::vector<triangle>());
+	this->init(newname, color, std::vector<triangle>());
 }
 
 //Constructor that inits the name, color and possibly the smoothity
-FizObject::FizObject(std::string newname, vec3 color, bool smooth)
+FizObject::FizObject(std::string newname, vec3 color)
 {
-	this->init(newname,color,smooth, std::vector<triangle>());
+	this->init(newname,color,std::vector<triangle>());
 }
 
 // Constructor that inits the name and vertices and possibly the smoothity
-FizObject::FizObject(std::string newname, std::vector<triangle> init, bool smooth) 
+FizObject::FizObject(std::string newname, std::vector<triangle> init,) 
 {
 	vec3 color(64.0, 64.0, 64.0);
-	this->init(newname,color,smooth,init);
+	this->init(newname,color,init);
 }
 
 // Constructor that inits the vertices, color, and smoothity
-FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle> init, bool smooth)
+FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle> init)
 {
-	this->init(newname, color, smooth, init);
+	this->init(newname, color, init);
 }
 
 // Init the object
-void FizObject::init(std::string name, vec3 color, bool smooth, std::vector<triangle> tinit)
+void FizObject::init(std::string name, vec3 color, std::vector<triangle> tinit)
 {
-	this->init_object(name,color,smooth, tinit);
+	this->init_object(name,color,tinit);
 	this->compute();
 	this->adjustMasses(1.0);
 }
 
 /** Initialized the structure, used by constructors
  */
-void FizObject::init_object(std::string name, vec3 color, bool smooth, std::vector<triangle> tinit) 
+void FizObject::init_object(std::string name, vec3 color, std::vector<triangle> tinit) 
 {
 	this->name = name;
 	vertices = tinit;
 	props["color"] = fizdatum(0.0, color, VECTOR);
-	props["smooth"] = fizdatum((double)smooth, vec3(), SCALAR);
 }
 
 /** Next two methods complements to Game Physics, 2nd Edition, by David H Elberly,
