@@ -60,7 +60,7 @@ void FizEngine::evalForces()
 		}
 
 		//DO NOT CHANGE BELOW THIS POINT
-		outer_iter++
+		outer_iter++;
 		fcache.clear();
 		pcache.clear();
 		//DONE
@@ -153,8 +153,12 @@ void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
 		}
 	}
 	
+	// Get from cache or evaluate:	
+	fizdatum getForceVal(const std::string& force)
+	{
 
-		
+	}
+
 }
 
 #endif

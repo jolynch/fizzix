@@ -97,7 +97,12 @@ class FizEngine
 		
 		//Constant cache	
 		std::map<std::string, fizdatum> ccache;
-		std::map<std::string, bool> propdist;	
+		std::map<std::string, bool> propdist; // Whether or not it is distributed
+
+		// These either retreive from cache or eval
+		fizdatum getForceVal(const std::string& force);
+		fizdatum getPropVal(const std::string& prop);
+		fizdatum getConstVal(const std::string& prop);
 };
 
 #endif
