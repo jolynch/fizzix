@@ -42,7 +42,7 @@ void GLDrawPane::rotate(double upAmt, double leftAmt)
 	rot *= toRot;
 }
 
-void GLDrawPane::zoom(double amount)
+void GLDrawPane::changeZoom(double amount)
 {
 	zoom += amount * zoomSpeed;
 }
@@ -67,11 +67,15 @@ void drawObject(const DrawableObject & obj)
 	int properties = obj.getProperties();
 	if (!(properties & 1))
 	{
+		int mode;
+		glGetIntegerv(GL_MATRIX_MODE,&mode);
+		glEnable(GL_CULL_FACE);
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
 		const vector<triangle> & mesh = obj.getVertices();
-		const vec3 & colors = obj.getColor();
+		const vec3 & colors = obj["color"];
 		const vec3 & pos = obj.getPos();
+		const Quaternion & q = obj.getQuaternion();
 		glColor4d(colors[0],colors[1],colors[2],1.0);
 		glTranslated(pos[0],pos[1],pos[2]);
 		if (properties & 2)
@@ -113,18 +117,90 @@ void drawObject(const DrawableObject & obj)
 			glEnd();
 		}
 		glPopMatrix();
+		glDisable(GL_CULL_FACE);
+		glMatrixMode(mode);
 	}
 }
 
 static int GLDrawPane::boxFrontFaces(double r, double x, double y, double z)
 {
-	int tot = (x > r);
+	int tot = ((x > r) << 0);
 	tot += ((x < -r) << 1);
 	tot += ((y > r) << 2);
 	tot += ((y < -r) << 3);
 	tot += ((z > r) << 4);
 	tot += ((z < -r) << 5);
 	return tot; 
+}
+
+void GLDrawPane::drawBox(int faces, double alpha,bool front)
+{
+	if (faces & (1<<0))
+	{
+		glColor4d(1.0,0.0,0.0,alpha);
+		glBegin(GL_TRIANGLE_STRIP);
+		glNormal3d(2*front-1,0,0);
+		glVertex3d(maxZoom,maxZoom,-maxZoom);
+		glVertex3d(maxZoom,maxZoom,maxZoom);
+		glVertex3d(maxZoom,-maxZoom,-maxZoom);
+		glVertex3d(maxZoom,-maxZoom,maxZoom);
+		glEnd();
+	}
+	if (faces & (1<<1))
+	{
+		glColor4d(1.0,0.0,0.0,alpha);
+		glBegin(GL_TRIANGLE_STRIP);
+		glNormal3d(1-2*front,0,0);
+		glVertex3d(-maxZoom,-maxZoom,-maxZoom);
+		glVertex3d(-maxZoom,-maxZoom,maxZoom);
+		glVertex3d(-maxZoom,maxZoom,-maxZoom);
+		glVertex3d(-maxZoom,maxZoom,maxZoom);
+		glEnd();
+	}
+	if (faces & (1<<2))
+	{
+		glColor4d(0.0,1.0,0.0,alpha);
+		glBegin(GL_TRIANGLE_STRIP);
+		glNormal3d(0,2*front-1,0);
+		glVertex3d(-maxZoom,maxZoom,maxZoom);
+		glVertex3d(maxZoom,maxZoom,maxZoom);
+		glVertex3d(-maxZoom,maxZoom,-maxZoom);
+		glVertex3d(maxZoom,maxZoom,-maxZoom);
+		glEnd();
+	}
+	if (faces & (1<<3))
+	{
+		glColor4d(0.0,1.0,0.0,alpha);
+		glBegin(GL_TRIANGLE_STRIP);
+		glNormal3d(0,1-2*front,0);
+		glVertex3d(-maxZoom,-maxZoom,-maxZoom);
+		glVertex3d(maxZoom,-maxZoom,-maxZoom);
+		glVertex3d(-maxZoom,-maxZoom,maxZoom);
+		glVertex3d(maxZoom,-maxZoom,maxZoom);
+		glEnd();
+	}
+	if (faces & (1<<4))
+	{
+		glColor4d(0.0,0.0,1.0,alpha);
+		glBegin(GL_TRIANGLE_STRIP);
+		glNormal3d(0,0,2*front-1);
+		glVertex3d(maxZoom,-maxZoom,maxZoom);
+		glVertex3d(maxZoom,maxZoom,maxZoom);
+		glVertex3d(-maxZoom,-maxZoom,maxZoom);
+		glVertex3d(-maxZoom,maxZoom,maxZoom);
+		glEnd();
+	}
+	if (faces & (1<<5))
+	{
+		glColor4d(0.0,0.0,1.0,alpha);
+		glBegin(GL_TRIANGLE_STRIP);
+		glNormal3d(0,0,1-2*front);
+		glVertex3d(-maxZoom,-maxZoom,-maxZoom);
+		glVertex3d(-maxZoom,maxZoom,-maxZoom);
+		glVertex3d(maxZoom,-maxZoom,-maxZoom);
+		glVertex3d(maxZoom,maxZoom,-maxZoom);
+		glEnd();
+	}
 }
 
 void GLDrawPane::initializeGL()
@@ -145,14 +221,14 @@ void GLDrawPane::paintGL()
 	glLoadIdentity();
 	vec3 pos = moveCamera();
 	glEnable(GL_BLEND);
-	drawBox((~(GLDrawPanel.boxFrontFaces(maxZoom,pos[0],pos[1],pos[2])))&63,.25);
+	drawBox(GLDrawPane.boxFrontFaces(maxZoom,pos[0],pos[1],pos[2],.25,false);
 	glDisable(GL_BLEND);
 	const vector<DrawableObject> & objs = panel->getObjs();
 	for (int i = 0;i < objs.size();i++) {
-		drawObject(obs[i]);
+		drawObject(objs[i]);
 	}
 	glEnable(GL_BLEND);
-	drawBox(GLDrawPanel.boxFrontFaces(maxZoom,pos[0],pos[1],pos[2]),.25);
+	drawBox(GLDrawPane.boxFrontFaces(maxZoom,pos[0],pos[1],pos[2]),.25,true);
 	glDisable(GL_BLEND);
 }
 

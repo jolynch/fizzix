@@ -35,7 +35,7 @@ class GLDrawPane: public QGLWidget
 		//    z = -r
 		static int boxFrontFaces(double r, double x, double y, double z);
 		//Draw the box with faces on as specified by boxFrontFaces()
-		void drawBox(int faces,double alpha);
+		void drawBox(int faces,double alpha,bool front);
 		//The Object panel to get the list of objects from
 	   	ObjectPanel * panel;
 		//How fast to rotate
