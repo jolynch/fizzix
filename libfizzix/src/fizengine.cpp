@@ -154,9 +154,41 @@ void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
 	}
 	
 	// Get from cache or evaluate:	
-	fizdatum getForceVal(const std::string& force)
-	{
+	fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
+	{	
+		if(isCached(fcache,force))
+		{		
+			fizdatum& cachedVal=fcache[force];
+			if(cachedVal.type==INPROGRESS)
+			{
+				throw logic_error("No circular references, please");
+			}
+			return cachedVal;
+		}
+		fizdatum& cachedVal=fcache[force];
+		cachedVal.type=INPROGRESS;
+		return cachedVal=forces[force]->getForce(obj1, tri1, obj2, tri2);
+	}
+	
+	fizdatum FizEngine::getPropVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
+	{	
+		if(isCached(pcache,prop))
+		{		
+			fizdatum& cachedVal=pcache[prop];
+			if(cachedVal.type==INPROGRESS)
+			{
+				throw logic_error("No circular references, please");
+			}
+			return cachedVal;
+		}
+		fizdatum& cachedVal=pcache[prop];
+		cachedVal.type=INPROGRESS;
+		return cachedVal=props[prop]->eval(obj1, tri1, obj2, tri2);
+	}
 
+	bool FizEngine::isCached(const std::map<std::string, fizdatum>& cache, const std::string& key);
+	{
+		return cache.count(key) != 0; 
 	}
 
 }

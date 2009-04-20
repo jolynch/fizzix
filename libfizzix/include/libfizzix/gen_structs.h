@@ -40,7 +40,7 @@ class FizFormNode;
 /* Some enums, typedefs and global constant like things
  */
 
-enum Type {SCALAR, VECTOR, NIL};
+enum Type {NIL, SCALAR, VECTOR, INPROGRESS};
 enum Type2 {PROPERTY1, PROPERTY2, PROPERTYJOINT, FORCE, NAMEDCONST};
 
 typedef FizStack<FizFormNode*> fizstack;

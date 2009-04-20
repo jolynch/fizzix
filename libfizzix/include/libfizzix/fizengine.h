@@ -103,6 +103,12 @@ class FizEngine
 		fizdatum getForceVal(const std::string& force);
 		fizdatum getPropVal(const std::string& prop);
 		fizdatum getConstVal(const std::string& prop);
+
+		// True = Thing is cached, false = Thing is not cached
+		bool isCached(const std::map<std::string, fizdatum> cache, const std::string& key);
+
+		void clearDistributedProperties(); // Clears distributed properties from cache
+		// Figure that out next time
 };
 
 #endif

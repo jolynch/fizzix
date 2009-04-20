@@ -46,7 +46,7 @@ class FizForce
 		~FizForce();
 		//applies and evaluates force and torque between two different objects
 		vec3[] eval(FizObject& obj1, FizObject& obj2); //first is F about COM on the first, second is T, F2, T2
-		vec3 getForce(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2); //multiplies by rhat if the formula returns a scalar
+		fizdatum getForce(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2); //Always returns a vector: multiplies by rhat if scalar. Is not a vec3 because could be "in progress."
 };
 
 #endif
