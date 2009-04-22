@@ -93,6 +93,7 @@ vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 			if (symmetric) result[2] -= force; //opposite direction
 			else
 			{
+				eng->clearNonsymmetricCaches();
 				force = getForce(obj2, obj2.comtriangle, obj1, obj1.comtriangle);
 				result[2] += force;
 			}
@@ -102,14 +103,14 @@ vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 		{
 			for (int j = 0; j < tris2.size(); j++)
 			{
-				eng->clearDistributedProperties();
+				eng->clearDistributedCaches();
 				force = getForce(obj1, obj1.comtriangle, obj2, tris2[j]);
 				result[0] += force;
 				//no torque for obj1
 				if (symmetric) result[2] -= force;
 				else
 				{
-					eng->clearDistributedProperties();
+					eng->clearNonsymmetricCaches();
 					force = getForce(obj2, tris2[j], obj1, obj1.comtriangle);
 					result[2] += force;
 				}
@@ -132,7 +133,7 @@ vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 				if (symmetric) result[2] -= force;
 				else
 				{
-					eng->clearNonsymmetricProperties();
+					eng->clearNonsymmetricCaches();
 					force = getForce(obj2, obj2.comtriangle, obj1, tris1[i]);
 					result[2] += force;
 				}
@@ -150,7 +151,7 @@ vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 					if (symmetric) result[2] -= force;
 					else
 					{
-						eng->clearNonsymmetricProperties();
+						eng->clearNonsymmetricCaches();
 						force = getForce(obj2, tris2[j], obj1, tris1[i]);
 						result[2] += force;
 					}

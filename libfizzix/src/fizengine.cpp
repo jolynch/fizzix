@@ -194,11 +194,11 @@ bool FizEngine::isCached(const std::map<std::string, fizdatum>& cache, const std
 
 void FizEngine::clearDistributedCaches()
 {
-	for(set<std::string>::const_iterator it = propdist.begin(); it != propdist.end(); ++it)
+	for(std::set<std::string>::const_iterator it = propdist.begin(); it != propdist.end(); ++it)
 	{
 		pcache.remove(it->first);
 	}
-	for(set<std::string>::const_iterator it = forcedist.begin(); it != forcedist.end(); ++it)
+	for(std::set<std::string>::const_iterator it = forcedist.begin(); it != forcedist.end(); ++it)
 	{
 		fcache.remove(it->first);
 	}
@@ -206,9 +206,14 @@ void FizEngine::clearDistributedCaches()
 
 void FizEngine::clearNonsymmetricProperties()
 {
-	for(set<std::string>::cons_iterator it = propsymmetric.begin(); it != propdist.end(); ++it)
+	for(std::set<std::string>::cons_iterator it = propsymmetric.begin(); it != propsymmetric.end(); ++it)
 	{
 		pcache.remove(it->first);
+	}
+
+	for(std::set<std::string>::cons_iterator it = forcesymmetric.begin(); it != forcesymmetric.end(); ++it)
+	{
+		fcache.remove(it->first);
 	}
 }
 #endif
