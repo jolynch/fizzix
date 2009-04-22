@@ -40,6 +40,7 @@ class FizFormula
 	protected:
 		//std::vector<FizFormNode> stack; /* This is not a stack because a stack would be destroyed upon evaluation */
 		fizstack stack; //various operators pop different number of operands off the stack, and you can't just do current++
+		bool symmetric;
 	public:
 		/* Constructs a new FizFormula with the given node stack */
 		//FizFormula(std::vector<FizFormNode> stack);

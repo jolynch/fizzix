@@ -203,5 +203,13 @@ void FizEngine::clearDistributedCaches()
 		fcache.remove(it->first);
 	}
 }
+
+void FizEngine::clearNonsymmetricProperties()
+{
+	for(set<std::string>::cons_iterator it = propsymmetric.begin(); it != propdist.end(); ++it)
+	{
+		pcache.remove(it->first);
+	}
+}
 #endif
 

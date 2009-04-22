@@ -99,6 +99,7 @@ class FizEngine
 		std::map<std::string, fizdatum> ccache;
 		std::set<std::string> propdist; // All distributed props
 		std::set<std::string> forcedist;
+		std::set<std::string> propsymmetric;
 
 		// These either retreive from cache or eval
 		fizdatum getForceVal(const std::string& force);
@@ -108,7 +109,8 @@ class FizEngine
 		// True = Thing is cached, false = Thing is not cached
 		bool isCached(const std::map<std::string, fizdatum> cache, const std::string& key);
 
-		void clearDistributedProperties(); // Clears distributed properties from cache
+		void clearDistributedCaches(); // Clears distributed properties from cache
+		void clearNonsymmetricProperties();
 };
 
 #endif
