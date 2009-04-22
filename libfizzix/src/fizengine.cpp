@@ -50,7 +50,9 @@ void FizEngine::evalForces()
 	std::vector<FizObject*>::iterator inner_iter;
 	while(outer_iter != thisStep->end())
 	{
-		inner_iter = thisStep->begin();
+		//inner_iter = thisStep->begin();
+		inner_iter = outer_iter;
+		inner_iter++;
 		while(inner_iter != thisStep->end())
 		{
 			if(inner_iter == outer_iter) continue;
@@ -67,7 +69,7 @@ void FizEngine::evalForces()
 				FizForce* force = i->second;
 				std::string forcename = i->first;
 				
-				if(forceEvaled[forcename])
+				if(!forceEvaled[forcename])
 				{	
 					//need a COM triangle in each object
 					if (obj1.comApprox()) //if object 1 can be approximated as at its COM
