@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class FizForce
 {
 	private:
+		bool distributed; //if any of the properties the force uses are distributed
 		bool symmetric;
 		FizFormula formula;
 	public:

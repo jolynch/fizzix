@@ -98,6 +98,7 @@ class FizEngine
 		//Constant cache	
 		std::map<std::string, fizdatum> ccache;
 		std::map<std::string, bool> propdist; // Whether or not it is distributed
+		std::map<std::string, bool> forcedist;
 
 		// These either retreive from cache or eval
 		fizdatum getForceVal(const std::string& force);
