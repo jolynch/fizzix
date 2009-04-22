@@ -68,6 +68,7 @@ class FizObject
 		 */
 		std::vector<triangle> vertices;
 		double maxrad; //radius of the bounding sphere - if two objects' spheres overlap, check for collision
+		triangle comtriangle; //center of mass triangle - at the COM, with massp of 1;
 		
 		/** Rotation specific members
 		 */
@@ -83,6 +84,7 @@ class FizObject
 		 */
 		double mass;
 		std::string name;
+		bool comapprox; //whether the object can be approximated as it's center of mass
 
 	protected:
 		/** Initialize the Object by calling init_object, compute and adjustMasses
@@ -160,6 +162,10 @@ class FizObject
 		std::vector<triangle>& rgetVertices(); 	
 		void setVertices(std::vector<triangle> newvertices);
 		
+		const triangle getCOMTriangle();
+		triangle& rgetCOMTriangle();
+		void setCOMTriangle(triangle tri);
+		
 		/** Rotation specific members
 		 */
 
@@ -188,6 +194,8 @@ class FizObject
 		 */
 		fizdatum getProperty(std::string key);
 		void setProperty(std::string key, fizdatum);
+		
+		bool comApprox();
 
 };
 

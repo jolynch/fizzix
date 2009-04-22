@@ -30,9 +30,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <map>
 #include <stdexcept>
 #include <algorithm>
+#include <set>
 
-//#include "fizforce.h"
-class FizForce;
+#include "fizforce.h"
+//class FizForce;
 class FizFormula;
 //#include "fizformula.h"
 #include "fizobject.h"
@@ -55,9 +56,15 @@ class FizEngine
 		//Vector to store new object information in
 		std::vector<FizObject*> * nextStep;
 		
+		//Map of object pointers to their forces and torques
+		std::map<FizObject*, vec3[]> * evaluatedForces;
+		
 		//Map of forces to be applied to the objects
-		std::map<std::string, FizForce *> * forces;	
-
+		std::map<std::string, FizForce *> * forces;
+		
+		//Whether a force has already been applied by another force or by the engine
+		std::map<std::string, bool> * forceEvaled;
+		
 		//Map of properties
 		std::map<std::string, FizFormula *> * props;
 
@@ -91,6 +98,9 @@ class FizEngine
 		 */
 		FizEngine();
 
+		//List of current sums of forces and torques
+		std::map<std::string, vec3[]> forcesums;
+
 		//Cache of Forces and Properties
 		std::map<std::string, fizdatum> fcache;
 		std::map<std::string, fizdatum> pcache;
@@ -103,9 +113,9 @@ class FizEngine
 		std::set<std::string> forcesymmetric;
 
 		// These either retreive from cache or eval
-		fizdatum getForceVal(const std::string& force);
-		fizdatum getPropVal(const std::string& prop);
-		fizdatum getConstVal(const std::string& prop);
+		fizdatum getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
+		fizdatum getPropVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+		fizdatum getConstVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 
 		// True = Thing is cached, false = Thing is not cached
 		bool isCached(const std::map<std::string, fizdatum> cache, const std::string& key);

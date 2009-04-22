@@ -29,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <vector>
 #include "fizformula.h"
 #include "gen_structs.h"
-#include "fizengine.h"
 
 class FizForce
 {
@@ -37,7 +36,6 @@ class FizForce
 		bool distributed; //if any of the properties the force uses are distributed
 		bool symmetric;
 		FizFormula formula;
-		FizEngine* eng;
 	public:
 		//default constructor - F = 0
 		FizForce();
@@ -50,7 +48,7 @@ class FizForce
 		//applies and evaluates force and torque between two different objects
 		vec3[] eval(FizObject& obj1, FizObject& obj2); //first is F about COM on the first, second is T, F2, T2
 		fizdatum getForce(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2); //Always returns a vector: multiplies by rhat if scalar. Is not a vec3 because could be "in progress."
-		void setEngine(FizEngine* e);
+		bool isSymmetric();
 };
 
 #endif

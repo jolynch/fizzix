@@ -43,46 +43,18 @@ vec3 FizForce::getForce(FizObject& obj1, triangle& tri1, FizObject& obj2, triang
 	return force;
 }
 
-vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
+bool FizForce::isSymmetric()
+{
+	return symmetric;
+}
+
+/*vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 {
 	vec3[4] result; //Force on obj1, Torque on obj1, F on obj2, T on obj2
 	std::vector<triangle>& tris1 = obj1.rgetVertices();
 	std::vector<triangle>& tris2 = obj2.rgetVertices();
 	vec3 force;
-	/*
-	for (int i = 0; i < tris1.size(); i++) //iterate through triangles
-	{
-		vec3 force;
-		fizdatum form = formula.eval(obj1, tris1[i], obj2);
-		if (form.type == VECTOR) force = form.vector;
-		else if (form.type == SCALAR)
-		{
-			force = obj2.getPos()-obj1.getPos();
-			force /= force.mag(); //rhat
-			force *= form.scalar;
-		}
-		else force = vec3();
-		result[0] += force;
-		result[1] += force.cross((tris1[i].vertices[0].p+tris1[i].vertices[1].p+tris1[i].vertices[2].p)/3); //T = F x r
-	}
-	if (symmetric) result[2] = result[0]; //symmetric forces have equal forces on both objects - at this time, it does not seem to be optimizing anything
-	for (int i = 0; i < tris2.size(); i++) //iterate through triangles of second object
-	{
-		vec3 force;
-		fizdatum form = formula.eval(obj2, tris2[i], obj2);
-		if (form.type == VECTOR) force = form.vector;
-		else if (form.type == SCALAR)
-		{
-			force = obj1.getPos()-obj2.getPos();
-			force /= force.mag(); //rhat
-			force *= form.scalar;
-		}
-		else force = vec3();
-		if (!symmetric) result[2] += force; //this doesn't actually help with our current implementation...
-		result[3] += force.cross((tris2[i].vertices[0].p+tris2[i].vertices[1].p+tris2[i].vertices[2].p)/3);
-	}
-	*/
-
+	
 	//need a COM triangle in each object
 	if (obj1.comapprox) //if object 1 can be approximated as at its COM
 	{
@@ -134,7 +106,11 @@ vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 				else
 				{
 					eng->clearNonsymmetricCaches();
-					force = getForce(obj2, obj2.comtriangle, obj1, tris1[i]);
+				
+void FizForce::setEngine(FizEngine* e)
+{
+	eng = e;
+}	force = getForce(obj2, obj2.comtriangle, obj1, tris1[i]);
 					result[2] += force;
 				}
 				//no torque for obj2
@@ -164,11 +140,6 @@ vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 	
 
 	return result;
-}
-
-void FizForce::setEngine(FizEngine* e)
-{
-	eng = e;
-}
+}*/
 
 #endif

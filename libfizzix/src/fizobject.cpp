@@ -244,6 +244,12 @@ void FizObject::setProperty(std::string key, fizdatum value)
 	props[key] = value;
 }
 
+const FizObject::triangle getCOMTriangle()		{ return comtriangle; }
+triangle& FizObject::rgetCOMTriangle();			{ return comtriangle; }
+void FizObject::setCOMTriangle(triangle tri);		{ comtriange = tri; }
+
+bool FizObject::comApprox()	{ return comapprox; }
+
 #endif
 
 

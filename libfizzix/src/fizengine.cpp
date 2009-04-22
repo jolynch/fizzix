@@ -46,26 +46,143 @@ void FizEngine::evalForces()
 	if(thisStep == NULL) 
 		throw std::logic_error("Nothing to work on??");
 	
-	std::vector<FizObject*>::iterator outer_iter = thisStep.begin();
+	std::vector<FizObject*>::iterator outer_iter = thisStep->begin();
 	std::vector<FizObject*>::iterator inner_iter;
-	while(outer_iter != thisStep.end())
+	while(outer_iter != thisStep->end())
 	{
-		inner_iter = thisStep.begin();
-		while(inner_iter != thisStep.end())
+		inner_iter = thisStep->begin();
+		while(inner_iter != thisStep->end())
 		{
 			if(inner_iter == outer_iter) continue;
-			for(int i=0; i<forces.size(); i++)
-				evalForce(forces[i], *iouter_iter, *inner_iter);
+			FizObject obj1 = *outer_iter;
+			FizObject obj2 = *inner_iter;
+			std::vector<triangle>& tris1 = obj1.rgetVertices();
+			std::vector<triangle>& tris2 = obj2.rgetVertices();
+			vec3 dforce;
+			
+			//for(int i=0; i<forces.size(); i++)
+			for (std::vector<FizForce*>::iterator i = forces.begin(); i != forces.end(); i++)
+			{
+				//evalForce(forces[i], *outer_iter, *inner_iter);
+				FizForce* force = i->second;
+				std::string forcename = i->first;
+				
+				if(forceEvaled[forcename])
+				{	
+					//need a COM triangle in each object
+					if (obj1.comApprox()) //if object 1 can be approximated as at its COM
+					{
+						if (obj2.comApprox())
+						{
+							for (std::vector<FizForce*>::iterator i = forces.begin(); i != forces.end(); i++)
+							{
+								FizForce* force = i->second;
+								std::string forcename = i->first;
+								
+								dforce = force->getForce(obj1, obj1.rgetCOMTriangle(), obj2, obj2.rgetCOMTriangle());
+								evaluatedForces[&obj1][0] += dforce;
+								if (force->isSymmetric()) evaluatedForces[&obj2][0] -= dforce; //opposite direction
+								else
+								{
+									clearNonsymmetricCaches();
+									dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, obj1.rgetCOMTriangle());
+									evaluatedForces[&obj2][0] += dforce;
+								}
+								//no torque for obj1 nor obj2
+							}
+						}
+						else
+						{
+							for (int j = 0; j < tris2.size(); j++)
+							{
+								for (std::vector<FizForce*>::iterator i = forces.begin(); i != forces.end(); i++)
+								{
+									FizForce* force = i->second;
+									std::string forcename = i->first;
+								
+									if (!force->distributed) clearDistributedCaches();
+									dforce = force->getForce(obj1, obj1.rgetCOMTriangle(), obj2, tris2[j]);
+									evaluatedForces[&obj1][0] += dforce;
+									//no torque for obj1
+									if (force->isSymmetric()) evaluatedForces[&obj2][0] -= dforce;
+									else
+									{
+										clearNonsymmetricCaches();
+										dforce = force->getForce(obj2, tris2[j], obj1, obj1.rgetCOMTriangle());
+										evaluatedForces[&obj2][0] += dforce;
+									}
+									vec3 radius = (tris2[j].vertices[0].p + tris2[j].vertices[1].p + tris2[j].vertices[2].p)/3; //vector from center of object to center of triangle
+									evaluatedForces[&obj2][1] += dforce.cross(radius); //T = F x r
+								}
+							}
+						}
+					}
+					else
+					{
+						for (int i = 0; i < tris1.size(); i++)
+						{
+							if (obj2.comApprox())
+							{
+								for (std::vector<FizForce*>::iterator i = forces.begin(); i != forces.end(); i++)
+								{
+									FizForce* force = i->second;
+									std::string forcename = i->first;
+									if (!force->distributed) clearDistributedCaches();
+									dforce = force->getForce(obj1, tris1[i], obj2, obj2.rgetCOMTriangle());
+									evaluatedForces[&obj1][0] += dforce;
+									vec3 radius = (tris1[i].vertices[0].p + tris1[i].vertices[1].p + tris1[i].vertices[2].p)/3;
+									evaluatedForces[&obj1][1] += dforce.cross(radius);
+									if (force->isSymmetric()) evaluatedForces[&obj2][0] -= dforce;
+									else
+									{
+										clearNonsymmetricCaches();
+										dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, tris1[i]);
+										evaluatedForces[&obj2][0] += dforce;
+									}
+									//no torque for obj2
+								}
+							}
+							else
+							{
+								for (int j = 0; j < tris2.size(); j++)
+								{
+									for (std::vector<FizForce*>::iterator i = forces.begin(); i != forces.end(); i++)
+									{
+										FizForce* force = i->second;
+										std::string forcename = i->first;
+										if (!force->distributed) clearDistributedCaches();
+										dforce = force->getForce(obj1, tris1[i], obj2, tris2[j]);
+										evaluatedForces[&obj1][0] += dforce;
+										vec3 radius = (tris1[i].vertices[0].p + tris1[i].vertices[1].p + tris1[i].vertices[2].p)/3;
+										evaluatedForces[&obj1][1] += dforce.cross(radius);
+										if (force->isSymmetric()) evaluatedForces[&obj2][0] -= force;
+										else
+										{
+											clearNonsymmetricCaches();
+											dforce = force->getForce(obj2, tris2[j], obj1, tris1[i]);
+											evaluatedForces[&obj2][0] += dforce;
+										}
+										radius = (tris2[j].vertices[0].p + tris2[j].vertices[1].p + tris2[j].vertices[2].p)/3;
+										evaluatedForces[&obj2][1] += dforce.cross(radius);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
 			inner_iter++;
+			fcache.clear();
+			pcache.clear();
 		}
 
 		//DO NOT CHANGE BELOW THIS POINT
 		outer_iter++;
-		fcache.clear();
-		pcache.clear();
 		//DONE
 	}
 }
+
 
 /* Eval a single Runge Kutta step
  *
@@ -103,6 +220,7 @@ void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
 	FizObject *ro[2] = {o1, o2};
 	//result[0] = Force, result[1] = Torque
 	vec3 result[4] = force->eval(*(ro[0]),*(ro[1]));
+	//TODO: result(4) = evaluatedForces[o1](2), evaluatedForces[o2](2)
 	
 	/* Runga Kutta == MAGIC
 	 * t = time
@@ -168,12 +286,13 @@ fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1,
 	}
 	fizdatum& cachedVal=fcache[force];
 	cachedVal.type=INPROGRESS;
+	forceEvaled[force] = true;
 	return cachedVal=forces[force]->getForce(obj1, tri1, obj2, tri2);
 }
 
 fizdatum FizEngine::getPropVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
 {	
-	if(isCached(pcache,prop))
+	if(isCached(pcache.prop))
 	{		
 		fizdatum& cachedVal=pcache[prop];
 		if(cachedVal.type==INPROGRESS)
