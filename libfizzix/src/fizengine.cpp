@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef FIZENGINE_CPP
 #define FIZENGINE_CPP
 
-#include "fizengine.h"
+#include "../include/libfizzix/fizengine.h"
 
 /* Constructor for FizEngine
  */
@@ -48,7 +48,7 @@ void FizEngine::evalForces()
 	
 	std::vector<FizObject*>::iterator outer_iter = thisStep.begin();
 	std::vector<FizObject*>::iterator inner_iter;
-	while(outer_iter != thisStep.end();)
+	while(outer_iter != thisStep.end())
 	{
 		inner_iter = thisStep.begin();
 		while(inner_iter != thisStep.end())
@@ -152,46 +152,56 @@ void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
 			tdf[j][1] = tdi[j][1] + ((k1[1] + k2[1] * 2 + k3[1] * 2 + k4[1]) / 6);
 		}
 	}
-	
-	// Get from cache or evaluate:	
-	fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
-	{	
-		if(isCached(fcache,force))
-		{		
-			fizdatum& cachedVal=fcache[force];
-			if(cachedVal.type==INPROGRESS)
-			{
-				throw logic_error("No circular references, please");
-			}
-			return cachedVal;
-		}
-		fizdatum& cachedVal=fcache[force];
-		cachedVal.type=INPROGRESS;
-		return cachedVal=forces[force]->getForce(obj1, tri1, obj2, tri2);
-	}
-	
-	fizdatum FizEngine::getPropVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
-	{	
-		if(isCached(pcache,prop))
-		{		
-			fizdatum& cachedVal=pcache[prop];
-			if(cachedVal.type==INPROGRESS)
-			{
-				throw logic_error("No circular references, please");
-			}
-			return cachedVal;
-		}
-		fizdatum& cachedVal=pcache[prop];
-		cachedVal.type=INPROGRESS;
-		return cachedVal=props[prop]->eval(obj1, tri1, obj2, tri2);
-	}
-
-	bool FizEngine::isCached(const std::map<std::string, fizdatum>& cache, const std::string& key);
-	{
-		return cache.count(key) != 0; 
-	}
-
 }
 
+// Get from cache or evaluate:	
+fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
+{	
+	if(isCached(fcache,force))
+	{		
+		fizdatum& cachedVal=fcache[force];
+		if(cachedVal.type==INPROGRESS)
+		{
+			throw logic_error("No circular references, please");
+		}
+		return cachedVal;
+	}
+	fizdatum& cachedVal=fcache[force];
+	cachedVal.type=INPROGRESS;
+	return cachedVal=forces[force]->getForce(obj1, tri1, obj2, tri2);
+}
+
+fizdatum FizEngine::getPropVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
+{	
+	if(isCached(pcache,prop))
+	{		
+		fizdatum& cachedVal=pcache[prop];
+		if(cachedVal.type==INPROGRESS)
+		{
+			throw logic_error("No circular references, please");
+		}
+		return cachedVal;
+	}
+	fizdatum& cachedVal=pcache[prop];
+	cachedVal.type=INPROGRESS;
+	return cachedVal=props[prop]->eval(obj1, tri1, obj2, tri2);
+}
+
+bool FizEngine::isCached(const std::map<std::string, fizdatum>& cache, const std::string& key);
+{
+	return cache.count(key) != 0; 
+}
+
+void FizEngine::clearDistributedCaches()
+{
+	for(set<std::string>::const_iterator it = propdist.begin(); it != propdist.end(); ++it)
+	{
+		pcache.remove(it->first);
+	}
+	for(set<std::string>::const_iterator it = forcedist.begin(); it != forcedist.end(); ++it)
+	{
+		fcache.remove(it->first);
+	}
+}
 #endif
 
