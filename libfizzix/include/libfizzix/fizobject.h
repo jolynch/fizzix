@@ -67,7 +67,8 @@ class FizObject
 		/** List of the bounding triangles
 		 */
 		std::vector<triangle> vertices;
-
+		double maxrad; //radius of the bounding sphere - if two objects' spheres overlap, check for collision
+		
 		/** Rotation specific members
 		 */
 

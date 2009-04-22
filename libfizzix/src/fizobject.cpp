@@ -67,6 +67,7 @@ void FizObject::init(std::string name, vec3 color, std::vector<triangle> tinit)
 	this->init_object(name,color,tinit);
 	this->compute();
 	this->adjustMasses(1.0);
+	this->computeBounds();
 }
 
 /** Initialized the structure, used by constructors
@@ -142,6 +143,18 @@ void FizObject::compute()
 
 	setMass(integral[0]);
 	setPos(vec3(integral[1]/mass, integral[2]/mass, integral[3]/mass));
+}
+
+void FizObject::computeBounds()
+{
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			double r = sqrt(vertices[i][j][0]^2 + vertices[i][j][1]^2 + verticecs[i][j][2]^2);
+			if (r > maxrad) maxrad = r;
+		}
+	}
 }
 
 const fizdatum FizObject::operator[](const std::string& key) 
