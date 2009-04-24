@@ -81,7 +81,8 @@ void FizObject::init_object(std::string name, vec3 color, std::vector<triangle> 
 
 /** Next two methods complements to Game Physics, 2nd Edition, by David H Elberly,
  *  Chapter 2.5, Momenta
- *
+ *:q
+
  *  These formulas found on pg 75 - 79
  */
 
@@ -143,6 +144,41 @@ void FizObject::compute()
 
 	setMass(integral[0]);
 	setPos(vec3(integral[1]/mass, integral[2]/mass, integral[3]/mass));
+	
+	//xx,yy,zz,xy,yz,xz
+	double * tempI = new double[6];
+	double * tempIi = new double[6];
+	double detI;
+
+	//Relative to world coords
+	tempI[0] = integral[5] + integral[6];
+	tempI[1] = integral[4] + integral[6];
+	tempI[2] = integral[4] + integral[5];
+	tempI[3] = -1 * integral[7];
+	tempI[4] = -1 * integral[8];
+	tempI[5] = -1 * integral[9];
+
+
+	tempI[0] -= mass * (pos[1] * pos[1] + pos[2] * pos[2]);
+	tempI[1] -= mass * (pos[2] * pos[2] + pos[0] * pos[0]);
+	tempI[2] -= mass * (pos[0] * pos[0] + pos[1] * pos[1]);
+	tempI[3] += mass * pos[0] * pos[1];
+	tempI[4] += mass * pos[1] * pos[2];
+	tempI[5] += mass * pos[2] * pos[0];
+
+	detI = 	tempI[0] * (tempI[1]*tempI[2] - tempI[4]*tempI[4]) +
+	      	tempI[3] * (tempI[5]*tempI[4] - tempI[3]*tempI[2]) +
+		tempI[5] * (tempI[3]*tempI[4] - tempI[5]*tempI[1]);
+	
+	tempIi[0] = (tempI[1]*tempI[2] - tempI[4]*tempI[4]) / detI;
+	tempIi[1] = (tempI[0]*tempI[2] - tempI[5]*tempI[5]) / detI;
+	tempIi[2] = (tempI[0]*tempI[1] - tempI[3]*tempI[3]) / detI;
+	tempIi[3] = (tempI[5]*tempI[4] - tempI[3]*tempI[2]) / detI;
+	tempIi[4] = (tempI[3]*tempI[5] - tempI[0]*tempI[4]) / detI;
+	tempIi[5] = (tempI[3]*tempI[4] - tempI[5]*tempI[1]) / detI;
+	
+	setInertiaTensor(tempI);
+	setInertiaTensorInv(tempI);
 }
 
 void FizObject::computeBounds()
@@ -207,14 +243,31 @@ const Quaternion FizObject::getQuaternion() 		{ return quaternion; }
 Quaternion& FizObject::rgetQuaternion()			{ return quaternion; }
 void FizObject::setQuaternion(Quaternion newquat)	{ quaternion = newquat;	}
 		
-const vec3 FizObject::getInertiaTensor()		{ return inertiaTensor; }
-vec3& FizObject::rgetInertiaTensor()			{ return inertiaTensor; }
-void FizObject::setInertiaTensor(vec3 newtensor)	{ inertiaTensor = newtensor; }
+const double[] FizObject::getInertiaTensor()		{ return inertiaTensor; }
+double[] FizObject::rgetInertiaTensor()			{ return inertiaTensor; }
+void FizObject::setInertiaTensor(double[] newtensor)	{
+       							 if(sizeof(newtensor) / sizeof(double) == 6)	
+							 {
+								delete[] inertiaTensor; 
+								inertiaTensor = newtensor;
+							 }
+							 else
+								throw std::invalid_argument("Tensor array must be of length 6");
+							
+							}
                 
-const vec3 FizObject::getInertiaTensorInv()    	       	{ return inertiaTensor; }
-vec3& FizObject::rgetInertiatensor()                	{ return inertiaTensorInv; }
-void FizObject::setInertiaTensorInv(vec3 newtensor)  	{ inertiaTensorInv = newtensor;}
-
+const double[] FizObject::getInertiaTensorInv()    	       	{ return inertiaTensor; }
+double[] FizObject::rgetInertiatensor()                		{ return inertiaTensorInv; }
+void FizObject::setInertiaTensorInv(double[] newtensor)  	{
+       								 if(sizeof(newtensor) / sizeof(double) == 6)	
+								 {
+									delete[] inertiaTensorInv;
+									inertiaTensorInv = newtensor;
+								 }
+								 else
+									 throw std::invalid_argument("Tensor array must be of length 6");
+							
+								}
 		
 double FizObject::getMass()				{ return mass; }
 double& FizObject::rgetMass()				{ return mass; }

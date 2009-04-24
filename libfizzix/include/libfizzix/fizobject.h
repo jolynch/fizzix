@@ -74,8 +74,10 @@ class FizObject
 		 */
 
 		Quaternion quaternion;
-		vec3 inertiaTensor;
-		vec3 inertiaTensorInv;
+		//xx,yy,zz,xy,yz,xz
+		double[6] inertiaTensor = {0.0,0.0,0.0,0.0,0.0,0.0};
+		//xx,yy,zz,xy,yz
+		double[6] inertiaTensorInv = {0.0,0.0,0.0,0.0,0.0,0.0};
 		
 		//Unless we need it
 		//Matrix rotation
@@ -97,8 +99,9 @@ class FizObject
 		
 		/** Calculate COM, Inertia Tensor, and relative masses of triangles
 		 *  @note This will redefine the pos, inertiaTensor, and the triangles
+		 *  @
 		 */
-		virtual void compute();
+		virtual double compute();
 
 		/** Knowing the mass and the volume, now calculate the correct masses of triangles 
 		 */
@@ -173,13 +176,13 @@ class FizObject
 		Quaternion& rgetQuaternion();
 		void setQuaternion(Quaternion newquat);
 
-		const vec3 getInertiaTensor();
-		vec3& rgetInertiaTensor();
-		void setInertiaTensor(vec3 newtensor);
+		const double[] getInertiaTensor();
+		double[] rgetInertiaTensor();
+		void setInertiaTensor(double[] newtensor);
                 
-		const vec3 getInertiaTensorInv();
-		vec3& rgetInertiatensor();
-		void setInertiaTensorInv(vec3 newtensor);
+		const double[] getInertiaTensorInv();
+		double[] rgetInertiatensor();
+		void setInertiaTensorInv(double[] newtensor);
 		
 		/** Other properties
 		 */

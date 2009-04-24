@@ -114,15 +114,15 @@ struct vertex
 
 struct triangle 
 {
-	vertex vertices[3];
+	vertex * vertices[3];
 	vec3 normal;
 	vec3 unit_normal;
 	double massp;
 
 	const vertex operator[](int index) const;
-	vertex& operator[](int index);
+	vertex * operator[](int index);
 	
-	triangle(vertex v1, vertex v2, vertex v3);
+	triangle(vertex * v1, vertex * v2, vertex * v3);
 };
 
 struct fizdatum
