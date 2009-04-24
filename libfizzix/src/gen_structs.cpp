@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <stdexcept>
 
 /******************** VEC3 ********************/
-vec3::vec3(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
+vec3::vec3(double _x, double _y, double _z) : x(_x), y(_y), z(_z) {}
 
 vec3::vec3() : x(0.0), y(0.0), z(0.0) {}
 const double vec3::operator[](int index) const
@@ -80,8 +80,8 @@ vec3 vec3::operator*=(vec3 other)
 {
 	x *= other[0];
 	y *= other[1];
-	z *= other[2]);
-	return this;
+	z *= other[2];
+	return *this;
 }
 
 vec3 vec3::operator*=(double other)
@@ -89,7 +89,7 @@ vec3 vec3::operator*=(double other)
 	x *= other;
 	y *= other;
 	z *= other;
-	return this;
+	return *this;
 }
 
 vec3 vec3::operator/=(vec3 other)
@@ -97,7 +97,7 @@ vec3 vec3::operator/=(vec3 other)
 	x /= other[0];
 	y /= other[1];
 	z /= other[2];
-	return this;
+	return *this;
 }
 
 vec3 vec3::operator/=(double other)
@@ -105,7 +105,7 @@ vec3 vec3::operator/=(double other)
 	x /= other;
 	y /= other;
 	z /= other;
-	return this;
+	return *this;
 }
 
 vec3 vec3::operator+=(vec3 other)
@@ -113,7 +113,7 @@ vec3 vec3::operator+=(vec3 other)
 	x += other[0];
 	y += other[1];
 	z += other[2];
-	return this;
+	return *this;
 }
 
 vec3 vec3::operator-=(vec3 other)
@@ -121,7 +121,7 @@ vec3 vec3::operator-=(vec3 other)
 	x -= other[0];
 	y -= other[1];
 	z -= other[2];
-	return this;
+	return *this;
 }
 
 double vec3::dot(const vec3& other) 
@@ -144,7 +144,7 @@ double vec3::mag()
 /******************** VEC3 ********************/
 
 /******************** VEC4 ********************/ 
-vec4::vec4(int _x, int _y, int _z, int _w) : x(_x), y(_y), z(_z), w(_w) {}
+vec4::vec4(double _x, double _y, double _z, double _w) : x(_x), y(_y), z(_z), w(_w) {}
 vec4::vec4() : x(0.0), y(0.0), z(0.0), w(0.0) {}
 
 const double vec4::operator[](int index) const
@@ -185,7 +185,7 @@ double vec4::mag()
 /******************** VEC4 ********************/
 
 /******************* VERTEX *******************/
-vertex::vertex(int _x, int _y, int _z) : p(vec3(_x, _y, _z)) {};
+vertex::vertex(double _x, double _y, double _z) : p(vec3(_x, _y, _z)) {};
 
 vertex::vertex() : p(vec3()) {}
 
@@ -199,11 +199,11 @@ double& vertex::operator[](int index)
 	return p[index];
 }
 
-const triangle * vertex::operator()(int index) const
+const triangle vertex::operator()(int index) const
 {
 	if (triangles.size() > index)
 	{
-		return triangles[index];
+		return *triangles[index];
 	}
 	else
 	{
@@ -211,11 +211,11 @@ const triangle * vertex::operator()(int index) const
 	}
 }
 
-triangle * vertex::operator()(int index)
+triangle& vertex::operator()(int index)
 {
 	if (triangles.size() > index)
 	{
-		return triangles[index];
+		return *triangles[index];
 	}
 	else
 	{
@@ -230,26 +230,26 @@ void vertex::add_triangle(triangle * t)
 /******************* VERTEX *******************/
 
 /****************** TRIANGLE ******************/
-triangle::triangle(vertex v1, vertex v2, vertex v3)
+triangle::triangle(vertex* v1, vertex* v2, vertex* v3)
 {
 	vertices[0] = v1; vertices[1] =  v2; vertices[2] = v3;
 	massp = 0.0;
-	vec3 e1 = vec3(v1[0]-v2[0],v1[1]-v2[1],v1[2]-v2[2]);
+	vec3 e1 = vec3((double)(v1[0])-v2[0],v1[1]-v2[1],v1[2]-v2[2]);
 	vec3 e2 = vec3(v1[0]-v3[0],v1[1]-v3[1],v1[2]-v3[2]);
 	normal = e1.cross(e2);
 	unit_normal = vec3(normal[0]/normal.mag(), 
 			   normal[1]/normal.mag(), 
 			   normal[2]/normal.mag());
-	v1.add_triangle(this);
-	v2.add_triangle(this);
-	v3.add_triangle(this);
+	v1->add_triangle(this);
+	v2->add_triangle(this);
+	v3->add_triangle(this);
 }
 
 const vertex triangle::operator[](int index) const
 {
 	if (index < 3)
 	{
-		return vertices[index];
+		return *vertices[index];
 	}
 	else
 	{
@@ -261,7 +261,7 @@ vertex& triangle::operator[](int index)
 {
 	if (index < 3)
 	{
-		return vertices[index];
+		return *vertices[index];
 	}
 	else
 	{

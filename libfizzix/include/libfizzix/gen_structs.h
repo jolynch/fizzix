@@ -71,7 +71,7 @@ struct vec3
 	vec3 operator+=(vec3 other);
 	vec3 operator-=(vec3 other);
 
-	vec3(int _x, int _y, int _z);
+	vec3(double _x, double _y, double _z);
 	vec3();
 
 	double dot(const vec3& other);
@@ -89,7 +89,7 @@ struct vec4
 	const double operator[](int index) const;
 	double& operator[](int index);
 	
-	vec4(int _x, int _y, int _z, int _w);
+	vec4(double _x, double _y, double _z, double _w);
 	vec4();
 
 	vec4 dot(const vec4& other);
@@ -104,11 +104,11 @@ struct vertex
 
 	const double operator[](int index) const;
 	double& operator[](int index);
-	const triangle * operator()(int index) const;
-	triangle * operator()(int index); 
+	const triangle operator()(int index) const;
+	triangle& operator()(int index); 
 	
 	void add_triangle(triangle* t);
-	vertex(int _x, int _y, int _z);
+	vertex(double _x, double _y, double _z);
 	vertex();
 };
 
@@ -120,7 +120,7 @@ struct triangle
 	double massp;
 
 	const vertex operator[](int index) const;
-	vertex * operator[](int index);
+	vertex& operator[](int index);
 	
 	triangle(vertex * v1, vertex * v2, vertex * v3);
 };
