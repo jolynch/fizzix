@@ -34,7 +34,7 @@ vec3 FizForce::getForce(FizObject& obj1, triangle& tri1, FizObject& obj2, triang
 	fizdatum form = formula.eval(obj1, tri1, obj2, tri2);
 	if (form.type == SCALAR)
 	{
-		force = obj2.getPos() - obj1.getPos(); //F on obj 1
+		force = obj2.rgetPos() - obj1.rgetPos(); //F on obj 1
 		force /= force.mag(); //force = rhat
 		force *= form.scalar;
 	}
