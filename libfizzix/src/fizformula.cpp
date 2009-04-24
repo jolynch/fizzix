@@ -27,9 +27,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 FizFormula::FizFormula(fizstack stk) : stack(stk) {}
 
-const fizdatum FizFormula::eval(const FizObject& obj1, const triangle& tri1, const FizObject& obj2)
+const fizdatum FizFormula::eval(const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
 {
-	fizdatum a = stack.pop()->eval(stack,obj1,tri1,obj2); //the stack represents a postfix expression, which is recursively evaluated from the back
+	fizdatum a = stack.pop()->eval(stack,obj1,tri1,obj2,tri2); //the stack represents a postfix expression, which is recursively evaluated from the back
 	stack.reset();
 	return a;
 }
