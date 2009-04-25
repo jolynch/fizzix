@@ -3,9 +3,9 @@ exec_prefix=@prefix@
 libdir=@exec_prefix@/lib
 includedir=@prefix@/include
 
-Name: @PACKAGE@
-Description: Library of optionally retarded physics
-Version: @VERSION@
+Name: libfizzix
+Description: Library of optionally retarded physics.
+Version: 0.01 pre-alpha
 Requires: 
 Conflicts: 
 Libs: -L${libdir} -lfizzix
