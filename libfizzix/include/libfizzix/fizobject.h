@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //LibFizzix includes
 #include "quaternion.h"
 #include "gen_structs.h"
-#include "matrix.h"
+#include "quaternion.h"
 
 /* TODO
  * - default property - color (texture?), possibly a struct

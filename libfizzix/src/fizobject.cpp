@@ -62,7 +62,7 @@ FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle> init
 }
 
 // Init the object
-void FizObject::init(std::string name, vec3 color, std::vector<triangle> tinit)
+void FizObject::init(std::string name, vec3 color, const std::vector<triangle>& tinit)
 {
 	this->init_object(name,color,tinit);
 	this->compute();
@@ -72,7 +72,7 @@ void FizObject::init(std::string name, vec3 color, std::vector<triangle> tinit)
 
 /** Initialized the structure, used by constructors
  */
-void FizObject::init_object(std::string name, vec3 color, std::vector<triangle> tinit) 
+void FizObject::init_object(std::string name, vec3 color, const std::vector<triangle>& tinit) 
 {
 	this->name = name;
 	vertices = tinit;
@@ -178,7 +178,7 @@ void FizObject::compute()
 	tempIi[5] = (tempI[3]*tempI[4] - tempI[5]*tempI[1]) / detI;
 	
 	setInertiaTensor(tempI);
-	setInertiaTensorInv(tempI);
+	setInertiaTensorInv(tempIi);
 }
 
 void FizObject::computeBounds()

@@ -274,6 +274,41 @@ void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
 	}
 }
 
+/** Applys the force and torque on ob1 using a Runge-Kutta foruth order solver
+ * 
+ *  Some math notes:
+ *  accel = Force / mass
+ *  alpha = I_inverse * Torque (where Torque is a 3x1 representation of a vector)
+ *  I_inverse is a 3x3 sym matrix stored as a double[6] of the form:
+ *  [0 3 5]
+ *  [3 1 4] where the number indicates the array index
+ *  [5 4 2]
+ *  
+ *
+ *  @param force The force to apply
+ *  @param torque The torque to apply
+ *  @param ob1 The object to modify
+ *  @param dt The time period over which this force/torque is applied
+ */
+void applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt)
+{
+	vec3 new_pos, new_vel, new_w;
+	quaternion new_quat;
+	vec3 dvdt = force / ob1->getMass();
+	//Inertia tensor invese in the order xx,yy,zz,xy,yz,xz (symmetric)
+	double[] i = ob1->getInertiaTensorInv();
+	vec3& t = torque; // for the next step
+	vec3 dwdt = vec3(i[0] * t[0] + i[3] * t[1] + i[5] * t[2],
+		       	 i[3] * t[0] + i[1] * t[1] + i[4] * t[2], 
+			 i[5] * t[0] + i[4] + t[1] + i[2] + t[2]);
+	//Step 1
+	vector dxdt1 = ob1->getVel();
+	quaternion dxdt1 = 
+		
+	
+}	
+
+
 // Get from cache or evaluate:	
 fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
 {	
