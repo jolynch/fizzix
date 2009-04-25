@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <cmath>
 #include <cstdlib>
 
-#include "fizformoperator.h"
+#include "../fizformoperator.h"
 
 namespace FizOper
 {

@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef FIZFORMVARIABLE_CPP
 #define FIZFORMVARIABLE_CPP
 
-#include "../include/libfizzix/fizformvariable.h"
+#include "fizformvariable.h"
 
 using namespace std;
 

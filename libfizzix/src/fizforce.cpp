@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef FIZFORCE_CPP
 #define FIZFORCE_CPP
 
-#include "../include/libfizzix/fizforce.h"
+#include "fizforce.h"
 
 vec3 FizForce::getForce(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2)
 {

@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef FIZFORMNODE_CPP
 #define FIZFORMNODE_CPP
 
-#include "../include/libfizzix/fizformnode.h"
+#include "fizformnode.h"
 
 //FizFormNode is a superclass for all other types of nodes - operators, anonymous constants, variables
 
