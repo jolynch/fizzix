@@ -31,8 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <string>
 
 #include "fizformnode.h"
-#include "gen_structs.h"
-#include "fizobject.h"
 
 class FizFormVariable : public FizFormNode
 {

@@ -34,7 +34,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizforce.h"
 //class FizForce;
-class FizFormula;
 //#include "fizformula.h"
 #include "fizobject.h"
 #include "gen_structs.h"

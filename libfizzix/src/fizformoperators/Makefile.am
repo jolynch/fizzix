@@ -15,7 +15,6 @@ magnitude.cpp \
 product.cpp \
 sine.cpp  \
 sum.cpp   \
-template.cpp \
 arcsin.cpp \
 cosine.cpp \
 dot.cpp   \

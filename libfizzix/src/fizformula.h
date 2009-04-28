@@ -29,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <vector>
 #include <stack>
 
-#include "gen_structs.h"
 #include "fizformnode.h"
 #include "fizformoperator.h"
 #include "fizformanonconst.h"
