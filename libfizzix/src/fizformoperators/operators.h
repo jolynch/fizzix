@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef OPERATORS_H
+#define OPERATORS_H
 
 #include <vector>
 #include <stack>
@@ -129,4 +131,44 @@ namespace FizOper
 	{	public: Logarithm(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 	};
+
+	class If: public FizFormOperator
+	{	public: If(int numOperands);
+		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+	};
+	
+	class And: public FizFormOperator
+	{	public: And(int numOperands);
+		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+	};
+	class Or: public FizFormOperator
+	{	public: Or(int numOperands);
+		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+	};
+	class Equal: public FizFormOperator
+	{	public: Equal(int numOperands);
+		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+	};
+	class Notequal: public FizFormOperator
+	{	public: Notequal(int numOperands);
+		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+	};
+	class Greater: public FizFormOperator
+	{	public: Greater(int numOperands);
+		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+	};
+	class Greatereq: public FizFormOperator
+	{	public: Greatereq(int numOperands);
+		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+	};
+	class Less: public FizFormOperator
+	{	public: Less(int numOperands);
+		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+	};
+	class Lesseq: public FizFormOperator
+	{	public: Lesseq(int numOperands);
+		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+	};
 }
+
+#endif

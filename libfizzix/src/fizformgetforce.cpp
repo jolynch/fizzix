@@ -31,7 +31,7 @@ using namespace std;
 
 FizFormGetForce::FizFormGetForce(string id) : identifier(id) {};
 
-const fizdatum FizFormVariable::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+const fizdatum FizFormGetForce::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	return eng->getForceVal(identifier, obj1, tri1, obj2, tri2); // gets force value from engine
 }

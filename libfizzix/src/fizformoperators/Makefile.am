@@ -7,6 +7,14 @@ operators.h
 
 #Everything that gets compiled.
 libfizformoperators_la_SOURCES = \
+and.cpp \
+or.cpp \
+equal.cpp \
+notequal.cpp \
+greater.cpp \
+greatereq.cpp \
+less.cpp \
+lesseq.cpp\
 arccos.cpp \
 cosh.cpp  \
 difference.cpp \

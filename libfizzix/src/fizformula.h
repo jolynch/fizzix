@@ -32,7 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "fizformnode.h"
 #include "fizformoperator.h"
 #include "fizformanonconst.h"
-#include "fizformvariable.h"
+#include "fizformget.h"
+//#include "fizformvariable.h"
 
 class FizFormula
 {

@@ -1,4 +1,4 @@
-/************************************************************************************************
+/***********************************************************************************************
 This file is a part of libfizzix backend to the Fizzix project.
 The website for this project is http://code.google.com/p/fizzix .
 Copyright (C) 2009
@@ -22,20 +22,29 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
+#ifndef GETTERS_H
+#define GETTERS_H
 
-#include "fizformanonconst.h"
+#include <vector>
+#include <stack>
+#include <string>
+#include <stdexcept>
+#include <cmath>
+#include <cstdlib>
 
-using namespace std;
+#include "fizformget.h"
 
-FizFormAnonConst::FizFormAnonConst() {value = fizdatum(0);}
-
-FizFormAnonConst::FizFormAnonConst(const fizdatum val) : value(val) {};
-
-const fizdatum FizFormAnonConst::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
-{
-	return value; //returns the anonymous constant (example: 2)
+class FizFormGetMacro : public FizFormGet
+{	public: FizFormGetMacro(std::string id);
+	const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
+}
+class FizFormGetForce : public FizFormGet
+{	public: FizFormGetForce(std::string id);
+	const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
+}
+class FizFormGetConst : public FizFormGet
+{	public: FizFormGetConst(std::string id);
+	const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 }
 
 #endif

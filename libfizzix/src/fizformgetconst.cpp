@@ -22,16 +22,16 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMGETFORCE_CPP
-#define FIZFORMGETFORCE_CPP
+#ifndef FIZFORMGETCONST_CPP
+#define FIZFORMGETCONST_CPP
 
-#include "fizformgetforce.h"
+#include "fizformgetconst.h"
 
 using namespace std;
 
-FizFormGetForce::FizFormGetForce(string id) : identifier(id) {};
+FizFormGetConst::FizFormGetConst(string id) : identifier(id) {};
 
-const fizdatum FizFormVariable::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+const fizdatum FizFormConst::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	return eng->getForceVal(identifier, obj1, tri1, obj2, tri2); // gets force value from engine
 }

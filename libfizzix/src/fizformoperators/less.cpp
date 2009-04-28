@@ -22,20 +22,31 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
 
-#include "fizformanonconst.h"
+#include "operators.h"
+using namespace FizOper;
 
 using namespace std;
 
-FizFormAnonConst::FizFormAnonConst() {value = fizdatum(0);}
-
-FizFormAnonConst::FizFormAnonConst(const fizdatum val) : value(val) {};
-
-const fizdatum FizFormAnonConst::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+Less::Less(int numOperands)
 {
-	return value; //returns the anonymous constant (example: 2)
+	Less::numOperands=numOperands;
+	token="less";
+	description="Returns true if first argument is less than the second";
 }
 
-#endif
+const fizdatum Less::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+{
+	fizdatum a;
+	a.type = SCALAR;
+	if (numOperands == 2)
+	{
+		fizdatum c = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+		if (b.type == SCALAR && c.type == SCALAR) a.scalar = (b.scalar < c.scalar)?1:0;
+		else a = fizdatum();
+	}
+	else throw std::logic_error("Greater than is a binary operator");
+	return a;
+}
+

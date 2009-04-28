@@ -23,22 +23,32 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
-#ifndef FIZFORMGETFORCE_H
-#define FIZFORMGETFORCE_H
+#include "operators.h"
+using namespace FizOper;
 
-#include <vector>
-#include <stack>
-#include <string>
+using namespace std;
 
-#include "fizformnode.h"
-
-class FizFormGetForce : public FizFormNode
+Notequal::Notequal(int numOperands)
 {
-	private:
-		std::string identifier;
-	public:
-		FizFormGetForce(std::string id);
-		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Gets the value of the node */
-};
+	Notequal::numOperands=numOperands;
+	token="notequals";
+	description="Returns true if not all arguments are equal";
+}
 
-#endif
+const fizdatum Notequal::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+{
+	fizdatum a;
+	a.type = SCALAR;
+	if (numOperands == 2)
+	{
+		fizdatum c = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+		if (b.type == NIL || c.type == NIL) return fizdatum();
+		else if (b.type != c.type) a.scalar = 1;
+		else if (b.type == SCALAR) a.scalar = (b.scalar == c.scalar)?0:1;
+		else a.scalar = (b.vector[0]!=c.vector[0] || b.vector[1]!=c.vector[1] || b.vector[2]!=c.vector[2])?1:0;
+	}
+	else throw std::logic_error("Not equals is a binary operator");
+	return a;
+}
+

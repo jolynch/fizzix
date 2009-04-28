@@ -23,22 +23,30 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
-#ifndef FIZFORMGETFORCE_H
-#define FIZFORMGETFORCE_H
+#include "operators.h"
+using namespace FizOper;
 
-#include <vector>
-#include <stack>
-#include <string>
+using namespace std;
 
-#include "fizformnode.h"
-
-class FizFormGetForce : public FizFormNode
+Greater::Greater(int numOperands)
 {
-	private:
-		std::string identifier;
-	public:
-		FizFormGetForce(std::string id);
-		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Gets the value of the node */
-};
+	Greater::numOperands=numOperands;
+	token="greater";
+	description="Returns true if first argument is greater than the second";
+}
 
-#endif
+const fizdatum Greater::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+{
+	fizdatum a;
+	a.type = SCALAR;
+	if (numOperands == 2)
+	{
+		fizdatum c = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+		if (b.type == SCALAR && c.type == SCALAR) a.scalar = (b.scalar > c.scalar)?1:0;
+		else a = fizdatum();
+	}
+	else throw std::logic_error("Greater than is a binary operator");
+	return a;
+}
+

@@ -22,20 +22,39 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
 
-#include "fizformanonconst.h"
+#include "operators.h"
+using namespace FizOper;
 
 using namespace std;
 
-FizFormAnonConst::FizFormAnonConst() {value = fizdatum(0);}
-
-FizFormAnonConst::FizFormAnonConst(const fizdatum val) : value(val) {};
-
-const fizdatum FizFormAnonConst::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+If::If(int numOperands)
 {
-	return value; //returns the anonymous constant (example: 2)
+	If::numOperands=numOperands;
+	token="if";
+	description="Returns the first value if the condition is true, and the second if the condition is false, and nil if the second term is not supplied";
 }
 
-#endif
+const fizdatum If::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+{
+	fizdatum a;
+	fizdatum d;
+	if (numOperands == 3) d = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+	else d = fizdatum();
+	if (numOperands == 2 || numOperands == 3)
+	{
+		fizdatum c = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+		if (b.type == SCALAR)
+		{
+			if (b.scalar == 0) a = c;
+			else a = d;
+
+		}
+		else if (b.type == NIL) a = fizdatum();
+		else throw logic_error("A boolean condition can only be a double");
+	}
+	else throw std::logic_error("If statements only take a condition, a true value, and optionally a false value.");
+	return a;
+}
+

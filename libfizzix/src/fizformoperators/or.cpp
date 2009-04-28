@@ -22,20 +22,31 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
-#ifndef FIZFORMANONCONST_CPP
-#define FIZFORMANONCONST_CPP
 
-#include "fizformanonconst.h"
+#include "operators.h"
+using namespace FizOper;
 
 using namespace std;
 
-FizFormAnonConst::FizFormAnonConst() {value = fizdatum(0);}
-
-FizFormAnonConst::FizFormAnonConst(const fizdatum val) : value(val) {};
-
-const fizdatum FizFormAnonConst::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+Or::Or(int numOperands)
 {
-	return value; //returns the anonymous constant (example: 2)
+	Or::numOperands=numOperands;
+	token="or";
+	description="Returns false if supplied\"booleans\" are all false";
 }
 
-#endif
+const fizdatum Or::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+{
+	fizdatum a = fizdatum(0);
+	for (int i = 0; i < numOperands; i++)
+	{
+		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
+		if (b.type == SCALAR && a.scalar == 0)
+		{
+			a.scalar = b.scalar;
+		}
+		else if (b.type == VECTOR) throw std::logic_error("Cannot && non-booleans"); //true OR NIL = true
+	}
+	return a;
+}
+

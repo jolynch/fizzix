@@ -10,21 +10,21 @@ fizformoperator.h \
 fizstack.h \
 fizengine.h  \
 fizformanonconst.h  \
-fizformvariable.h  \
 matrix.h \
 gen_structs.h \
 fizforce.h  \
 fizformnode.h   \
 fizformula.h   \
 fizobject.h  \
-quaternion.h
+quaternion.h \
+fizformget.h \
+getters.h
 
 #This is everything that's getting compiled.
 libfizzix_la_SOURCES = \
 fizengine.cpp \
 fizformanonconst.cpp \
 fizformoperator.h \
-fizformvariable.cpp \
 fizstack.h   \
 fizengine.h  \
 fizformanonconst.h \
@@ -41,4 +41,8 @@ fizforce.h  \
 fizformnode.h  \
 fizformula.h \
 fizobject.h \
-quaternion.h
+quaternion.h \
+fizformgetconst.cpp \
+fizformgetfoce.cpp \
+fizformgetmacro.cpp \
+fizformget.h

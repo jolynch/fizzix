@@ -23,8 +23,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 
-#ifndef FIZFORMGETMACRO_H
-#define FIZFORMGETMACRO_H
+#ifndef FIZFORMGET_H
+#define FIZFORMGET_H
 
 #include <vector>
 #include <stack>
@@ -32,13 +32,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizformnode.h"
 
-class FizFormGetForce : public FizFormNode
+class FizFormGet : public FizFormNode
 {
-	private:
+	protected:
 		std::string identifier;
 	public:
-		FizFormGetMacro(std::string id);
-		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Gets the value of the node */
+		FizFormGet(std::string id);
+		virtual const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Gets the value of the node */
 };
 
 #endif
