@@ -32,13 +32,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizformnode.h"
 
-class FizFormVariable : public FizFormNode
+class FizFormGetForce : public FizFormNode
 {
 	private:
-		Type2 variableType;
 		std::string identifier;
 	public:
-		FizFormVariable(Type2 varType,std::string id);
+		FizFormGetForce(std::string id);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Gets the value of the node */
 };
 
