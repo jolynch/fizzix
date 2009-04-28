@@ -41,7 +41,7 @@ class FizFormNode;
  */
 
 enum Type {NIL, SCALAR, VECTOR, INPROGRESS};
-enum Type2 {PROPERTY1, PROPERTY2, PROPERTYJOINT, FORCE, NAMEDCONST};
+//enum Type2 {PROPERTY1, PROPERTY2, PROPERTYJOINT, FORCE, NAMEDCONST};
 
 typedef FizStack<FizFormNode*> fizstack;
 typedef vec3 point;
@@ -139,7 +139,6 @@ struct fizdatum
 	fizdatum(double s);
 	fizdatum(vec3 v);
 	fizdatum();
-
 };
 
 #endif

@@ -37,6 +37,24 @@ FizEngine::FizEngine()
 	thisStep = NULL;
 	nextStep = NULL;
 	forces = NULL;
+	props = NULL;
+	ccache = NULL;	
+}
+
+/* Step and compute
+ */
+void step(std::vector<FizObject*> * thisStep,
+		       	std::vector<FizObject*> * nextStep,
+		       	std::map<std::string, FizForce*> * forces,
+		       	std::map<std::string, FizFormula*> * macros,
+			std::map<std::string, fizdatum> * ccache,
+		      	double dt)
+{
+	this.thisStep = thisStep;
+	this.nextStep = nextStep;
+	this.forces = forces;
+	this.props = macros;
+	this.ccache = ccache;
 }
 
 /* Step thorugh objects

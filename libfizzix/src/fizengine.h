@@ -87,25 +87,33 @@ class FizEngine
 		 *  @param thisStep A pointer to a vector of FizObjects representing the current state
 		 *  @param nextStep A pointer to a vector of FizObjects to be used to store the next step
 		 *  @param forces A list of forces to be applied between FizObjects
+		 *  @param macros A list of macros (formulas) that are used in evaluation
+		 *  @param ccache A list of all constants used in calculation 
 		 *  @param dt The time step this step represents
 		 *  
 		 *  @note This function modifies the nextStep vector IN PLACE
 		 */
-		void step(std::vector<FizObject*> * thisStep, std::vector<FizObject*> * nextStep, std::vector<FizForce*> * forces, double dt);		
+		void step(
+			std::vector<FizObject*> * thisStep,
+		       	std::vector<FizObject*> * nextStep,
+		       	std::map<std::string, FizForce*> * forces,
+		       	std::map<std::string, FizFormula*> * macros,
+			std::map<std::string, fizdatum> * ccache,
+		      	double dt);		
 		
 		/** Constructor
 		 */
 		FizEngine();
 
 		//List of current sums of forces and torques
-		std::map<std::string, vec3[]> forcesums;
+		std::map<std::string, vec3[2]> forcesums;
 
 		//Cache of Forces and Properties
 		std::map<std::string, fizdatum> fcache;
 		std::map<std::string, fizdatum> pcache;
 		
 		//Constant cache
-		std::map<std::string, fizdatum> ccache;
+		std::map<std::string, fizdatum> * ccache;
 		std::set<std::string> propdist; // All distributed props
 		std::set<std::string> forcedist;
 		std::set<std::string> propsymmetric;
