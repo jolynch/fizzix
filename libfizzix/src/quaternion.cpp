@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef QUATERNION_CPP
 #define QUATERNION_CPP
 
-#include "/quaternion.h"
+#include "quaternion.h"
 #include <math.h>
 
 using namespace std;
@@ -177,7 +177,7 @@ void Quaternion::operator*=(double scalar)
 	vec[1] = values[1] * scalar;
 	vec[2] = values[2] * scalar;
 	vec[3] = values[3] * scalar;
-	values = vec4;
+	values = vec;
 }
 
 #endif

@@ -113,7 +113,7 @@ class FizEngine
 		std::set<std::string> forcesymmetric;
 
 		// These either retreive from cache or eval
-		fizdatum getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
+		fizdatum getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		fizdatum getPropVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		fizdatum getConstVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 
