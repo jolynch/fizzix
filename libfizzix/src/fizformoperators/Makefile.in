@@ -46,9 +46,9 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libfizformoperators_la_LIBADD =
 am_libfizformoperators_la_OBJECTS = arccos.lo cosh.lo difference.lo \
 	exponentiate.lo magnitude.lo product.lo sine.lo sum.lo \
-	template.lo arcsin.lo cosine.lo dot.lo factorial.lo \
-	quotient.lo sinh.lo tangent.lo vectorize.lo arctan.lo cross.lo \
-	exponent.lo logarithm.lo random.lo square.lo tanh.lo
+	arcsin.lo cosine.lo dot.lo factorial.lo quotient.lo sinh.lo \
+	tangent.lo vectorize.lo arctan.lo cross.lo exponent.lo \
+	logarithm.lo random.lo square.lo tanh.lo
 libfizformoperators_la_OBJECTS = $(am_libfizformoperators_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -216,7 +216,6 @@ magnitude.cpp \
 product.cpp \
 sine.cpp  \
 sum.cpp   \
-template.cpp \
 arcsin.cpp \
 cosine.cpp \
 dot.cpp   \
@@ -307,7 +306,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sum.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tangent.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tanh.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/template.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vectorize.Plo@am__quote@
 
 .cpp.o:
