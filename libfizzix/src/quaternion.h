@@ -77,6 +77,10 @@ class Quaternion
 		/* Multiply another quaternion on this one on the left
 		   qnew = other * q */
 		void operator*=(const Quaternion & other);
+		/* Scalar multiplication*/
+		Quaternion operator*(double scalar);
+		/* qnew = other * q*/
+		void operator*=(double scalar);
 };
 
 #endif

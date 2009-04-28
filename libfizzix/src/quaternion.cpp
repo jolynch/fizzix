@@ -161,4 +161,23 @@ void Quaternion::operator*=(const Quaternion & other)
 	values = vec;
 }
 
+Quaternion Quaternion::operator*(double scalar) 
+{
+	vec4 vec;
+	vec[0] = values[0] * scalar;
+	vec[1] = values[1] * scalar;
+	vec[2] = values[2] * scalar;
+	vec[3] = values[3] * scalar;
+	return Quaternion(vec);
+}
+void Quaternion::operator*=(double scalar) 
+{
+	vec4 vec;
+	vec[0] = values[0] * scalar;
+	vec[1] = values[1] * scalar;
+	vec[2] = values[2] * scalar;
+	vec[3] = values[3] * scalar;
+	values = vec4;
+}
+
 #endif

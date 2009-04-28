@@ -277,14 +277,21 @@ void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
 /** Applys the force and torque on ob1 using a Runge-Kutta foruth order solver
  * 
  *  Some math notes:
- *  accel = Force / mass
+ *  accel = Force / mass = dpdt = m * dvdt
  *  alpha = I_inverse * Torque (where Torque is a 3x1 representation of a vector)
- *  I_inverse is a 3x3 sym matrix stored as a double[6] of the form:
+ *  I_inverse is a 3x3 symmetric matrix stored as a double[6] of the form:
  *  [0 3 5]
  *  [3 1 4] where the number indicates the array index
  *  [5 4 2]
- *  
  *
+ *  Linear Motion:
+ *  position = integral(velocity), velocity = integral(acceleration)   
+ *
+ *  Rotational Motion:
+ *  quaternion = 1/2 * omega * current_quaternion
+ *  where omega can be seen as a quaternion (w,x,y,z) of the form (0,wx,wy,wz)
+ *  omega = integral(alpha)
+ 
  *  @param force The force to apply
  *  @param torque The torque to apply
  *  @param ob1 The object to modify
@@ -296,15 +303,17 @@ void applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt)
 	quaternion new_quat;
 	vec3 dvdt = force / ob1->getMass();
 	//Inertia tensor invese in the order xx,yy,zz,xy,yz,xz (symmetric)
-	double[] i = ob1->getInertiaTensorInv();
-	vec3& t = torque; // for the next step
+	vector<double> i = ob1->getInertiaTensorInv();
+	vec3& t = torque; // just for convenience
 	vec3 dwdt = vec3(i[0] * t[0] + i[3] * t[1] + i[5] * t[2],
 		       	 i[3] * t[0] + i[1] * t[1] + i[4] * t[2], 
 			 i[5] * t[0] + i[4] + t[1] + i[2] + t[2]);
 	//Step 1
 	vector dxdt1 = ob1->getVel();
-	quaternion dxdt1 = 
-		
+	vec3 omega = ob1->getOme();
+	Quaternion dqdt1 = (Quaternion(0.0, omega[0],omega[1], omega[2]) * ob1->getQuaternion()) * 0.5;
+	
+  
 	
 }	
 

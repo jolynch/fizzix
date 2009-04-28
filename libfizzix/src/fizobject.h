@@ -75,9 +75,9 @@ class FizObject
 
 		Quaternion quaternion;
 		//xx,yy,zz,xy,yz,xz
-		double[6] inertiaTensor = {0.0,0.0,0.0,0.0,0.0,0.0};
+		std::vector<double> inertiaTensor;
 		//xx,yy,zz,xy,yz
-		double[6] inertiaTensorInv = {0.0,0.0,0.0,0.0,0.0,0.0};
+		std::vector<double> inertiaTensorInv;
 		
 		//Unless we need it
 		//Matrix rotation
@@ -91,22 +91,24 @@ class FizObject
 	protected:
 		/** Initialize the Object by calling init_object, compute and adjustMasses
 		 */
-		void init(std::string name, vec3 color, std::vector<triangle> init);
+		void init(std::string name, vec3 color, const std::vector<triangle>& new_vertices);
 		
-		/** Initialize the object
+		/** Initialize the object with info passed into constructors
 		 */
-		virtual void init_object(std::string name, vec3 color, std::vector<triangle> init);
+		virtual void init_object(std::string name, vec3 color, const std::vector<triangle>& new_vertices);
 		
 		/** Calculate COM, Inertia Tensor, and relative masses of triangles
-		 *  @note This will redefine the pos, inertiaTensor, and the triangles
+		 *  @note This will/should redefine the pos, inertiaTensor, and the triangles
 		 *  @
 		 */
-		virtual double compute();
+		virtual void compute();
 
 		/** Knowing the mass and the volume, now calculate the correct masses of triangles 
 		 */
+		void adjustMasses();
 
-		void adjustMasses(double volume);
+		void computeBounds();
+
 	public:
 
 		/** Default Constructor
@@ -121,13 +123,13 @@ class FizObject
 		 */
 		FizObject(std::string newname, vec3 color);
 
-		/** Constructor that inits the name and vertices and possibly the smoothity
+		/** Constructor that inits the name and triangles
 		 */	
 		FizObject(std::string newname, std::vector<triangle> init);
 
-		/** Constructor that inits the vertices, color, and smoothity
+		/** Constructor that inits the vertices, color, and triangles
 		 */
-		FizObject(std::string newname, vec3 color, std::vector<triangle> init, bool smooth = true);
+		FizObject(std::string newname, vec3 color, std::vector<triangle> init);
 
 		/** Return a property given the key, so this["mass"] should return a result
 		 *  @param key A string name for the property, mass would be "mass", center of mass "COM", etc ...
@@ -176,13 +178,13 @@ class FizObject
 		Quaternion& rgetQuaternion();
 		void setQuaternion(Quaternion newquat);
 
-		const double[] getInertiaTensor();
-		double[] rgetInertiaTensor();
-		void setInertiaTensor(double[] newtensor);
+		std::vector<double> getInertiaTensor() const;
+		std::vector<double>& rgetInertiaTensor();
+		void setInertiaTensor(std::vector<double> newtensor);
                 
-		const double[] getInertiaTensorInv();
-		double[] rgetInertiatensor();
-		void setInertiaTensorInv(double[] newtensor);
+		std::vector<double> getInertiaTensorInv() const;
+		std::vector<double>& rgetInertiaTensorInv();
+		void setInertiaTensorInv(std::vector<double> newtensor);
 		
 		/** Other properties
 		 */
@@ -197,7 +199,9 @@ class FizObject
 		 */
 		fizdatum getProperty(std::string key);
 		void setProperty(std::string key, fizdatum);
-		
+		//Returns the number of elements removed (0 for none, 1 for one ...)	
+		int removeProperty(std::string key);
+			
 		bool comApprox();
 
 };

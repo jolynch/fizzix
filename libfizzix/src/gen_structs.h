@@ -97,7 +97,7 @@ struct vec4
 	double mag();
 };
 
-struct vertex
+ struct vertex
 {
 	point p;
 	std::vector<triangle*> triangles;
@@ -112,6 +112,7 @@ struct vertex
 	vertex();
 };
 
+//TODO: NEEDS DESTRUCTOR
 struct triangle 
 {
 	vertex * vertices[3];
@@ -123,6 +124,7 @@ struct triangle
 	vertex& operator[](int index);
 	
 	triangle(vertex * v1, vertex * v2, vertex * v3);
+	triangle();
 };
 
 struct fizdatum

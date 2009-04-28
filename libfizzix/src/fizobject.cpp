@@ -32,41 +32,44 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 FizObject::FizObject() 
 {
 	vec3 color(64.0, 64.0, 64.0);
-	this->init("UnNamed", color, true, std::vector<triangle>());
+	//The pointer is so that the default vertices don't die after the constructor
+	this->init("UnNamed", color, *(new std::vector<triangle>()));
 }
 	
 //Constructor that inits the name
 FizObject::FizObject(std::string newname) 
 {
 	vec3 color(64.0,64.0,64.0);
-	this->init(newname, color, std::vector<triangle>());
+	this->init(newname, color, *(new std::vector<triangle>()));
 }
 
 //Constructor that inits the name, color and possibly the smoothity
 FizObject::FizObject(std::string newname, vec3 color)
 {
-	this->init(newname,color,std::vector<triangle>());
+	this->init(newname,color, *(new std::vector<triangle>()));
 }
 
 // Constructor that inits the name and vertices and possibly the smoothity
-FizObject::FizObject(std::string newname, std::vector<triangle> init,) 
+FizObject::FizObject(std::string newname, std::vector<triangle> new_vertices) 
 {
 	vec3 color(64.0, 64.0, 64.0);
-	this->init(newname,color,init);
+	this->init(newname,color,new_vertices);
 }
 
 // Constructor that inits the vertices, color, and smoothity
-FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle> init)
+FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle> new_vertices)
 {
-	this->init(newname, color, init);
+	this->init(newname, color, new_vertices);
 }
 
 // Init the object
 void FizObject::init(std::string name, vec3 color, const std::vector<triangle>& tinit)
 {
+	inertiaTensor.resize(6);
+	inertiaTensorInv.resize(6);
 	this->init_object(name,color,tinit);
 	this->compute();
-	this->adjustMasses(1.0);
+	this->adjustMasses();
 	this->computeBounds();
 }
 
@@ -118,7 +121,7 @@ void FizObject::compute()
 		sub_compute(t[0][1], t[1][1], t[2][1], f1y, f2y, f3y, g0y, g1y, g2y);
 		sub_compute(t[0][2], t[1][2], t[2][2], f1z, f2z, f3z, g0z, g1z, g2z);
 		const vec3& d = t.normal;
-		t.mass = d[0] * f1x;
+		t.massp = d[0] * f1x;
 		integral[0] += d[0] * f1x;
 		integral[1] += d[0] * f2x;
 		integral[2] += d[1] * f2y;
@@ -142,12 +145,14 @@ void FizObject::compute()
 	integral[8] *= div_consts[3];
 	integral[9] *= div_consts[3];
 
-	setMass(integral[0]);
+
+	setProperty("temp_mass", fizdatum(getMass()));
+	setMass(integral[0]); 
 	setPos(vec3(integral[1]/mass, integral[2]/mass, integral[3]/mass));
 	
 	//xx,yy,zz,xy,yz,xz
-	double * tempI = new double[6];
-	double * tempIi = new double[6];
+	std::vector<double> tempI(6,0.0);
+	std::vector<double> tempIi(6,0.0);
 	double detI;
 
 	//Relative to world coords
@@ -181,13 +186,25 @@ void FizObject::compute()
 	setInertiaTensorInv(tempIi);
 }
 
+void FizObject::adjustMasses()
+{
+	for(std::vector<triangle>::iterator i = vertices.begin(); i != vertices.end(); i++)
+	{
+		i->massp = i->massp / mass;
+	}
+
+	setMass(getProperty("temp_mass").scalar);
+	removeProperty("temp_mass");
+}
+
+
 void FizObject::computeBounds()
 {
 	for (int i = 0; i < vertices.size(); i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			double r = sqrt(vertices[i][j][0]^2 + vertices[i][j][1]^2 + verticecs[i][j][2]^2);
+			double r = sqrt(pow(vertices[i][j][0],2) + pow(vertices[i][j][1],2) + pow(vertices[i][j][2],2));
 			if (r > maxrad) maxrad = r;
 		}
 	}
@@ -242,33 +259,25 @@ void FizObject::setVertices(std::vector<triangle> newvertices) 	{ vertices = new
 const Quaternion FizObject::getQuaternion() 		{ return quaternion; }
 Quaternion& FizObject::rgetQuaternion()			{ return quaternion; }
 void FizObject::setQuaternion(Quaternion newquat)	{ quaternion = newquat;	}
-		
-const double[] FizObject::getInertiaTensor()		{ return inertiaTensor; }
-double[] FizObject::rgetInertiaTensor()			{ return inertiaTensor; }
-void FizObject::setInertiaTensor(double[] newtensor)	{
-       							 if(sizeof(newtensor) / sizeof(double) == 6)	
-							 {
-								delete[] inertiaTensor; 
-								inertiaTensor = newtensor;
-							 }
-							 else
-								throw std::invalid_argument("Tensor array must be of length 6");
-							
-							}
-                
-const double[] FizObject::getInertiaTensorInv()    	       	{ return inertiaTensor; }
-double[] FizObject::rgetInertiatensor()                		{ return inertiaTensorInv; }
-void FizObject::setInertiaTensorInv(double[] newtensor)  	{
-       								 if(sizeof(newtensor) / sizeof(double) == 6)	
-								 {
-									delete[] inertiaTensorInv;
-									inertiaTensorInv = newtensor;
-								 }
-								 else
-									 throw std::invalid_argument("Tensor array must be of length 6");
-							
+
+std::vector<double> FizObject::getInertiaTensor() const		{ return inertiaTensor; }
+std::vector<double>& FizObject::rgetInertiaTensor()		{ return inertiaTensorInv; }
+void FizObject::setInertiaTensor(std::vector<double> newtensor)	{ 
+							  	if(newtensor.size() == 6)
+									inertiaTensor = newtensor; 
+							  	else
+									throw std::invalid_argument("Inertia Tensors are size 6 because they are symmetric");
 								}
-		
+
+           
+std::vector<double> FizObject::getInertiaTensorInv() const		{ return inertiaTensor; }
+std::vector<double>& FizObject::rgetInertiaTensorInv()			{ return inertiaTensorInv; }
+void FizObject::setInertiaTensorInv(std::vector<double> newtensor)	{
+									if(newtensor.size() == 6)
+										inertiaTensorInv = newtensor; 
+									else
+										throw std::invalid_argument("Inertia Tensors are size 6 because they are symmetric");
+									}
 double FizObject::getMass()				{ return mass; }
 double& FizObject::rgetMass()				{ return mass; }
 void FizObject::setMass(double newmass)			{ mass = newmass; 
@@ -292,14 +301,17 @@ fizdatum FizObject::getProperty(std::string key)
 
 void FizObject::setProperty(std::string key, fizdatum value) 
 {
-//	if(key == "positionX")
-
 	props[key] = value;
 }
 
-const FizObject::triangle getCOMTriangle()		{ return comtriangle; }
-triangle& FizObject::rgetCOMTriangle();			{ return comtriangle; }
-void FizObject::setCOMTriangle(triangle tri);		{ comtriange = tri; }
+int FizObject::removeProperty(std::string key)
+{
+	return props.erase(key);
+}
+
+const triangle FizObject::getCOMTriangle()		{ return comtriangle; }
+triangle& FizObject::rgetCOMTriangle()			{ return comtriangle; }
+void FizObject::setCOMTriangle(triangle tri)		{ comtriangle = tri; }
 
 bool FizObject::comApprox()	{ return comapprox; }
 

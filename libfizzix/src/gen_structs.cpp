@@ -233,9 +233,10 @@ void vertex::add_triangle(triangle * t)
 triangle::triangle(vertex* v1, vertex* v2, vertex* v3)
 {
 	vertices[0] = v1; vertices[1] =  v2; vertices[2] = v3;
+	vertex& vr1 = *v1;vertex& vr2 = *v1;vertex& vr3 = *v1;
 	massp = 0.0;
-	vec3 e1 = vec3((double)(v1[0])-v2[0],v1[1]-v2[1],v1[2]-v2[2]);
-	vec3 e2 = vec3(v1[0]-v3[0],v1[1]-v3[1],v1[2]-v3[2]);
+	vec3 e1 = vec3((double)(vr1[0])-vr2[0],vr1[1]-vr2[1],vr1[2]-vr2[2]);
+	vec3 e2 = vec3(vr1[0]-vr3[0],vr1[1]-vr3[1],vr1[2]-vr3[2]);
 	normal = e1.cross(e2);
 	unit_normal = vec3(normal[0]/normal.mag(), 
 			   normal[1]/normal.mag(), 
@@ -243,6 +244,12 @@ triangle::triangle(vertex* v1, vertex* v2, vertex* v3)
 	v1->add_triangle(this);
 	v2->add_triangle(this);
 	v3->add_triangle(this);
+}
+
+triangle::triangle()
+{
+	vertices[0] = new vertex(); vertices[1] = new vertex(); vertices[2] = new vertex();
+	massp = 0.0;
 }
 
 const vertex triangle::operator[](int index) const
