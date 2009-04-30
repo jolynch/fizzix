@@ -46,27 +46,27 @@ double & vec3::operator[](int index)
 	if (index == 2) return z;
 }
 
-vec3 vec3::operator*(vec3 other)
+const vec3 vec3::operator*(vec3 other) const
 {
 	return vec3(x * other[0], y * other[1], z * other[2]);
 }
 
-vec3 vec3::operator*(double other)
+const vec3 vec3::operator*(double other) const
 {
 	return vec3(x * other, y * other, z * other);
 }
 
-vec3 vec3::operator/(vec3 other)
+const vec3 vec3::operator/(vec3 other) const
 {
 	return vec3(x / other[0], y / other[1], z / other[2]);
 }
 
-vec3 vec3::operator/(double other)
+const vec3 vec3::operator/(double other) const
 {
 	return vec3(x / other, y / other, z / other);
 }
 
-vec3 vec3::operator+(vec3 other)
+const vec3 vec3::operator+(vec3 other) const
 {
 	return vec3(x + other[0], y + other[1], z + other[2]);
 }

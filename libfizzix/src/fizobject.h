@@ -145,19 +145,19 @@ class FizObject
 		vec3& rgetPos(); 
 		void setPos(vec3 newpos);
 			
-		const vec3 getVel(); 
+		const vec3 getVel() const; 
 		vec3& rgetVel(); 
 		void setVel(vec3 newvel); 
 
-		const vec3 getAcc();
+		const vec3 getAcc() const;
 		vec3& rgetAcc(); 
 		void setAcc(vec3 newacc);	
 	
-		const vec3 getOme(); 
+		const vec3 getOme() const; 
 		vec3& rgetOme(); 
 		void setOme(vec3 newome); 	
 		
-		const vec3 getAlp(); 	
+		const vec3 getAlp() const; 	
 		vec3& rgetAlp();	
 		void setAlp(vec3 newalp);			
 			

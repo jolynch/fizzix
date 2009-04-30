@@ -227,25 +227,25 @@ void FizObject::setPos(vec3 newpos)			{ pos = newpos;
 							  props["position"] = fizdatum(0.0, pos, VECTOR); 
 							}
 
-const vec3 FizObject::getVel() 				{ return vel; }
+const vec3 FizObject::getVel() const 				{ return vel; }
 vec3& FizObject::rgetVel() 				{ return vel; }
 void FizObject::setVel(vec3 newvel) 			{ vel = newvel; 
 							  props["velocity"] = fizdatum(0.0, vel, VECTOR);
 							}
 
-const vec3 FizObject::getAcc() 				{ return acc; }
+const vec3 FizObject::getAcc() const 				{ return acc; }
 vec3& FizObject::rgetAcc() 				{ return acc; }
 void FizObject::setAcc(vec3 newacc)			{ acc = newacc; 
 						          props["acceleration"] = fizdatum(0.0, acc, VECTOR);
 							}
 
-const vec3 FizObject::getOme() 				{ return ome; }
+const vec3 FizObject::getOme() const 				{ return ome; }
 vec3& FizObject::rgetOme() 				{ return ome; }
 void FizObject::setOme(vec3 newome) 			{ ome = newome; 
 							  props["angular_velocity"] = fizdatum(0.0, ome, VECTOR); 
 							}
 
-const vec3 FizObject::getAlp() 				{ return alp; }
+const vec3 FizObject::getAlp() const 				{ return alp; }
 vec3& FizObject::rgetAlp() 				{ return alp; }
 void FizObject::setAlp(vec3 newalp)			{ alp = newalp; 
 							  props["angular_acceleration"] = fizdatum(0.0, alp, VECTOR);
@@ -261,7 +261,7 @@ Quaternion& FizObject::rgetQuaternion()			{ return quaternion; }
 void FizObject::setQuaternion(Quaternion newquat)	{ quaternion = newquat;	}
 
 std::vector<double> FizObject::getInertiaTensor() const		{ return inertiaTensor; }
-std::vector<double>& FizObject::rgetInertiaTensor()		{ return inertiaTensorInv; }
+std::vector<double>& FizObject::rgetInertiaTensor()		{ return inertiaTensor; }
 void FizObject::setInertiaTensor(std::vector<double> newtensor)	{ 
 							  	if(newtensor.size() == 6)
 									inertiaTensor = newtensor; 
@@ -270,7 +270,7 @@ void FizObject::setInertiaTensor(std::vector<double> newtensor)	{
 								}
 
            
-std::vector<double> FizObject::getInertiaTensorInv() const		{ return inertiaTensor; }
+std::vector<double> FizObject::getInertiaTensorInv() const		{ return inertiaTensorInv; }
 std::vector<double>& FizObject::rgetInertiaTensorInv()			{ return inertiaTensorInv; }
 void FizObject::setInertiaTensorInv(std::vector<double> newtensor)	{
 									if(newtensor.size() == 6)

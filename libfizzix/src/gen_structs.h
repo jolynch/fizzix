@@ -57,11 +57,11 @@ struct vec3
 	const double operator[](int index) const;
 	double& operator[](int index);
 	
-	vec3 operator*(vec3 other);
-	vec3 operator*(double other);
-	vec3 operator/(vec3 other);
-	vec3 operator/(double other);
-	vec3 operator+(vec3 other);
+	const vec3 operator*(vec3 other) const ;
+	const vec3 operator*(double other) const ;
+	const vec3 operator/(vec3 other) const ;
+	const vec3 operator/(double other) const ;
+	const vec3 operator+(vec3 other) const ;
 	const vec3 operator-(vec3 other) const;
 	vec3 operator*=(vec3 other);
 	vec3 operator*=(double other);
