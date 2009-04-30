@@ -66,12 +66,13 @@ void FizEngine::evalForces()
 	
 	std::vector<FizObject*>::iterator outer_iter = thisStep->begin();
 	std::vector<FizObject*>::iterator inner_iter;
+	std::map<std::string,FizForce*>::iterator force_iter;
 	while(outer_iter != thisStep->end())
 	{
 		//inner_iter = thisStep->begin();
 		inner_iter = outer_iter;
 		inner_iter++;
-		while(inner_iter != thisStep->end())
+		while(!(inner_iter == thisStep->end()))
 		{
 			if(inner_iter == outer_iter) continue;
 			FizObject obj1 = **outer_iter;
@@ -79,105 +80,120 @@ void FizEngine::evalForces()
 			std::vector<triangle>& tris1 = obj1.rgetVertices();
 			std::vector<triangle>& tris2 = obj2.rgetVertices();
 			vec3 dforce;
-						//evalForce(forces[i], *outer_iter, *inner_iter);
-			if(!forceEvaled[forcename])
-			{	
-				//need a COM triangle in each object
-				if (obj1.comApprox()) //if object 1 can be approximated as at its COM
+			//evalForce(forces[i], *outer_iter, *inner_iter);
+			//need a COM triangle in each object
+			if (obj1.comApprox()) //if object 1 can be approximated as at its COM
+			{
+				if (obj2.comApprox())
 				{
-					if (obj2.comApprox())
+					force_iter = forces->begin();
+					while(!(force_iter == forces->end()))
 					{
-						for (std::vector<FizForce*>::iterator j = forces->begin(); j != forces->end(); j++)
+						FizForce* force = force_iter->second;
+						std::string forcename = force_iter->first;
+						if(!(*forceEvaled)[forcename])
 						{
-							FizForce* force = i->second;
-							std::string forcename = i->first;
-							
 							dforce = force->getForce(obj1, obj1.rgetCOMTriangle(), obj2, obj2.rgetCOMTriangle());
-							evaluatedForces[&obj1][0] += dforce;
-							if (force->isSymmetric()) evaluatedForces[&obj2][0] -= dforce; //opposite direction
+							(*evaluatedForces)[&obj1].first += dforce;
+							if (force->isSymmetric()) (*evaluatedForces)[&obj2][0] -= dforce; //opposite direction
 							else
 							{
 								clearNonsymmetricCaches();
 								dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, obj1.rgetCOMTriangle());
-								evaluatedForces[&obj2][0] += dforce;
+								((*evaluatedForces)[&obj2]).first += dforce;
 							}
-							//no torque for obj1 nor obj2
+						}
+						//no torque for obj1 nor obj2
+						force_iter++;
+					}
+				}
+				else
+				{
+					for (int j = 0; j < tris2.size(); j++)
+					{
+						force_iter = forces->begin();
+						while(!(force_iter == forces->end()))
+						{
+							FizForce* force = force_iter->second;
+							std::string forcename = force_iter->first;
+							if(!(*forceEvaled)[forcename])
+							{
+								if (!force->isDistributed()) clearDistributedCaches();
+								dforce = force->getForce(obj1, obj1.rgetCOMTriangle(), obj2, tris2[j]);
+								(*evaluatedForces)[&obj1].first += dforce;
+								//no torque for obj1
+								if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce;
+								else
+								{
+									clearNonsymmetricCaches();
+									dforce = force->getForce(obj2, tris2[j], obj1, obj1.rgetCOMTriangle());
+									(*evaluatedForces)[&obj2].first += dforce;
+								}
+								vec3 radius = (tris2[j].vertices[0]->p + tris2[j].vertices[1]->p + tris2[j].vertices[2]->p)/3; //vector from center of object to center of triangle
+								(*evaluatedForces)[&obj2].second += dforce.cross(radius); //T = F x r
+							}
+							force_iter++;
+						}
+					}
+				}
+			}
+			else
+			{
+				for (int i = 0; i < tris1.size(); i++)
+				{
+					if (obj2.comApprox())
+					{
+						force_iter = forces->begin();
+						while(!(force_iter == forces->end()))
+						{
+							FizForce* force = force_iter->second;
+							std::string forcename = force_iter->first;
+							if(!(*forceEvaled)[forcename])
+							{
+								if (!force->isDistributed()) clearDistributedCaches();
+								dforce = force->getForce(obj1, tris1[i], obj2, obj2.rgetCOMTriangle());
+								(*evaluatedForces)[&obj1].first += dforce;
+								vec3 radius = (tris1[i].vertices[0]->p + tris1[i].vertices[1]->p + tris1[i].vertices[2]->p)/3;
+								(*evaluatedForces)[&obj1].second += dforce.cross(radius);
+								if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce;
+								else
+								{
+									clearNonsymmetricCaches();
+									dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, tris1[i]);
+									(*evaluatedForces)[&obj2].first += dforce;
+								}
+								//no torque for obj2
+							}
+							force_iter++;
 						}
 					}
 					else
 					{
 						for (int j = 0; j < tris2.size(); j++)
 						{
-							for (std::vector<FizForce*>::iterator i = forces.begin(); i != forces.end(); i++)
+							force_iter = forces->begin();
+							while(!(force_iter == forces->end()))
 							{
-								FizForce* force = i->second;
-								std::string forcename = i->first;
-							
-								if (!force->distributed) clearDistributedCaches();
-								dforce = force->getForce(obj1, obj1.rgetCOMTriangle(), obj2, tris2[j]);
-								evaluatedForces[&obj1][0] += dforce;
-								//no torque for obj1
-								if (force->isSymmetric()) evaluatedForces[&obj2][0] -= dforce;
-								else
+								FizForce* force = force_iter->second;
+								std::string forcename = force_iter->first;
+								if(!(*forceEvaled)[forcename])
 								{
-									clearNonsymmetricCaches();
-									dforce = force->getForce(obj2, tris2[j], obj1, obj1.rgetCOMTriangle());
-									evaluatedForces[&obj2][0] += dforce;
-								}
-								vec3 radius = (tris2[j].vertices[0].p + tris2[j].vertices[1].p + tris2[j].vertices[2].p)/3; //vector from center of object to center of triangle
-								evaluatedForces[&obj2][1] += dforce.cross(radius); //T = F x r
-							}
-						}
-					}
-				}
-				else
-				{
-					for (int i = 0; i < tris1.size(); i++)
-					{
-						if (obj2.comApprox())
-						{
-							for (std::vector<FizForce*>::iterator i = forces.begin(); i != forces.end(); i++)
-							{
-								FizForce* force = i->second;
-								std::string forcename = i->first;
-								if (!force->distributed) clearDistributedCaches();
-								dforce = force->getForce(obj1, tris1[i], obj2, obj2.rgetCOMTriangle());
-								evaluatedForces[&obj1][0] += dforce;
-								vec3 radius = (tris1[i].vertices[0].p + tris1[i].vertices[1].p + tris1[i].vertices[2].p)/3;
-								evaluatedForces[&obj1][1] += dforce.cross(radius);
-								if (force->isSymmetric()) evaluatedForces[&obj2][0] -= dforce;
-								else
-								{
-									clearNonsymmetricCaches();
-									dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, tris1[i]);
-									evaluatedForces[&obj2][0] += dforce;
-								}
-								//no torque for obj2
-							}
-						}
-						else
-						{
-							for (int j = 0; j < tris2.size(); j++)
-							{
-								for (std::vector<FizForce*>::iterator i = forces.begin(); i != forces.end(); i++)
-								{
-									FizForce* force = i->second;
-									std::string forcename = i->first;
-									if (!force->distributed) clearDistributedCaches();
+									if (!force->isDistributed()) clearDistributedCaches();
 									dforce = force->getForce(obj1, tris1[i], obj2, tris2[j]);
-									evaluatedForces[&obj1][0] += dforce;
-									vec3 radius = (tris1[i].vertices[0].p + tris1[i].vertices[1].p + tris1[i].vertices[2].p)/3;
-									evaluatedForces[&obj1][1] += dforce.cross(radius);
-									if (force->isSymmetric()) evaluatedForces[&obj2][0] -= force;
+									(*evaluatedForces)[&obj1].first += dforce;
+									vec3 radius = (tris1[i].vertices[0]->p + tris1[i].vertices[1]->p + tris1[i].vertices[2]->p)/3;
+									(*evaluatedForces)[&obj1].second += dforce.cross(radius);
+									if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce;
 									else
 									{
 										clearNonsymmetricCaches();
 										dforce = force->getForce(obj2, tris2[j], obj1, tris1[i]);
-										evaluatedForces[&obj2][0] += dforce;
+										(*evaluatedForces)[&obj2].first += dforce;
 									}
-									radius = (tris2[j].vertices[0].p + tris2[j].vertices[1].p + tris2[j].vertices[2].p)/3;
-									evaluatedForces[&obj2][1] += dforce.cross(radius);
+									radius = (tris2[j].vertices[0]->p + tris2[j].vertices[1]->p + tris2[j].vertices[2]->p)/3;
+									(*evaluatedForces)[&obj2].second += dforce.cross(radius);
 								}
+								force_iter++;
 							}
 						}
 					}

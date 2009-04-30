@@ -56,7 +56,7 @@ class FizEngine
 		std::vector<FizObject*> * nextStep;
 		
 		//Map of object pointers to their forces and torques
-		std::map<FizObject*, vec3[]> * evaluatedForces;
+		std::map<FizObject*, std::pair<vec3,vec3> > * evaluatedForces;
 		
 		//Map of forces to be applied to the objects
 		std::map<std::string, FizForce *> * forces;

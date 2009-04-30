@@ -48,6 +48,11 @@ bool FizForce::isSymmetric()
 	return symmetric;
 }
 
+bool FizForce::isDistributed()
+{
+	return distributed;
+}
+
 /*vec3[] FizForce::eval(FizObject& obj1, FizObject& obj2)
 {
 	vec3[4] result; //Force on obj1, Torque on obj1, F on obj2, T on obj2
