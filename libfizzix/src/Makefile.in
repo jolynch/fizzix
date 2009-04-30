@@ -54,8 +54,9 @@ libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libfizzix_la_DEPENDENCIES = fizformoperators/libfizformoperators.la
 am_libfizzix_la_OBJECTS = fizengine.lo fizformanonconst.lo \
-	fizformvariable.lo gen_structs.lo fizforce.lo fizformnode.lo \
-	fizformula.lo fizobject.lo quaternion.lo
+	gen_structs.lo fizforce.lo fizformnode.lo fizformula.lo \
+	fizobject.lo quaternion.lo fizformgetconst.lo \
+	fizformgetfoce.lo fizformgetmacro.lo
 libfizzix_la_OBJECTS = $(am_libfizzix_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -219,14 +220,15 @@ fizformoperator.h \
 fizstack.h \
 fizengine.h  \
 fizformanonconst.h  \
-fizformvariable.h  \
 matrix.h \
 gen_structs.h \
 fizforce.h  \
 fizformnode.h   \
 fizformula.h   \
 fizobject.h  \
-quaternion.h
+quaternion.h \
+fizformget.h \
+getters.h
 
 
 #This is everything that's getting compiled.
@@ -234,7 +236,6 @@ libfizzix_la_SOURCES = \
 fizengine.cpp \
 fizformanonconst.cpp \
 fizformoperator.h \
-fizformvariable.cpp \
 fizstack.h   \
 fizengine.h  \
 fizformanonconst.h \
@@ -251,7 +252,11 @@ fizforce.h  \
 fizformnode.h  \
 fizformula.h \
 fizobject.h \
-quaternion.h
+quaternion.h \
+fizformgetconst.cpp \
+fizformgetfoce.cpp \
+fizformgetmacro.cpp \
+fizformget.h
 
 all: all-recursive
 
@@ -325,9 +330,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizengine.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizforce.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformanonconst.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetconst.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetfoce.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetmacro.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformnode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformula.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformvariable.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizobject.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gen_structs.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quaternion.Plo@am__quote@

@@ -44,10 +44,11 @@ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libfizformoperators_la_LIBADD =
-am_libfizformoperators_la_OBJECTS = arccos.lo cosh.lo difference.lo \
-	exponentiate.lo magnitude.lo product.lo sine.lo sum.lo \
-	arcsin.lo cosine.lo dot.lo factorial.lo quotient.lo sinh.lo \
-	tangent.lo vectorize.lo arctan.lo cross.lo exponent.lo \
+am_libfizformoperators_la_OBJECTS = and.lo or.lo equal.lo notequal.lo \
+	greater.lo greatereq.lo less.lo lesseq.lo arccos.lo cosh.lo \
+	difference.lo exponentiate.lo magnitude.lo product.lo sine.lo \
+	sum.lo arcsin.lo cosine.lo dot.lo factorial.lo quotient.lo \
+	sinh.lo tangent.lo vectorize.lo arctan.lo cross.lo exponent.lo \
 	logarithm.lo random.lo square.lo tanh.lo
 libfizformoperators_la_OBJECTS = $(am_libfizformoperators_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
@@ -208,6 +209,14 @@ operators.h
 
 #Everything that gets compiled.
 libfizformoperators_la_SOURCES = \
+and.cpp \
+or.cpp \
+equal.cpp \
+notequal.cpp \
+greater.cpp \
+greatereq.cpp \
+less.cpp \
+lesseq.cpp\
 arccos.cpp \
 cosh.cpp  \
 difference.cpp \
@@ -284,6 +293,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/and.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/arccos.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/arcsin.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/arctan.Plo@am__quote@
@@ -292,11 +302,18 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cross.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/difference.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dot.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/equal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exponent.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exponentiate.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factorial.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/greater.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/greatereq.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/less.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lesseq.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logarithm.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/magnitude.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/notequal.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/or.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/product.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quotient.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/random.Plo@am__quote@
