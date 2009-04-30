@@ -62,7 +62,7 @@ struct vec3
 	vec3 operator/(vec3 other);
 	vec3 operator/(double other);
 	vec3 operator+(vec3 other);
-	vec3 operator-(vec3 other);
+	const vec3 operator-(vec3 other) const;
 	vec3 operator*=(vec3 other);
 	vec3 operator*=(double other);
 	vec3 operator/=(vec3 other);

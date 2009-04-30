@@ -221,7 +221,7 @@ bool FizObject::contains(const std::string& key)
 }
 
 //Getters and setters
-const vec3 FizObject::getPos() 				{ return pos; }
+const vec3 FizObject::getPos() const				{ return pos; }
 vec3& FizObject::rgetPos() 				{ return pos; }
 void FizObject::setPos(vec3 newpos)			{ pos = newpos; 
 							  props["position"] = fizdatum(0.0, pos, VECTOR); 

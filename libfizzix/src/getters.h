@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <cstdlib>
 */
 
-//#include "fizengine.h" already forward declared in fizformnode
+//#include "fizengine.h"// already forward declared in fizformnode
 #include "fizformget.h"
 
 class FizFormGetMacro : public FizFormGet

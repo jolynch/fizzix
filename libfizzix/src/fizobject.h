@@ -141,7 +141,7 @@ class FizObject
 		
 		/** Time dependant property access and modification 
 		 */
-		const vec3 getPos();
+		const vec3 getPos() const;
 		vec3& rgetPos(); 
 		void setPos(vec3 newpos);
 			
