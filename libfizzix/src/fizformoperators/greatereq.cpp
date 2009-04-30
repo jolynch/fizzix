@@ -30,7 +30,7 @@ using namespace std;
 
 Greatereq::Greatereq(int numOperands)
 {
-	Greater::numOperands=numOperands;
+	Greatereq::numOperands=numOperands;
 	token="greatereq";
 	description="Returns true if first argument is greater than or equal to the second";
 }
