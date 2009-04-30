@@ -1,5 +1,5 @@
 noinst_LTLIBRARIES = libfizformoperators.la
-fizzixops_includedir=$(includedir)/trashlib/fizformoperators/
+fizzixops_includedir=$(includedir)/libfizzix/fizformoperators/
 
 #The following will be installed in /usr/local/libfizzix/fizformoperators by default.
 fizzixops_include_HEADERS= \
