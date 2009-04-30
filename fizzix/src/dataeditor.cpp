@@ -33,20 +33,16 @@ DataEditor::DataEditor(QDesktopWidget * d):QDockWidget(tr("Data editor"))
 {
 	layout=new QGridLayout();
 	QWidget * container=new QWidget();
-	QLabel * tabLabel=new QLabel("Editing:");
-	currentTab=new QLabel();
 	this->selectTab(0);
-	layout->addWidget(tabLabel,0,0);
-	layout->addWidget(currentTab,0,1);
 	name=new QLineEdit();
-	layout->addWidget(name,1,1,1,4);
+	layout->addWidget(name,0,1,1,4);
 	QWidget * a =new QWidget();
 	a->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-	layout->addWidget(new QLabel("Name:"),1,0);
-	layout->addWidget(a,2,0,1,5);
+	layout->addWidget(new QLabel("Name:"),0,0);
+	layout->addWidget(a,1,0,1,5);
 	container->setLayout(layout);
-	layout->addWidget(new QPushButton("Save"),3,3);
-	layout->addWidget(new QPushButton("Clear"),3,4);
+	layout->addWidget(new QPushButton("Save"),2,3);
+	layout->addWidget(new QPushButton("Clear"),2,4);
 	this->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	this->setWidget(container);
 	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
@@ -58,16 +54,16 @@ void DataEditor::selectTab(int tab)
 {
 	switch (tab) {
 		case 0:
-			currentTab->setText("Object");
+			this->setWindowTitle("Object Editor");
 			break;
 		case 1:
-			currentTab->setText("Property");
+			this->setWindowTitle("Property Editor");
 			break;
 		case 2:
-			currentTab->setText("Force");
+			this->setWindowTitle("Force Editor");
 			break;
 		case 3:
-			currentTab->setText("Macro");
+			this->setWindowTitle("Macro Editor");
 			break;
 		default:
 			break;
