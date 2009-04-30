@@ -53,7 +53,7 @@ void step(std::vector<FizObject*> * thisStep,
 	this.thisStep = thisStep;
 	this.nextStep = nextStep;
 	this.forces = forces;
-	this.props = macros;
+	this.props = macros; // Eventually props should be renamed to macros
 	this.ccache = ccache;
 }
 
@@ -194,7 +194,7 @@ void FizEngine::evalForces()
 			
 			inner_iter++;
 			fcache.clear();
-			pcache.clear();
+			mcache.clear();
 		}
 
 		//DO NOT CHANGE BELOW THIS POINT
@@ -339,7 +339,7 @@ void applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt)
 // Get from cache or evaluate:	
 fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
 {	
-	if(isCached(fcache,force))
+	if(contains(fcache,force))
 	{		
 		fizdatum& cachedVal=fcache[force];
 		if(cachedVal.type==INPROGRESS)
@@ -348,38 +348,55 @@ fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1,
 		}
 		return cachedVal;
 	}
+	if(!contains(forces,force))
+	{
+		throw logic_error("Invalid force");
+	}
 	fizdatum& cachedVal=fcache[force];
 	cachedVal.type=INPROGRESS;
 	forceEvaled[force] = true;
 	return cachedVal=forces[force]->getForce(obj1, tri1, obj2, tri2);
 }
 
-fizdatum FizEngine::getPropVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
+fizdatum FizEngine::getMacroVal(const std::string& macro, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
 {	
-	if(isCached(pcache.prop))
+	if(contains(mcache,macro))
 	{		
-		fizdatum& cachedVal=pcache[prop];
+		fizdatum& cachedVal=mcache[macro];
 		if(cachedVal.type==INPROGRESS)
 		{
 			throw logic_error("No circular references, please");
 		}
 		return cachedVal;
 	}
-	fizdatum& cachedVal=pcache[prop];
+	if(!contains(props,macro))
+	{
+		throw logic_error("Invalid macro");
+	}
+	fizdatum& cachedVal=mcache[macro];
 	cachedVal.type=INPROGRESS;
-	return cachedVal=props[prop]->eval(obj1, tri1, obj2, tri2);
+	return cachedVal=props[macro]->eval(obj1, tri1, obj2, tri2);
 }
 
-bool FizEngine::isCached(const std::map<std::string, fizdatum>& cache, const std::string& key);
+fizdatum FizEngine::getConstVal(const std::string& constant)
+{
+	if(!contains(ccache,constant))
+	{
+		throw logic_error("Invalid constant");
+	}
+	return ccache[constant];
+}
+
+bool FizEngine::contains(const std::map<std::string, fizdatum>& cache, const std::string& key);
 {
 	return cache.count(key) != 0; 
 }
 
 void FizEngine::clearDistributedCaches()
 {
-	for(std::set<std::string>::const_iterator it = propdist.begin(); it != propdist.end(); ++it)
+	for(std::set<std::string>::const_iterator it = macrodist.begin(); it != macrodist.end(); ++it)
 	{
-		pcache.remove(it->first);
+		mcache.remove(it->first);
 	}
 	for(std::set<std::string>::const_iterator it = forcedist.begin(); it != forcedist.end(); ++it)
 	{
@@ -387,11 +404,11 @@ void FizEngine::clearDistributedCaches()
 	}
 }
 
-void FizEngine::clearNonsymmetricProperties()
+void FizEngine::clearNonsymmetricCaches()
 {
-	for(std::set<std::string>::cons_iterator it = propsymmetric.begin(); it != propsymmetric.end(); ++it)
+	for(std::set<std::string>::cons_iterator it = macrosymmetric.begin(); it != macrosymmetric.end(); ++it)
 	{
-		pcache.remove(it->first);
+		mcache.remove(it->first);
 	}
 
 	for(std::set<std::string>::cons_iterator it = forcesymmetric.begin(); it != forcesymmetric.end(); ++it)

@@ -82,6 +82,10 @@ class FizEngine
 		 *  @note The forces and objects must be inititalized via step
 		 */
 		void evalForce(FizForce * force, FizObject * o1, FizObject * o2);
+
+		//Cache of Forces and Macros
+		std::map<std::string, fizdatum> fcache;
+		std::map<std::string, fizdatum> mcache;
 	public:
 		/** Steps the physics engine, calculating and storing the next step
 		 *  @param thisStep A pointer to a vector of FizObjects representing the current state
@@ -107,22 +111,20 @@ class FizEngine
 
 		//List of current sums of forces and torques
 		std::map<std::string, vec3[2]> forcesums;
-
-		//Cache of Forces and Properties
-		std::map<std::string, fizdatum> fcache;
-		std::map<std::string, fizdatum> pcache;
-		
+	
 		//Constant cache
 		std::map<std::string, fizdatum> * ccache;
-		std::set<std::string> propdist; // All distributed props
-		std::set<std::string> forcedist;
-		std::set<std::string> propsymmetric;
-		std::set<std::string> forcesymmetric;
+
+		// Sets of important things
+		std::set<std::string> macrodist; // All distributed macros
+		std::set<std::string> forcedist; // All distributed forces
+		std::set<std::string> macrosymmetric; // All symmetric macros
+		std::set<std::string> forcesymmetric; // All symmetric forces
 
 		// These either retreive from cache or eval
 		fizdatum getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
-		fizdatum getPropVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
-		fizdatum getConstVal(const std::string& prop, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+		fizdatum getMacroVal(const std::string& macro, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
+		fizdatum getConstVal(const std::string& constant);
 
 		// True = Thing is cached, false = Thing is not cached
 		bool isCached(const std::map<std::string, fizdatum> cache, const std::string& key);

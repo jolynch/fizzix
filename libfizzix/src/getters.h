@@ -35,16 +35,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "fizformget.h"
 
 class FizFormGetMacro : public FizFormGet
-{	public: FizFormGetMacro(std::string id);
-	const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
-}
+{
+	public:
+		FizFormGetMacro(std::string id);
+		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
+};
+
 class FizFormGetForce : public FizFormGet
-{	public: FizFormGetForce(std::string id);
-	const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
-}
+{
+	public:
+		FizFormGetForce(std::string id);
+		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
+};
+
 class FizFormGetConst : public FizFormGet
-{	public: FizFormGetConst(std::string id);
-	const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
-}
+{
+	private:
+		std::string identifier;
+	public:
+		FizFormGetConst(std::string id);
+		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
+};
 
 #endif

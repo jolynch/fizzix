@@ -25,11 +25,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef FIZFORMGETFORCE_CPP
 #define FIZFORMGETFORCE_CPP
 
-#include "fizformgetforce.h"
+#include "getters.h"
 
 using namespace std;
-
-FizFormGetForce::FizFormGetForce(string id) : identifier(id) {};
 
 const fizdatum FizFormGetForce::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
