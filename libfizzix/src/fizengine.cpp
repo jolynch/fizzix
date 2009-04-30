@@ -95,7 +95,7 @@ void FizEngine::evalForces()
 						{
 							dforce = force->getForce(obj1, obj1.rgetCOMTriangle(), obj2, obj2.rgetCOMTriangle());
 							(*evaluatedForces)[&obj1].first += dforce;
-							if (force->isSymmetric()) (*evaluatedForces)[&obj2][0] -= dforce; //opposite direction
+							if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce; //opposite direction
 							else
 							{
 								clearNonsymmetricCaches();
