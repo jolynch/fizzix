@@ -72,7 +72,7 @@ class FizEngine
 
 		//TODO: Make sure that 
 		/** Loop through every object, and then
-		 *  forces calling evalForce on it
+		 *  triangles, and then forces calling evalForce on it
 		 *  @note The forces looped through are those passed into step
 		 */
 		void evalForces();
@@ -81,7 +81,7 @@ class FizEngine
 		 *  @param force A pointer to the force to be evaluated
 		 *  @note The forces and objects must be inititalized via step
 		 */
-		void evalForce(FizForce * force, FizObject * o1, FizObject * o2);
+		//void evalForce(FizForce * force, FizObject * o1, FizObject * o2);
 
 		//Cache of Forces and Macros
 		std::map<std::string, fizdatum> fcache;

@@ -46,10 +46,7 @@ enum Type {NIL, SCALAR, VECTOR, INPROGRESS};
 typedef FizStack<FizFormNode*> fizstack;
 typedef vec3 point;
 
-#ifndef DIVCONSTS
-#define DIVCONSTS
-double div_consts[] = {1.0/6.0, 1.0/24.0, 1.0/60.0, 1.0/120.0};
-#endif
+static double div_consts[] = {1.0/6.0, 1.0/24.0, 1.0/60.0, 1.0/120.0};
 
 struct vec3
 {

@@ -43,18 +43,18 @@ FizEngine::FizEngine()
 
 /* Step and compute
  */
-void step(std::vector<FizObject*> * thisStep,
+void FizEngine::step(std::vector<FizObject*> * thisStep,
 		       	std::vector<FizObject*> * nextStep,
 		       	std::map<std::string, FizForce*> * forces,
 		       	std::map<std::string, FizFormula*> * macros,
 			std::map<std::string, fizdatum> * ccache,
 		      	double dt)
 {
-	this.thisStep = thisStep;
-	this.nextStep = nextStep;
-	this.forces = forces;
-	this.props = macros; // Eventually props should be renamed to macros
-	this.ccache = ccache;
+	this->thisStep = thisStep;
+	this->nextStep = nextStep;
+	this->forces = forces;
+	this->props = macros; // Eventually props should be renamed to macros
+	this->ccache = ccache;
 }
 
 /* Step thorugh objects
@@ -74,14 +74,14 @@ void FizEngine::evalForces()
 		while(inner_iter != thisStep->end())
 		{
 			if(inner_iter == outer_iter) continue;
-			FizObject obj1 = *outer_iter;
-			FizObject obj2 = *inner_iter;
+			FizObject obj1 = **outer_iter;
+			FizObject obj2 = **inner_iter;
 			std::vector<triangle>& tris1 = obj1.rgetVertices();
 			std::vector<triangle>& tris2 = obj2.rgetVertices();
 			vec3 dforce;
 			
 			//for(int i=0; i<forces.size(); i++)
-			for (std::vector<FizForce*>::iterator i = forces.begin(); i != forces.end(); i++)
+			for (std::vector<FizForce*>::iterator i = forces->begin(); i != forces->end(); i++)
 			{
 				//evalForce(forces[i], *outer_iter, *inner_iter);
 				FizForce* force = i->second;
@@ -219,7 +219,7 @@ void FizEngine::evalForces()
  *
  *result[0] = new velocity
  *result[1] = new acceleration
- */
+ *
 void eval(vec3 state[], vec3 derivatives[], double dt, vec3 results[])
 {
 	vec3 newstate[2];
@@ -242,7 +242,7 @@ void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
 	vec3 result[4] = force->eval(*(ro[0]),*(ro[1]));
 	//TODO: result(4) = evaluatedForces[o1](2), evaluatedForces[o2](2)
 	
-	/* Runga Kutta == MAGIC
+	* Runga Kutta == MAGIC
 	 * t = time
 	 * dt = delta t
 	 * xi = initial position
@@ -257,7 +257,7 @@ void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
 	 *
 	 * Note that I cheat a little because
 	 * I say accel is constant
-	 */
+	 *
 	
 	int x = 0; int v = 1;
 	vec3 d[2];
@@ -290,7 +290,7 @@ void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
 			tdf[j][1] = tdi[j][1] + ((k1[1] + k2[1] * 2 + k3[1] * 2 + k4[1]) / 6);
 		}
 	}
-}
+} */
 
 /** Applys the force and torque on ob1 using a Runge-Kutta foruth order solver
  * 
