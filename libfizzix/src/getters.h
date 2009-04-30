@@ -25,13 +25,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef GETTERS_H
 #define GETTERS_H
 
+/*
+???
 #include <vector>
 #include <stack>
 #include <string>
 #include <stdexcept>
 #include <cmath>
 #include <cstdlib>
+*/
 
+#include "fizengine.h"
 #include "fizformget.h"
 
 class FizFormGetMacro : public FizFormGet
