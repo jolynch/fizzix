@@ -46,7 +46,7 @@ class FizForce
 		~FizForce();
 		//applies and evaluates force and torque between two different objects
 		//std::vector<vec3> eval(FizObject& obj1, FizObject& obj2); //first is F about COM on the first, second is T, F2, T2
-		vec3 getForce(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2);
+		vec3 getForce(const FizObject& obj1,const triangle& tri1,const FizObject& obj2,const triangle& tri2);
 		bool isSymmetric();
 		bool isDistributed();
 		void setSymmetric();

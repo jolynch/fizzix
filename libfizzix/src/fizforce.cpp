@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizforce.h"
 
-vec3 FizForce::getForce(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2)
+vec3 FizForce::getForce(const FizObject& obj1,const triangle& tri1,const FizObject& obj2,const triangle& tri2)
 {
 	vec3 force;
 	fizdatum form = formula.eval(obj1, tri1, obj2, tri2);

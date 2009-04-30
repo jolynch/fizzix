@@ -127,7 +127,11 @@ class FizEngine
 		fizdatum getConstVal(const std::string& constant);
 
 		// True = Thing is cached, false = Thing is not cached
-		bool isCached(const std::map<std::string, fizdatum> cache, const std::string& key);
+		template< class T >	
+		bool contains(const std::map<std::string, T> cache, const std::string& key)
+		{
+		        return cache.count(key) != 0;
+		}
 
 		void clearDistributedCaches(); // Clears distributed properties from cache
 		void clearNonsymmetricCaches();
