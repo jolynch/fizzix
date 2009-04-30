@@ -56,7 +56,7 @@ libfizzix_la_DEPENDENCIES = fizformoperators/libfizformoperators.la
 am_libfizzix_la_OBJECTS = fizengine.lo fizformanonconst.lo \
 	gen_structs.lo fizforce.lo fizformnode.lo fizformula.lo \
 	fizobject.lo quaternion.lo fizformgetconst.lo \
-	fizformgetfoce.lo fizformgetmacro.lo
+	fizformgetforce.lo fizformgetmacro.lo
 libfizzix_la_OBJECTS = $(am_libfizzix_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -254,7 +254,7 @@ fizformula.h \
 fizobject.h \
 quaternion.h \
 fizformgetconst.cpp \
-fizformgetfoce.cpp \
+fizformgetforce.cpp \
 fizformgetmacro.cpp \
 fizformget.h
 
@@ -331,7 +331,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizforce.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformanonconst.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetconst.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetfoce.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetforce.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetmacro.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformnode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformula.Plo@am__quote@

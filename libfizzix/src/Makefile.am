@@ -43,6 +43,6 @@ fizformula.h \
 fizobject.h \
 quaternion.h \
 fizformgetconst.cpp \
-fizformgetfoce.cpp \
+fizformgetforce.cpp \
 fizformgetmacro.cpp \
 fizformget.h
