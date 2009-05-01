@@ -210,12 +210,12 @@ void FizObject::computeBounds()
 	}
 }
 
-const fizdatum FizObject::operator[](const std::string& key) 
+const fizdatum FizObject::operator[](const std::string& key) const
 {
 	return getProperty(key);
 }
 
-bool FizObject::contains(const std::string& key) 
+bool FizObject::contains(const std::string& key) const
 { 
 	return props.count(key) != 0; 
 }
@@ -287,7 +287,7 @@ void FizObject::setMass(double newmass)			{ mass = newmass;
 const std::string FizObject::getName() const			{ return name; }
 void FizObject::setName(std::string newname)		{ name = newname;}
 
-fizdatum FizObject::getProperty(std::string key) 
+fizdatum FizObject::getProperty(std::string key) const
 {
 	if(contains(key))
 	{

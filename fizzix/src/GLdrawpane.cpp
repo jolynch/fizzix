@@ -29,10 +29,8 @@ QSize GLDrawPane::sizeHint() const
 
 void GLDrawPane::rotate(double upAmt, double leftAmt)
 {
-	Quaternion posq = rot * Quaternion(0,0,0,1) * (rot.conjugate());
-	vec3 pos(posq[1],posq[2],posq[3]);
-	Quaternion upq = rot * Quaternion(0,0,1,0) * (rot.conjugate());
-	vec3 up(upq[1],upq[2],upq[3]);
+	vec3 pos = rot.transformVec(vec3(0,0,1));
+	vec3 up = rot.transformVec(vec3(0,1,0));
 	vec3 left = up.cross(pos);
 	vec3 comb = up*upAmt + left*leftAmt;
 	double mag = comb.mag()*rotSpeed;
@@ -49,11 +47,9 @@ void GLDrawPane::changeZoom(double amount)
 
 vec3 GLDrawPane::moveCamera()
 {
-	Quaternion posq = rot * Quaternion(0,0,0,1) * (rot.conjugate());
-	vec3 pos(posq[1],posq[2],posq[3]);
+	vec3 pos = rot.transformVec(vec3(0,0,1));
 	pos *= zoom;
-	Quaternion upq = rot * Quaternion(0,0,1,0) * (rot.conjugate());
-	vec3 up(upq[1],upq[2],upq[3]);
+	vec3 up = rot.transformVec(vec3(0,1,0));
 	gluLookAt(pos.x,pos.y,pos.z,0,0,0,up.x,up.y,up.z);
 	return pos;
 }
@@ -70,7 +66,7 @@ void drawObject(const DrawableObject & obj)
 		const vector<triangle> & mesh = obj.getVertices();
 		const vec3 & colors = obj["color"].vector;
 		const vec3 & pos = obj.getPos();
-		const Quaternion & q = obj.getQuaternion();
+//		const Quaternion & q = obj.getQuaternion();
 		glColor4d(colors[0],colors[1],colors[2],1.0);
 		glTranslated(pos[0],pos[1],pos[2]);
 		if (obj.getProperty(SMOOTH))
@@ -218,10 +214,10 @@ void GLDrawPane::paintGL()
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom,pos[0],pos[1],pos[2]),.25,false);
 	glDisable(GL_BLEND);
-	const vector<DrawableObject> & objs = panel->getObjs();
+	/*const vector<DrawableObject *> & objs = panel->getObjs();
 	for (int i = 0;i < (int)objs.size();i++) {
-		drawObject(objs[i]);
-	}
+	  drawObject(*(objs[i]));
+	  }*/
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom,pos[0],pos[1],pos[2]),.25,true);
 	glDisable(GL_BLEND);

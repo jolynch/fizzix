@@ -135,9 +135,9 @@ class FizObject
 		 *  @param key A string name for the property, mass would be "mass", center of mass "COM", etc ...
 		 *  @return a result_t struct containing any values if found (otherwise 0,NULL,NULL)
 		 */
-		const fizdatum operator[](const std::string& key);
+		const fizdatum operator[] (const std::string& key) const;
 
-		bool contains(const std::string& key);
+		bool contains(const std::string& key) const;
 		
 		/** Time dependant property access and modification 
 		 */
@@ -197,7 +197,7 @@ class FizObject
 
 		/** User defined properties
 		 */
-		fizdatum getProperty(std::string key);
+		fizdatum getProperty(std::string key) const;
 		void setProperty(std::string key, fizdatum);
 		//Returns the number of elements removed (0 for none, 1 for one ...)	
 		int removeProperty(std::string key);
