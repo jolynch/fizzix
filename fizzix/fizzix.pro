@@ -18,6 +18,8 @@ src/propertypanel.h \
 src/databrowser.h \
 src/dataeditor.h \
 src/simulationcontrol.h \
+src/drawableobject.h \
+src/GLdrawpane.h \
 
 
 SOURCES+=src/main.cpp \
@@ -29,3 +31,8 @@ src/propertypanel.cpp \
 src/databrowser.cpp \
 src/dataeditor.cpp \
 src/simulationcontrol.cpp \
+src/drawableobject.cpp \
+src/GLdrawpane.cpp \
+
+
+QT+=opengl

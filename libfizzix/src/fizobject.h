@@ -163,36 +163,36 @@ class FizObject
 			
 		/** List of the bounding triangles access and modification
 		 */
-		const std::vector<triangle> getVertices();	
+		const std::vector<triangle> getVertices() const;	
 		std::vector<triangle>& rgetVertices(); 	
 		void setVertices(std::vector<triangle> newvertices);
 		
-		const triangle getCOMTriangle();
+		const triangle getCOMTriangle() const;
 		triangle& rgetCOMTriangle();
 		void setCOMTriangle(triangle tri);
 		
 		/** Rotation specific members
 		 */
 
-		const Quaternion getQuaternion();
+		const Quaternion getQuaternion() const;
 		Quaternion& rgetQuaternion();
 		void setQuaternion(Quaternion newquat);
 
-		std::vector<double> getInertiaTensor() const;
+		const std::vector<double> getInertiaTensor() const;
 		std::vector<double>& rgetInertiaTensor();
 		void setInertiaTensor(std::vector<double> newtensor);
                 
-		std::vector<double> getInertiaTensorInv() const;
+		const std::vector<double> getInertiaTensorInv() const;
 		std::vector<double>& rgetInertiaTensorInv();
 		void setInertiaTensorInv(std::vector<double> newtensor);
 		
 		/** Other properties
 		 */
-		double getMass();
+		double getMass() const;
 		double& rgetMass();
 		void setMass(double newmass);
 
-		std::string getName();
+		const std::string getName() const;
 		void setName(std::string newname);
 
 		/** User defined properties

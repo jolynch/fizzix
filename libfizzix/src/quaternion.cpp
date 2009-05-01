@@ -99,6 +99,18 @@ void Quaternion::normalize(double tolerance)
 	}
 }
 
+Quaternion Quaternion::conjugate()
+{
+	return Quaternion(values.w,-values.x,-values.y,-values.z);
+}
+
+vec3 Quaternion::transformVec(const vec3 & vec)
+{
+	Quaternion v(0,vec.x,vec.y,vec.z);
+	v = ((*this) * (v)) * (this->conjugate());
+	return vec3(v[1],v[2],v[3]);
+}
+
 const double Quaternion::operator[](const int index) const
 {
 	if (index == 0) return values.w;

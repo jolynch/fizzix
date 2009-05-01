@@ -21,9 +21,6 @@ class GLDrawPane: public QGLWidget
 		//  @return:  the current camera position
 		vec3 moveCamera();
 		//Draw any object composed of a triangle mesh.  The triangles must store unit normals.
-		//  @argument properties:  An integer with bits representing properties of the object:
-		//    Bit 0: hidden
-		//    Bit 1: smooth
 		void drawObject(const DrawableObject & obj);
 		//Given a box with faces (x,y,z) = (+r,-r) which contains objects, return which faces are behind any drawn objects, and which are in front of them as bits in an integer.
 		//  @return:  A 6 bit integer with bits (from least to most significant):
@@ -39,20 +36,20 @@ class GLDrawPane: public QGLWidget
 		//The Object panel to get the list of objects from
 	   	ObjectPanel * panel;
 		//How fast to rotate
-		const double rotSpeed;
+		double rotSpeed;
 		//Current orientation
 		Quaternion rot;
 
 		//How fast to zoom in and out
-		const double zoomSpeed;
+		double zoomSpeed;
 		//Current zoom
 		double zoom;
 		//Maximum zoom, and the size of the box
-		const double maxZoom;
+		double maxZoom;
 		//Information about the window
 		double height;
 		double width;
-		const double fov;
+		double fov;
 
 	protected:
 		//Turn on the lights
@@ -64,7 +61,7 @@ class GLDrawPane: public QGLWidget
 
 	public:
 		//Create the GL panel
-		GLDrawPane(QWidget * parent = 0);
+		GLDrawPane(QWidget * parent = 0, double _rotate = 1, double _zoom = 1, double _maxZoom = 100, double fieldOfView = 60);
 
 		//Return the requested size of this widget.
 		QSize sizeHint() const;

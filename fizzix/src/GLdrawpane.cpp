@@ -10,7 +10,7 @@
 
 using namespace std;
 
-GLDrawPane:GLDrawPane(QWidget * parent = 0, _rotate = 1, _zoom = 1, _maxZoom = 100, fieldOfView = 60) : QGLWidget(parent)
+GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _maxZoom, double fieldOfView) : QGLWidget(parent)
 {
 	rotSpeed = _rotate;
 	zoomSpeed = _zoom;
@@ -49,10 +49,6 @@ void GLDrawPane::changeZoom(double amount)
 
 vec3 GLDrawPane::moveCamera()
 {
-	double w = rot[0];
-	double x = rot[1];
-	double y = rot[2];
-	double z = rot[3];
 	Quaternion posq = rot * Quaternion(0,0,0,1) * (rot.conjugate());
 	vec3 pos(posq[1],posq[2],posq[3]);
 	pos *= zoom;
@@ -64,8 +60,7 @@ vec3 GLDrawPane::moveCamera()
 
 void drawObject(const DrawableObject & obj)
 {
-	int properties = obj.getProperties();
-	if (!(properties & 1))
+	if (!obj.getProperty(HIDDEN))
 	{
 		int mode;
 		glGetIntegerv(GL_MATRIX_MODE,&mode);
@@ -73,15 +68,15 @@ void drawObject(const DrawableObject & obj)
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
 		const vector<triangle> & mesh = obj.getVertices();
-		const vec3 & colors = obj["color"];
+		const vec3 & colors = obj["color"].vector;
 		const vec3 & pos = obj.getPos();
 		const Quaternion & q = obj.getQuaternion();
 		glColor4d(colors[0],colors[1],colors[2],1.0);
 		glTranslated(pos[0],pos[1],pos[2]);
-		if (properties & 2)
+		if (obj.getProperty(SMOOTH))
 		{
 			glBegin(GL_TRIANGLES);
-			for (int i = 0;i < mesh.size();i++)
+			for (int i = 0;i < (int)mesh.size();i++)
 			{
 				const triangle & currT = mesh[i];
 				for (int v = 0;v < 3;v++)
@@ -89,9 +84,9 @@ void drawObject(const DrawableObject & obj)
 					const vertex & currV = currT[v];
 					vec3 currNormal;
 					double num;
-					for (num = 0;num < currV.triangles.size();num++)
+					for (num = 0;num < (int)currV.triangles.size();num++)
 					{
-						currNormal += currV(num)->unit_normal;
+						currNormal += currV(num).unit_normal;
 					}
 					currNormal/=currNormal.mag();
 					glNormal3d(currNormal[0],currNormal[1],currNormal[2]);
@@ -103,7 +98,7 @@ void drawObject(const DrawableObject & obj)
 		else
 		{
 			glBegin(GL_TRIANGLES);
-			for(int i = 0;i < mesh.size();i++)
+			for(int i = 0;i < (int)mesh.size();i++)
 			{
 				const triangle & currT = mesh[i];
 				const vec3 & n = currT.unit_normal;
@@ -122,7 +117,7 @@ void drawObject(const DrawableObject & obj)
 	}
 }
 
-static int GLDrawPane::boxFrontFaces(double r, double x, double y, double z)
+int GLDrawPane::boxFrontFaces(double r, double x, double y, double z)
 {
 	int tot = ((x > r) << 0);
 	tot += ((x < -r) << 1);
@@ -221,14 +216,14 @@ void GLDrawPane::paintGL()
 	glLoadIdentity();
 	vec3 pos = moveCamera();
 	glEnable(GL_BLEND);
-	drawBox(GLDrawPane.boxFrontFaces(maxZoom,pos[0],pos[1],pos[2],.25,false);
+	drawBox(GLDrawPane::boxFrontFaces(maxZoom,pos[0],pos[1],pos[2]),.25,false);
 	glDisable(GL_BLEND);
 	const vector<DrawableObject> & objs = panel->getObjs();
-	for (int i = 0;i < objs.size();i++) {
+	for (int i = 0;i < (int)objs.size();i++) {
 		drawObject(objs[i]);
 	}
 	glEnable(GL_BLEND);
-	drawBox(GLDrawPane.boxFrontFaces(maxZoom,pos[0],pos[1],pos[2]),.25,true);
+	drawBox(GLDrawPane::boxFrontFaces(maxZoom,pos[0],pos[1],pos[2]),.25,true);
 	glDisable(GL_BLEND);
 }
 

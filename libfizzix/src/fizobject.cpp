@@ -251,16 +251,16 @@ void FizObject::setAlp(vec3 newalp)			{ alp = newalp;
 							  props["angular_acceleration"] = fizdatum(0.0, alp, VECTOR);
 							}
 	
-const std::vector<triangle> FizObject::getVertices()		{ return vertices; }
+const std::vector<triangle> FizObject::getVertices() const		{ return vertices; }
 std::vector<triangle>& FizObject::rgetVertices() 		{ return vertices; }
 void FizObject::setVertices(std::vector<triangle> newvertices) 	{ vertices = newvertices; }
 		
 
-const Quaternion FizObject::getQuaternion() 		{ return quaternion; }
+const Quaternion FizObject::getQuaternion() const 		{ return quaternion; }
 Quaternion& FizObject::rgetQuaternion()			{ return quaternion; }
 void FizObject::setQuaternion(Quaternion newquat)	{ quaternion = newquat;	}
 
-std::vector<double> FizObject::getInertiaTensor() const		{ return inertiaTensor; }
+const std::vector<double> FizObject::getInertiaTensor() const		{ return inertiaTensor; }
 std::vector<double>& FizObject::rgetInertiaTensor()		{ return inertiaTensor; }
 void FizObject::setInertiaTensor(std::vector<double> newtensor)	{ 
 							  	if(newtensor.size() == 6)
@@ -270,7 +270,7 @@ void FizObject::setInertiaTensor(std::vector<double> newtensor)	{
 								}
 
            
-std::vector<double> FizObject::getInertiaTensorInv() const		{ return inertiaTensorInv; }
+const std::vector<double> FizObject::getInertiaTensorInv() const		{ return inertiaTensorInv; }
 std::vector<double>& FizObject::rgetInertiaTensorInv()			{ return inertiaTensorInv; }
 void FizObject::setInertiaTensorInv(std::vector<double> newtensor)	{
 									if(newtensor.size() == 6)
@@ -278,13 +278,13 @@ void FizObject::setInertiaTensorInv(std::vector<double> newtensor)	{
 									else
 										throw std::invalid_argument("Inertia Tensors are size 6 because they are symmetric");
 									}
-double FizObject::getMass()				{ return mass; }
+double FizObject::getMass()	const			{ return mass; }
 double& FizObject::rgetMass()				{ return mass; }
 void FizObject::setMass(double newmass)			{ mass = newmass; 
       						          props["mass"] = fizdatum(mass, vec3(), SCALAR);
 							}
 
-std::string FizObject::getName()			{ return name; }
+const std::string FizObject::getName() const			{ return name; }
 void FizObject::setName(std::string newname)		{ name = newname;}
 
 fizdatum FizObject::getProperty(std::string key) 
@@ -309,7 +309,7 @@ int FizObject::removeProperty(std::string key)
 	return props.erase(key);
 }
 
-const triangle FizObject::getCOMTriangle()		{ return comtriangle; }
+const triangle FizObject::getCOMTriangle() const		{ return comtriangle; }
 triangle& FizObject::rgetCOMTriangle()			{ return comtriangle; }
 void FizObject::setCOMTriangle(triangle tri)		{ comtriangle = tri; }
 
