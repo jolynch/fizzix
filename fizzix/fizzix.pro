@@ -7,7 +7,8 @@ CONFIG = qt opengl thread resources exceptions warn_on stl rtti
 MOC_DIR = moc
 OBJECTS_DIR = build
 RESOURCES = fizzix.qrc
-
+QT += opengl
+LIBS +=  -lfizzix
 # Fizzix
 
 HEADERS+=src/forcepanel.h \
@@ -33,6 +34,3 @@ src/dataeditor.cpp \
 src/simulationcontrol.cpp \
 src/drawableobject.cpp \
 src/GLdrawpane.cpp \
-
-
-QT+=opengl
