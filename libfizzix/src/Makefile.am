@@ -45,4 +45,6 @@ quaternion.h \
 fizformgetconst.cpp \
 fizformgetforce.cpp \
 fizformgetmacro.cpp \
-fizformget.h
+fizformget.h \
+fizformget.cpp
+

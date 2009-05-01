@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef FIZFORMGET_CPP
 #define FIZFORMGET_CPP
 
-#include "getters.h"
+#include "fizformget.h"
 
 using namespace std;
 
