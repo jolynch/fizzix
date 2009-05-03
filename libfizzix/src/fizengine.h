@@ -50,10 +50,10 @@ class FizEngine
 {
 	private:
 		//Vector containing current object information
-		std::vector<FizObject*> * thisStep;
+		std::map<std::string, FizObject*> * thisStep;
 		
 		//Vector to store new object information in
-		std::vector<FizObject*> * nextStep;
+		std::map<std::string, FizObject*> * nextStep;
 		
 		//Map of object pointers to their forces and torques
 		std::map<FizObject*, std::pair<vec3,vec3> > * evaluatedForces;
@@ -87,6 +87,9 @@ class FizEngine
 		*/
 		void collisions(FizObject& obj1, FizObject& obj2);
 
+		//TODO COMMENT
+		void applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt);
+
 		//Cache of Forces and Macros
 		std::map<std::string, fizdatum> fcache;
 		std::map<std::string, fizdatum> mcache;
@@ -102,8 +105,8 @@ class FizEngine
 		 *  @note This function modifies the nextStep vector IN PLACE
 		 */
 		void step(
-			std::vector<FizObject*> * thisStep,
-		       	std::vector<FizObject*> * nextStep,
+			std::map<std::string, FizObject*> * thisStep,
+		       	std::map<std::string, FizObject*> * nextStep,
 		       	std::map<std::string, FizForce*> * forces,
 		       	std::map<std::string, FizFormula*> * macros,
 			std::map<std::string, fizdatum> * ccache,

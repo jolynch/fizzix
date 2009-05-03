@@ -43,11 +43,11 @@ FizEngine::FizEngine()
 
 /* Step and compute
  */
-void FizEngine::step(std::vector<FizObject*> * thisStep,
-		       	std::vector<FizObject*> * nextStep,
-		       	std::map<std::string, FizForce*> * forces,
+void FizEngine::step(	std::map<std::string, FizObject*>  * thisStep,
+		       	std::map<std::string, FizObject*>  * nextStep,
+		       	std::map<std::string, FizForce*>   * forces,
 		       	std::map<std::string, FizFormula*> * macros,
-			std::map<std::string, fizdatum> * ccache,
+			std::map<std::string, fizdatum>    * ccache,
 		      	double dt)
 {
 	this->thisStep = thisStep;
@@ -55,6 +55,8 @@ void FizEngine::step(std::vector<FizObject*> * thisStep,
 	this->forces = forces;
 	this->props = macros; // Eventually props should be renamed to macros
 	this->ccache = ccache;
+	this->dt = dt;
+	evalForces();
 }
 
 /* Step thorugh objects
@@ -64,8 +66,8 @@ void FizEngine::evalForces()
 	if(thisStep == NULL) 
 		throw std::logic_error("Nothing to work on??");
 	
-	std::vector<FizObject*>::iterator outer_iter = thisStep->begin();
-	std::vector<FizObject*>::iterator inner_iter;
+	std::map<std::string, FizObject*>::iterator outer_iter = thisStep->begin();
+	std::map<std::string, FizObject*>::iterator inner_iter;
 	std::map<std::string,FizForce*>::iterator force_iter;
 	while(outer_iter != thisStep->end())
 	{
@@ -75,8 +77,8 @@ void FizEngine::evalForces()
 		while(!(inner_iter == thisStep->end()))
 		{
 			if(inner_iter == outer_iter) continue;
-			FizObject obj1 = **outer_iter;
-			FizObject obj2 = **inner_iter;
+			FizObject obj1 = *(outer_iter->second);
+			FizObject obj2 = *(inner_iter->second);
 			collisions(obj1, obj2);
 			std::vector<triangle>& tris1 = obj1.rgetVertices(); //actually, triangles, not vertices
 			std::vector<triangle>& tris2 = obj2.rgetVertices();
@@ -210,6 +212,11 @@ void FizEngine::evalForces()
 		//DO NOT CHANGE BELOW THIS POINT
 		outer_iter++;
 		//DONE
+	}
+	std::map<FizObject*, std::pair<vec3,vec3> >::iterator iter = evaluatedForces->begin();
+	while(iter!= evaluatedForces->end())
+	{
+		this->applyForceAndTorque(iter->second.first,iter->second.second, iter->first, this->dt);
 	}
 }
 
@@ -357,7 +364,7 @@ vec3 torque_helper(vec3 w, std::vector<double> i, vec3 t)
  *  @param ob1 The object to modify
  *  @param dt The time period over which this force/torque is applied
  */
-void applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt)
+void FizEngine::applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt)
 {
 	vec3 new_pos, new_vel, new_w;
 	Quaternion new_quat;
