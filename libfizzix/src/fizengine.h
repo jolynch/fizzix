@@ -82,6 +82,10 @@ class FizEngine
 		 *  @note The forces and objects must be inititalized via step
 		 */
 		//void evalForce(FizForce * force, FizObject * o1, FizObject * o2);
+		
+		/** Checks for collisions between two objects and if it exists, applies a collision reaction force between whatever triangles of theirs have collided
+		*/
+		void collisions(FizObject& obj1, FizObject& obj2);
 
 		//Cache of Forces and Macros
 		std::map<std::string, fizdatum> fcache;

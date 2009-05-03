@@ -33,41 +33,41 @@ FizObject::FizObject()
 {
 	vec3 color(64.0, 64.0, 64.0);
 	//The pointer is so that the default vertices don't die after the constructor
-	this->init("UnNamed", color, *(new std::vector<triangle>()));
+	this->init("UnNamed", color, *(new std::vector<triangle>()), 1);
 }
 	
 //Constructor that inits the name
-FizObject::FizObject(std::string newname) 
+FizObject::FizObject(std::string newname, double mass) 
 {
 	vec3 color(64.0,64.0,64.0);
-	this->init(newname, color, *(new std::vector<triangle>()));
+	this->init(newname, color, *(new std::vector<triangle>()), mass);
 }
 
 //Constructor that inits the name, color and possibly the smoothity
-FizObject::FizObject(std::string newname, vec3 color)
+FizObject::FizObject(std::string newname, vec3 color, double mass)
 {
-	this->init(newname,color, *(new std::vector<triangle>()));
+	this->init(newname,color, *(new std::vector<triangle>()), mass);
 }
 
 // Constructor that inits the name and vertices and possibly the smoothity
-FizObject::FizObject(std::string newname, std::vector<triangle> new_vertices) 
+FizObject::FizObject(std::string newname, std::vector<triangle> new_vertices, double mass) 
 {
 	vec3 color(64.0, 64.0, 64.0);
-	this->init(newname,color,new_vertices);
+	this->init(newname,color,new_vertices, mass);
 }
 
 // Constructor that inits the vertices, color, and smoothity
-FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle> new_vertices)
+FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle> new_vertices, double mass)
 {
-	this->init(newname, color, new_vertices);
+	this->init(newname, color, new_vertices, mass);
 }
 
 // Init the object
-void FizObject::init(std::string name, vec3 color, const std::vector<triangle>& tinit)
+void FizObject::init(std::string name, vec3 color, const std::vector<triangle>& tinit, double mass)
 {
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
-	this->init_object(name,color,tinit);
+	this->init_object(name,color,tinit, mass);
 	this->compute();
 	this->adjustMasses();
 	this->computeBounds();
@@ -75,11 +75,12 @@ void FizObject::init(std::string name, vec3 color, const std::vector<triangle>& 
 
 /** Initialized the structure, used by constructors
  */
-void FizObject::init_object(std::string name, vec3 color, const std::vector<triangle>& tinit) 
+void FizObject::init_object(std::string name, vec3 color, const std::vector<triangle>& tinit, double mass) 
 {
 	this->name = name;
 	vertices = tinit;
 	props["color"] = fizdatum(0.0, color, VECTOR);
+	setMass(mass);
 }
 
 /** Next two methods complements to Game Physics, 2nd Edition, by David H Elberly,
@@ -89,8 +90,7 @@ void FizObject::init_object(std::string name, vec3 color, const std::vector<tria
  *  These formulas found on pg 75 - 79
  */
 
-//NOT A MEMBER OF FIZOBJECT. helper
-void sub_compute(const double& w0, const double& w1, const double& w2, 
+void FizObject::sub_compute(const double& w0, const double& w1, const double& w2, 
 		 double& f1, double& f2, double& f3,
 	       	 double& g0, double& g1, double& g2) 
 {
@@ -221,46 +221,46 @@ bool FizObject::contains(const std::string& key) const
 }
 
 //Getters and setters
-const vec3 FizObject::getPos() const				{ return pos; }
+const vec3 FizObject::getPos() const			{ return pos; }
 vec3& FizObject::rgetPos() 				{ return pos; }
 void FizObject::setPos(vec3 newpos)			{ pos = newpos; 
 							  props["position"] = fizdatum(0.0, pos, VECTOR); 
 							}
 
-const vec3 FizObject::getVel() const 				{ return vel; }
+const vec3 FizObject::getVel() const 			{ return vel; }
 vec3& FizObject::rgetVel() 				{ return vel; }
 void FizObject::setVel(vec3 newvel) 			{ vel = newvel; 
 							  props["velocity"] = fizdatum(0.0, vel, VECTOR);
 							}
 
-const vec3 FizObject::getAcc() const 				{ return acc; }
+const vec3 FizObject::getAcc() const 			{ return acc; }
 vec3& FizObject::rgetAcc() 				{ return acc; }
 void FizObject::setAcc(vec3 newacc)			{ acc = newacc; 
 						          props["acceleration"] = fizdatum(0.0, acc, VECTOR);
 							}
 
-const vec3 FizObject::getOme() const 				{ return ome; }
+const vec3 FizObject::getOme() const 			{ return ome; }
 vec3& FizObject::rgetOme() 				{ return ome; }
 void FizObject::setOme(vec3 newome) 			{ ome = newome; 
 							  props["angular_velocity"] = fizdatum(0.0, ome, VECTOR); 
 							}
 
-const vec3 FizObject::getAlp() const 				{ return alp; }
+const vec3 FizObject::getAlp() const 			{ return alp; }
 vec3& FizObject::rgetAlp() 				{ return alp; }
 void FizObject::setAlp(vec3 newalp)			{ alp = newalp; 
 							  props["angular_acceleration"] = fizdatum(0.0, alp, VECTOR);
 							}
 	
-const std::vector<triangle> FizObject::getVertices() const		{ return vertices; }
+const std::vector<triangle> FizObject::getVertices() const	{ return vertices; }
 std::vector<triangle>& FizObject::rgetVertices() 		{ return vertices; }
 void FizObject::setVertices(std::vector<triangle> newvertices) 	{ vertices = newvertices; }
 		
 
-const Quaternion FizObject::getQuaternion() const 		{ return quaternion; }
+const Quaternion FizObject::getQuaternion() const 	{ return quaternion; }
 Quaternion& FizObject::rgetQuaternion()			{ return quaternion; }
 void FizObject::setQuaternion(Quaternion newquat)	{ quaternion = newquat;	}
 
-const std::vector<double> FizObject::getInertiaTensor() const		{ return inertiaTensor; }
+const std::vector<double> FizObject::getInertiaTensor() const	{ return inertiaTensor; }
 std::vector<double>& FizObject::rgetInertiaTensor()		{ return inertiaTensor; }
 void FizObject::setInertiaTensor(std::vector<double> newtensor)	{ 
 							  	if(newtensor.size() == 6)
@@ -270,7 +270,7 @@ void FizObject::setInertiaTensor(std::vector<double> newtensor)	{
 								}
 
            
-const std::vector<double> FizObject::getInertiaTensorInv() const		{ return inertiaTensorInv; }
+const std::vector<double> FizObject::getInertiaTensorInv() const	{ return inertiaTensorInv; }
 std::vector<double>& FizObject::rgetInertiaTensorInv()			{ return inertiaTensorInv; }
 void FizObject::setInertiaTensorInv(std::vector<double> newtensor)	{
 									if(newtensor.size() == 6)
@@ -284,7 +284,7 @@ void FizObject::setMass(double newmass)			{ mass = newmass;
       						          props["mass"] = fizdatum(mass, vec3(), SCALAR);
 							}
 
-const std::string FizObject::getName() const			{ return name; }
+const std::string FizObject::getName() const		{ return name; }
 void FizObject::setName(std::string newname)		{ name = newname;}
 
 fizdatum FizObject::getProperty(std::string key) const
@@ -309,11 +309,15 @@ int FizObject::removeProperty(std::string key)
 	return props.erase(key);
 }
 
-const triangle FizObject::getCOMTriangle() const		{ return comtriangle; }
+const triangle FizObject::getCOMTriangle() const	{ return comtriangle; }
 triangle& FizObject::rgetCOMTriangle()			{ return comtriangle; }
 void FizObject::setCOMTriangle(triangle tri)		{ comtriangle = tri; }
 
 bool FizObject::comApprox()	{ return comapprox; }
+
+double FizObject::getMaxRad() const			{ return maxrad; }
+double& FizObject::rgetMaxRad()				{ return maxrad; }
+void FizObject::setMaxRad(double newmax)		{ maxrad = newmax; }
 
 #endif
 

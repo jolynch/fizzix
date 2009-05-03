@@ -22,35 +22,31 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef FIZSPHERE_H
+#define FIZSPHERE_H
 
-#ifndef FIZFORCE_CPP
-#define FIZFORCE_CPP
+#include "fizobject.h"
 
-#include "fizforce.h"
-
-vec3 FizForce::getForce(const FizObject& obj1,const triangle& tri1,const FizObject& obj2,const triangle& tri2)
+class FizSphere:public FizObject
 {
-	vec3 force;
-	fizdatum form = formula.eval(obj1, tri1, obj2, tri2);
-	if (form.type == SCALAR)
-	{
-		force = obj2.getPos() - obj1.getPos(); //F on obj 1
-		force /= force.mag(); //force = rhat
-		force *= form.scalar;
-	}
-	else if (form.type == VECTOR) force = form.vector;
-	else force = vec3();
-	return force;
-}
-
-bool FizForce::isSymmetric()
-{
-	return symmetric;
-}
-
-bool FizForce::isDistributed()
-{
-	return distributed;
-}
+	private:
+		double radius;
+	public:
+		FizSphere(); //Default constructor
+		FizSphere(std::string newname, double mass = 1, double rad = 1); //Constructor that inits the name and radius
+		FizSphere(std::string newname, vec3 color, double mass = 1, double rad = 1);	//Constructor that inits the name, color, and radius
+		FizSphere(std::string newname, std::vector<triangle> new_vertices, double mass = 1, double rad = 1); //Constructor that inits the name, triangles, and radius
+		FizSphere(std::string newname, vec3 color, std::vector<triangle> new_vertices, double mass = 1, double rad = 1); //Constructor that inits the name, color, triangles, and radius
+		
+		void init(std::string name, vec3 color, const std::vector<triangle>& new_vertices, double mass, double rad);
+		void init_object(std::string name, vec3 color, const std::vector<triangle>& tinit, double mass, double rad);
+		
+		void compute();
+		void computeBounds();
+		
+		double getRadius() const;
+		double& rgetRadius();
+		void setRadius(double newradius);
+};
 
 #endif

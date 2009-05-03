@@ -77,7 +77,8 @@ void FizEngine::evalForces()
 			if(inner_iter == outer_iter) continue;
 			FizObject obj1 = **outer_iter;
 			FizObject obj2 = **inner_iter;
-			std::vector<triangle>& tris1 = obj1.rgetVertices();
+			collisions(obj1, obj2);
+			std::vector<triangle>& tris1 = obj1.rgetVertices(); //actually, triangles, not vertices
 			std::vector<triangle>& tris2 = obj2.rgetVertices();
 			vec3 dforce;
 			//evalForce(forces[i], *outer_iter, *inner_iter);
@@ -344,6 +345,17 @@ void applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt)
 	
 }	
 
+void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
+{
+	vec3 radius = obj1.getPos() - obj2.getPos();
+	double distance = radius.mag();
+	vec3 direction = radius/radius.mag();
+	if (distance <= obj1.getMaxRad() + obj2.getMaxRad()) //if within their bounding spheres
+	{
+		//TODO: Check if actually colliding and where
+		//TODO: Apply collision forces
+	}
+}
 
 // Get from cache or evaluate:	
 fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)

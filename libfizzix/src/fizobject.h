@@ -54,8 +54,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 class FizObject 
 {
-	private:
+	protected:
 		std::map<std::string, fizdatum> props;
+		
 		/** Time dependant properties
 		 */
 		vec3 pos;
@@ -72,30 +73,27 @@ class FizObject
 		
 		/** Rotation specific members
 		 */
-
 		Quaternion quaternion;
 		//xx,yy,zz,xy,yz,xz
 		std::vector<double> inertiaTensor;
 		//xx,yy,zz,xy,yz
 		std::vector<double> inertiaTensorInv;
 		
-		//Unless we need it
-		//Matrix rotation
-
 		/** Other properties
 		 */
 		double mass;
 		std::string name;
 		bool comapprox; //whether the object can be approximated as it's center of mass
-
-	protected:
+		
 		/** Initialize the Object by calling init_object, compute and adjustMasses
 		 */
-		void init(std::string name, vec3 color, const std::vector<triangle>& new_vertices);
+		void init(std::string name, vec3 color, const std::vector<triangle>& new_vertices, double mass);
 		
 		/** Initialize the object with info passed into constructors
 		 */
-		virtual void init_object(std::string name, vec3 color, const std::vector<triangle>& new_vertices);
+		virtual void init_object(std::string name, vec3 color, const std::vector<triangle>& tinit, double mass);
+		
+		void sub_compute(const double& w0, const double& w1, const double& w2, double& f1, double& f2, double& f3, double& g0, double& g1, double& g2);
 		
 		/** Calculate COM, Inertia Tensor, and relative masses of triangles
 		 *  @note This will/should redefine the pos, inertiaTensor, and the triangles
@@ -107,7 +105,7 @@ class FizObject
 		 */
 		void adjustMasses();
 
-		void computeBounds();
+		virtual void computeBounds();
 
 	public:
 
@@ -117,19 +115,19 @@ class FizObject
 
 		/** Constructor that inits the name
 		 */
-		FizObject(std::string newname);
+		FizObject(std::string newname, double mass = 1);
 		
 		/** Constructor that inits the name, color and possibly the smoothity
 		 */
-		FizObject(std::string newname, vec3 color);
+		FizObject(std::string newname, vec3 color, double mass = 1);
 
 		/** Constructor that inits the name and triangles
 		 */	
-		FizObject(std::string newname, std::vector<triangle> init);
+		FizObject(std::string newname, std::vector<triangle> new_vertices, double mass = 1);
 
 		/** Constructor that inits the vertices, color, and triangles
 		 */
-		FizObject(std::string newname, vec3 color, std::vector<triangle> init);
+		FizObject(std::string newname, vec3 color, std::vector<triangle> new_vertices, double mass = 1);
 
 		/** Return a property given the key, so this["mass"] should return a result
 		 *  @param key A string name for the property, mass would be "mass", center of mass "COM", etc ...
@@ -170,6 +168,10 @@ class FizObject
 		const triangle getCOMTriangle() const;
 		triangle& rgetCOMTriangle();
 		void setCOMTriangle(triangle tri);
+		
+		double getMaxRad() const;
+		double& rgetMaxRad();
+		void setMaxRad(double newmax);
 		
 		/** Rotation specific members
 		 */

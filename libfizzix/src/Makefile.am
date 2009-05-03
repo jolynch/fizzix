@@ -18,7 +18,10 @@ fizformula.h   \
 fizobject.h  \
 quaternion.h \
 fizformget.h \
-getters.h
+getters.h \
+fizcylinder.h \
+fizprism.h \
+fizsphere.h
 
 #This is everything that's getting compiled.
 libfizzix_la_SOURCES = \
@@ -46,5 +49,8 @@ fizformgetconst.cpp \
 fizformgetforce.cpp \
 fizformgetmacro.cpp \
 fizformget.h \
-fizformget.cpp
+fizformget.cpp \
+fizcylinder.cpp \
+fizprism.cpp \
+fizsphere.cpp
 
