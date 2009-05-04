@@ -65,7 +65,7 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	importMenu->addAction("Object");
 	importMenu->addAction("Force");
 	importMenu->addAction("Macro");
-	fileMenu->addAction("Exit");
+	fileMenu->addAction("Exit",qApp, SLOT(closeAllWindows()));
 	QMenu * editMenu = this->menuBar()->addMenu(tr("Edit"));
 	editMenu->addAction("Undo");
 	editMenu->addAction("Redo");

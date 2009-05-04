@@ -33,7 +33,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = src
+subdir = libfizzix
 DIST_COMMON = $(fizzix_include_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -57,7 +57,7 @@ am_libfizzix_la_OBJECTS = fizengine.lo fizformanonconst.lo \
 	gen_structs.lo fizforce.lo fizformnode.lo fizformula.lo \
 	fizobject.lo quaternion.lo fizformgetconst.lo \
 	fizformgetforce.lo fizformgetmacro.lo fizformget.lo \
-	fizsphere.lo fizcylinder.lo fizprism.lo
+	fizcylinder.lo fizprism.lo fizsphere.lo
 libfizzix_la_OBJECTS = $(am_libfizzix_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -229,7 +229,10 @@ fizformula.h   \
 fizobject.h  \
 quaternion.h \
 fizformget.h \
-getters.h
+getters.h \
+fizcylinder.h \
+fizprism.h \
+fizsphere.h
 
 
 #This is everything that's getting compiled.
@@ -258,7 +261,10 @@ fizformgetconst.cpp \
 fizformgetforce.cpp \
 fizformgetmacro.cpp \
 fizformget.h \
-fizformget.cpp
+fizformget.cpp \
+fizcylinder.cpp \
+fizprism.cpp \
+fizsphere.cpp
 
 all: all-recursive
 
@@ -273,9 +279,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  libfizzix/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/Makefile
+	  $(AUTOMAKE) --gnu  libfizzix/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -329,6 +335,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizcylinder.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizengine.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizforce.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformanonconst.Plo@am__quote@
@@ -339,6 +346,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformnode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformula.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizobject.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizprism.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizsphere.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gen_structs.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quaternion.Plo@am__quote@
 

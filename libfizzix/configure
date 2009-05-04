@@ -725,7 +725,7 @@ PACKAGE_VERSION=
 PACKAGE_STRING=
 PACKAGE_BUGREPORT=
 
-ac_unique_file="src/fizengine.h"
+ac_unique_file="libfizzix/fizengine.h"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -14882,7 +14882,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 # Only expand once:
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/fizformoperators/Makefile libfizzix.pc"
+ac_config_files="$ac_config_files Makefile libfizzix/Makefile libfizzix/fizformoperators/Makefile libfizzix.pc"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -15842,8 +15842,8 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
-    "src/fizformoperators/Makefile") CONFIG_FILES="$CONFIG_FILES src/fizformoperators/Makefile" ;;
+    "libfizzix/Makefile") CONFIG_FILES="$CONFIG_FILES libfizzix/Makefile" ;;
+    "libfizzix/fizformoperators/Makefile") CONFIG_FILES="$CONFIG_FILES libfizzix/fizformoperators/Makefile" ;;
     "libfizzix.pc") CONFIG_FILES="$CONFIG_FILES libfizzix.pc" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5

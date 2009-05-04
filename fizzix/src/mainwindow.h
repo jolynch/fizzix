@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QMenuBar>
 #include <QDockWidget>
 #include <QDesktopWidget>
+#include <QApplication>
 
 #include "GLdrawpane.h"
 #include "databrowser.h"
