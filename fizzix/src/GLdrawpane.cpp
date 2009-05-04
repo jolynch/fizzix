@@ -7,6 +7,7 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <QDebug>
 
 using namespace std;
 
@@ -50,6 +51,8 @@ vec3 GLDrawPane::moveCamera()
 	vec3 pos = rot.transformVec(vec3(0,0,1));
 	pos *= zoom;
 	vec3 up = rot.transformVec(vec3(0,1,0));
+	//	qDebug("Rotation: (%f, %f, %f, %f)",rot[0],rot[1],rot[2],rot[3]);
+	//	qDebug("Position: (%f, %f, %f)\nUp:  (%f, %f, %f)",pos.x,pos.y,pos.z,up.x,up.y,up.z);
 	gluLookAt(pos.x,pos.y,pos.z,0,0,0,up.x,up.y,up.z);
 	return pos;
 }
@@ -66,7 +69,7 @@ void drawObject(const DrawableObject & obj)
 		const vector<triangle> & mesh = obj.getVertices();
 		const vec3 & colors = obj["color"].vector;
 		const vec3 & pos = obj.getPos();
-//		const Quaternion & q = obj.getQuaternion();
+		const Quaternion & q = obj.getQuaternion();
 		glColor4d(colors[0],colors[1],colors[2],1.0);
 		glTranslated(pos[0],pos[1],pos[2]);
 		if (obj.getProperty(SMOOTH))
@@ -85,8 +88,10 @@ void drawObject(const DrawableObject & obj)
 						currNormal += currV(num).unit_normal;
 					}
 					currNormal/=currNormal.mag();
+					currNormal = q.transformVec(currNormal);
 					glNormal3d(currNormal[0],currNormal[1],currNormal[2]);
-					glVertex3d(currV[0],currV[1],currV[2]);
+					vec3 rotV = q.transformVec(currV.p);
+					glVertex3d(rotV[0],rotV[1],rotV[2]);
 				}
 			}
 			glEnd();
@@ -98,10 +103,12 @@ void drawObject(const DrawableObject & obj)
 			{
 				const triangle & currT = mesh[i];
 				const vec3 & n = currT.unit_normal;
-				glNormal3d(n[0],n[1],n[2]);
+				vec3 rotNormal = q.transformVec(n);
+				glNormal3d(rotNormal[0],rotNormal[1],rotNormal[2]);
 				for (int v = 0;v < 3;v++)
 				{
 					const vertex & currV = currT[v];
+					vec3 rotV = q.transformVec(currV.p);
 					glVertex3d(currV[0],currV[1],currV[2]);
 				}
 			}
@@ -126,8 +133,10 @@ int GLDrawPane::boxFrontFaces(double r, double x, double y, double z)
 
 void GLDrawPane::drawBox(int faces, double alpha,bool front)
 {
-	if (faces & (1<<0))
+	int f = (int)(!front);
+	if ((faces & (1 << 0)) ^ (f<<0))
 	{
+		qDebug("Drawing first face");
 		glColor4d(1.0,0.0,0.0,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(2*front-1,0,0);
@@ -137,8 +146,9 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 		glVertex3d(maxZoom,-maxZoom,maxZoom);
 		glEnd();
 	}
-	if (faces & (1<<1))
+	if ((faces & (1 << 1)) ^ (f<<1))
 	{
+		qDebug("Drawing second face");
 		glColor4d(1.0,0.0,0.0,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(1-2*front,0,0);
@@ -148,8 +158,9 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 		glVertex3d(-maxZoom,maxZoom,maxZoom);
 		glEnd();
 	}
-	if (faces & (1<<2))
+	if ((faces & (1 << 2)) ^ (f<<2))
 	{
+		qDebug("Drawing third face");
 		glColor4d(0.0,1.0,0.0,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(0,2*front-1,0);
@@ -159,8 +170,9 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 		glVertex3d(maxZoom,maxZoom,-maxZoom);
 		glEnd();
 	}
-	if (faces & (1<<3))
+	if ((faces & (1 << 3)) ^ (f<<3))
 	{
+		qDebug("Drawing fourth face");
 		glColor4d(0.0,1.0,0.0,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(0,1-2*front,0);
@@ -170,8 +182,9 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 		glVertex3d(maxZoom,-maxZoom,maxZoom);
 		glEnd();
 	}
-	if (faces & (1<<4))
+	if ((faces & (1 << 4)) ^ (f<<4))
 	{
+		qDebug("Drawing fifth face");
 		glColor4d(0.0,0.0,1.0,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(0,0,2*front-1);
@@ -181,8 +194,9 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 		glVertex3d(-maxZoom,maxZoom,maxZoom);
 		glEnd();
 	}
-	if (faces & (1<<5))
+	if ((faces & (1 << 5)) ^ (f<<5))
 	{
+		qDebug("Drawing sixth face");
 		glColor4d(0.0,0.0,1.0,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(0,0,1-2*front);
@@ -207,10 +221,11 @@ void GLDrawPane::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(fov,width/height,.1,100);
+	gluPerspective(fov,width/height,.1,1000);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	vec3 pos = moveCamera();
+	qDebug("Camera position: (%f, %f, %f)\nBox Front Faces: %d",pos.x,pos.y,pos.z,GLDrawPane::boxFrontFaces(maxZoom,pos.x,pos.y,pos.z));
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom,pos[0],pos[1],pos[2]),.25,false);
 	glDisable(GL_BLEND);

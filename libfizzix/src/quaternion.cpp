@@ -99,12 +99,12 @@ void Quaternion::normalize(double tolerance)
 	}
 }
 
-Quaternion Quaternion::conjugate()
+Quaternion Quaternion::conjugate() const
 {
 	return Quaternion(values.w,-values.x,-values.y,-values.z);
 }
 
-vec3 Quaternion::transformVec(const vec3 & vec)
+vec3 Quaternion::transformVec(const vec3 & vec) const
 {
 	Quaternion v(0,vec.x,vec.y,vec.z);
 	v = ((*this) * (v)) * (this->conjugate());
@@ -158,8 +158,8 @@ Quaternion Quaternion::operator*(const Quaternion & other) const
 	vec4 vec;
 	vec[0] = values[0] * other[0] - values[1] * other[1] - values[2] * other[2] - values[3] * other[3];
 	vec[1] = values[0] * other[1] + values[1] * other[0] + values[2] * other[3] - values[3] * other[2];
-	vec[2] = values[0] * other[2] + values[1] * other[3] + values[2] * other[0] - values[3] * other[1];
-	vec[3] = values[0] * other[3] + values[1] * other[2] + values[2] * other[1] - values[3] * other[0];
+	vec[2] = values[0] * other[2] - values[1] * other[3] + values[2] * other[0] + values[3] * other[1];
+	vec[3] = values[0] * other[3] + values[1] * other[2] - values[2] * other[1] + values[3] * other[0];
 	return Quaternion(vec);
 }
 
@@ -168,8 +168,8 @@ void Quaternion::operator*=(const Quaternion & other)
 	vec4 vec;
 	vec[0] = values[0] * other[0] - values[1] * other[1] - values[2] * other[2] - values[3] * other[3];
 	vec[1] = values[0] * other[1] + values[1] * other[0] + values[2] * other[3] - values[3] * other[2];
-	vec[2] = values[0] * other[2] + values[1] * other[3] + values[2] * other[0] - values[3] * other[1];
-	vec[3] = values[0] * other[3] + values[1] * other[2] + values[2] * other[1] - values[3] * other[0];
+	vec[2] = values[0] * other[2] - values[1] * other[3] + values[2] * other[0] + values[3] * other[1];
+	vec[3] = values[0] * other[3] + values[1] * other[2] - values[2] * other[1] + values[3] * other[0];
 	values = vec;
 }
 

@@ -59,9 +59,9 @@ class Quaternion
 		/* Return the element of this quaternion to set it.  0 = w, 1 = x, 2 = y, 3 = z */
 		double & operator[](const int index);
 		/* Return the conjugate of this quaternion (w,-x,-y,-z) */
-		Quaternion conjugate();
+		Quaternion conjugate() const;
 		/* Return the transformed vector based on the transformation q means */
-		vec3 transformVec(const vec3 & vec);
+		vec3 transformVec(const vec3 & vec) const;
 		/* Return the element of this quaternion at index.  0 = w, 1 = x, 2 = y, 3 = z */
 		const double operator[](const int index) const;
 		/* Return the sum of this and another quaternion */
