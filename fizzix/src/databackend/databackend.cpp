@@ -7,7 +7,7 @@ DataBackend::DataBackend():QObject()
 	dataLock=false;
 	lastChangeUnpredictable=false;
 	
-	objects=new MapKeyListModel <FizObject *> ();
+	objects=new MapKeyListModel <DrawableObject *> ();
 	forces=new MapKeyListModel <FizForce *> ();
 	macros=new MapKeyListModel <FizFormula *> ();
 	constants=new MapKeyListModel <fizdatum> ();
@@ -17,7 +17,7 @@ DataBackend::DataBackend():QObject()
 bool DataBackend::isDataLocked()
 {return dataLock;}
 
-MapKeyListModel <FizObject *> * DataBackend::getObjectModel()
+MapKeyListModel <DrawableObject *> * DataBackend::getObjectModel()
 {return objects;}
 
 MapKeyListModel <FizForce *> * DataBackend::getForceModel()

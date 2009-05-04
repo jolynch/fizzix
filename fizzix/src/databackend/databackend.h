@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QString>
 #include "mapkeylistmodel.h"
+#include "drawableobject.h"
 #include <libfizzix/gen_structs.h>
 #include <libfizzix/fizforce.h>
 #include <libfizzix/fizobject.h>
@@ -17,7 +18,7 @@ class DataBackend:public QObject
 	private:
 		bool dataLock;
 		bool lastChangeUnpredictable;
-		MapKeyListModel <FizObject *> * objects;
+		MapKeyListModel <DrawableObject *> * objects;
 		MapKeyListModel <FizForce *> * forces;
 		MapKeyListModel <FizFormula *> * macros;
 		MapKeyListModel <fizdatum> * constants;
@@ -26,7 +27,7 @@ class DataBackend:public QObject
 	public:
 		DataBackend();
 		bool isDataLocked();
-		MapKeyListModel <FizObject *> * getObjectModel();
+		MapKeyListModel <DrawableObject *> * getObjectModel();
 		MapKeyListModel <FizForce *> * getForceModel();
 		MapKeyListModel <FizFormula *> * getMacroModel();
 		MapKeyListModel <fizdatum> * getConstModel();
