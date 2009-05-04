@@ -138,5 +138,14 @@ struct fizdatum
 	fizdatum();
 };
 
+struct collision
+{
+	point collision_point;
+	vec3 vector;
+
+	collision(point pt,vec3 vec);
+	collision();
+};
+
 #endif
 

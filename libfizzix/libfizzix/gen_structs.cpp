@@ -284,4 +284,9 @@ fizdatum::fizdatum(vec3 v) : vector(v), type(VECTOR) {}
 fizdatum::fizdatum() : scalar(0), vector(vec3()), type(NIL) {}
 /****************** FIZDATUM ******************/
 
+/****************** FIZDATUM ******************/
+collision::collision(point pt,vec3 vec) : collision_point(pt),vector(vec) {}
+collision::collision() {}
+/****************** FIZDATUM ******************/
+
 #endif
