@@ -32,7 +32,6 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 {
 	this->setDockNestingEnabled(false);
 	this->setDockOptions(NULL);
-	this->setCentralWidget(new QLabel ("OpenGL"));
 	this->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
 	this->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
 	this->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
@@ -43,6 +42,9 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	databrowser=new DataBrowser(d,databackend);
 	dataeditor=new DataEditor(d);
 	simcontrol=new SimulationControl();
+	openglpane=new GLDrawPane(d);
+
+	this->setCentralWidget(openglpane);
 
 	this->addDockWidget(Qt::RightDockWidgetArea, databrowser);
 	this->addDockWidget(Qt::RightDockWidgetArea, dataeditor);
