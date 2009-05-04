@@ -27,7 +27,6 @@ GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _m
 	double theta = 0.955316618-.1;
 	double to2 = theta/2.0;
 	rot = Quaternion(cos(to2),sin(to2)/sqrt(2),sin(to2)/sqrt(2),0.0);
-	currRot = rot;
 }
 
 
@@ -48,8 +47,8 @@ void GLDrawPane::rotate(double upAmt, double leftAmt)
 	vec3 axis = comb.cross(pos);
 	vec3 vecPart = axis*sin(mag);
 	Quaternion toRot(cos(mag),vecPart.x,vecPart.y,vecPart.z);
-	currRot = toRot * rot;
-	currRot.normalize(.0000001);
+	rot = toRot * rot;
+	rot.normalize(.0000001);
 }
 
 void GLDrawPane::changeZoom(double amount)
@@ -61,9 +60,9 @@ void GLDrawPane::changeZoom(double amount)
 
 vec3 GLDrawPane::moveCamera()
 {
-	vec3 pos = currRot.transformVec(vec3(0,0,1));
+	vec3 pos = rot.transformVec(vec3(0,0,1));
 	pos *= zoom;
-	vec3 up = currRot.transformVec(vec3(0,1,0));
+	vec3 up = rot.transformVec(vec3(0,1,0));
 	//	qDebug("Rotation: (%f, %f, %f, %f)",rot[0],rot[1],rot[2],rot[3]);
 	//	qDebug("Position: (%f, %f, %f)\nUp:  (%f, %f, %f)",pos.x,pos.y,pos.z,up.x,up.y,up.z);
 	gluLookAt(pos.x,pos.y,pos.z,0,0,0,up.x,up.y,up.z);
@@ -260,6 +259,7 @@ void GLDrawPane::mouseMoveEvent(QMouseEvent * event)
   xDist/=scale;
   yDist/=scale;
   rotate(yDist,xDist);
+  currPoint = event -> pos();
   repaint();
 }
 
@@ -270,7 +270,6 @@ void GLDrawPane::mousePressEvent(QMouseEvent * event)
 
 void GLDrawPane::mouseReleaseEvent(QMouseEvent * event)
 {
-	rot = currRot;
 }
 
 #endif
