@@ -87,7 +87,51 @@ class FizEngine
 		*/
 		void collisions(FizObject& obj1, FizObject& obj2);
 
-		//TODO COMMENT
+		/** Applys the force and torque on ob1 using a Runge-Kutta foruth order solver
+		* 
+		*  Some math/physics notes:
+
+		*  accel = Force / mass = dp/dt = m * dv/dt
+		*  alpha = I_inverse * (L x w + Torque) (where L is the angular momentum = Iw , w is the angular velocity,
+		*                                         and Torque is a 3x1 representation of a vector)
+		*  ^^^ Derivation is not fun for alpha
+		*  
+		*  I_inverse is a 3x3 symmetric matrix stored as a double[6] of the form:
+		*  [0 3 5]
+		*  [3 1 4] where the number indicates the array index
+		*  [5 4 2]
+		*
+		*  Linear Motion: simple really
+
+		*  position = integral(velocity), velocity = integral(acceleration)   
+		*
+		*  Rotational Motion: not so simple really
+
+		*  quaternion = 1/2 * omega * current_quaternion
+		*  where omega can be seen as a quaternion (w,x,y,z) of the form (0,wx,wy,wz)
+		*  omega = integral(alpha)  ... simple eh ... oh wait, look at how to get alpha
+		*
+		*  Runga Kutta:
+
+		*  t = time
+		*  dt = delta t
+		*  xi = initial position
+		*  xf = final position
+		*
+		*  k1 = f'(t,xi)
+		*  k2 = f'(t + dt/2, xi + k1/2)
+		*  k3 = f'(t + dt/2, xi + k2/2)
+		*  k4 = f'(t + dt, xi + k3)
+		*
+		*  xf = xi + (k1 + 2k2 + 2k3 + k4) / 6
+		*
+		*  For this simulation a(t) = a(t+.5dt) = a(t+dt);
+		
+		*  @param force The force to apply
+		*  @param torque The torque to apply
+		*  @param ob1 The object to modify
+		*  @param dt The time period over which this force/torque is applied
+		*/
 		void applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt);
 
 		//Cache of Forces and Macros

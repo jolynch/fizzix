@@ -77,8 +77,13 @@ void FizEngine::evalForces()
 		while(!(inner_iter == thisStep->end()))
 		{
 			if(inner_iter == outer_iter) continue;
-			FizObject obj1 = *(outer_iter->second);
-			FizObject obj2 = *(inner_iter->second);
+			FizObject& obj1 = *(outer_iter->second);
+			FizObject& obj2 = *(inner_iter->second);
+			//TODO
+			//Anton, we don't need this is you keep names up to date ...
+			obj1.setName(outer_iter->first);
+			obj2.setName(inner_iter->first);
+
 			collisions(obj1, obj2);
 			std::vector<triangle>& tris1 = obj1.rgetVertices(); //actually, triangles, not vertices
 			std::vector<triangle>& tris2 = obj2.rgetVertices();
@@ -220,95 +225,6 @@ void FizEngine::evalForces()
 	}
 }
 
-
-/* Eval a single Runge Kutta step
- *
- * NOTE: THIS ASSUMES CONSTANT ACCEL
- * OVER THE INTERVAL dt, this 
- * may be bad
- *
- * state[0] = position = x
- * state[1] = velocity = v
- * state[2] = acceleration = a
- * 
- * derivatives[0] = velocity = dx/dt
- * derivatives[1] = acceleration; = dv/dt
- *
- *result[0] = new velocity
- *result[1] = new acceleration
- *
-void eval(vec3 state[], vec3 derivatives[], double dt, vec3 results[])
-{
-	vec3 newstate[2];
-	newstate[0] = state[0] + (derivatives[0] * dt);
-	newstate[1] = state[1] + (derivatives[1] * dt);
-	
-	result[0] = newstate[1]; 
-	result[1] = state[2];
-}
-
-void FizEngine::evalForce(FizForce * force, FizObject * o1, FizObject * o2)
-{
-	//I am giving you a reference by dereferencing a pointer
-	//THIS IS DANGEROUS!!
-	//
-	//Gives me the total force and torque exerted on o1 by o2
-	//and visa-versa
-	FizObject *ro[2] = {o1, o2};
-	//result[0] = Force, result[1] = Torque
-	vec3 result[4] = force->eval(*(ro[0]),*(ro[1]));
-	//TODO: result(4) = evaluatedForces[o1](2), evaluatedForces[o2](2)
-	
-	* Runga Kutta == MAGIC
-	 * t = time
-	 * dt = delta t
-	 * xi = initial position
-	 * xf = final position
-	 *
-	 * k1 = f'(t,xi)
-	 * k2 = f'(t + dt/2, xi + k1/2)
-	 * k3 = f'(t + dt/2, xi + k2/2)
-	 * k4 = f'(t + dt, xi + k3)
-	 *
-	 * xf = xi + (k1 + 2k2 + 2k3 + k4) / 6
-	 *
-	 * Note that I cheat a little because
-	 * I say accel is constant
-	 *
-	
-	int x = 0; int v = 1;
-	vec3 d[2];
-	vec3 k1[2];
-	vec3 k2[2];
-	vec3 k3[2];
-	vec3 k4[2];
-	//initial time dependent properties
-	vec3 tdi[2][3];
-	//final time dependent properties
-	vec3 tdf[2][3];
-
-	//When we figure out how to work in quaternions,
-	//td[1][2] = result[i * 2 + 1] / ro[i].getInertiaTensor();
-	//TODO: Implement rotational
-	for( int i = 0; i< 2 ;i++)
-	{
-		//Initialize the arrays
-		td[0][0] = ro[i].getPos();
-		td[0][1] = ro[i].getVel();
-		td[0][2] = result[i * 2] / ro[i].getMass();
-		for(int j = 0; j < 1; j++) // change to 2 for rot
-		{
-			vec3 deriv[] = { td[j][1], td[j][2] };
-			eval(td[j], deriv, 0, k1);
-			eval(td[j], k1, dt * .5, k2);
-			eval(td[j], k2, dt * .5, k3);
-			eval(td[j], k3, dt, k4);
-			tdf[j][0] = tdi[j][0] + ((k1[0] + k2[0] * 2 + k3[0] * 2 + k4[0]) / 6);	
-			tdf[j][1] = tdi[j][1] + ((k1[1] + k2[1] * 2 + k3[1] * 2 + k4[1]) / 6);
-		}
-	}
-} */
-
 /** Helps by calculating L x w + Torque
  */
 vec3 torque_helper(vec3 w, std::vector<double> i, vec3 t)
@@ -320,58 +236,19 @@ vec3 torque_helper(vec3 w, std::vector<double> i, vec3 t)
 } 
 
 /** Applys the force and torque on ob1 using a Runge-Kutta foruth order solver
- * 
- *  Some math/physics notes:
-
- *  accel = Force / mass = dp/dt = m * dv/dt
- *  alpha = I_inverse * (L x w + Torque) (where L is the angular momentum = Iw , w is the angular velocity,
- *                                         and Torque is a 3x1 representation of a vector)
- *  ^^^ Derivation is not fun for alpha
- *  
- *  I_inverse is a 3x3 symmetric matrix stored as a double[6] of the form:
- *  [0 3 5]
- *  [3 1 4] where the number indicates the array index
- *  [5 4 2]
- *
- *  Linear Motion: simple really
-
- *  position = integral(velocity), velocity = integral(acceleration)   
- *
- *  Rotational Motion: not so simple really
-
- *  quaternion = 1/2 * omega * current_quaternion
- *  where omega can be seen as a quaternion (w,x,y,z) of the form (0,wx,wy,wz)
- *  omega = integral(alpha)  ... simple eh ... oh wait, look at how to get alpha
- *
- *  Runga Kutta:
-
- *  t = time
- *  dt = delta t
- *  xi = initial position
- *  xf = final position
- *
- *  k1 = f'(t,xi)
- *  k2 = f'(t + dt/2, xi + k1/2)
- *  k3 = f'(t + dt/2, xi + k2/2)
- *  k4 = f'(t + dt, xi + k3)
- *
- *  xf = xi + (k1 + 2k2 + 2k3 + k4) / 6
- *
- *  For this simulation a(t) = a(t+.5dt) = a(t+dt);
- 
- *  @param force The force to apply
- *  @param torque The torque to apply
- *  @param ob1 The object to modify
- *  @param dt The time period over which this force/torque is applied
  */
+
 void FizEngine::applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt)
 {
+	FizObject * new_object = new FizObject(*ob1);
 	vec3 new_pos, new_vel, new_w;
 	Quaternion new_quat;
 	
 	//F = dp/dt = m * dv/dt = m * a
 	vec3 dvdt = force / ob1->getMass();
 	//Inertia tensor invese in the order xx,yy,zz,xy,yz,xz (symmetric)
+	//TODO
+	//I^-1 = R * I^-1 * R^T, not I^-1
 	std::vector<double> i = ob1->getInertiaTensorInv();
 	vec3 t = torque_helper(ob1->getOme(),ob1->getInertiaTensor(),torque); // just for convenience
 	//T = dL/dt = I * dw/dt = I * alpha
@@ -407,10 +284,11 @@ void FizEngine::applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, do
 	//Step 4
   	vec3 dxdt4 = new_vel;
 	Quaternion dqdt4 = (Quaternion(0.0, new_w[0],new_w[1], new_w[2]) * new_quat) * 0.5;
-	ob1->setPos(ob1->getPos() + ((dxdt1 + (dxdt2 + dxdt3)*2.0 + dxdt4)*(dt/6.0)));
-	ob1->setQuaternion(ob1->getQuaternion() + ((dqdt1 + (dqdt2 + dqdt3)*2.0 + dqdt4)*(dt/6.0)));
-	ob1->setVel(ob1->getVel() + ((dvdt + (dvdt + dvdt)*2.0 + dvdt)*(dt/6.0)));
-	ob1->setOme(ob1->getOme() + ((dwdt + (dwdt + dwdt)*2.0 + dwdt)*(dt/6.0)));	
+	new_object->setPos(ob1->getPos() + ((dxdt1 + (dxdt2 + dxdt3)*2.0 + dxdt4)*(dt/6.0)));
+	new_object->setQuaternion(ob1->getQuaternion() + ((dqdt1 + (dqdt2 + dqdt3)*2.0 + dqdt4)*(dt/6.0)));
+	new_object->setVel(ob1->getVel() + ((dvdt + (dvdt + dvdt)*2.0 + dvdt)*(dt/6.0)));
+	new_object->setOme(ob1->getOme() + ((dwdt + (dwdt + dwdt)*2.0 + dwdt)*(dt/6.0)));
+	(*nextStep)[new_object->getName()] = new_object;	
 }	
 
 void FizEngine::collisions(FizObject& obj1, FizObject& obj2)

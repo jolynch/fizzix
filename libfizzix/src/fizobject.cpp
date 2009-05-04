@@ -253,7 +253,10 @@ void FizObject::setAlp(vec3 newalp)			{ alp = newalp;
 	
 const std::vector<triangle> FizObject::getVertices() const	{ return vertices; }
 std::vector<triangle>& FizObject::rgetVertices() 		{ return vertices; }
-void FizObject::setVertices(std::vector<triangle> newvertices) 	{ vertices = newvertices; }
+void FizObject::setVertices(std::vector<triangle> newvertices) 	{ 
+								  vertices = newvertices;
+								  init(name, color, vertices, mass);
+								}
 		
 
 const Quaternion FizObject::getQuaternion() const 	{ return quaternion; }
