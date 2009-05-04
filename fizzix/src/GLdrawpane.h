@@ -2,7 +2,7 @@
 #define GLDRAWPANE_H
 
 #include <vector>
-#include "databackent/drawableobject.h"
+#include "databackend/drawableobject.h"
 #include <QGLWidget>
 #include <QMouseEvent>
 #include <libfizzix/gen_structs.h>
