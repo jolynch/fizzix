@@ -1,14 +1,14 @@
 TEMPLATE = app
 TARGET = fizzix
 target.path = /usr/local/bin
-DEPENDPATH += ../libfizix
+INCLUDEPATH = ../libfizzix
 QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
 CONFIG = qt opengl thread resources exceptions warn_on stl rtti
 MOC_DIR = moc
 OBJECTS_DIR = build
 RESOURCES = fizzix.qrc
 QT += opengl
-LIBS +=  -lfizzix -L../libfizzix
+LIBS +=  -lfizzix -L../libfizzix/libfizzix/.libs
 
 
 # Fizzix
