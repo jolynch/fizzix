@@ -22,6 +22,7 @@ GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _m
 	zoomSpeed = _zoom;
 	fov = fieldOfView;
 	rot = Quaternion();
+	currRot = Quaternion();
 	maxZoom = _maxZoom;
 	zoom = maxZoom;
 	height = 0;
@@ -29,6 +30,7 @@ GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _m
 	double theta = 0.955316618-.1;
 	double to2 = theta/2.0;
 	rot = Quaternion(cos(to2),sin(to2)/sqrt(2),sin(to2)/sqrt(2),0.0);
+	setMouseTracking(true);
 }
 
 
@@ -41,13 +43,17 @@ void GLDrawPane::rotate(double upAmt, double leftAmt)
 {
 	vec3 pos = rot.transformVec(vec3(0,0,1));
 	vec3 up = rot.transformVec(vec3(0,1,0));
-	vec3 left = up.cross(pos);
+	vec3 left = pos.cross(up);
 	vec3 comb = up*upAmt + left*leftAmt;
-	double mag = comb.mag()*rotSpeed;
+	double mag = comb.mag();
+	comb /= mag;
+	mag *= rotSpeed;
 	vec3 axis = comb.cross(pos);
 	vec3 vecPart = axis*sin(mag);
 	Quaternion toRot(cos(mag),vecPart.x,vecPart.y,vecPart.z);
-	rot *= toRot;
+	currRot = toRot;
+	rot = toRot * rot;
+	rot.normalize(.0000001);
 }
 
 void GLDrawPane::changeZoom(double amount)
@@ -224,6 +230,8 @@ void GLDrawPane::initializeGL()
 
 void GLDrawPane::paintGL()
 {
+	rot = currRot * rot;
+	rot.normalize(0.0001);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -248,6 +256,20 @@ void GLDrawPane::resizeGL(int _width,int _height)
 	height = _height;
 	width = _width;
 	glViewport(0,0,width,height);
+}
+
+void GLDrawPane::mouseMoveEvent(QMouseEvent * event)
+{
+	if ((event -> modifiers()) && (Qt::ControlModifier))
+	{
+		double scale = qMin(width/2.0, height/2.0);
+		double xDist = (width/2.0) - ((event -> pos()).x());
+		double yDist = (height/2.0) - ((event -> pos()).y());
+		xDist/=scale;
+		yDist/=scale;
+		rotate(yDist,xDist);
+		repaint();
+	}
 }
 
 #endif
