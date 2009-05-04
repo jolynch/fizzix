@@ -13,26 +13,21 @@ LIBS +=  -lfizzix -L/usr/local/lib
 
 # Fizzix
 
-HEADERS+=src/forcepanel.h \
-src/macropanel.h \
-src/mainwindow.h \
-src/objectpanel.h \
-src/propertypanel.h \
+HEADERS+=src/mainwindow.h \
 src/databrowser.h \
 src/dataeditor.h \
+src/databackend/databackend.h \
 src/simulationcontrol.h \
 src/drawableobject.h \
 src/GLdrawpane.h \
+src/databackend/mapkeylistmodel.h \
 
 
 SOURCES+=src/main.cpp \
-src/forcepanel.cpp \
-src/macropanel.cpp \
 src/mainwindow.cpp \
-src/objectpanel.cpp \
-src/propertypanel.cpp \
 src/databrowser.cpp \
 src/dataeditor.cpp \
+src/databackend/databackend.cpp \
 src/simulationcontrol.cpp \
 src/drawableobject.cpp \
 src/GLdrawpane.cpp \

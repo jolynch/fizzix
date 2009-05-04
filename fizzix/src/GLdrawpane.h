@@ -2,7 +2,6 @@
 #define GLDRAWPANE_H
 
 #include <vector>
-#include "objectpanel.h"
 #include "drawableobject.h"
 #include <QGLWidget>
 #include <libfizzix/gen_structs.h>
@@ -34,7 +33,7 @@ class GLDrawPane: public QGLWidget
 		//Draw the box with faces on as specified by boxFrontFaces()
 		void drawBox(int faces,double alpha,bool front);
 		//The Object panel to get the list of objects from
-	   	ObjectPanel * panel;
+	   	//ObjectPanel * panel;
 		//How fast to rotate
 		double rotSpeed;
 		//Current orientation

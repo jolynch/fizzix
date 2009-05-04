@@ -29,10 +29,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QTabWidget>
 #include <QDockWidget>
 #include <QDesktopWidget>
-#include "forcepanel.h"
-#include "macropanel.h"
-#include "objectpanel.h"
-#include "propertypanel.h"
+#include <QListView>
+#include <QPushButton>
+#include <QGridLayout>
+#include <QLineEdit>
+#include <QLabel>
+#include "databackend/databackend.h"
 
 /*@class DateBrowser
  @brief Provides a panel to browse data*/
@@ -41,17 +43,34 @@ class DataBrowser:public QDockWidget
 {	Q_OBJECT
 	private:
 		QTabWidget * tabs;
-		ObjectPanel * obj;
-		PropertyPanel * prop;
-		ForcePanel * force;
-		MacroPanel * macro;
+		QListView * objects;
+		QListView * forces;
+		QListView * macros;
+		QListView * consts;
+		DataBackend * db;
 	public:
-		DataBrowser (QDesktopWidget * d);
+		DataBrowser (QDesktopWidget * d, DataBackend * _d);
 	public slots:
-		void emitCurrent();
+		void textEntered(QString);
+		void addElement();
+		void deleteElement();
+		void editElement();
 	signals:
-		void tabSelected(int);
-		void newDataSelected(QString);
+		void addObject(QString);
+		void deleteObject(QString);
+		void editObject(QString);
+		
+		void addForce(QString);
+		void deleteForce(QString);
+		void editForce(QString);
+		
+		void addMacro(QString);
+		void deleteMacro(QString);
+		void editMacro(QString);
+		
+		void addConstant(QString);
+		void deleteConstant(QString);
+		void editConstant(QString);
 };
 
 #endif

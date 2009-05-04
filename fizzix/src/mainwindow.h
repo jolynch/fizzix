@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "databrowser.h"
 #include "dataeditor.h"
 #include "simulationcontrol.h"
+#include "databackend/databackend.h"
 
 /*@class MainWindow
  @brief The overhead window class.*/
@@ -44,6 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class MainWindow:public QMainWindow
 {	Q_OBJECT
 	private:
+		DataBackend * databackend;
 		DataBrowser * databrowser;
 		DataEditor * dataeditor;
 		SimulationControl * simcontrol;

@@ -38,11 +38,11 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	this->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
 	this->setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 	
-	databrowser=new DataBrowser(d);
+	databackend=new DataBackend();
+	
+	databrowser=new DataBrowser(d,databackend);
 	dataeditor=new DataEditor(d);
 	simcontrol=new SimulationControl();
-	QObject::connect(databrowser,SIGNAL(tabSelected(int)),dataeditor,SLOT(selectTab(int)));
-	QObject::connect(databrowser,SIGNAL(newDataSelected(QString)),dataeditor,SLOT(newName(QString)));
 
 	this->addDockWidget(Qt::RightDockWidgetArea, databrowser);
 	this->addDockWidget(Qt::RightDockWidgetArea, dataeditor);
