@@ -18,7 +18,7 @@ src/databrowser.h \
 src/dataeditor.h \
 src/databackend/databackend.h \
 src/simulationcontrol.h \
-src/drawableobject.h \
+src/databackend/drawableobject.h \
 src/GLdrawpane.h \
 src/databackend/mapkeylistmodel.h \
 
@@ -29,5 +29,5 @@ src/databrowser.cpp \
 src/dataeditor.cpp \
 src/databackend/databackend.cpp \
 src/simulationcontrol.cpp \
-src/drawableobject.cpp \
+src/databackend/drawableobject.cpp \
 src/GLdrawpane.cpp \
