@@ -64,6 +64,8 @@ class GLDrawPane: public QGLWidget
 
 		//Return the requested size of this widget.
 		QSize sizeHint() const;
+		
+		static double sideToZoom;
 };
 
 #endif
