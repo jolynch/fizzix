@@ -52,6 +52,7 @@ class GLDrawPane: public QGLWidget
 		double width;
 		double fov;
 
+		QPoint currPoint;
 	protected:
 		//Turn on the lights
 		void initializeGL();
@@ -59,11 +60,12 @@ class GLDrawPane: public QGLWidget
 		void paintGL();
 		//Reset the width and height for projection purposes
 		void resizeGL(int _width, int _height);
-	    void mouseMoveEvent(QMouseEvent *event);
-
+		void mouseMoveEvent(QMouseEvent * event);
+		void mousePressEvent(QMouseEvent * event);
+	void mouseReleaseEvent(QMouseEvent * event);
 	public:
 		//Create the GL panel
-		GLDrawPane(QWidget * parent = 0, double _rotate = .003, double _zoom = 1, double _maxZoom = 100, double fieldOfView = 60);
+		GLDrawPane(QWidget * parent = 0, double _rotate = 1, double _zoom = 1, double _maxZoom = 100, double fieldOfView = 60);
 
 		//Return the requested size of this widget.
 		QSize sizeHint() const;

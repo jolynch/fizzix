@@ -5,8 +5,6 @@
 
 #include <math.h>
 
-//#include <GL/gl.h>
-//#include <GL/glu.h>
 #include <QDebug>
 #include <math.h>
 
@@ -22,7 +20,6 @@ GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _m
 	zoomSpeed = _zoom;
 	fov = fieldOfView;
 	rot = Quaternion();
-	currRot = Quaternion();
 	maxZoom = _maxZoom;
 	zoom = maxZoom;
 	height = 0;
@@ -30,7 +27,7 @@ GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _m
 	double theta = 0.955316618-.1;
 	double to2 = theta/2.0;
 	rot = Quaternion(cos(to2),sin(to2)/sqrt(2),sin(to2)/sqrt(2),0.0);
-	setMouseTracking(true);
+	currRot = rot;
 }
 
 
@@ -51,9 +48,8 @@ void GLDrawPane::rotate(double upAmt, double leftAmt)
 	vec3 axis = comb.cross(pos);
 	vec3 vecPart = axis*sin(mag);
 	Quaternion toRot(cos(mag),vecPart.x,vecPart.y,vecPart.z);
-	currRot = toRot;
-	rot = toRot * rot;
-	rot.normalize(.0000001);
+	currRot = toRot * rot;
+	currRot.normalize(.0000001);
 }
 
 void GLDrawPane::changeZoom(double amount)
@@ -65,9 +61,9 @@ void GLDrawPane::changeZoom(double amount)
 
 vec3 GLDrawPane::moveCamera()
 {
-	vec3 pos = rot.transformVec(vec3(0,0,1));
+	vec3 pos = currRot.transformVec(vec3(0,0,1));
 	pos *= zoom;
-	vec3 up = rot.transformVec(vec3(0,1,0));
+	vec3 up = currRot.transformVec(vec3(0,1,0));
 	//	qDebug("Rotation: (%f, %f, %f, %f)",rot[0],rot[1],rot[2],rot[3]);
 	//	qDebug("Position: (%f, %f, %f)\nUp:  (%f, %f, %f)",pos.x,pos.y,pos.z,up.x,up.y,up.z);
 	gluLookAt(pos.x,pos.y,pos.z,0,0,0,up.x,up.y,up.z);
@@ -230,8 +226,6 @@ void GLDrawPane::initializeGL()
 
 void GLDrawPane::paintGL()
 {
-	rot = currRot * rot;
-	rot.normalize(0.0001);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -260,16 +254,23 @@ void GLDrawPane::resizeGL(int _width,int _height)
 
 void GLDrawPane::mouseMoveEvent(QMouseEvent * event)
 {
-	if ((event -> modifiers()) && (Qt::ControlModifier))
-	{
-		double scale = qMin(width/2.0, height/2.0);
-		double xDist = (width/2.0) - ((event -> pos()).x());
-		double yDist = (height/2.0) - ((event -> pos()).y());
-		xDist/=scale;
-		yDist/=scale;
-		rotate(yDist,xDist);
-		repaint();
-	}
+  double scale = qMin(width/2.0, height/2.0);
+  double xDist = currPoint.x() - ((event -> pos()).x());
+  double yDist = currPoint.y() - ((event -> pos()).y());
+  xDist/=scale;
+  yDist/=scale;
+  rotate(yDist,xDist);
+  repaint();
+}
+
+void GLDrawPane::mousePressEvent(QMouseEvent * event)
+{
+  currPoint = event -> pos();
+}
+
+void GLDrawPane::mouseReleaseEvent(QMouseEvent * event)
+{
+	rot = currRot;
 }
 
 #endif
