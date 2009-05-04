@@ -255,6 +255,8 @@ const std::vector<triangle> FizObject::getVertices() const	{ return vertices; }
 std::vector<triangle>& FizObject::rgetVertices() 		{ return vertices; }
 void FizObject::setVertices(std::vector<triangle> newvertices) 	{ 
 								  vertices = newvertices;
+								  init(this->getName(), props["color"], newverices, this->getMass());
+//TODO: Call init properly
 //								  init(name, color, vertices, mass);
 								}
 		

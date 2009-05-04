@@ -163,7 +163,7 @@ class FizObject
 		 */
 		const std::vector<triangle> getVertices() const;	
 		std::vector<triangle>& rgetVertices(); 	
-		void setVertices(std::vector<triangle> newvertices);
+		virtual void setVertices(std::vector<triangle> newvertices);
 		
 		const triangle getCOMTriangle() const;
 		triangle& rgetCOMTriangle();

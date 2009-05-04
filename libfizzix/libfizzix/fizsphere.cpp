@@ -130,5 +130,5 @@ double& FizSphere::rgetRadius()				{ return radius; }
 void FizSphere::setRadius(double newradius)		{ radius = newradius; 
       						          props["radius"] = fizdatum(radius, vec3(), SCALAR);
 							}
-
+//TODO: add setVertices in this and other subclasses
 #endif

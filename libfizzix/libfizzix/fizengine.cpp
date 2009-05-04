@@ -299,6 +299,16 @@ void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
 	if (distance <= obj1.getMaxRad() + obj2.getMaxRad()) //if within their bounding spheres
 	{
 		//TODO: Check if actually colliding and where
+		
+		vec3 normal = direction*-1; //ASSUME FOR A SPHERE - NORMAL IS JUST OUTWARD FROM OBJECT 1
+		vec3 r1; //FIND THIS - obj1's triangle's radius from obj1 COM
+		vec3 r2; //FIND THIS - for r2
+		double forcemag = (-2*(normal.dot(obj1.getVel() - obj2.getVel()) + (obj1.getOme().dot(r1.cross(normal)) - obj2.getOme().dot(r2.cross(normal)))))/(1/obj1.getMass() 1/obj2.getMass() + (/*(r1.cross(normal)) transposed * J1^-1 (inertia tensor in world coordinates) * (r1.cross(normal))  +  (r2.cross(normal)) transposed * J2^-1 * (r2.cross(normal))*/));
+		//F2 = NORMAL * FORCEMAG
+		//F1 = -F2
+		//T1 = F1 x R1
+		//T2 = F2 x R2
+		//coefficient of restitution is 1 - purely elastic
 		//TODO: Apply collision forces
 	}
 }
