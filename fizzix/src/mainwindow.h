@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "dataeditor.h"
 #include "simulationcontrol.h"
 #include "databackend/databackend.h"
+#include "databackend/changefactory.h"
 
 /*@class MainWindow
  @brief The overhead window class.*/

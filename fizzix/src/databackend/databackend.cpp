@@ -32,6 +32,12 @@ MapKeyListModel <fizdatum> * DataBackend::getConstModel()
 QUndoStack * DataBackend::getUndoStack()
 {return dataChanges;}
 
+void DataBackend::setDataInserter(ChangeFactory * di)
+{dataInserter=di;}
+
+ChangeFactory * DataBackend::getDataInserter()
+{return dataInserter;}
+
 void DataBackend::toggleDataLock()
 {dataLock=!dataLock;}
 

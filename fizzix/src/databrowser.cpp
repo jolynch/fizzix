@@ -35,7 +35,6 @@ DataBrowser::DataBrowser(QDesktopWidget * d, DataBackend * _d):QDockWidget(tr("D
 	this->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
 	tabs=new QTabWidget();
-	tabs->setMinimumWidth((d->availableGeometry().width()/2)/2);
 	
 	QWidget * owidget=new QWidget();
 	QGridLayout * olayout=new QGridLayout();
@@ -141,14 +140,18 @@ DataBrowser::DataBrowser(QDesktopWidget * d, DataBackend * _d):QDockWidget(tr("D
 	cwidget->setLayout(clayout);
 	tabs->addTab(cwidget,"Constants");
 	
-	db->getObjectModel()->setElement("Foo",NULL);
-	db->getObjectModel()->setElement("Bar",NULL);
-	db->getForceModel()->setElement("Foobar",NULL);
-	db->getForceModel()->setElement("Foovar",NULL);
-	db->getMacroModel()->setElement("Radius",NULL);
-	db->getMacroModel()->setElement("Mojo",NULL);
-	db->getConstModel()->setElement("Big G",NULL);
-	db->getConstModel()->setElement("Small G",NULL);
+	QObject::connect(this,SIGNAL(addObject(QString)),db->getDataInserter(),SLOT(addObject(QString)));
+	QObject::connect(this,SIGNAL(deleteObject(QString)),db->getDataInserter(),SLOT(deleteObject(QString)));
+	
+	QObject::connect(this,SIGNAL(addForce(QString)),db->getDataInserter(),SLOT(addForce(QString)));
+	QObject::connect(this,SIGNAL(deleteForce(QString)),db->getDataInserter(),SLOT(deleteForce(QString)));
+	
+	QObject::connect(this,SIGNAL(addMacro(QString)),db->getDataInserter(),SLOT(addMacro(QString)));
+	QObject::connect(this,SIGNAL(deleteMacro(QString)),db->getDataInserter(),SLOT(deleteMacro(QString)));
+	
+	QObject::connect(this,SIGNAL(addConstant(QString)),db->getDataInserter(),SLOT(addConstant(QString)));
+	QObject::connect(this,SIGNAL(deleteConstant(QString)),db->getDataInserter(),SLOT(deleteConstant(QString)));
+
 	this->setWidget(tabs);
 }
 
@@ -166,15 +169,19 @@ void DataBrowser::textEntered(QString s)
 	
 void DataBrowser::addElement()
 {
+	bool ok;
+	QString name = QInputDialog::getText(this, "New Element","Enter name for new element", QLineEdit::Normal,QString(), &ok);
+	if (!ok || name.isEmpty())
+		{return;}
 	switch(tabs->currentIndex())
 	{
-		case 0: emit addObject(db->getObjectModel()->getModel()->data(objects->currentIndex(), Qt::DisplayRole).toString());
+		case 0: emit addObject(name);
 			break;
-		case 1: emit addForce(db->getForceModel()->getModel()->data(forces->currentIndex(), Qt::DisplayRole).toString());
+		case 1: emit addForce(name);
 			break;
-		case 2: emit addMacro(db->getMacroModel()->getModel()->data(macros->currentIndex(), Qt::DisplayRole).toString());
+		case 2: emit addMacro(name);
 			break;
-		case 3: emit addConstant(db->getConstModel()->getModel()->data(consts->currentIndex(), Qt::DisplayRole).toString());
+		case 3: emit addConstant(name);
 			break;
 	};
 }

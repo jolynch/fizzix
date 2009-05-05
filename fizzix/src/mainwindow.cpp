@@ -38,7 +38,7 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	this->setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 	
 	databackend=new DataBackend();
-	
+	databackend->setDataInserter(new ChangeFactory(databackend));
 	databrowser=new DataBrowser(d,databackend);
 	dataeditor=new DataEditor(d);
 	simcontrol=new SimulationControl();
@@ -71,8 +71,8 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	importMenu->addAction("Macro");
 	fileMenu->addAction("Exit",qApp, SLOT(closeAllWindows()));
 	QMenu * editMenu = this->menuBar()->addMenu(tr("Edit"));
-	editMenu->addAction("Undo");
-	editMenu->addAction("Redo");
+	editMenu->addAction(databackend->getUndoStack()->createUndoAction(this));
+	editMenu->addAction(databackend->getUndoStack()->createRedoAction(this));
 	editMenu->addAction("Cut");
 	editMenu->addAction("Copy");
 	editMenu->addAction("Paste");

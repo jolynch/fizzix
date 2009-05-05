@@ -34,7 +34,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QLabel>
+#include <QInputDialog>
 #include "databackend/databackend.h"
+#include "databackend/changefactory.h"
 
 /*@class DateBrowser
  @brief Provides a panel to browse data*/

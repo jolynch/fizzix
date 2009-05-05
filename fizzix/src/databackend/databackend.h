@@ -13,6 +13,8 @@
 #include <libfizzix/fizobject.h>
 #include <libfizzix/fizformula.h>
 
+class ChangeFactory;
+
 class DataBackend:public QObject
 {	Q_OBJECT
 	private:
@@ -22,6 +24,7 @@ class DataBackend:public QObject
 		MapKeyListModel <FizForce *> * forces;
 		MapKeyListModel <FizFormula *> * macros;
 		MapKeyListModel <fizdatum> * constants;
+		ChangeFactory * dataInserter;
 		QUndoStack * dataChanges;
 		
 	public:
@@ -32,6 +35,8 @@ class DataBackend:public QObject
 		MapKeyListModel <FizFormula *> * getMacroModel();
 		MapKeyListModel <fizdatum> * getConstModel();
 		QUndoStack * getUndoStack();
+		void setDataInserter(ChangeFactory * di);
+		ChangeFactory * getDataInserter();
 		
 	public slots:
 		void toggleDataLock();

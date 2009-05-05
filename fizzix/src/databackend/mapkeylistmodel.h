@@ -47,7 +47,7 @@ void MapKeyListModel<T>::synchronizeKeys()
 	
 template <class T>
 QMap <QString, T> * MapKeyListModel<T>::getData()
-	{return data->toStdMap();}
+	{return data;}
 
 template <class T>
 void MapKeyListModel<T>::setData(QMap <QString, T> * d)
