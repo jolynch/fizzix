@@ -30,8 +30,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QDockWidget>
 #include <QDesktopWidget>
 #include <QGridLayout>
+#include <QStackedLayout>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QMessageBox>
+#include <QDebug>
+
+#include "databackend/databackend.h"
+#include "databackend/changefactory.h"
+#include "constanteditor.h"
 
 /*@class DataEditor
  @brief Provides a panel to edit data*/
@@ -39,17 +46,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class DataEditor:public QDockWidget
 {	Q_OBJECT
 	private:
-		QGridLayout * layout;
+		enum currentlyLoaded {none,objectLoaded,forceLoaded,macroLoaded,constantLoaded};
+		currentlyLoaded curr;
+		
+		DataBackend * db;
+		
 		QLineEdit * name;
-		bool modified;
+		QString loadName;
+		QStackedLayout * centerL;
+		ConstantEditor * constEditor;
 	public:
-		DataEditor (QDesktopWidget * d);
+		DataEditor (DataBackend * _db, QDesktopWidget * d);
+		bool checkToSave();
 	public slots:
-		void selectTab(int);
-		void newName(QString);
-		void changeDetected();
-	signals:
-		void holdSwitchForUserConfirmation();
+		void loadObject(QString n);
+		void loadForce(QString n);
+		void loadMacro(QString n);
+		void loadConstant(QString n);
+		void saveChanges();
+		void revertChanges();
 };
 
 #endif

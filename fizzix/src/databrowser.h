@@ -51,7 +51,7 @@ class DataBrowser:public QDockWidget
 		QListView * consts;
 		DataBackend * db;
 	public:
-		DataBrowser (QDesktopWidget * d, DataBackend * _d);
+		DataBrowser ( DataBackend * _d,QDesktopWidget * d);
 	public slots:
 		void textEntered(QString);
 		void addElement();

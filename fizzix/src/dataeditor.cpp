@@ -29,60 +29,118 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "dataeditor.h"
 
-DataEditor::DataEditor(QDesktopWidget * d):QDockWidget(tr("Data editor"))
+DataEditor::DataEditor(DataBackend * _db,QDesktopWidget * d):QDockWidget(tr("Data editor"))
 {
-	layout=new QGridLayout();
+	db=_db;
 	QWidget * container=new QWidget();
-	this->selectTab(0);
+	QGridLayout * layout=new QGridLayout();
 	name=new QLineEdit();
 	layout->addWidget(name,0,1,1,4);
-	QWidget * a =new QWidget();
-	a->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 	layout->addWidget(new QLabel("Name:"),0,0);
-	layout->addWidget(a,1,0,1,5);
-	container->setLayout(layout);
-	layout->addWidget(new QPushButton("Save"),2,3);
-	layout->addWidget(new QPushButton("Clear"),2,4);
+	QPushButton * save_PB=new QPushButton("Save");
+	QObject::connect(save_PB,SIGNAL(clicked()),this,SLOT(saveChanges()));
+	QPushButton * cancel_PB=new QPushButton("Cancel");
+	QObject::connect(cancel_PB,SIGNAL(clicked()),this,SLOT(revertChanges()));
+	layout->addWidget(save_PB,2,3);
+	layout->addWidget(cancel_PB,2,4);
+	
+	centerL=new QStackedLayout();
+	centerL->insertWidget(none, new QLabel("Nothing selected to edit"));
+	centerL->insertWidget(objectLoaded, new QLabel("Object Editor Goes Here"));
+	centerL->insertWidget(forceLoaded, new QLabel("Formula Editor Goes Here"));
+	centerL->insertWidget(macroLoaded, new QLabel("Formula Editor Goes Here"));
+	constEditor=new ConstantEditor();
+	centerL->insertWidget(constantLoaded,constEditor);
+	layout->addLayout(centerL,1,0,1,5);
+	
 	this->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	container->setLayout(layout);
+	container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 	this->setWidget(container);
 	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
-	QObject::connect(name, SIGNAL(textEdited()), this, SLOT(changeDetected()));
-	modified=false;
 }
 
-void DataEditor::selectTab(int tab)
+bool DataEditor::checkToSave()
 {
-	switch (tab) {
-		case 0:
-			this->setWindowTitle("Object Editor");
-			break;
-		case 1:
-			this->setWindowTitle("Property Editor");
-			break;
-		case 2:
-			this->setWindowTitle("Force Editor");
-			break;
-		case 3:
-			this->setWindowTitle("Macro Editor");
-			break;
-		default:
-			break;
-	}
-}
-
-void DataEditor::newName(QString n)
-{
-	name->setText(n);
-	if(modified)
+	bool needsSave=false;
+	switch(curr)
 	{
-		emit holdSwitchForUserConfirmation();
-		modified=false;
+		case constantLoaded: needsSave=constEditor->hasChanges(); break;
+	};
+	if(needsSave)
+	{
+		switch(QMessageBox::question(this,"Save Changes?", "You have modified the currently selected element. Save Changes?",
+						QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel))
+		{
+			case QMessageBox::Yes:
+				saveChanges();
+			case QMessageBox::No:
+				return true;
+			default:
+				return false;
+		}
 	}
+	return true;
 }
-
-
-void DataEditor::changeDetected()
+	
+void DataEditor::loadObject(QString n)
 {
-	modified=true;
+	if(!checkToSave()) return;
+	loadName=n;
+	name->setText(n);
+	curr=objectLoaded;
+	centerL->setCurrentIndex(curr);
 }
+
+void DataEditor::loadForce(QString n)
+{
+	if(!checkToSave()) return;
+	loadName=n;
+	name->setText(n);
+	curr=forceLoaded;
+	centerL->setCurrentIndex(curr);
+}
+
+void DataEditor::loadMacro(QString n)
+{
+	if(!checkToSave()) return;
+	loadName=n;
+	name->setText(n);
+	curr=macroLoaded;
+	centerL->setCurrentIndex(curr);
+}
+
+void DataEditor::loadConstant(QString n)
+{
+	if(!checkToSave()) return;
+	loadName=n;
+	name->setText(n);
+	constEditor->setData(db->getConstModel()->getData()->value(loadName));
+	curr=constantLoaded;
+	centerL->setCurrentIndex(curr);
+}
+
+void DataEditor::saveChanges()
+{
+	switch(curr)
+	{
+		case constantLoaded:
+			QString newName=name->text();
+			if(name->text()!=loadName)
+				db->getDataInserter()->renameConstant(loadName,newName);
+			if(constEditor->hasChanges())
+				db->getDataInserter()->modifyConstant(newName,constEditor->getData());
+			this->loadConstant(newName);
+			break;
+	};
+}
+
+void DataEditor::revertChanges()
+{
+	switch(curr)
+	{
+		case constantLoaded: constEditor->setData(db->getConstModel()->getData()->value(loadName)); break;
+	};
+}
+
 #endif

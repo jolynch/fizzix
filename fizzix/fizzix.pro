@@ -16,6 +16,7 @@ LIBS +=  -lfizzix -L/usr/local/lib
 HEADERS+=src/mainwindow.h \
 src/databrowser.h \
 src/dataeditor.h \
+src/constanteditor.h \
 src/databackend/databackend.h \
 src/simulationcontrol.h \
 src/databackend/drawableobject.h \
@@ -28,6 +29,7 @@ SOURCES+=src/main.cpp \
 src/mainwindow.cpp \
 src/databrowser.cpp \
 src/dataeditor.cpp \
+src/constanteditor.cpp \
 src/databackend/databackend.cpp \
 src/simulationcontrol.cpp \
 src/databackend/drawableobject.cpp \

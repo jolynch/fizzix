@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 {
+	this->setMinimumSize(d->availableGeometry().width()/1.15, d->availableGeometry().height()/1.25);
 	this->setDockNestingEnabled(false);
 	this->setDockOptions(NULL);
 	this->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
@@ -39,8 +40,14 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	
 	databackend=new DataBackend();
 	databackend->setDataInserter(new ChangeFactory(databackend));
-	databrowser=new DataBrowser(d,databackend);
-	dataeditor=new DataEditor(d);
+	databrowser=new DataBrowser(databackend,d);
+	dataeditor=new DataEditor(databackend,d);
+	
+	QObject::connect(databrowser,SIGNAL(editObject(QString)),dataeditor,SLOT(loadObject(QString)));
+	QObject::connect(databrowser,SIGNAL(editForce(QString)),dataeditor,SLOT(loadForce(QString)));
+	QObject::connect(databrowser,SIGNAL(editMacro(QString)),dataeditor,SLOT(loadMacro(QString)));
+	QObject::connect(databrowser,SIGNAL(editConstant(QString)),dataeditor,SLOT(loadConstant(QString)));
+	
 	simcontrol=new SimulationControl();
 	openglpane=new GLDrawPane(d);
 
@@ -126,7 +133,6 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	QMenu * helpMenu = this->menuBar()->addMenu(tr("Help"));
 	helpMenu->addAction("Manual");
 	helpMenu->addAction("About");
-	this->setMinimumSize(d->availableGeometry().width()/1.15, d->availableGeometry().height()/1.25);
 }
 
 #endif

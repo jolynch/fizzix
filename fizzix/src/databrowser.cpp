@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "databrowser.h"
 
-DataBrowser::DataBrowser(QDesktopWidget * d, DataBackend * _d):QDockWidget(tr("Data browser"))
+DataBrowser::DataBrowser( DataBackend * _d,QDesktopWidget * d):QDockWidget(tr("Data browser"))
 {
 	db=_d;
 	this->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -47,7 +47,6 @@ DataBrowser::DataBrowser(QDesktopWidget * d, DataBackend * _d):QDockWidget(tr("D
 	objects->setModel(db->getObjectModel()->getModel());
 	objects->setSelectionMode(QAbstractItemView::SingleSelection);
 	objects->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	QObject::connect(objects,SIGNAL(clicked(QModelIndex)),this,SLOT(editElement()));
 	QObject::connect(objects,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editElement()));
 	olayout->addWidget(objects,1,0,1,5);
 	QPushButton * oadd=new QPushButton("New");
@@ -73,7 +72,6 @@ DataBrowser::DataBrowser(QDesktopWidget * d, DataBackend * _d):QDockWidget(tr("D
 	forces->setModel(db->getForceModel()->getModel());
 	forces->setSelectionMode(QAbstractItemView::SingleSelection);
 	forces->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	QObject::connect(forces,SIGNAL(clicked(QModelIndex)),this,SLOT(editElement()));
 	QObject::connect(forces,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editElement()));
 	flayout->addWidget(forces,1,0,1,5);
 	QPushButton * fadd=new QPushButton("New");
@@ -99,7 +97,6 @@ DataBrowser::DataBrowser(QDesktopWidget * d, DataBackend * _d):QDockWidget(tr("D
 	macros->setModel(db->getMacroModel()->getModel());
 	macros->setSelectionMode(QAbstractItemView::SingleSelection);
 	macros->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	QObject::connect(macros,SIGNAL(clicked(QModelIndex)),this,SLOT(editElement()));
 	QObject::connect(macros,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editElement()));
 	mlayout->addWidget(macros,1,0,1,5);
 	QPushButton * madd=new QPushButton("New");
@@ -125,7 +122,6 @@ DataBrowser::DataBrowser(QDesktopWidget * d, DataBackend * _d):QDockWidget(tr("D
 	consts->setModel(db->getConstModel()->getModel());
 	consts->setSelectionMode(QAbstractItemView::SingleSelection);
 	consts->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	QObject::connect(consts,SIGNAL(clicked(QModelIndex)),this,SLOT(editElement()));
 	QObject::connect(consts,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editElement()));
 	clayout->addWidget(consts,1,0,1,5);
 	QPushButton * cadd=new QPushButton("New");

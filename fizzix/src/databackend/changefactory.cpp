@@ -55,4 +55,53 @@ void ChangeFactory::deleteConstant(QString n)
 	db->applyDataChange(dc);
 }
 
+void ChangeFactory::renameObject(QString on, QString nn)
+{
+	DC_RenameElement <DrawableObject *> * dc=new DC_RenameElement <DrawableObject *> (on, nn, db->getObjectModel());
+	db->applyDataChange(dc);
+}
+
+void ChangeFactory::renameForce(QString on, QString nn)
+{
+	DC_RenameElement <FizForce *> * dc=new DC_RenameElement <FizForce *> (on, nn, db->getForceModel());
+	db->applyDataChange(dc);
+}
+
+void ChangeFactory::renameConstant(QString on, QString nn)
+{
+	DC_RenameElement <fizdatum> * dc=new DC_RenameElement <fizdatum> (on, nn, db->getConstModel());
+	db->applyDataChange(dc);
+}
+
+void ChangeFactory::renameMacro(QString on, QString nn)
+{
+	DC_RenameElement <FizFormula *> * dc=new DC_RenameElement <FizFormula *> (on, nn, db->getMacroModel());
+	db->applyDataChange(dc);
+}
+
+void ChangeFactory::modifyObject(QString n, DrawableObject * nv)
+{
+	DC_ModifyElement <DrawableObject *> * dc=new DC_ModifyElement <DrawableObject *> (n, db->getObjectModel(), nv);
+	db->applyDataChange(dc);
+}
+
+void ChangeFactory::modifyForce(QString n, FizForce * nv)
+{
+	DC_ModifyElement <FizForce *> * dc=new DC_ModifyElement <FizForce *> (n, db->getForceModel(), nv);
+	db->applyDataChange(dc);
+}
+
+void ChangeFactory::modifyConstant(QString n, fizdatum nv)
+{
+	DC_ModifyElement <fizdatum> * dc=new DC_ModifyElement <fizdatum> (n, db->getConstModel(), nv);
+	db->applyDataChange(dc);
+}
+
+void ChangeFactory::modifyMacro(QString n, FizFormula * nv)
+{
+	DC_ModifyElement <FizFormula *> * dc=new DC_ModifyElement <FizFormula *> (n, db->getMacroModel(), nv);
+	db->applyDataChange(dc);
+}
+
+
 #endif
