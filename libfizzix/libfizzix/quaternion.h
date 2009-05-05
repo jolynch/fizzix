@@ -56,6 +56,16 @@ class Quaternion
 		   Automatically checks that it is unit within tolerance,
 			 and will not change if it is close enough */
 		void normalize(double tolerance);
+		/* Return the quaternion as a 3x3 matrix, in the order of
+		 * [0 1 2]
+		 * [3 4 5] where the number indicates the index
+		 * [6 7 8] */
+		std::vector<double> toRotationMatrix();
+		/* Return the quaternion as a 3x3 matrix, transposed in the order of
+		 * [0 1 2]
+		 * [3 4 5] where the number indicates the index
+		 * [6 7 8] */
+		std::vector<double> toRotationMatrixTranspose();
 		/* Return the element of this quaternion to set it.  0 = w, 1 = x, 2 = y, 3 = z */
 		double & operator[](const int index);
 		/* Return the conjugate of this quaternion (w,-x,-y,-z) */

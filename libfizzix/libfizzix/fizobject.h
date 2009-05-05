@@ -186,6 +186,7 @@ class FizObject
                 
 		const std::vector<double> getInertiaTensorInv() const;
 		std::vector<double>& rgetInertiaTensorInv();
+		std::vector<double> getInertiaTensorInvWorld();
 		void setInertiaTensorInv(std::vector<double> newtensor);
 		
 		/** Other properties

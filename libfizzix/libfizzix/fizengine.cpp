@@ -246,10 +246,11 @@ void FizEngine::applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, do
 	
 	//F = dp/dt = m * dv/dt = m * a
 	vec3 dvdt = force / ob1->getMass();
-	//Inertia tensor invese in the order xx,yy,zz,xy,yz,xz (symmetric)
+	//Inertia tensor inverse in the order xx,yy,zz,xy,yz,xz (symmetric)
 	//TODO
 	//I^-1 = R * I^-1 * R^T, not I^-1
-	std::vector<double> i = ob1->getInertiaTensorInv();
+	//NOTE I think I fixed it
+	std::vector<double> i = ob1->getInertiaTensorInvWorld();
 	vec3 t = torque_helper(ob1->getOme(),ob1->getInertiaTensor(),torque); // just for convenience
 	//T = dL/dt = I * dw/dt = I * alpha
 	vec3 dwdt = vec3(i[0] * t[0] + i[3] * t[1] + i[5] * t[2],

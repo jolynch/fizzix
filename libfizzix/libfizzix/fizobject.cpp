@@ -275,6 +275,19 @@ void FizObject::setInertiaTensor(std::vector<double> newtensor)	{
            
 const std::vector<double> FizObject::getInertiaTensorInv() const	{ return inertiaTensorInv; }
 std::vector<double>& FizObject::rgetInertiaTensorInv()			{ return inertiaTensorInv; }
+std::vector<double> FizObject::getInertiaTensorInvWorld()	
+{
+	std::vector<double> r = quaternion.toRotationMatrix();
+	std::vector<double>& i = inertiaTensorInv;
+	std::vector<double> RIR(6,0.0);
+	RIR[0] = r[0] * r[0] * i[0]; 
+	RIR[1] = r[4] * r[4] * i[1];
+	RIR[2] = r[8] * r[8] * i[2];
+	RIR[3] = r[1] * r[3] * i[3];
+	RIR[4] = r[5] * r[7] * i[4];
+	RIR[5] = r[2] * r[6] * i[5];
+	return RIR;
+}
 void FizObject::setInertiaTensorInv(std::vector<double> newtensor)	{
 									if(newtensor.size() == 6)
 										inertiaTensorInv = newtensor; 

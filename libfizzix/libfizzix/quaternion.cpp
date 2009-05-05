@@ -111,6 +111,45 @@ vec3 Quaternion::transformVec(const vec3 & vec) const
 	return vec3(v[1],v[2],v[3]);
 }
 
+std::vector<double> Quaternion::toRotationMatrix()
+{
+	std::vector<double> toReturn(9,0.0);
+	double& a = values.w; double& b = values.x; double& c = values.y; double& d = values.z;
+	toReturn[0] = a*a + b*b - c*c - d*d;
+	toReturn[1] = 2*b*c - 2*a*d;
+	toReturn[2] = 2*a*c + 2*b*d;
+	toReturn[3] = 2*a*d + 2*b*c;
+	toReturn[4] = a*a - b*b + c*c - d*d;
+	toReturn[5] = 2*c*d - 2*a*b;
+	toReturn[6] = 2*b*d - 2*a*c;
+	toReturn[7] = 2*a*b + 2*c*d;
+	toReturn[8] = a*a - b*b - c*c + d*d;	
+}
+
+std::vector<double> Quaternion::toRotationMatrixTranspose()
+{
+// 	std::vector<double> rot = this->toRotationMatrix();
+// 	std::vector<double> toReturn(9,0.0);
+// 	for (int i = 0; i < 9; i++)
+// 	{
+// 		toReturn[i] = rot[(3 * (i%3)) + i/3];
+// 	}
+// 	return toReturn;
+	//NOTE: Faster to just do it straight ...
+	std::vector<double> toReturn(9,0.0);
+	double& a = values.w; double& b = values.x; double& c = values.y; double& d = values.z;
+	toReturn[0] = a*a + b*b - c*c - d*d;
+	toReturn[3] = 2*b*c - 2*a*d;
+	toReturn[6] = 2*a*c + 2*b*d;
+	toReturn[1] = 2*a*d + 2*b*c;
+	toReturn[4] = a*a - b*b + c*c - d*d;
+	toReturn[7] = 2*c*d - 2*a*b;
+	toReturn[2] = 2*b*d - 2*a*c;
+	toReturn[5] = 2*a*b + 2*c*d;
+	toReturn[8] = a*a - b*b - c*c + d*d;	
+	return toReturn;
+}
+
 const double Quaternion::operator[](const int index) const
 {
 	if (index == 0) return values.w;
