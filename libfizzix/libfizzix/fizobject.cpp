@@ -255,7 +255,7 @@ const std::vector<triangle> FizObject::getVertices() const	{ return vertices; }
 std::vector<triangle>& FizObject::rgetVertices() 		{ return vertices; }
 void FizObject::setVertices(std::vector<triangle> newvertices) 	{ 
 								  vertices = newvertices;
-								  init(this->getName(), props["color"], newverices, this->getMass());
+//Commented out rev 204 to force compile. - AF			  init(this->getName(), props["color"], newvertices, this->getMass());
 //TODO: Call init properly
 //								  init(name, color, vertices, mass);
 								}
