@@ -322,8 +322,8 @@ void FizEngine::collide(FizObject& obj1, triangle& tri1, FizObject& obj2, triang
 	vec3 relvel = obj1.getVel() - obj2.getVel();
 	double velcomp = normal.dot(relvel);
 	double rotcomp = obj1.getOme().dot(r1n) - obj2.getOme().dot(r2n);
-	double rot1;// = sub_collide(r1n, obj1.getInertiaTensorInvWorld()); TODO: uncomment once FizObject::getInertiaTensorInvWorld() is written
-	double rot2;// = sub_collide(r2n, obj2.getInertiaTensorInvWorld());
+	double rot1 = sub_collide(r1n, obj1.getInertiaTensorInvWorld()); //TODO: uncomment once FizObject::getInertiaTensorInvWorld() is written
+	double rot2 = sub_collide(r2n, obj2.getInertiaTensorInvWorld());
 	
 	double forcemag = -2 * (velcomp + rotcomp) / ( 1/obj1.getMass() + 1/obj2.getMass() + rot1 + rot2 );
 	
