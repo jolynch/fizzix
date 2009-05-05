@@ -293,26 +293,48 @@ void FizEngine::applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, do
 
 void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
 {
-/*	COMMENTED OUT TO FORCE COMPILE REV 204 - AF. THERE ARE ERRORS IN HERE.
-****************************************************************************/
-//	vec3 radius = obj1.getPos() - obj2.getPos();
-//	double distance = radius.mag();
-//	vec3 direction = radius/radius.mag();
-//	if (distance <= obj1.getMaxRad() + obj2.getMaxRad()) //if within their bounding spheres
-//	{
-		//TODO: Check if actually colliding and where
-		
-//		vec3 normal = direction*-1; //ASSUME FOR A SPHERE - NORMAL IS JUST OUTWARD FROM OBJECT 1
-//		vec3 r1; //FIND THIS - obj1's triangle's radius from obj1 COM
-//		vec3 r2; //FIND THIS - for r2
-//		double forcemag = (-2*(normal.dot(obj1.getVel() - obj2.getVel()) + (obj1.getOme().dot(r1.cross(normal)) - obj2.getOme().dot(r2.cross(normal)))))/(1/obj1.getMass() 1/obj2.getMass() + (/*(r1.cross(normal)) transposed * J1^-1 (inertia tensor in world coordinates) * (r1.cross(normal))  +  (r2.cross(normal)) transposed * J2^-1 * (r2.cross(normal))*/));
-		//F2 = NORMAL * FORCEMAG
-		//F1 = -F2
-		//T1 = F1 x R1
-		//T2 = F2 x R2
-		//coefficient of restitution is 1 - purely elastic
-		//TODO: Apply collision forces
-//	}
+	vec3 radius = obj1.getPos() - obj2.getPos();
+	double distance = radius.mag();
+	vec3 direction = radius/radius.mag();
+	if (distance <= obj1.getMaxRad() + obj2.getMaxRad()) //if within their bounding spheres
+	{
+		//TODO: check if actually colliding
+		//TODO: find where collision is
+		//TODO: call collide
+	}
+}
+
+double sub_collide(vec3 r, std::vector<double> i) //r is a 3x1 column vector, i is an inertia tensor symmetric matrix, returns r(T)*i*r
+{
+	return ( pow(r[0],2)*i[0] + pow(r[1],2)*i[1] + pow(r[2],2)*i[2] + 2*( r[0]*r[1]*i[3] + r[0]*r[2]*i[5] + r[1]*r[2]*i[4] ) );
+}
+
+//vec3 normal is the outward pointing normal of tri1 OR cross product of the edges
+void FizEngine::collide(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2, vec3 normal, point p) //not sure if all of these are necessary Eric - you can change if you need to
+{
+	vec3 r1 = (tri1.vertices[0]->p + tri1.vertices[1]->p + tri1.vertices[2]->p)/3;
+	vec3 r2 = (tri2.vertices[0]->p + tri2.vertices[1]->p + tri2.vertices[2]->p)/3;
+	
+	vec3 r1n = r1.cross(normal);
+	vec3 r2n = r2.cross(normal);
+	
+	vec3 relvel = obj1.getVel() - obj2.getVel();
+	double velcomp = normal.dot(relvel);
+	double rotcomp = obj1.getOme().dot(r1n) - obj2.getOme().dot(r2n);
+	double rot1;// = sub_collide(r1n, obj1.getInertiaTensorInvWorld()); TODO: uncomment once FizObject::getInertiaTensorInvWorld() is written
+	double rot2;// = sub_collide(r2n, obj2.getInertiaTensorInvWorld());
+	
+	double forcemag = -2 * (velcomp + rotcomp) / ( 1/obj1.getMass() + 1/obj2.getMass() + rot1 + rot2 );
+	
+	vec3 f1 = normal*-forcemag;
+	vec3 f2 = f1*-1;
+	vec3 t1 = f1.cross(r1);
+	vec3 t2 = f2.cross(r2);
+	
+	(*evaluatedForces)[&obj1].first += f1;
+	(*evaluatedForces)[&obj1].second += t1;
+	(*evaluatedForces)[&obj2].first += f2;
+	(*evaluatedForces)[&obj2].second += t2;
 }
 
 // Get from cache or evaluate:	

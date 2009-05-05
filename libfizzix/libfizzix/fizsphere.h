@@ -48,8 +48,7 @@ class FizSphere:public FizObject
 		double& rgetRadius();
 		void setRadius(double newradius);
 
-//COMMENTED OUT UNIMPLEMENTED FUNCTION TO FORCE COMPILE REV 205 - AF.
-//		void setVertices(std::vector<triangle> newvertices);
+		void setVertices(std::vector<triangle> newvertices);
 };
 
 #endif

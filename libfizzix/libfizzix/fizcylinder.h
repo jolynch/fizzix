@@ -52,6 +52,9 @@ class FizCylinder:public FizObject
 		double getHeight() const;
 		double& rgetHeight();
 		void setHeight(double newheight);
+		
+		void setVertices(std::vector<triangle> newvertices);
+
 };
 
 #endif

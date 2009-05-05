@@ -124,12 +124,12 @@ vec3 vec3::operator-=(vec3 other)
 	return *this;
 }
 
-double vec3::dot(const vec3& other) 
+const double vec3::dot(vec3& other) const
 {
 	return x * other.x + y * other.y + z * other.z;
 }
 
-vec3 vec3::cross(const vec3& other) 
+const vec3 vec3::cross(vec3& other) const
 {
 	return vec3(y * other.z - z * other.y,
 		    z * other.x - x * other.z,

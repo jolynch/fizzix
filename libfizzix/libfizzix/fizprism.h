@@ -57,6 +57,8 @@ class FizPrism:public FizObject
 		double getDepth() const;
 		double& rgetDepth();
 		void setDepth(double newdepth);
+		
+		void setVertices(std::vector<triangle> newvertices);
 };
 
 #endif

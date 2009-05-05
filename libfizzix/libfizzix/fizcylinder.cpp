@@ -139,5 +139,10 @@ double& FizCylinder::rgetHeight()			{ return height; }
 void FizCylinder::setHeight(double newheight)		{ height = newheight; 
       						          props["height"] = fizdatum(height, vec3(), SCALAR);
 							}
+							
+void FizCylinder::setVertices(std::vector<triangle> newvertices)	{
+									  vertices = newvertices;
+									  init(this->getName(), props["color"].vector, newvertices, this->getMass(), this->getRadius(), this->getHeight());
+									}
 
 #endif

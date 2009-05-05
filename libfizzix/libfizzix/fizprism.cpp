@@ -148,5 +148,10 @@ double& FizPrism::rgetDepth()				{ return depth; }
 void FizPrism::setDepth(double newdepth)		{ depth = newdepth; 
       						          props["depth"] = fizdatum(depth, vec3(), SCALAR);
 							}
+							
+void FizPrism::setVertices(std::vector<triangle> newvertices)	{
+								  vertices = newvertices;
+								  init(this->getName(), props["color"].vector, newvertices, this->getMass(), this->getHeight(), this->getWidth(), this->getDepth());
+								}
 
 #endif

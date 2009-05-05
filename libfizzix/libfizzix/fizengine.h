@@ -86,6 +86,7 @@ class FizEngine
 		/** Checks for collisions between two objects and if it exists, applies a collision reaction force between whatever triangles of theirs have collided
 		*/
 		void collisions(FizObject& obj1, FizObject& obj2);
+		void collide(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2, vec3 normal, point p);
 
 		/** Applys the force and torque on ob1 using a Runge-Kutta foruth order solver
 		* 
