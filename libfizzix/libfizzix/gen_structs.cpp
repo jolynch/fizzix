@@ -233,7 +233,7 @@ void vertex::add_triangle(triangle * t)
 triangle::triangle(vertex* v1, vertex* v2, vertex* v3)
 {
 	vertices[0] = v1; vertices[1] =  v2; vertices[2] = v3;
-	vertex& vr1 = *v1;vertex& vr2 = *v1;vertex& vr3 = *v1;
+	vertex& vr1 = *v1;vertex& vr2 = *v2;vertex& vr3 = *v3;
 	massp = 0.0;
 	vec3 e1 = vec3((double)(vr1[0])-vr2[0],vr1[1]-vr2[1],vr1[2]-vr2[2]);
 	vec3 e2 = vec3(vr1[0]-vr3[0],vr1[1]-vr3[1],vr1[2]-vr3[2]);

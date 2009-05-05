@@ -224,9 +224,9 @@ void GLDrawPane::initializeGL()
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	float * toUse = new float[4];
-	toUse[0] = 1; toUse[1] = 0; toUse[2] = 0; toUse[3] = 1;
+	toUse[0] = .2; toUse[1] = .2; toUse[2] = .2; toUse[3] = 1;
 	glLightfv(GL_LIGHT0, GL_AMBIENT, toUse);
-	toUse[0] = 0; toUse[1] = 1; toUse[2] = 0; toUse[3] = 1;
+	toUse[0] = .5; toUse[1] = .5; toUse[2] = .5; toUse[3] = 1;
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, toUse);
 	glEnable(GL_LIGHT0);
 	glShadeModel(GL_SMOOTH);
@@ -237,7 +237,7 @@ void GLDrawPane::initializeGL()
 void GLDrawPane::paintGL()
 {
 	vertex * vertices = new vertex[8];
-	double r = 10;
+	double r = 2;
 	r *= sideToZoom;
 	vertices[0] = vertex(r,r,r);
 	vertices[1] = vertex(r,r,-r);
@@ -275,7 +275,7 @@ void GLDrawPane::paintGL()
 	vec3 pos = moveCamera();
 	double l = maxZoom*sideToZoom*1.2;
 	float * toUse = new float[4];
-	toUse[0] = l; toUse[1] = l; toUse[2] = l; toUse[3] = 1;
+	toUse[0] = l; toUse[1] = l; toUse[2] = l; toUse[3] = 0;
 	glLightfv(GL_LIGHT0, GL_POSITION, toUse);
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom*sideToZoom,pos[0],pos[1],pos[2]),.25,false);
@@ -284,7 +284,7 @@ void GLDrawPane::paintGL()
 	for (int i = 0;i < (int)objs.size();i++) {
 	  drawObject(*(objs[i]));
 	  }*/
-	drawObject(triangles,color,position,q,false,false);
+	drawObject(triangles,color,position,q,false,true);
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom*sideToZoom,pos[0],pos[1],pos[2]),.25,true);
 	glDisable(GL_BLEND);
