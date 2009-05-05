@@ -71,7 +71,7 @@ vec3 GLDrawPane::moveCamera()
 
 void GLDrawPane::drawObject(const DrawableObject & obj)
 {
-	const vector<triangle> & mesh = obj.getVertices();
+	const vector<triangle*> & mesh = obj.getVertices();
 	const vec3 & color = obj["color"].vector;
 	const vec3 & pos = obj.getPos();
 	const Quaternion & q = obj.getQuaternion();

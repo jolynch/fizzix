@@ -20,12 +20,12 @@ DrawableObject::DrawableObject(string newname, vec3 color, int props):FizObject(
 	properties = props;
 }
 
-DrawableObject::DrawableObject(string newname, vector<triangle> init, int props):FizObject(newname, init)
+DrawableObject::DrawableObject(string newname, vector<triangle*> init, int props):FizObject(newname, init)
 {
 	properties = props;
 }
 
-DrawableObject::DrawableObject(string newname, vec3 color, vector<triangle> init, int props):FizObject(newname,color,init)
+DrawableObject::DrawableObject(string newname, vec3 color, vector<triangle*> init, int props):FizObject(newname,color,init)
 {
 	properties = props;
 }
