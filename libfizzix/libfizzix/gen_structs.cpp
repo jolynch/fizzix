@@ -46,37 +46,37 @@ double & vec3::operator[](int index)
 	if (index == 2) return z;
 }
 
-const vec3 vec3::operator*(vec3 other) const
+vec3 vec3::operator*(const vec3 & other) const
 {
 	return vec3(x * other[0], y * other[1], z * other[2]);
 }
 
-const vec3 vec3::operator*(double other) const
+vec3 vec3::operator*(const double & other) const
 {
 	return vec3(x * other, y * other, z * other);
 }
 
-const vec3 vec3::operator/(vec3 other) const
+vec3 vec3::operator/(const vec3 & other) const
 {
 	return vec3(x / other[0], y / other[1], z / other[2]);
 }
 
-const vec3 vec3::operator/(double other) const
+vec3 vec3::operator/(const double & other) const
 {
 	return vec3(x / other, y / other, z / other);
 }
 
-const vec3 vec3::operator+(vec3 other) const
+vec3 vec3::operator+(const vec3 & other) const
 {
 	return vec3(x + other[0], y + other[1], z + other[2]);
 }
 
-const vec3 vec3::operator-(vec3 other) const
+vec3 vec3::operator-(const vec3 & other) const
 {
 	return vec3(x - other[0], y - other[1], z - other[2]);
 }
 
-vec3 vec3::operator*=(vec3 other)
+vec3 vec3::operator*=(const vec3 & other)
 {
 	x *= other[0];
 	y *= other[1];
@@ -84,7 +84,7 @@ vec3 vec3::operator*=(vec3 other)
 	return *this;
 }
 
-vec3 vec3::operator*=(double other)
+vec3 vec3::operator*=(const double & other)
 {
 	x *= other;
 	y *= other;
@@ -92,7 +92,7 @@ vec3 vec3::operator*=(double other)
 	return *this;
 }
 
-vec3 vec3::operator/=(vec3 other)
+vec3 vec3::operator/=(const vec3 & other)
 {
 	x /= other[0];
 	y /= other[1];
@@ -100,7 +100,7 @@ vec3 vec3::operator/=(vec3 other)
 	return *this;
 }
 
-vec3 vec3::operator/=(double other)
+vec3 vec3::operator/=(const double & other)
 {
 	x /= other;
 	y /= other;
@@ -108,7 +108,7 @@ vec3 vec3::operator/=(double other)
 	return *this;
 }
 
-vec3 vec3::operator+=(vec3 other)
+vec3 vec3::operator+=(const vec3 & other)
 {
 	x += other[0];
 	y += other[1];
@@ -116,7 +116,7 @@ vec3 vec3::operator+=(vec3 other)
 	return *this;
 }
 
-vec3 vec3::operator-=(vec3 other)
+vec3 vec3::operator-=(const vec3 & other)
 {
 	x -= other[0];
 	y -= other[1];
@@ -124,12 +124,12 @@ vec3 vec3::operator-=(vec3 other)
 	return *this;
 }
 
-const double vec3::dot(vec3& other) const
+double vec3::dot(const vec3& other) const
 {
 	return x * other.x + y * other.y + z * other.z;
 }
 
-const vec3 vec3::cross(vec3& other) const
+vec3 vec3::cross(const vec3& other) const
 {
 	return vec3(y * other.z - z * other.y,
 		    z * other.x - x * other.z,

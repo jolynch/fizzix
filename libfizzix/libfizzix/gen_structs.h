@@ -57,24 +57,24 @@ struct vec3
 	const double operator[](int index) const;
 	double& operator[](int index);
 	
-	const vec3 operator*(vec3 other) const ;
-	const vec3 operator*(double other) const ;
-	const vec3 operator/(vec3 other) const ;
-	const vec3 operator/(double other) const ;
-	const vec3 operator+(vec3 other) const ;
-	const vec3 operator-(vec3 other) const;
-	vec3 operator*=(vec3 other);
-	vec3 operator*=(double other);
-	vec3 operator/=(vec3 other);
-	vec3 operator/=(double other);
-	vec3 operator+=(vec3 other);
-	vec3 operator-=(vec3 other);
+	vec3 operator*(const vec3 & other) const ;
+	vec3 operator*(const double & other) const ;
+	vec3 operator/(const vec3 & other) const ;
+	vec3 operator/(const double & other) const ;
+	vec3 operator+(const vec3 & other) const ;
+	vec3 operator-(const vec3 & other) const;
+	vec3 operator*=(const vec3 & other);
+	vec3 operator*=(const double & other);
+	vec3 operator/=(const vec3 & other);
+	vec3 operator/=(const double & other);
+	vec3 operator+=(const vec3 & other);
+	vec3 operator-=(const vec3 & other);
 
 	vec3(double _x, double _y, double _z);
 	vec3();
 
-	const double dot(vec3& other) const;
-	const vec3 cross(vec3& other) const;
+	double dot(const vec3& other) const;
+	vec3 cross(const vec3& other) const;
 	double mag();
 };
 

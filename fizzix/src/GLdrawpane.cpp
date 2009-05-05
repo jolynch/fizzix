@@ -11,13 +11,17 @@
 using namespace std;
 
 double GLDrawPane::sideToZoom = 1.0/(9.0*sqrt(3.0));
+Quaternion GLDrawPane::lookatXY(1,0,0,0);
+Quaternion GLDrawPane::lookatYZ(.5,.5,.5,.5);
+Quaternion GLDrawPane::lookatZX(.5,-.5,-.5,-.5);
+Quaternion GLDrawPane::isometric(0.880476, 0.279848, .364705, -0.115917);
 
 GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _minZoom, double _maxZoom, double fieldOfView) : QGLWidget(parent)
 {
 	rotSpeed = _rotate;
 	zoomSpeed = _zoom;
 	fov = fieldOfView;
-	rot = Quaternion();
+	rot = isometric;
 	minZoom = _minZoom;
 	maxZoom = _maxZoom;
 	zoom = maxZoom*sideToZoom;
@@ -150,7 +154,7 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 	double l = maxZoom*sideToZoom;
 	if ((faces & (1 << 0)) ^ (f<<0))
 	{
-		glColor4d(1.0,0.0,0.0,alpha);
+		glColor4d(1.0,0.8,0.8,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(2*front-1,0,0);
 		glVertex3d(l,l,-l);
@@ -161,7 +165,7 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 	}
 	if ((faces & (1 << 1)) ^ (f<<1))
 	{
-		glColor4d(1.0,0.0,0.0,alpha);
+		glColor4d(1.0,0.8,0.8,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(1-2*front,0,0);
 		glVertex3d(-l,-l,-l);
@@ -172,7 +176,7 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 	}
 	if ((faces & (1 << 2)) ^ (f<<2))
 	{
-		glColor4d(0.0,1.0,0.0,alpha);
+		glColor4d(0.8,1.0,0.8,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(0,2*front-1,0);
 		glVertex3d(-l,l,l);
@@ -183,7 +187,7 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 	}
 	if ((faces & (1 << 3)) ^ (f<<3))
 	{
-		glColor4d(0.0,1.0,0.0,alpha);
+		glColor4d(0.8,1.0,0.8,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(0,1-2*front,0);
 		glVertex3d(-l,-l,-l);
@@ -194,7 +198,7 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 	}
 	if ((faces & (1 << 4)) ^ (f<<4))
 	{
-		glColor4d(0.0,0.0,1.0,alpha);
+		glColor4d(0.8,0.8,1.0,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(0,0,2*front-1);
 		glVertex3d(l,-l,l);
@@ -205,7 +209,7 @@ void GLDrawPane::drawBox(int faces, double alpha,bool front)
 	}
 	if ((faces & (1 << 5)) ^ (f<<5))
 	{
-		glColor4d(0.0,0.0,1.0,alpha);
+		glColor4d(0.8,0.8,1.0,alpha);
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3d(0,0,1-2*front);
 		glVertex3d(-l,-l,-l);
@@ -262,7 +266,7 @@ void GLDrawPane::paintGL()
 	triangles.push_back(new triangle(vertices+1,vertices+3,vertices+5));
 	triangles.push_back(new triangle(vertices+5,vertices+3,vertices+7));
 
-	vec3 color(1,1,1);
+	vec3 color(1,.5,1);
 	vec3 position(0,0,0);
 	Quaternion q;
 

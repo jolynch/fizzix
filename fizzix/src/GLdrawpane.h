@@ -73,6 +73,13 @@ class GLDrawPane: public QGLWidget
 		QSize sizeHint() const;
 		
 		static double sideToZoom;
+		static Quaternion lookatXY;
+		static Quaternion lookatYZ;
+		static Quaternion lookatZX;
+		static Quaternion isometric;
+//	public slots:
+//		setRotation(Quaternion q);
+//		setZoomPercent(double d);
 };
 
 #endif
