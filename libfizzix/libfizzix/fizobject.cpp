@@ -33,37 +33,37 @@ FizObject::FizObject()
 {
 	vec3 color(64.0, 64.0, 64.0);
 	//The pointer is so that the default vertices don't die after the constructor
-	this->init("UnNamed", color, *(new std::vector<triangle>()), 1);
+	this->init("UnNamed", color, *(new std::vector<triangle*>()), 1);
 }
 	
 //Constructor that inits the name
 FizObject::FizObject(std::string newname, double mass) 
 {
 	vec3 color(64.0,64.0,64.0);
-	this->init(newname, color, *(new std::vector<triangle>()), mass);
+	this->init(newname, color, *(new std::vector<triangle*>()), mass);
 }
 
 //Constructor that inits the name, color and possibly the smoothity
 FizObject::FizObject(std::string newname, vec3 color, double mass)
 {
-	this->init(newname,color, *(new std::vector<triangle>()), mass);
+	this->init(newname,color, *(new std::vector<triangle*>()), mass);
 }
 
 // Constructor that inits the name and vertices and possibly the smoothity
-FizObject::FizObject(std::string newname, std::vector<triangle> new_vertices, double mass) 
+FizObject::FizObject(std::string newname, std::vector<triangle*> new_vertices, double mass) 
 {
 	vec3 color(64.0, 64.0, 64.0);
 	this->init(newname,color,new_vertices, mass);
 }
 
 // Constructor that inits the vertices, color, and smoothity
-FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle> new_vertices, double mass)
+FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle*> new_vertices, double mass)
 {
 	this->init(newname, color, new_vertices, mass);
 }
 
 // Init the object
-void FizObject::init(std::string name, vec3 color, const std::vector<triangle>& tinit, double mass)
+void FizObject::init(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass)
 {
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
@@ -75,7 +75,7 @@ void FizObject::init(std::string name, vec3 color, const std::vector<triangle>& 
 
 /** Initialized the structure, used by constructors
  */
-void FizObject::init_object(std::string name, vec3 color, const std::vector<triangle>& tinit, double mass) 
+void FizObject::init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass) 
 {
 	this->name = name;
 	vertices = tinit;
@@ -116,7 +116,7 @@ void FizObject::compute()
 	point p0,p1,p2;
 	for(int i = 0; i < vertices.size(); i++) 
 	{
-		triangle& t = vertices[i];
+		triangle& t = *vertices[i];
 		sub_compute(t[0][0], t[1][0], t[2][0], f1x, f2x, f3x, g0x, g1x, g2x);
 		sub_compute(t[0][1], t[1][1], t[2][1], f1y, f2y, f3y, g0y, g1y, g2y);
 		sub_compute(t[0][2], t[1][2], t[2][2], f1z, f2z, f3z, g0z, g1z, g2z);
@@ -188,9 +188,9 @@ void FizObject::compute()
 
 void FizObject::adjustMasses()
 {
-	for(std::vector<triangle>::iterator i = vertices.begin(); i != vertices.end(); i++)
+	for(std::vector<triangle*>::iterator i = vertices.begin(); i != vertices.end(); i++)
 	{
-		i->massp = i->massp / mass;
+		(*i)->massp = (*i)->massp / mass;
 	}
 
 	setMass(getProperty("temp_mass").scalar);
@@ -204,7 +204,7 @@ void FizObject::computeBounds()
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			double r = sqrt(pow(vertices[i][j][0],2) + pow(vertices[i][j][1],2) + pow(vertices[i][j][2],2));
+			double r = sqrt(pow((*vertices[i])[j][0],2) + pow((*vertices[i])[j][1],2) + pow((*vertices[i])[j][2],2));
 			if (r > maxrad) maxrad = r;
 		}
 	}
@@ -251,9 +251,9 @@ void FizObject::setAlp(vec3 newalp)			{ alp = newalp;
 							  props["angular_acceleration"] = fizdatum(0.0, alp, VECTOR);
 							}
 	
-const std::vector<triangle> FizObject::getVertices() const	{ return vertices; }
-std::vector<triangle>& FizObject::rgetVertices() 		{ return vertices; }
-void FizObject::setVertices(std::vector<triangle> newvertices) 	{ 
+const std::vector<triangle*> FizObject::getVertices() const	{ return vertices; }
+std::vector<triangle*>& FizObject::rgetVertices() 		{ return vertices; }
+void FizObject::setVertices(std::vector<triangle*> newvertices) 	{ 
 								  vertices = newvertices;
 								  init(this->getName(), props["color"].vector, newvertices, this->getMass());
 								}
@@ -280,12 +280,27 @@ std::vector<double> FizObject::getInertiaTensorInvWorld()
 	std::vector<double> r = quaternion.toRotationMatrix();
 	std::vector<double>& i = inertiaTensorInv;
 	std::vector<double> RIR(6,0.0);
-	RIR[0] = r[0] * r[0] * i[0]; 
-	RIR[1] = r[4] * r[4] * i[1];
-	RIR[2] = r[8] * r[8] * i[2];
-	RIR[3] = r[1] * r[3] * i[3];
-	RIR[4] = r[5] * r[7] * i[4];
-	RIR[5] = r[2] * r[6] * i[5];
+	/*Manual multipliation of R * I^-1 * R^t\
+	  R = 	[A,B,C]
+	  	[D,E,F]
+		[G,H,I]
+	  I =	[U,W,Z]
+	  	[W,V,Y]
+		[Z,Y,X]
+	  Rt = 	[A,D,G]
+	  	[B,E,H]
+		[C,F,I]
+	  R * I * Rt =
+	  [A*(C*Z+B*W+A*U)+C*(A*Z+B*Y+C*X)+B*(C*Y+A*W+B*V),A*(F*Z+E*W+D*U)+C*(D*Z+E*Y+F*X)+B*(F*Y+D*W+E*V),A*(I*Z+H*W+G*U)+C*(G*Z+H*Y+I*X)+B*(I*Y+G*W+H*V)]
+	  [D*(C*Z+B*W+A*U)+F*(A*Z+B*Y+C*X)+E*(C*Y+A*W+B*V),D*(F*Z+E*W+D*U)+F*(D*Z+E*Y+F*X)+E*(F*Y+D*W+E*V),D*(I*Z+H*W+G*U)+F*(G*Z+H*Y+I*X)+E*(I*Y+G*W+H*V)]
+	  [G*(C*Z+B*W+A*U)+I*(A*Z+B*Y+C*X)+H*(C*Y+A*W+B*V),G*(F*Z+E*W+D*U)+I*(D*Z+E*Y+F*X)+H*(F*Y+D*W+E*V),G*(I*Z+H*W+G*U)+I*(G*Z+H*Y+I*X)+H*(I*Y+G*W+H*V)]
+	 */
+	RIR[0] = r[0] * (r[2] * i[5] +r[1]*i[3]+r[0]*i[0])+r[2]*(r[0]*i[5]+r[1]*i[4]+r[2]*i[2])+r[1]*(r[2]*i[4]+r[0]*i[3]+r[1]*i[1]);
+	RIR[1] = r[3] * (r[5] * i[5] +r[4]*i[3]+r[3]*i[0])+r[5]*(r[3]*i[5]+r[4]*i[4]+r[5]*i[2])+r[4]*(r[5]*i[4]+r[3]*i[3]+r[4]*i[1]); 
+	RIR[2] = r[6] * (r[8] * i[5] +r[7]*i[3]+r[6]*i[0])+r[8]*(r[6]*i[5]+r[7]*i[4]+r[8]*i[2])+r[7]*(r[8]*i[4]+r[6]*i[3]+r[7]*i[1]); 
+	RIR[3] = r[0] * (r[5] * i[5] +r[4]*i[3]+r[3]*i[0])+r[2]*(r[3]*i[5]+r[4]*i[4]+r[5]*i[2])+r[1]*(r[5]*i[4]+r[3]*i[3]+r[4]*i[1]);
+	RIR[4] = r[3] * (r[8] * i[5] +r[7]*i[3]+r[6]*i[0])+r[5]*(r[6]*i[5]+r[7]*i[4]+r[8]*i[2])+r[4]*(r[8]*i[4]+r[6]*i[3]+r[7]*i[1]);
+	RIR[5] = r[0] * (r[8] * i[5] +r[7]*i[3]+r[6]*i[0])+r[2]*(r[6]*i[5]+r[7]*i[4]+r[8]*i[2])+r[1]*(r[8]*i[4]+r[6]*i[3]+r[7]*i[1]);
 	return RIR;
 }
 void FizObject::setInertiaTensorInv(std::vector<double> newtensor)	{

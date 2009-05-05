@@ -36,11 +36,11 @@ class FizCylinder:public FizObject
 		FizCylinder(); //Default constructor
 		FizCylinder(std::string newname, double mass = 1, double rad = 1, double h = 1); //Constructor that inits the name and dimensions
 		FizCylinder(std::string newname, vec3 color, double mass = 1, double rad = 1, double h = 1);	//Constructor that inits the name, color, and dimensions
-		FizCylinder(std::string newname, std::vector<triangle> new_vertices, double mass = 1, double rad = 1, double h = 1); //Constructor that inits the name, triangles, and dimensions
-		FizCylinder(std::string newname, vec3 color, std::vector<triangle> new_vertices, double mass = 1, double rad = 1, double h = 1); //Constructor that inits the name, color, triangles, and dimensions
+		FizCylinder(std::string newname, std::vector<triangle*> new_vertices, double mass = 1, double rad = 1, double h = 1); //Constructor that inits the name, triangle*s, and dimensions
+		FizCylinder(std::string newname, vec3 color, std::vector<triangle*> new_vertices, double mass = 1, double rad = 1, double h = 1); //Constructor that inits the name, color, triangle*s, and dimensions
 		
-		void init(std::string name, vec3 color, const std::vector<triangle>& new_vertices, double mass, double rad, double h);
-		void init_object(std::string name, vec3 color, const std::vector<triangle>& tinit, double mass, double rad, double h);
+		void init(std::string name, vec3 color, const std::vector<triangle*>& new_vertices, double mass, double rad, double h);
+		void init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass, double rad, double h);
 		
 		void compute();
 		void computeBounds();
@@ -53,7 +53,7 @@ class FizCylinder:public FizObject
 		double& rgetHeight();
 		void setHeight(double newheight);
 		
-		void setVertices(std::vector<triangle> newvertices);
+		void setVertices(std::vector<triangle*> newvertices);
 
 };
 

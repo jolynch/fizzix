@@ -38,9 +38,10 @@ namespace FizOper
 	{
 		protected:
 			int numOperands; /* The number of parameters the function takes */
-			std::string token; /* The token used to identify this function in the editor */
+			//std::string token; /* The token used to identify this function in the editor */
 			std::string description; /* "Help" text */
 		public:
+			static std::string token;
 			virtual const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2) =0; /* Gets the value of the node */
 	};
 }

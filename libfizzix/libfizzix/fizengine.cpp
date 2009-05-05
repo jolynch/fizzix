@@ -85,8 +85,8 @@ void FizEngine::evalForces()
 			obj2.setName(inner_iter->first);
 
 			collisions(obj1, obj2);
-			std::vector<triangle>& tris1 = obj1.rgetVertices(); //actually, triangles, not vertices
-			std::vector<triangle>& tris2 = obj2.rgetVertices();
+			std::vector<triangle*>& tris1 = obj1.rgetVertices(); //actually, triangles, not vertices
+			std::vector<triangle*>& tris2 = obj2.rgetVertices();
 			vec3 dforce;
 			//evalForce(forces[i], *outer_iter, *inner_iter);
 			//need a COM triangle in each object
@@ -127,17 +127,17 @@ void FizEngine::evalForces()
 							if(!(*forceEvaled)[forcename])
 							{
 								if (!force->isDistributed()) clearDistributedCaches();
-								dforce = force->getForce(obj1, obj1.rgetCOMTriangle(), obj2, tris2[j]);
+								dforce = force->getForce(obj1, obj1.rgetCOMTriangle(), obj2, *(tris2[j]));
 								(*evaluatedForces)[&obj1].first += dforce;
 								//no torque for obj1
 								if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce;
 								else
 								{
 									clearNonsymmetricCaches();
-									dforce = force->getForce(obj2, tris2[j], obj1, obj1.rgetCOMTriangle());
+									dforce = force->getForce(obj2, *(tris2[j]), obj1, obj1.rgetCOMTriangle());
 									(*evaluatedForces)[&obj2].first += dforce;
 								}
-								vec3 radius = (tris2[j].vertices[0]->p + tris2[j].vertices[1]->p + tris2[j].vertices[2]->p)/3; //vector from center of object to center of triangle
+								vec3 radius = (tris2[j]->vertices[0]->p + tris2[j]->vertices[1]->p + tris2[j]->vertices[2]->p)/3; //vector from center of object to center of triangle
 								(*evaluatedForces)[&obj2].second += dforce.cross(radius); //T = F x r
 							}
 							force_iter++;
@@ -159,15 +159,15 @@ void FizEngine::evalForces()
 							if(!(*forceEvaled)[forcename])
 							{
 								if (!force->isDistributed()) clearDistributedCaches();
-								dforce = force->getForce(obj1, tris1[i], obj2, obj2.rgetCOMTriangle());
+								dforce = force->getForce(obj1, *(tris1[i]), obj2, obj2.rgetCOMTriangle());
 								(*evaluatedForces)[&obj1].first += dforce;
-								vec3 radius = (tris1[i].vertices[0]->p + tris1[i].vertices[1]->p + tris1[i].vertices[2]->p)/3;
+								vec3 radius = (tris1[i]->vertices[0]->p + tris1[i]->vertices[1]->p + tris1[i]->vertices[2]->p)/3;
 								(*evaluatedForces)[&obj1].second += dforce.cross(radius);
 								if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce;
 								else
 								{
 									clearNonsymmetricCaches();
-									dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, tris1[i]);
+									dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, *(tris1[i]));
 									(*evaluatedForces)[&obj2].first += dforce;
 								}
 								//no torque for obj2
@@ -187,18 +187,18 @@ void FizEngine::evalForces()
 								if(!(*forceEvaled)[forcename])
 								{
 									if (!force->isDistributed()) clearDistributedCaches();
-									dforce = force->getForce(obj1, tris1[i], obj2, tris2[j]);
+									dforce = force->getForce(obj1, *(tris1[i]), obj2, *(tris2[j]));
 									(*evaluatedForces)[&obj1].first += dforce;
-									vec3 radius = (tris1[i].vertices[0]->p + tris1[i].vertices[1]->p + tris1[i].vertices[2]->p)/3;
+									vec3 radius = (tris1[i]->vertices[0]->p + tris1[i]->vertices[1]->p + tris1[i]->vertices[2]->p)/3;
 									(*evaluatedForces)[&obj1].second += dforce.cross(radius);
 									if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce;
 									else
 									{
 										clearNonsymmetricCaches();
-										dforce = force->getForce(obj2, tris2[j], obj1, tris1[i]);
+										dforce = force->getForce(obj2, *(tris2[j]), obj1, *(tris1[i]));
 										(*evaluatedForces)[&obj2].first += dforce;
 									}
-									radius = (tris2[j].vertices[0]->p + tris2[j].vertices[1]->p + tris2[j].vertices[2]->p)/3;
+									radius = (tris2[j]->vertices[0]->p + tris2[j]->vertices[1]->p + tris2[j]->vertices[2]->p)/3;
 									(*evaluatedForces)[&obj2].second += dforce.cross(radius);
 								}
 								force_iter++;

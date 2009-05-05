@@ -30,34 +30,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //Default constructor
 FizPrism::FizPrism()
 {
-	this->init("UnNamedPrism", vec3(64.0, 64.0, 64.0), *(new std::vector<triangle>()), 1, 1, 1, 1); //default is a 1x1x1 box
+	this->init("UnNamedPrism", vec3(64.0, 64.0, 64.0), *(new std::vector<triangle*>()), 1, 1, 1, 1); //default is a 1x1x1 box
 }
 
 //Constructor that inits the name and dimensions
 FizPrism::FizPrism(std::string newname, double mass, double h, double w, double d)
 {
-	this->init(newname, vec3(64.0, 64.0, 64.0), *(new std::vector<triangle>()), mass, h, w, d);
+	this->init(newname, vec3(64.0, 64.0, 64.0), *(new std::vector<triangle*>()), mass, h, w, d);
 }
 
 //Constructor that inits the name, color, and dimensions
 FizPrism::FizPrism(std::string newname, vec3 color, double mass, double h, double w, double d)
 {
-	this->init(newname, color, *(new std::vector<triangle>()), mass, h, w, d);
+	this->init(newname, color, *(new std::vector<triangle*>()), mass, h, w, d);
 }
 
 //Constructor that inits the name, triangles, and dimensions
-FizPrism::FizPrism(std::string newname, std::vector<triangle> new_vertices, double mass, double h, double w, double d)
+FizPrism::FizPrism(std::string newname, std::vector<triangle*> new_vertices, double mass, double h, double w, double d)
 {
 	this->init(newname, vec3(64.0, 64.0, 64.0), new_vertices, mass, h, w, d);
 }
 
 //Constructor that inits the name, color, triangles, and dimensions
-FizPrism::FizPrism(std::string newname, vec3 color, std::vector<triangle> new_vertices, double mass, double h, double w, double d)
+FizPrism::FizPrism(std::string newname, vec3 color, std::vector<triangle*> new_vertices, double mass, double h, double w, double d)
 {
 	this->init(newname, color, new_vertices, mass, h, w, d);
 }
 
-void FizPrism::init(std::string name, vec3 color, const std::vector<triangle>& new_vertices, double mass, double h, double w, double d)
+void FizPrism::init(std::string name, vec3 color, const std::vector<triangle*>& new_vertices, double mass, double h, double w, double d)
 {
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
@@ -67,7 +67,7 @@ void FizPrism::init(std::string name, vec3 color, const std::vector<triangle>& n
 	this->computeBounds();
 }
 
-void FizPrism::init_object(std::string name, vec3 color, const std::vector<triangle>& tinit, double mass, double h, double w, double d)
+void FizPrism::init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass, double h, double w, double d)
 {
 	this->name = name;
 	vertices = tinit;
@@ -94,7 +94,7 @@ void FizPrism::compute()
 	point p0,p1,p2;
 	for(int i = 0; i < vertices.size(); i++) 
 	{
-		triangle& t = vertices[i];
+		triangle& t = *(vertices[i]);
 		sub_compute(t[0][0], t[1][0], t[2][0], f1x, f2x, f3x, g0x, g1x, g2x);
 		sub_compute(t[0][1], t[1][1], t[2][1], f1y, f2y, f3y, g0y, g1y, g2y);
 		sub_compute(t[0][2], t[1][2], t[2][2], f1z, f2z, f3z, g0z, g1z, g2z);
@@ -149,7 +149,7 @@ void FizPrism::setDepth(double newdepth)		{ depth = newdepth;
       						          props["depth"] = fizdatum(depth, vec3(), SCALAR);
 							}
 							
-void FizPrism::setVertices(std::vector<triangle> newvertices)	{
+void FizPrism::setVertices(std::vector<triangle*> newvertices)	{
 								  vertices = newvertices;
 								  init(this->getName(), props["color"].vector, newvertices, this->getMass(), this->getHeight(), this->getWidth(), this->getDepth());
 								}

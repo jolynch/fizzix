@@ -30,34 +30,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //Default constructor
 FizSphere::FizSphere()
 {
-	this->init("UnNamedSphere", vec3(64.0, 64.0, 64.0), *(new std::vector<triangle>()),1, 1); //default radius of 1 and mass of 1
+	this->init("UnNamedSphere", vec3(64.0, 64.0, 64.0), *(new std::vector<triangle*>()),1, 1); //default radius of 1 and mass of 1
 }
 
 //Constructor that inits the name and radius
 FizSphere::FizSphere(std::string newname, double mass,double rad)
 {
-	this->init(newname, vec3(64.0, 64.0, 64.0), *(new std::vector<triangle>()), mass, rad);
+	this->init(newname, vec3(64.0, 64.0, 64.0), *(new std::vector<triangle*>()), mass, rad);
 }
 
 //Constructor that inits the name, color, and radius
 FizSphere::FizSphere(std::string newname, vec3 color, double mass, double rad)
 {
-	this->init(newname, color, *(new std::vector<triangle>()), mass, rad);
+	this->init(newname, color, *(new std::vector<triangle*>()), mass, rad);
 }
 
 //Constructor that inits the name, triangles, and radius
-FizSphere::FizSphere(std::string newname, std::vector<triangle> new_vertices, double mass, double rad)
+FizSphere::FizSphere(std::string newname, std::vector<triangle*> new_vertices, double mass, double rad)
 {
 	this->init(newname, vec3(64.0, 64.0, 64.0), new_vertices, mass, rad);
 }
 
-//Constructor that inits the name, color, triangles, and radius
-FizSphere::FizSphere(std::string newname, vec3 color, std::vector<triangle> new_vertices, double mass, double rad)
+//Constructor that inits the name, color, triangle*s, and radius
+FizSphere::FizSphere(std::string newname, vec3 color, std::vector<triangle*> new_vertices, double mass, double rad)
 {
 	this->init(newname, color, new_vertices, mass, rad);
 }
 
-void FizSphere::init(std::string name, vec3 color, const std::vector<triangle>& tinit, double mass, double rad)
+void FizSphere::init(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass, double rad)
 {
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
@@ -67,7 +67,7 @@ void FizSphere::init(std::string name, vec3 color, const std::vector<triangle>& 
 	this->computeBounds();
 }
 
-void FizSphere::init_object(std::string name, vec3 color, const std::vector<triangle>& tinit, double mass, double rad)
+void FizSphere::init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass, double rad)
 {
 	this->name = name;
 	vertices = tinit;
@@ -92,7 +92,7 @@ void FizSphere::compute()
 	point p0,p1,p2;
 	for(int i = 0; i < vertices.size(); i++) 
 	{
-		triangle& t = vertices[i];
+		triangle& t = *(vertices[i]);
 		sub_compute(t[0][0], t[1][0], t[2][0], f1x, f2x, f3x, g0x, g1x, g2x);
 		sub_compute(t[0][1], t[1][1], t[2][1], f1y, f2y, f3y, g0y, g1y, g2y);
 		sub_compute(t[0][2], t[1][2], t[2][2], f1z, f2z, f3z, g0z, g1z, g2z);
@@ -131,7 +131,7 @@ void FizSphere::setRadius(double newradius)		{ radius = newradius;
       						          props["radius"] = fizdatum(radius, vec3(), SCALAR);
 							}
 							
-void FizSphere::setVertices(std::vector<triangle> newvertices)	{
+void FizSphere::setVertices(std::vector<triangle*> newvertices)	{
 								  vertices = newvertices;
 								  init(this->getName(), props["color"].vector, newvertices, this->getMass(), this->getRadius());
 								}
