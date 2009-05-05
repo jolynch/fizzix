@@ -35,6 +35,7 @@ DataEditor::DataEditor(DataBackend * _db,QDesktopWidget * d):QDockWidget(tr("Dat
 	QWidget * container=new QWidget();
 	QGridLayout * layout=new QGridLayout();
 	name=new QLineEdit();
+	QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(saveChanges()));
 	layout->addWidget(name,0,1,1,4);
 	layout->addWidget(new QLabel("Name:"),0,0);
 	QPushButton * save_PB=new QPushButton("Save");
@@ -50,6 +51,7 @@ DataEditor::DataEditor(DataBackend * _db,QDesktopWidget * d):QDockWidget(tr("Dat
 	centerL->insertWidget(forceLoaded, new QLabel("Formula Editor Goes Here"));
 	centerL->insertWidget(macroLoaded, new QLabel("Formula Editor Goes Here"));
 	constEditor=new ConstantEditor();
+	QObject::connect(constEditor,SIGNAL(saveChanges()),this,SLOT(saveChanges()));
 	centerL->insertWidget(constantLoaded,constEditor);
 	layout->addLayout(centerL,1,0,1,5);
 	
@@ -70,7 +72,7 @@ bool DataEditor::checkToSave()
 	if(needsSave)
 	{
 		switch(QMessageBox::question(this,"Save Changes?", "You have modified the currently selected element. Save Changes?",
-						QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel))
+						QMessageBox::Cancel|QMessageBox::Yes|QMessageBox::No))
 		{
 			case QMessageBox::Yes:
 				saveChanges();
@@ -86,8 +88,9 @@ bool DataEditor::checkToSave()
 void DataEditor::loadObject(QString n)
 {
 	if(!checkToSave()) return;
+	this->setWindowTitle("Object editor");
 	loadName=n;
-	name->setText(n);
+	name->setText(loadName);
 	curr=objectLoaded;
 	centerL->setCurrentIndex(curr);
 }
@@ -95,8 +98,9 @@ void DataEditor::loadObject(QString n)
 void DataEditor::loadForce(QString n)
 {
 	if(!checkToSave()) return;
+	this->setWindowTitle("Force editor");
 	loadName=n;
-	name->setText(n);
+	name->setText(loadName);
 	curr=forceLoaded;
 	centerL->setCurrentIndex(curr);
 }
@@ -104,8 +108,9 @@ void DataEditor::loadForce(QString n)
 void DataEditor::loadMacro(QString n)
 {
 	if(!checkToSave()) return;
+	this->setWindowTitle("Macro editor");
 	loadName=n;
-	name->setText(n);
+	name->setText(loadName);
 	curr=macroLoaded;
 	centerL->setCurrentIndex(curr);
 }
@@ -113,8 +118,9 @@ void DataEditor::loadMacro(QString n)
 void DataEditor::loadConstant(QString n)
 {
 	if(!checkToSave()) return;
+	this->setWindowTitle("Constant editor");
 	loadName=n;
-	name->setText(n);
+	name->setText(loadName);
 	constEditor->setData(db->getConstModel()->getData()->value(loadName));
 	curr=constantLoaded;
 	centerL->setCurrentIndex(curr);
@@ -122,16 +128,32 @@ void DataEditor::loadConstant(QString n)
 
 void DataEditor::saveChanges()
 {
+	QString newName=name->text();
 	switch(curr)
 	{
+		case objectLoaded:
+			if(name->text()!=loadName)
+				db->getDataInserter()->renameObject(loadName,newName);
+			this->loadObject(newName);
+			break;
+		case forceLoaded:
+			if(name->text()!=loadName)
+				db->getDataInserter()->renameForce(loadName,newName);
+			this->loadForce(newName);
+			break;
+		case macroLoaded:
+			if(name->text()!=loadName)
+				db->getDataInserter()->renameMacro(loadName,newName);
+			this->loadMacro(newName);
+			break;
 		case constantLoaded:
-			QString newName=name->text();
 			if(name->text()!=loadName)
 				db->getDataInserter()->renameConstant(loadName,newName);
 			if(constEditor->hasChanges())
 				db->getDataInserter()->modifyConstant(newName,constEditor->getData());
 			this->loadConstant(newName);
 			break;
+		default: break;
 	};
 }
 
@@ -139,7 +161,11 @@ void DataEditor::revertChanges()
 {
 	switch(curr)
 	{
+		case objectLoaded:  break;
+		case forceLoaded: break;
+		case macroLoaded: break;
 		case constantLoaded: constEditor->setData(db->getConstModel()->getData()->value(loadName)); break;
+		default: break;
 	};
 }
 

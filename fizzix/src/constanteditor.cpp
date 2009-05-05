@@ -16,18 +16,22 @@ ConstantEditor::ConstantEditor():QWidget()
 	QDoubleValidator * v=new QDoubleValidator(this);
 	s_edit=new QLineEdit(this);
 	QObject::connect(s_edit,SIGNAL(textEdited(QString)),this,SLOT(changes()));
+	QObject::connect(s_edit,SIGNAL(returnPressed()),this,SIGNAL(saveChanges()));
 	s_edit->setValidator(v);
 	layout->addWidget(s_edit,1,1,1,3);
 	v1_edit=new QLineEdit(this);
 	QObject::connect(v1_edit,SIGNAL(textEdited(QString)),this,SLOT(changes()));
+	QObject::connect(v1_edit,SIGNAL(returnPressed()),this,SIGNAL(saveChanges()));
 	v1_edit->setValidator(v);
 	layout->addWidget(v1_edit,3,1,1,1);
 	v2_edit=new QLineEdit(this);
 	QObject::connect(v2_edit,SIGNAL(textEdited(QString)),this,SLOT(changes()));
+	QObject::connect(v2_edit,SIGNAL(returnPressed()),this,SIGNAL(saveChanges()));
 	v2_edit->setValidator(v);
 	layout->addWidget(v2_edit,3,2,1,1);
 	v3_edit=new QLineEdit(this);
 	QObject::connect(v3_edit,SIGNAL(textEdited(QString)),this,SLOT(changes()));
+	QObject::connect(v3_edit,SIGNAL(returnPressed()),this,SIGNAL(saveChanges()));
 	v3_edit->setValidator(v);
 	layout->addWidget(v3_edit,3,3,1,1);
 	s_edit->setText("0.0");
@@ -79,6 +83,7 @@ void ConstantEditor::setData(fizdatum d)
 			v3_edit->setText("0.0");
 			break;
 	};
+	hChanges=false;
 }
 
 void ConstantEditor::radioButtonSelected(bool s)

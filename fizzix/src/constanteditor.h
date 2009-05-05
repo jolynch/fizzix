@@ -31,6 +31,8 @@ class ConstantEditor:public QWidget
 		void setData(fizdatum d);
 		void changes();
 		void radioButtonSelected(bool s); //true if scalar, false if vector.
+	signals:
+		void saveChanges();
 };
 
 
