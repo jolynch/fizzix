@@ -22,6 +22,7 @@ class GLDrawPane: public QGLWidget
 		vec3 moveCamera();
 		//Draw any object composed of a triangle mesh.  The triangles must store unit normals.
 		void drawObject(const DrawableObject & obj);
+		void drawObject(const std::vector<triangle *> & mesh, const vec3 & color, const vec3 & pos, const Quaternion & q, bool hidden, bool smooth);
 		//Given a box with faces (x,y,z) = (+r,-r) which contains objects, return which faces are behind any drawn objects, and which are in front of them as bits in an integer.
 		//  @return:  A 6 bit integer with bits (from least to most significant):
 		//    x = +r

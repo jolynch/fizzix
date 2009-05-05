@@ -137,7 +137,7 @@ class FizObject
 
 		bool contains(const std::string& key) const;
 		
-		/** Time dependant property access and modification 
+	pro	/** Time dependant property access and modification 
 		 */
 		const vec3 getPos() const;
 		vec3& rgetPos(); 

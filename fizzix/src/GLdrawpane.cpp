@@ -42,7 +42,7 @@ void GLDrawPane::rotate(double upAmt, double leftAmt)
 	double mag = comb.mag();
 	comb /= mag;
 	mag *= rotSpeed;
-	vec3 axis = pos.cross(comb);
+	vec3 axis = comb.cross(pos);
 	vec3 vecPart = axis*sin(mag);
 	Quaternion toRot(cos(mag),vecPart.x,vecPart.y,vecPart.z);
 	rot = toRot * rot;
@@ -65,27 +65,32 @@ vec3 GLDrawPane::moveCamera()
 	return pos;
 }
 
-void drawObject(const DrawableObject & obj)
+void GLDrawPane::drawObject(const DrawableObject & obj)
 {
-	if (!obj.getProperty(HIDDEN))
+	const vector<triangle> & mesh = obj.getVertices();
+	const vec3 & color = obj["color"].vector;
+	const vec3 & pos = obj.getPos();
+	const Quaternion & q = obj.getQuaternion();
+//	drawObject(mesh, color, pos, q, obj.getProperty(HIDDEN), obj.getProperty(SMOOTH));
+}
+
+void GLDrawPane::drawObject(const vector<triangle *> & mesh, const vec3 & color, const vec3 & pos, const Quaternion & q, bool hidden, bool smooth)
+{
+	if (!hidden)
 	{
 		int mode;
 		glGetIntegerv(GL_MATRIX_MODE,&mode);
 		glEnable(GL_CULL_FACE);
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
-		const vector<triangle> & mesh = obj.getVertices();
-		const vec3 & colors = obj["color"].vector;
-		const vec3 & pos = obj.getPos();
-		const Quaternion & q = obj.getQuaternion();
-		glColor4d(colors[0],colors[1],colors[2],1.0);
+		glColor4d(color[0],color[1],color[2],1.0);
 		glTranslated(pos[0],pos[1],pos[2]);
-		if (obj.getProperty(SMOOTH))
+		if (smooth)
 		{
 			glBegin(GL_TRIANGLES);
 			for (int i = 0;i < (int)mesh.size();i++)
 			{
-				const triangle & currT = mesh[i];
+				const triangle & currT = *(mesh[i]);
 				for (int v = 0;v < 3;v++)
 				{
 					const vertex & currV = currT[v];
@@ -109,7 +114,7 @@ void drawObject(const DrawableObject & obj)
 			glBegin(GL_TRIANGLES);
 			for(int i = 0;i < (int)mesh.size();i++)
 			{
-				const triangle & currT = mesh[i];
+				const triangle & currT = *(mesh[i]);
 				const vec3 & n = currT.unit_normal;
 				vec3 rotNormal = q.transformVec(n);
 				glNormal3d(rotNormal[0],rotNormal[1],rotNormal[2]);
@@ -215,12 +220,52 @@ void GLDrawPane::initializeGL()
 {
 	glClearColor(0.0,0.0,0.0,1.0);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	float * toUse = new float[4];
+	toUse[0] = 1; toUse[1] = 0; toUse[2] = 0; toUse[3] = 1;
+	glLightfv(GL_LIGHT0, GL_AMBIENT, toUse);
+	toUse[0] = 0; toUse[1] = 1; toUse[2] = 0; toUse[3] = 1;
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, toUse);
+	glEnable(GL_LIGHT0);
 	glShadeModel(GL_SMOOTH);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	delete[] toUse;
 }
 
 void GLDrawPane::paintGL()
 {
+	vertex * vertices = new vertex[8];
+	double r = 10;
+	r *= sideToZoom;
+	vertices[0] = vertex(r,r,r);
+	vertices[1] = vertex(r,r,-r);
+	vertices[2] = vertex(r,-r,r);
+	vertices[3] = vertex(r,-r,-r);
+	vertices[4] = vertex(-r,r,r);
+	vertices[5] = vertex(-r,r,-r);
+	vertices[6] = vertex(-r,-r,r);
+	vertices[7] = vertex(-r,-r,-r);
+
+	vector<triangle *> triangles;
+	triangles.push_back(new triangle(vertices+0,vertices+2,vertices+1));
+	triangles.push_back(new triangle(vertices+1,vertices+2,vertices+3));
+	triangles.push_back(new triangle(vertices+4,vertices+5,vertices+6));
+	triangles.push_back(new triangle(vertices+6,vertices+5,vertices+7));
+	triangles.push_back(new triangle(vertices+0,vertices+1,vertices+4));
+	triangles.push_back(new triangle(vertices+4,vertices+1,vertices+5));
+	triangles.push_back(new triangle(vertices+2,vertices+6,vertices+3));
+	triangles.push_back(new triangle(vertices+3,vertices+6,vertices+7));
+	triangles.push_back(new triangle(vertices+0,vertices+4,vertices+2));
+	triangles.push_back(new triangle(vertices+2,vertices+4,vertices+6));
+	triangles.push_back(new triangle(vertices+1,vertices+3,vertices+5));
+	triangles.push_back(new triangle(vertices+5,vertices+3,vertices+7));
+
+	vec3 color(1,1,1);
+	vec3 position(0,0,0);
+	Quaternion q;
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -228,6 +273,10 @@ void GLDrawPane::paintGL()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	vec3 pos = moveCamera();
+	double l = maxZoom*sideToZoom*1.2;
+	float * toUse = new float[4];
+	toUse[0] = l; toUse[1] = l; toUse[2] = l; toUse[3] = 1;
+	glLightfv(GL_LIGHT0, GL_POSITION, toUse);
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom*sideToZoom,pos[0],pos[1],pos[2]),.25,false);
 	glDisable(GL_BLEND);
@@ -235,9 +284,14 @@ void GLDrawPane::paintGL()
 	for (int i = 0;i < (int)objs.size();i++) {
 	  drawObject(*(objs[i]));
 	  }*/
+	drawObject(triangles,color,position,q,false,false);
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom*sideToZoom,pos[0],pos[1],pos[2]),.25,true);
 	glDisable(GL_BLEND);
+	
+	delete[] vertices;
+	delete[] toUse;
+	for (int i = 0;i < (int)triangles.size();i++) delete triangles[i];
 }
 
 void GLDrawPane::resizeGL(int _width,int _height)
