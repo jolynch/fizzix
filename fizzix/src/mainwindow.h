@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QDockWidget>
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QTimer>
 
 #include "GLdrawpane.h"
 #include "databrowser.h"
@@ -52,6 +53,7 @@ class MainWindow:public QMainWindow
 		DataEditor * dataeditor;
 		SimulationControl * simcontrol;
 		GLDrawPane * openglpane;
+		QTimer * timer;
 	public:
 		MainWindow (QDesktopWidget * d);
 };

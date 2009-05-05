@@ -12,7 +12,7 @@
 
 using namespace std;
 
-double GLDrawPane::sideToZoom = 1.0/(2.0*sqrt(3.0));
+double GLDrawPane::sideToZoom = 1.0/(9.0*sqrt(3.0));
 
 GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _maxZoom, double fieldOfView) : QGLWidget(parent)
 {
@@ -20,13 +20,14 @@ GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _m
 	zoomSpeed = _zoom;
 	fov = fieldOfView;
 	rot = Quaternion();
-	maxZoom = _maxZoom;
+	maxZoom = 100*_maxZoom;
 	zoom = maxZoom;
 	height = 0;
 	width = 0;
 	double theta = 0.955316618-.1;
 	double to2 = theta/2.0;
 	rot = Quaternion(cos(to2),sin(to2)/sqrt(2),sin(to2)/sqrt(2),0.0);
+	setFocusPolicy(Qt::StrongFocus);
 }
 
 
@@ -37,6 +38,7 @@ QSize GLDrawPane::sizeHint() const
 
 void GLDrawPane::rotate(double upAmt, double leftAmt)
 {
+	if (upAmt == 0 && leftAmt == 0) return;
 	vec3 pos = rot.transformVec(vec3(0,0,1));
 	vec3 up = rot.transformVec(vec3(0,1,0));
 	vec3 left = pos.cross(up);
@@ -44,11 +46,11 @@ void GLDrawPane::rotate(double upAmt, double leftAmt)
 	double mag = comb.mag();
 	comb /= mag;
 	mag *= rotSpeed;
-	vec3 axis = comb.cross(pos);
+	vec3 axis = pos.cross(comb);
 	vec3 vecPart = axis*sin(mag);
 	Quaternion toRot(cos(mag),vecPart.x,vecPart.y,vecPart.z);
 	rot = toRot * rot;
-	rot.normalize(.0000001);
+	rot.normalize(0);
 }
 
 void GLDrawPane::changeZoom(double amount)
@@ -56,6 +58,7 @@ void GLDrawPane::changeZoom(double amount)
 	zoom += amount * zoomSpeed;
 	if (zoom > maxZoom) zoom = maxZoom;
 	if (zoom < -maxZoom) zoom = -maxZoom;
+	if (zoom == 0) zoom += amount * zoomSpeed;
 }
 
 vec3 GLDrawPane::moveCamera()
@@ -228,7 +231,7 @@ void GLDrawPane::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(fov,width/height,.1,1000);
+	gluPerspective(fov,width/height,.1,maxZoom*2);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	vec3 pos = moveCamera();
@@ -253,23 +256,31 @@ void GLDrawPane::resizeGL(int _width,int _height)
 
 void GLDrawPane::mouseMoveEvent(QMouseEvent * event)
 {
-  double scale = qMin(width/2.0, height/2.0);
-  double xDist = currPoint.x() - ((event -> pos()).x());
-  double yDist = currPoint.y() - ((event -> pos()).y());
-  xDist/=scale;
-  yDist/=scale;
-  rotate(yDist,xDist);
-  currPoint = event -> pos();
-  repaint();
+	double scale = qMin(width/2.0, height/2.0);
+	double xDist = currPoint.x() - ((event -> pos()).x());
+	double yDist = currPoint.y() - ((event -> pos()).y());
+	xDist/=scale;
+	yDist/=scale;
+	rotate(yDist,xDist);
+	currPoint = event -> pos();
 }
 
 void GLDrawPane::mousePressEvent(QMouseEvent * event)
 {
-  currPoint = event -> pos();
+	currPoint = event -> pos();
 }
 
-void GLDrawPane::mouseReleaseEvent(QMouseEvent * event)
+void GLDrawPane::keyPressEvent(QKeyEvent * event)
 {
+	if(event->key() == Qt::Key_PageUp)
+	{
+		changeZoom(-1);
+	}
+	else if (event ->key() == Qt::Key_PageDown)
+	{
+		changeZoom(1);
+	}	
+	QGLWidget::keyPressEvent(event);
 }
 
 #endif

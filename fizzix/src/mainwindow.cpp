@@ -44,6 +44,10 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	simcontrol=new SimulationControl();
 	openglpane=new GLDrawPane(d);
 
+	timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), openglpane, SLOT(updateGL()));
+	timer -> start(15);
+
 	this->setCentralWidget(openglpane);
 
 	this->addDockWidget(Qt::RightDockWidgetArea, databrowser);
