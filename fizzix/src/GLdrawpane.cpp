@@ -339,4 +339,34 @@ void GLDrawPane::wheelEvent(QWheelEvent * event)
   changeZoom(-((double)(event -> delta()))/120.0);
 }
 
+void GLDrawPane::setRotation(View v)
+{
+	if (v == XY)
+	{
+		rot = lookatXY;
+	}
+	if (v == YZ)
+	{
+		rot = lookatYZ;
+	}
+	if (v == ZX)
+	{
+		rot = lookatZX;
+	}
+	if (v == ISOMETRIC)
+	{
+		rot = isometric;
+	}
+}
+
+void GLDrawPane::setZoomPercent(double d)
+{
+	zoom = maxZoom * sideToZoom * 100 / d;
+}
+
+void GLDrawPane::showCoordinateAxes(bool b)
+{
+	showAxes = b;
+}
+
 #endif

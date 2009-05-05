@@ -8,6 +8,8 @@
 #include <libfizzix/gen_structs.h>
 #include <libfizzix/quaternion.h>
 
+enum View {XY,YZ,ZX,ISOMETRIC}; 
+
 class GLDrawPane: public QGLWidget
 { Q_OBJECT
 	private:
@@ -44,15 +46,21 @@ class GLDrawPane: public QGLWidget
 		double zoomSpeed;
 		//Current zoom
 		double zoom;
+		//Minimum zoom (must be > 0)
 		double minZoom;
-		//Maximum zoom, and the size of the box
+		//Maximum zoom, and determines the size of the box
 		double maxZoom;
 		//Information about the window
 		double height;
 		double width;
+		//Field of view
 		double fov;
 
+		//Current point of the mouse (used for rotation
 		QPoint currPoint;
+
+		//Whether or not to show a small version of the axes
+		bool showAxes;
 
 	protected:
 		//Turn on the lights
@@ -77,9 +85,13 @@ class GLDrawPane: public QGLWidget
 		static Quaternion lookatYZ;
 		static Quaternion lookatZX;
 		static Quaternion isometric;
-//	public slots:
-//		setRotation(Quaternion q);
-//		setZoomPercent(double d);
+	public slots:
+		//Set the rotation matrix to one of the predefined types
+		void setRotation(View v);
+		//Set the zoom percentage (d = 100 is full size)
+		void setZoomPercent(double d);
+		//Show/Hide the coordinate axes
+		void showCoordinateAxes(bool b);
 };
 
 #endif
