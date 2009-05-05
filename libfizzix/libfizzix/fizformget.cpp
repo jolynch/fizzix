@@ -29,6 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using namespace std;
 
+FizFormGet::FizFormGet(){}
+
 FizFormGet::FizFormGet(string id) : identifier(id) {}
 
 const fizdatum FizFormGet::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2) {}

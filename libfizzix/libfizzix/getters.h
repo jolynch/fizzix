@@ -54,10 +54,20 @@ class FizFormGetForce : public FizFormGet
 
 class FizFormGetConst : public FizFormGet
 {
-	private:
-		std::string identifier;
 	public:
 		FizFormGetConst(std::string id);
+		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
+};
+
+class FizFormGetProp : public FizFormGet
+{
+	private:
+		std::string objectname;
+		bool firstobject;
+	public:
+		FizFormGetProp(std::string id);
+		FizFormGetProp(std::string id, bool first);
+		FizFormGetProp(std::string id, std::string name);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 };
 

@@ -57,7 +57,7 @@ am_libfizzix_la_OBJECTS = fizengine.lo fizformanonconst.lo \
 	gen_structs.lo fizforce.lo fizformnode.lo fizformula.lo \
 	fizobject.lo quaternion.lo fizformgetconst.lo \
 	fizformgetforce.lo fizformgetmacro.lo fizformget.lo \
-	fizcylinder.lo fizprism.lo fizsphere.lo
+	fizcylinder.lo fizprism.lo fizsphere.lo fizformgetprop.lo
 libfizzix_la_OBJECTS = $(am_libfizzix_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp

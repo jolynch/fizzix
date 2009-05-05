@@ -389,6 +389,11 @@ fizdatum FizEngine::getConstVal(const std::string& constant)
 	return (*ccache)[constant];
 }
 
+fizdatum FizEngine::getPropVal(const std::string& objectname, const std::string& identifier)
+{
+	return thisStep->find(objectname)->second->getProperty(identifier);
+}
+
 void FizEngine::clearDistributedCaches()
 {
 	for(std::set<std::string>::const_iterator it = macrodist.begin(); it != macrodist.end(); ++it)

@@ -52,5 +52,5 @@ fizformget.h \
 fizformget.cpp \
 fizcylinder.cpp \
 fizprism.cpp \
-fizsphere.cpp
-
+fizsphere.cpp \
+fizformgetprop.cpp

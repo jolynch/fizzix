@@ -31,7 +31,7 @@ using namespace std;
 
 const fizdatum FizFormGetMacro::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
-	return eng->getMacroVal(identifier, obj1, tri1, obj2, tri2); // gets force value from engine
+	return eng->getMacroVal(identifier, obj1, tri1, obj2, tri2); // gets macro value from engine
 }
 
 #endif

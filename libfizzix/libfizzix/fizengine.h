@@ -177,6 +177,7 @@ class FizEngine
 		fizdatum getForceVal(const std::string& force, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		fizdatum getMacroVal(const std::string& macro, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		fizdatum getConstVal(const std::string& constant);
+		fizdatum getPropVal(const std::string& objectname, const std::string& identifier);
 
 		// True = Thing is cached, false = Thing is not cached
 		template< class T >	

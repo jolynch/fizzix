@@ -37,6 +37,7 @@ class FizFormGet : public FizFormNode
 	protected:
 		std::string identifier;
 	public:
+		FizFormGet();
 		FizFormGet(std::string id);
 		virtual const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Gets the value of the node */
 };
