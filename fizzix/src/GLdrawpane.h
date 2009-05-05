@@ -43,6 +43,7 @@ class GLDrawPane: public QGLWidget
 		double zoomSpeed;
 		//Current zoom
 		double zoom;
+		double minZoom;
 		//Maximum zoom, and the size of the box
 		double maxZoom;
 		//Information about the window
@@ -62,9 +63,10 @@ class GLDrawPane: public QGLWidget
 		void mouseMoveEvent(QMouseEvent * event);
 		void mousePressEvent(QMouseEvent * event);
    		void keyPressEvent(QKeyEvent * event);
+		void wheelEvent(QWheelEvent * event);
 	public:
 		//Create the GL panel
-		GLDrawPane(QWidget * parent = 0, double _rotate = .1, double _zoom = .5, double _maxZoom = 1, double fieldOfView = 13);
+		GLDrawPane(QWidget * parent = 0, double _rotate = .1, double _zoom = .01, double _minZoom = .1, double _maxZoom = 100, double fieldOfView = 13);
 
 		//Return the requested size of this widget.
 		QSize sizeHint() const;

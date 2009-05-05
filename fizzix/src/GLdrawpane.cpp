@@ -3,8 +3,6 @@
 
 #include "GLdrawpane.h"
 
-#include <math.h>
-
 #include <QDebug>
 #include <math.h>
 
@@ -14,19 +12,17 @@ using namespace std;
 
 double GLDrawPane::sideToZoom = 1.0/(9.0*sqrt(3.0));
 
-GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _maxZoom, double fieldOfView) : QGLWidget(parent)
+GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _minZoom, double _maxZoom, double fieldOfView) : QGLWidget(parent)
 {
 	rotSpeed = _rotate;
 	zoomSpeed = _zoom;
 	fov = fieldOfView;
 	rot = Quaternion();
-	maxZoom = 100*_maxZoom;
-	zoom = maxZoom;
+	minZoom = _minZoom;
+	maxZoom = _maxZoom;
+	zoom = maxZoom*sideToZoom;
 	height = 0;
 	width = 0;
-	double theta = 0.955316618-.1;
-	double to2 = theta/2.0;
-	rot = Quaternion(cos(to2),sin(to2)/sqrt(2),sin(to2)/sqrt(2),0.0);
 	setFocusPolicy(Qt::StrongFocus);
 }
 
@@ -55,10 +51,9 @@ void GLDrawPane::rotate(double upAmt, double leftAmt)
 
 void GLDrawPane::changeZoom(double amount)
 {
-	zoom += amount * zoomSpeed;
+	zoom += amount * zoomSpeed * maxZoom;
 	if (zoom > maxZoom) zoom = maxZoom;
-	if (zoom < -maxZoom) zoom = -maxZoom;
-	if (zoom == 0) zoom += amount * zoomSpeed;
+	if (zoom < minZoom) zoom = minZoom;
 }
 
 vec3 GLDrawPane::moveCamera()
@@ -66,8 +61,6 @@ vec3 GLDrawPane::moveCamera()
 	vec3 pos = rot.transformVec(vec3(0,0,1));
 	pos *= zoom;
 	vec3 up = rot.transformVec(vec3(0,1,0));
-	//	qDebug("Rotation: (%f, %f, %f, %f)",rot[0],rot[1],rot[2],rot[3]);
-	//	qDebug("Position: (%f, %f, %f)\nUp:  (%f, %f, %f)",pos.x,pos.y,pos.z,up.x,up.y,up.z);
 	gluLookAt(pos.x,pos.y,pos.z,0,0,0,up.x,up.y,up.z);
 	return pos;
 }
@@ -281,6 +274,11 @@ void GLDrawPane::keyPressEvent(QKeyEvent * event)
 		changeZoom(1);
 	}	
 	QGLWidget::keyPressEvent(event);
+}
+
+void GLDrawPane::wheelEvent(QWheelEvent * event)
+{
+  changeZoom(-((double)(event -> delta()))/120.0);
 }
 
 #endif
