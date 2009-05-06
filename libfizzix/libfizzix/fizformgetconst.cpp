@@ -41,7 +41,7 @@ const fizdatum FizFormGetConst::eval(fizstack &stack, const FizObject &obj1, con
 
 const std::string FizFormGetConst::toString(fizstack& stack)
 {
-	return "\""+identifier"\"";
+	return "\""+identifier+"\"";
 }
 
 #endif

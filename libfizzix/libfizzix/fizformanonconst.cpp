@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
 #ifndef FIZFORMANONCONST_CPP
 #define FIZFORMANONCONST_CPP
-
+#include <sstream>
 #include "fizformanonconst.h"
 
 using namespace std;
@@ -40,12 +40,14 @@ const fizdatum FizFormAnonConst::eval(fizstack &stack, const FizObject &obj1, co
 
 const std::string FizFormAnonConst::toString(fizstack& stack)
 {
+	std::ostringstream o;
 	if (value.type == SCALAR)
-		return ""+value.scalar;
+		o<<""<<value.scalar;
 	else if (value.type == VECTOR)
-		return "<"+value.vector[0]+" "+value.vector[1]+" "+value.vector[2]+">";
+		o<<"<"<<value.vector[0]<<" "<<value.vector[1]<<" "<<value.vector[2]<<">";
 	else
 		return "NIL";
+	return o.str();
 }
 
 #endif
