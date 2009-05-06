@@ -24,7 +24,6 @@
    Macro 		= [token]
    Force 		= {token}
    Un-named Constant 	= token
-   Un-named Vector	= <token,token,token>
 
    reserved keywords:
    (,$,@,",[],{},<>
@@ -95,90 +94,109 @@ class Parser
 		}
 		static fizstack parse(QString input)
 		{
+			qDebug()<<input;
 			fizstack stack;	
-			QString::iterator iter = input.begin();
-			QString::iterator e_iter = iter;
+			QStack<QString> opers;
+			QStack<FizFormNode*> args;
+			int iter = 0;
+			int e_iter = input.length();
 			int counter = 0;
-			while(iter != input.end())
+			qDebug()<<input.length();
+			while(iter < input.length())
 			{
-				switch(iter->toAscii())
+				switch(input[iter].toAscii())
 				{
-					case '(': //TODO move this down a level
-					 {
+					case '(': //function
+					{
 						iter++;
-						std::string oper = "";
-						for(;*iter != ' ';iter++) oper += iter->toAscii();
-						iter++; //skip space
-						qDebug()<<"FOUND OPERATOR: "<<oper.c_str();
-						e_iter = iter;
-						for(counter = 1; e_iter!= input.end() && counter!=0;)
+						QString oper = "";
+						for(;input[iter] != ' ';iter++) oper += input[iter];
+						qDebug()<<"FOUND OPERATOR: "<<oper;
+						for(counter = 1; e_iter < input.length() && counter!=0;)
 						{
 							e_iter++;
-							if(e_iter->toAscii() == '(') counter += 1; 
-							if(e_iter->toAscii() == ')') counter -= 1;
-						}
-						while(iter < e_iter && iter!= input.end())
-						{	
-							switch(iter->toAscii())
-							{
-								case '(': //recursive call
-								{
-									QString arg;
-									for(counter = 1; iter!=e_iter && counter!=0; iter++)
-									{
-										if(iter->toAscii() == '(') counter += 1;
-										if(iter->toAscii() == ')') counter -= 1;
-										arg += *iter;
-									}
-									//fizstack oper = Parser::parse(arg);
+							if(input[e_iter].toAscii() == '(') counter += 1; 
+							if(input[e_iter].toAscii() == ')') counter -= 1;
+						} e_iter--;
+						opers.push(oper);
 
-									break;
-								}
-								case '"':
-								{
-									break;
-								}
-								case '[':
-								{
-									break;
-								}
-								case '{':
-								{
-									break;
-								}
-								default:
-								{
-									if(!isspace(iter->toAscii()))
-									{
-										QString num;
-										for(; !isspace(iter->toAscii()) && iter != e_iter; iter++)
-											num+=*iter; 
-// 										qDebug()<<"FOUND ANONCONST:"<<num.toDouble();
-										//NOTE, for some reason this won't compile UNCOMMENT
-										//fizdatum f(num.toDouble());
-										//stack.push(new FizFormAnonConst(f));
-									}
-									break;
-								}
-							}
-							++iter;
-						}
-
-						//fizformnode * fizoper = getOperator(oper);	
-
-						//while(iter != input.end() || iter->toAscii() == ')')
-						//{
-
-						//	iter++
-						//}
+						break;
+					}
+					case '"':
+					{
+						iter++;
+						int next_iter = input.indexOf("\"",iter);
+						QString val = input.mid(iter, next_iter-iter);
+						qDebug()<<"FOUND CONSTANT"<<val;
+// 						args.push(new FizFormGetConst(val.toStdString());
+						iter = next_iter;
+						break;
+					}
+					case '[':
+					{
+						iter++;
+						int next_iter = input.indexOf("]",iter);
+						QString val = input.mid(iter, next_iter-iter);
+						qDebug()<<"FOUND MACRO"<<val;
+// 						args.push(new FizFormGetMacro(val.toStdString());
+						iter = next_iter;
+						break;
+					}
+					case '{':
+					{
+						iter++;
+						int next_iter = input.indexOf("}",iter);
+						QString val = input.mid(iter, next_iter-iter);
+						qDebug()<<"FOUND FORCE"<<val;
+// 						args.push(new FizFormGetForce(val.toStdString());
+						iter = next_iter;
+						break;					
+					}	
+					case '$':
+					{
+						iter++;
+						QString val;
+						for(; !isspace(input[iter].toAscii()) && iter < input.length(); iter++)
+							val+=input[iter]; 
+						qDebug()<<"FOUND FROM TOKEN"<<val;
+// 						args.push(new FizFormGetProp(val.toStdString(),true);
+						break;	
+					}
+					case '@':
+					{
+						iter++;
+						QString val;
+						for(; !isspace(input[iter].toAscii()) && iter < input.length(); iter++)
+							val+=input[iter]; 
+						qDebug()<<"FOUND TO TOKEN"<<val;
+// 						args.push(new FizFormGetProp(val.toStdString(),false);						iter = next_iter;
 						break;
 					}
 					default:
+					{
+						if(!isspace(input[iter].toAscii()))
+						{
+							QString num;
+							for(; !isspace(input[iter].toAscii()) && iter < e_iter; iter++)
+								num+=input[iter]; 
+							qDebug()<<"FOUND ANONCONST:"<<num<<num.toDouble();
+							/*NOTE, for some reason this won't compile UNCOMMENT
+							fizdatum f(num.toDouble());
+							args.push(new FizFormAnonConst(f)); */
+						}
 						break;
-
+					}
+					qDebug()<<"hum";
 				}
+				if(iter == e_iter)
+				{
+					qDebug()<<opers<<args;
+// 					args.push(
+				}
+// 				qDebug()<<iter;
 				iter++;
 			}
+			qDebug()<<"Done";
 			return stack;
 		}
 		
