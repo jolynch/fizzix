@@ -49,8 +49,8 @@ class FizForce
 		vec3 getForce(const FizObject& obj1,const triangle& tri1,const FizObject& obj2,const triangle& tri2);
 		bool isSymmetric();
 		bool isDistributed();
-		void setSymmetric();
-		
+		void setSymmetric(bool s);
+		FizFormula& getFormula();
 };
 
 #endif

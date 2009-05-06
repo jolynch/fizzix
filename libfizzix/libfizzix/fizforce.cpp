@@ -30,7 +30,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 FizForce::FizForce(FizFormula form)
 {
+distributed = true; //by default
 	formula = form;
+	symmetric = formula.isSymmetric();
 }
 
 vec3 FizForce::getForce(const FizObject& obj1,const triangle& tri1,const FizObject& obj2,const triangle& tri2)
@@ -56,6 +58,16 @@ bool FizForce::isSymmetric()
 bool FizForce::isDistributed()
 {
 	return distributed;
+}
+
+void FizForce::setSymmetric(bool s)
+{
+	symmetric = s;
+}
+
+FizFormula& FizForce::getFormula()
+{
+	return formula;
 }
 
 #endif

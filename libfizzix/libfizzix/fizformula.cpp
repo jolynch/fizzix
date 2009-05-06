@@ -40,3 +40,8 @@ const fizstack FizFormula::getStack()
 {
 	return stack;
 }
+
+bool FizFormula::isSymmetric()
+{
+	return symmetric;
+}

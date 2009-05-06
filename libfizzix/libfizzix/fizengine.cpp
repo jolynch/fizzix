@@ -296,7 +296,7 @@ void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
 {
 	vec3 radius = obj1.getPos() - obj2.getPos();
 	double distance = radius.mag();
-	vec3 direction = radius/radius.mag();
+	vec3 direction = radius/distance;
 	if (distance <= obj1.getMaxRad() + obj2.getMaxRad()) //if within their bounding spheres
 	{
 		//TODO: check if actually colliding
