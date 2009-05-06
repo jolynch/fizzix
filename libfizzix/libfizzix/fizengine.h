@@ -168,6 +168,7 @@ class FizEngine
 		std::map<std::string, fizdatum> * ccache;
 
 		// Sets of important things
+		std::set<std::string> propdist; //Distributed object properties
 		std::set<std::string> macrodist; // All distributed macros
 		std::set<std::string> forcedist; // All distributed forces
 		std::set<std::string> macrosymmetric; // All symmetric macros

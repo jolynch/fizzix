@@ -46,9 +46,31 @@ FizFormGetProp::FizFormGetProp(string id, string name)
 
 const fizdatum FizFormGetProp::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
-	if (objectname == "") return eng->getPropVal(objectname, identifier);
-	else if (firstobject) return obj1.getProperty(identifier);
-	else return obj2.getProperty(identifier);
+	fizdatum a;
+	if (objectname == "") a = eng->getPropVal(objectname, identifier);
+	else
+	{
+		bool dist = eng->propdist.count(identifier)==1;
+		if (firstobject)
+		{
+			a = obj1.getProperty(identifier);
+			if (dist)
+			{
+				if (a.type == SCALAR) a.scalar *= tri1.massp;
+				else a.vector *= tri1.massp;
+			}
+		}
+		else
+		{
+			a = obj2.getProperty(identifier);
+			if (dist)
+			{
+				if (a.type == SCALAR) a.scalar *= tri2.massp;
+				else a.vector *= tri2.massp;
+			}
+		}
+	}
+	return a;
 }
 
 #endif
