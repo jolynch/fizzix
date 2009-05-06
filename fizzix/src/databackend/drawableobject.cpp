@@ -69,30 +69,37 @@ vector<triangle*> DrawableObject::makeSphere(double radius, int subdivs)
 	prevVs[0].add_triangle(prevTs+0);
 	prevVs[2].add_triangle(prevTs+0);
 	prevVs[4].add_triangle(prevTs+0);
+
 	prevTs[1] = triangle(prevVs+0,prevVs+4,prevVs+3,false);
 	prevVs[0].add_triangle(prevTs+1);
 	prevVs[4].add_triangle(prevTs+1);
 	prevVs[3].add_triangle(prevTs+1);
+
 	prevTs[2] = triangle(prevVs+0,prevVs+3,prevVs+5,false);
 	prevVs[0].add_triangle(prevTs+2);
 	prevVs[3].add_triangle(prevTs+2);
 	prevVs[5].add_triangle(prevTs+2);
+
 	prevTs[3] = triangle(prevVs+0,prevVs+5,prevVs+2,false);
 	prevVs[0].add_triangle(prevTs+3);
 	prevVs[5].add_triangle(prevTs+3);
 	prevVs[2].add_triangle(prevTs+3);
-	prevTs[4] = triangle(prevVs+1,prevVs+5,prevVs+3,false);
+
+	prevTs[4] = triangle(prevVs+1,prevVs+4,prevVs+2,false);
 	prevVs[1].add_triangle(prevTs+4);
-	prevVs[5].add_triangle(prevTs+4);
-	prevVs[3].add_triangle(prevTs+4);
+	prevVs[4].add_triangle(prevTs+4);
+	prevVs[2].add_triangle(prevTs+4);
+
 	prevTs[5] = triangle(prevVs+1,prevVs+3,prevVs+4,false);
 	prevVs[1].add_triangle(prevTs+5);
 	prevVs[3].add_triangle(prevTs+5);
 	prevVs[4].add_triangle(prevTs+5);
-	prevTs[6] = triangle(prevVs+1,prevVs+4,prevVs+2,false);
+
+	prevTs[6] = triangle(prevVs+1,prevVs+5,prevVs+3,false);
 	prevVs[1].add_triangle(prevTs+6);
-	prevVs[4].add_triangle(prevTs+6);
-	prevVs[2].add_triangle(prevTs+6);
+	prevVs[5].add_triangle(prevTs+6);
+	prevVs[3].add_triangle(prevTs+6);
+
 	prevTs[7] = triangle(prevVs+1,prevVs+2,prevVs+5,false);
 	prevVs[1].add_triangle(prevTs+7);
 	prevVs[2].add_triangle(prevTs+7);
@@ -123,16 +130,20 @@ vector<triangle*> DrawableObject::makeSphere(double radius, int subdivs)
 				vertex * v2 = tverts[vTo];
 				int other = (v+2)%3;
 				triangle * tnext = 0;
-				int same = 7;
+				int same;
 				for (int t2 = 0; t2 < ((int)(v1->triangles.size()));t2++)
 				{
+					same = 7;
 					tnext = (v1->triangles)[t2];
 					if (tnext != currTriangle)
 					{
 						for (int vadj = 0;vadj < 3;vadj++)
 						{
 							vertex * vtest = (tnext->vertices)[vadj];
-							if ((vtest == v1) || (vtest == v2)) same ^= (1 << vadj);
+							if ((vtest == v1) || (vtest == v2))
+							{
+								same ^= (1 << vadj);
+							}
 						}
 						if ((same == 1) || (same == 2) || (same == 4))
 						{
