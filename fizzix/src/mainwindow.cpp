@@ -47,6 +47,10 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	QObject::connect(databrowser,SIGNAL(editForce(QString)),dataeditor,SLOT(loadForce(QString)));
 	QObject::connect(databrowser,SIGNAL(editMacro(QString)),dataeditor,SLOT(loadMacro(QString)));
 	QObject::connect(databrowser,SIGNAL(editConstant(QString)),dataeditor,SLOT(loadConstant(QString)));
+	QObject::connect(databrowser,SIGNAL(deleteObject(QString)),dataeditor,SLOT(loadBlank()));
+	QObject::connect(databrowser,SIGNAL(deleteForce(QString)),dataeditor,SLOT(loadBlank()));
+	QObject::connect(databrowser,SIGNAL(deleteMacro(QString)),dataeditor,SLOT(loadBlank()));
+	QObject::connect(databrowser,SIGNAL(deleteConstant(QString)),dataeditor,SLOT(loadBlank()));
 	
 	simcontrol=new SimulationControl();
 	openglpane=new GLDrawPane(databackend,d);

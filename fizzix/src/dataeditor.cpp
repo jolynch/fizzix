@@ -188,6 +188,13 @@ void DataEditor::saveChanges()
 	};
 }
 
+void DataEditor::loadBlank()
+{
+	name->setText("");
+	curr=none;
+	centerL->setCurrentIndex(curr);
+}
+
 void DataEditor::revertChanges()
 {
 	switch(curr)

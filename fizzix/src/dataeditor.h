@@ -65,6 +65,7 @@ class DataEditor:public QDockWidget
 		DataEditor (DataBackend * _db, QDesktopWidget * d);
 		bool checkToSave();
 	public slots:
+		void loadBlank();
 		void loadObject(QString n);
 		void loadForce(QString n);
 		void loadMacro(QString n);
