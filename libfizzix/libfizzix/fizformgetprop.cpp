@@ -47,7 +47,7 @@ FizFormGetProp::FizFormGetProp(string id, string name)
 const fizdatum FizFormGetProp::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	fizdatum a;
-	if (objectname == "") a = eng->getPropVal(objectname, identifier);
+	if (objectname != "") a = eng->getPropVal(objectname, identifier);
 	else
 	{
 		bool dist = eng->propdist.count(identifier)==1;
