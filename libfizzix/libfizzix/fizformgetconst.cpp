@@ -29,7 +29,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using namespace std;
 
-FizFormGetConst::FizFormGetConst(std::string id) : FizFormGet(id);
+FizFormGetConst::FizFormGetConst(std::string id) 
+{
+	identifier=id;
+}
 
 const fizdatum FizFormGetConst::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
