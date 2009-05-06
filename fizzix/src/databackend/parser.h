@@ -5,6 +5,7 @@
 #include <libfizzix/gen_structs.h>
 #include <libfizzix/fizformoperators/operators.h>
 #include <libfizzix/fizformanonconst.h>
+#include <libfizzix/getters.h>
 #include <QString>
 #include <QStack>
 #include <QtDebug> 
@@ -56,7 +57,7 @@ class Parser
 	 */
 	public:
 
-		static FizFormNode * getOperator(QString oper, uint num)
+		static FizFormNode * getOperator(QString oper, int num)
 		{
 			using namespace FizOper;
 			std::string token = oper.toStdString();
@@ -92,12 +93,10 @@ class Parser
 			else if(token ==  Vectorize::token)	{ return new Vectorize(num); }
 			else { throw std::logic_error("It does not seem that we have an operator for: "+token); }
 		}
-		static fizstack parse(QString input)
+		static fizstack parse(QString input,int& num)
 		{
 			qDebug()<<input;
 			fizstack stack;	
-			QStack<QString> opers;
-			QStack<FizFormNode*> args;
 			int iter = 0;
 			int e_iter = input.length();
 			int counter = 0;
@@ -117,9 +116,15 @@ class Parser
 							e_iter++;
 							if(input[e_iter].toAscii() == '(') counter += 1; 
 							if(input[e_iter].toAscii() == ')') counter -= 1;
-						} e_iter--;
-						opers.push(oper);
-
+						} 
+						e_iter--;
+						qDebug()<<"RECURING WITH"<<input.mid(iter,e_iter-iter);
+						int operand_count;
+						fizstack operands = Parser::parse(input.mid(iter,e_iter-iter), operand_count);
+						iter = e_iter;
+						for(int i = 0; i<operands.size();i++)
+							stack.push(operands[i]);
+						stack.push(getOperator(oper, operand_count));
 						break;
 					}
 					case '"':
@@ -128,8 +133,9 @@ class Parser
 						int next_iter = input.indexOf("\"",iter);
 						QString val = input.mid(iter, next_iter-iter);
 						qDebug()<<"FOUND CONSTANT"<<val;
-// 						args.push(new FizFormGetConst(val.toStdString());
+ 						stack.push(new FizFormGetConst(val.toStdString()));
 						iter = next_iter;
+						num += 1;
 						break;
 					}
 					case '[':
@@ -138,8 +144,9 @@ class Parser
 						int next_iter = input.indexOf("]",iter);
 						QString val = input.mid(iter, next_iter-iter);
 						qDebug()<<"FOUND MACRO"<<val;
-// 						args.push(new FizFormGetMacro(val.toStdString());
+ 						stack.push(new FizFormGetMacro(val.toStdString()));
 						iter = next_iter;
+						num += 1;
 						break;
 					}
 					case '{':
@@ -148,8 +155,9 @@ class Parser
 						int next_iter = input.indexOf("}",iter);
 						QString val = input.mid(iter, next_iter-iter);
 						qDebug()<<"FOUND FORCE"<<val;
-// 						args.push(new FizFormGetForce(val.toStdString());
+						stack.push(new FizFormGetForce(val.toStdString()));
 						iter = next_iter;
+						num += 1;
 						break;					
 					}	
 					case '$':
@@ -158,8 +166,9 @@ class Parser
 						QString val;
 						for(; !isspace(input[iter].toAscii()) && iter < input.length(); iter++)
 							val+=input[iter]; 
-						qDebug()<<"FOUND FROM TOKEN"<<val;
-// 						args.push(new FizFormGetProp(val.toStdString(),true);
+						qDebug()<<"FOUND     FROM TOKEN"<<val;
+						stack.push(new FizFormGetProp(val.toStdString(),true));
+						num += 1;
 						break;	
 					}
 					case '@':
@@ -169,7 +178,8 @@ class Parser
 						for(; !isspace(input[iter].toAscii()) && iter < input.length(); iter++)
 							val+=input[iter]; 
 						qDebug()<<"FOUND TO TOKEN"<<val;
-// 						args.push(new FizFormGetProp(val.toStdString(),false);						iter = next_iter;
+						stack.push(new FizFormGetProp(val.toStdString(),false));			
+						num += 1;
 						break;
 					}
 					default:
@@ -180,9 +190,10 @@ class Parser
 							for(; !isspace(input[iter].toAscii()) && iter < e_iter; iter++)
 								num+=input[iter]; 
 							qDebug()<<"FOUND ANONCONST:"<<num<<num.toDouble();
-							/*NOTE, for some reason this won't compile UNCOMMENT
+							//NOTE, for some reason this won't compile UNCOMMENT
 							fizdatum f(num.toDouble());
-							args.push(new FizFormAnonConst(f)); */
+							stack.push(new FizFormAnonConst(f)); 
+							num += 1;
 						}
 						break;
 					}
@@ -190,8 +201,8 @@ class Parser
 				}
 				if(iter == e_iter)
 				{
-					qDebug()<<opers<<args;
-// 					args.push(
+					//qDebug()<<opers<<stack;
+// 					stack.push(
 				}
 // 				qDebug()<<iter;
 				iter++;
