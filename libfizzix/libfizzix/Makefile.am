@@ -21,7 +21,7 @@ fizformget.h \
 getters.h \
 fizcylinder.h \
 fizprism.h \
-fizsphere.h
+fizsphere.h 
 
 #This is everything that's getting compiled.
 libfizzix_la_SOURCES = \

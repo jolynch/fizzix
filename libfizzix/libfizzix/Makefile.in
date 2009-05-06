@@ -232,7 +232,7 @@ fizformget.h \
 getters.h \
 fizcylinder.h \
 fizprism.h \
-fizsphere.h
+fizsphere.h 
 
 
 #This is everything that's getting compiled.
@@ -264,7 +264,8 @@ fizformget.h \
 fizformget.cpp \
 fizcylinder.cpp \
 fizprism.cpp \
-fizsphere.cpp
+fizsphere.cpp \
+fizformgetprop.cpp
 
 all: all-recursive
 
@@ -343,6 +344,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetconst.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetforce.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetmacro.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformgetprop.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformnode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizformula.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fizobject.Plo@am__quote@

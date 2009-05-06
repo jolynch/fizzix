@@ -39,6 +39,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "databackend/databackend.h"
 #include "databackend/changefactory.h"
 #include "constanteditor.h"
+#include "objecteditor.h"
+#include "forceeditor.h"
+#include "formulaeditor.h"
 
 /*@class DataEditor
  @brief Provides a panel to edit data*/
@@ -55,6 +58,9 @@ class DataEditor:public QDockWidget
 		QString loadName;
 		QStackedLayout * centerL;
 		ConstantEditor * constEditor;
+		ObjectEditor * objectEditor;
+		ForceEditor * forceEditor;
+		FormulaEditor * formulaEditor;
 	public:
 		DataEditor (DataBackend * _db, QDesktopWidget * d);
 		bool checkToSave();
