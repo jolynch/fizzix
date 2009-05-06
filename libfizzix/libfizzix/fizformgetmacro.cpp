@@ -29,6 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using namespace std;
 
+FizFormGetMacro::FizFormGetMacro(std::string id) : FizFormGet(id);
+
 const fizdatum FizFormGetMacro::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	return eng->getMacroVal(identifier, obj1, tri1, obj2, tri2); // gets macro value from engine

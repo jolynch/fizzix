@@ -95,12 +95,12 @@ class Parser
 		}
 		static fizstack parse(QString input,int& num)
 		{
-			qDebug()<<input;
+			input = input.trimmed();
+			qDebug()<<"PARSING:" <<input;
 			fizstack stack;	
 			int iter = 0;
 			int e_iter = input.length();
 			int counter = 0;
-			qDebug()<<input.length();
 			while(iter < input.length())
 			{
 				switch(input[iter].toAscii())
@@ -111,17 +111,18 @@ class Parser
 						QString oper = "";
 						for(;input[iter] != ' ';iter++) oper += input[iter];
 						qDebug()<<"FOUND OPERATOR: "<<oper;
-						for(counter = 1; e_iter < input.length() && counter!=0;)
+						int next = iter;
+						for(counter = 1; next < input.length() && counter>0;)
 						{
-							e_iter++;
-							if(input[e_iter].toAscii() == '(') counter += 1; 
-							if(input[e_iter].toAscii() == ')') counter -= 1;
+							next++;
+							if(input[next].toAscii() == '(') counter += 1; 
+							if(input[next].toAscii() == ')') counter -= 1;
 						} 
-						e_iter--;
-						qDebug()<<"RECURING WITH"<<input.mid(iter,e_iter-iter);
+						//e_iter--;
+						qDebug()<<"RECURING WITH"<<input.mid(iter,next-iter);
 						int operand_count;
-						fizstack operands = Parser::parse(input.mid(iter,e_iter-iter), operand_count);
-						iter = e_iter;
+						fizstack operands = Parser::parse(input.mid(iter,next-iter), operand_count);
+						iter = next;
 						for(int i = 0; i<operands.size();i++)
 							stack.push(operands[i]);
 						stack.push(getOperator(oper, operand_count));
@@ -166,7 +167,7 @@ class Parser
 						QString val;
 						for(; !isspace(input[iter].toAscii()) && iter < input.length(); iter++)
 							val+=input[iter]; 
-						qDebug()<<"FOUND     FROM TOKEN"<<val;
+						qDebug()<<"FOUND FROM TOKEN"<<val;
 						stack.push(new FizFormGetProp(val.toStdString(),true));
 						num += 1;
 						break;	
@@ -186,7 +187,7 @@ class Parser
 					{
 						if(!isspace(input[iter].toAscii()))
 						{
-							QString num;
+							QString num = "";
 							for(; !isspace(input[iter].toAscii()) && iter < e_iter; iter++)
 								num+=input[iter]; 
 							qDebug()<<"FOUND ANONCONST:"<<num<<num.toDouble();
