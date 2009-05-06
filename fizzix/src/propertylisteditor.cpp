@@ -80,8 +80,8 @@ void PropertyListEditor::delProp()
 
 void PropertyListEditor::editProp()
 {
-	QDialog * foo=new QDialog(this);
-	foo->exec();
+	//QDialog * foo=new QDialog(this);
+	//foo->exec();
 }
 
 #endif
