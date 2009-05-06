@@ -61,8 +61,8 @@ std::vector<triangle *> ShapeEditor::getData()
 DrawableObject * ShapeEditor::getAdditionalData(DrawableObject * _o)
 {
 	FizObject * o = (FizObject *)(_o);
-	o->setProperty("SYSTEM_preset_geomtype",fizdatum((double)curr));
-	switch(curr)
+	o->setProperty("SYSTEM_preset_geomtype",fizdatum((double)shapeSelect->currentIndex()));
+	switch(shapeSelect->currentIndex())
 	{
 		case PRISM:
 			o->setProperty("SYSTEM_width",fizdatum(wedit->text().toDouble()));
@@ -86,15 +86,12 @@ void ShapeEditor::changes()
 
 void ShapeEditor::setData(DrawableObject f)
 {
-	redit->setText("0");
-	wedit->setText("0");
-	hedit->setText("0");
-	ledit->setText("0");
 	if(f.contains("SYSTEM_preset_geomtype"))
 	{
 		int c=(int)(f["SYSTEM_preset_geomtype"].scalar);
+		
 		selectedShape(c);
-		switch(curr)
+		switch(c)
 		{
 			case PRISM:
 				wedit->setText(QString::number(f["SYSTEM_width"].scalar));
@@ -114,6 +111,10 @@ void ShapeEditor::setData(DrawableObject f)
 	{
 		curr=PRISM;
 		selectedShape(curr);
+		redit->setText("0");
+		wedit->setText("0");
+		hedit->setText("0");
+		ledit->setText("0");
 	}
 	hChanges=false;
 }
@@ -157,7 +158,7 @@ void ShapeEditor::selectedShape(int s)
 			llabel->setVisible(false);
 			break;
 	};
-	hChanges=false;
+	hChanges=true;
 }
 
 #endif
