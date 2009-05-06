@@ -71,7 +71,7 @@ void FizCylinder::init_object(std::string name, vec3 color, const std::vector<tr
 {
 	this->name = name;
 	vertices = tinit;
-	setProperty("color", fizdatum(0.0, color, VECTOR));
+	setProperty("SYSTEM_color", fizdatum(0.0, color, VECTOR));
 	setRadius(rad);
 	setHeight(h);
 	setMass(mass);
@@ -131,18 +131,18 @@ void FizCylinder::compute()
 double FizCylinder::getRadius() const			{ return radius; }
 double& FizCylinder::rgetRadius()			{ return radius; }
 void FizCylinder::setRadius(double newradius)		{ radius = newradius; 
-      						          props["radius"] = fizdatum(radius, vec3(), SCALAR);
+      						          props["SYSTEM_radius"] = fizdatum(radius, vec3(), SCALAR);
 							}
 
 double FizCylinder::getHeight() const			{ return height; }
 double& FizCylinder::rgetHeight()			{ return height; }
 void FizCylinder::setHeight(double newheight)		{ height = newheight; 
-      						          props["height"] = fizdatum(height, vec3(), SCALAR);
+      						          props["SYSTEM_height"] = fizdatum(height, vec3(), SCALAR);
 							}
 							
 void FizCylinder::setVertices(std::vector<triangle*> newvertices)	{
 									  vertices = newvertices;
-									  init(this->getName(), props["color"].vector, newvertices, this->getMass(), this->getRadius(), this->getHeight());
+									  init(this->getName(), props["SYSTEM_color"].vector, newvertices, this->getMass(), this->getRadius(), this->getHeight());
 									}
 
 #endif

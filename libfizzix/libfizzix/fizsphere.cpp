@@ -71,7 +71,7 @@ void FizSphere::init_object(std::string name, vec3 color, const std::vector<tria
 {
 	this->name = name;
 	vertices = tinit;
-	setProperty("color", fizdatum(0.0, color, VECTOR));
+	setProperty("SYSTEM_color", fizdatum(0.0, color, VECTOR));
 	setRadius(rad);
 	setMass(mass);
 }
@@ -128,11 +128,11 @@ void FizSphere::compute()
 double FizSphere::getRadius() const			{ return radius; }
 double& FizSphere::rgetRadius()				{ return radius; }
 void FizSphere::setRadius(double newradius)		{ radius = newradius; 
-      						          props["radius"] = fizdatum(radius, vec3(), SCALAR);
+      						          props["SYSTEM_radius"] = fizdatum(radius, vec3(), SCALAR);
 							}
 							
 void FizSphere::setVertices(std::vector<triangle*> newvertices)	{
 								  vertices = newvertices;
-								  init(this->getName(), props["color"].vector, newvertices, this->getMass(), this->getRadius());
+								  init(this->getName(), props["SYSTEM_color"].vector, newvertices, this->getMass(), this->getRadius());
 								}
 #endif

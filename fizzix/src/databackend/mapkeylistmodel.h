@@ -21,6 +21,7 @@ class MapKeyListModel
 		//To create a new element, call setElement with a new name.
 		void setElement(QString name, T d);
 		void delElement(QString name);
+		void purge();
 };
 #endif
 
@@ -77,6 +78,13 @@ template <class T>
 void MapKeyListModel<T>::delElement(QString name)
 	{
 	data->remove(name);
+	synchronizeKeys();
+	}
+	
+template <class T>
+void MapKeyListModel<T>::purge()
+	{
+	data->clear();
 	synchronizeKeys();
 	}
 #endif

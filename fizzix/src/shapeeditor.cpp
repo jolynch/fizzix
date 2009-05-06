@@ -9,8 +9,8 @@ ShapeEditor::ShapeEditor():QWidget()
 	shapeSelect->addItem("Prism");
 	shapeSelect->addItem("Cylinder");
 	shapeSelect->addItem("Sphere");
-	QObject::connect(shapeSelect, SIGNAL(currentIndexChanged(int)),this,SLOT(selectedShape(int)));
-	QObject::connect(shapeSelect, SIGNAL(currentIndexChanged(int)),this,SLOT(changes()));
+	QObject::connect(shapeSelect, SIGNAL(activated(int)),this,SLOT(selectedShape(int)));
+	QObject::connect(shapeSelect, SIGNAL(activated(int)),this,SLOT(changes()));
 	layout->addWidget(shapeSelect,0,0,1,2);
 	rlabel=new QLabel("Radius");
 	layout->addWidget(rlabel,1,0);
@@ -58,9 +58,27 @@ std::vector<triangle *> ShapeEditor::getData()
 	};
 }
 
-void ShapeEditor::getAdditionalData(DrawableObject * o)
+DrawableObject * ShapeEditor::getAdditionalData(DrawableObject * _o)
 {
+	FizObject * o = (FizObject *)(_o);
+	o->setProperty("SYSTEM_preset_geomtype",fizdatum((double)curr));
+	switch(curr)
+	{
+		case PRISM:
+			o->setProperty("SYSTEM_width",fizdatum(wedit->text().toDouble()));
+			o->setProperty("SYSTEM_length",fizdatum(ledit->text().toDouble()));
+			o->setProperty("SYSTEM_height",fizdatum(hedit->text().toDouble()));
+			break;
+		case CYLINDER:
+			o->setProperty("SYSTEM_radius",fizdatum(redit->text().toDouble()));
+			o->setProperty("SYSTEM_height",fizdatum(hedit->text().toDouble()));
+			break;
+		case SPHERE: 
+			o->setProperty("SYSTEM_radius",fizdatum(redit->text().toDouble()));
+			break;
+	};
 	hChanges=false;
+	return _o;
 }
 
 void ShapeEditor::changes()
@@ -72,11 +90,37 @@ void ShapeEditor::setData(DrawableObject f)
 	wedit->setText("0");
 	hedit->setText("0");
 	ledit->setText("0");
+	if(f.contains("SYSTEM_preset_geomtype"))
+	{
+		int c=(int)(f["SYSTEM_preset_geomtype"].scalar);
+		selectedShape(c);
+		switch(curr)
+		{
+			case PRISM:
+				wedit->setText(QString::number(f["SYSTEM_width"].scalar));
+				ledit->setText(QString::number(f["SYSTEM_length"].scalar));
+				hedit->setText(QString::number(f["SYSTEM_height"].scalar));
+				break;
+			case CYLINDER:
+				redit->setText(QString::number(f["SYSTEM_radius"].scalar));
+				hedit->setText(QString::number(f["SYSTEM_height"].scalar));
+				break;
+			case SPHERE:
+				redit->setText(QString::number(f["SYSTEM_radius"].scalar));
+				break;
+		};
+	}
+	else
+	{
+		curr=PRISM;
+		selectedShape(curr);
+	}
 	hChanges=false;
 }
 
 void ShapeEditor::selectedShape(int s)
 {
+	shapeSelect->setCurrentIndex(s);
 	switch(s)
 	{
 		case PRISM:

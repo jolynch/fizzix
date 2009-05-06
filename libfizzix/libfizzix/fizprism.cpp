@@ -71,7 +71,7 @@ void FizPrism::init_object(std::string name, vec3 color, const std::vector<trian
 {
 	this->name = name;
 	vertices = tinit;
-	setProperty("color", fizdatum(0.0, color, VECTOR));
+	setProperty("SYSTEM_color", fizdatum(0.0, color, VECTOR));
 	setHeight(h);
 	setWidth(w);
 	setDepth(d);
@@ -134,19 +134,19 @@ void FizPrism::compute()
 double FizPrism::getHeight() const			{ return height; }
 double& FizPrism::rgetHeight()				{ return height; }
 void FizPrism::setHeight(double newheight)		{ height = newheight; 
-      						          props["height"] = fizdatum(height, vec3(), SCALAR);
+      						          props["SYSTEM_height"] = fizdatum(height, vec3(), SCALAR);
 							}
 							
 double FizPrism::getWidth() const			{ return width; }
 double& FizPrism::rgetWidth()				{ return width; }
 void FizPrism::setWidth(double newwidth)		{ width = newwidth; 
-      						          props["width"] = fizdatum(width, vec3(), SCALAR);
+      						          props["SYSTEM_width"] = fizdatum(width, vec3(), SCALAR);
 							}
 							
 double FizPrism::getDepth() const			{ return depth; }
 double& FizPrism::rgetDepth()				{ return depth; }
 void FizPrism::setDepth(double newdepth)		{ depth = newdepth; 
-      						          props["depth"] = fizdatum(depth, vec3(), SCALAR);
+      						          props["SYSTEM_length"] = fizdatum(depth, vec3(), SCALAR);
 							}
 							
 void FizPrism::setVertices(std::vector<triangle*> newvertices)	{

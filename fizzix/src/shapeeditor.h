@@ -28,7 +28,7 @@ class ShapeEditor:public QWidget
 		ShapeEditor();
 		bool hasChanges();
 		std::vector<triangle *> getData();
-		void getAdditionalData(DrawableObject * o);
+		DrawableObject * getAdditionalData(DrawableObject * _o);
 	public slots:
 		void changes();
 		void setData(DrawableObject o);

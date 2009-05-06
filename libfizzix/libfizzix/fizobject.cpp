@@ -79,7 +79,7 @@ void FizObject::init_object(std::string name, vec3 color, const std::vector<tria
 {
 	this->name = name;
 	vertices = tinit;
-	props["color"] = fizdatum(0.0, color, VECTOR);
+	props["SYSTEM_color"] = fizdatum(0.0, color, VECTOR);
 	setMass(mass);
 }
 
@@ -224,38 +224,38 @@ bool FizObject::contains(const std::string& key) const
 const vec3 FizObject::getPos() const			{ return pos; }
 vec3& FizObject::rgetPos() 				{ return pos; }
 void FizObject::setPos(vec3 newpos)			{ pos = newpos; 
-							  props["position"] = fizdatum(0.0, pos, VECTOR); 
+							  props["SYSTEM_position"] = fizdatum(0.0, pos, VECTOR); 
 							}
 
 const vec3 FizObject::getVel() const 			{ return vel; }
 vec3& FizObject::rgetVel() 				{ return vel; }
 void FizObject::setVel(vec3 newvel) 			{ vel = newvel; 
-							  props["velocity"] = fizdatum(0.0, vel, VECTOR);
+							  props["SYSTEM_velocity"] = fizdatum(0.0, vel, VECTOR);
 							}
 
 const vec3 FizObject::getAcc() const 			{ return acc; }
 vec3& FizObject::rgetAcc() 				{ return acc; }
 void FizObject::setAcc(vec3 newacc)			{ acc = newacc; 
-						          props["acceleration"] = fizdatum(0.0, acc, VECTOR);
+						          props["SYSTEM_acceleration"] = fizdatum(0.0, acc, VECTOR);
 							}
 
 const vec3 FizObject::getOme() const 			{ return ome; }
 vec3& FizObject::rgetOme() 				{ return ome; }
 void FizObject::setOme(vec3 newome) 			{ ome = newome; 
-							  props["angular_velocity"] = fizdatum(0.0, ome, VECTOR); 
+							  props["SYSTEM_angular_velocity"] = fizdatum(0.0, ome, VECTOR); 
 							}
 
 const vec3 FizObject::getAlp() const 			{ return alp; }
 vec3& FizObject::rgetAlp() 				{ return alp; }
 void FizObject::setAlp(vec3 newalp)			{ alp = newalp; 
-							  props["angular_acceleration"] = fizdatum(0.0, alp, VECTOR);
+							  props["SYSTEM_angular_acceleration"] = fizdatum(0.0, alp, VECTOR);
 							}
 	
 const std::vector<triangle*> FizObject::getVertices() const	{ return vertices; }
 std::vector<triangle*>& FizObject::rgetVertices() 		{ return vertices; }
 void FizObject::setVertices(std::vector<triangle*> newvertices) 	{ 
 								  vertices = newvertices;
-								  init(this->getName(), props["color"].vector, newvertices, this->getMass());
+								  init(this->getName(), props["SYSTEM_color"].vector, newvertices, this->getMass());
 								}
 		
 
@@ -312,7 +312,7 @@ void FizObject::setInertiaTensorInv(std::vector<double> newtensor)	{
 double FizObject::getMass()	const			{ return mass; }
 double& FizObject::rgetMass()				{ return mass; }
 void FizObject::setMass(double newmass)			{ mass = newmass; 
-      						          props["mass"] = fizdatum(mass, vec3(), SCALAR);
+      						          props["SYSTEM_mass"] = fizdatum(mass, vec3(), SCALAR);
 							}
 
 const std::string FizObject::getName() const		{ return name; }

@@ -18,8 +18,8 @@ DrawableObject * ObjectEditor::getData()
 {
 	hChanges=false;
 	DrawableObject * out=new DrawableObject("Temp name",shape->getData());
-	plist->getAdditionalData(out);
-	shape->getAdditionalData(out);
+	out=shape->getAdditionalData(out);
+	out=plist->getAdditionalData(out);
 	return out;
 }
 

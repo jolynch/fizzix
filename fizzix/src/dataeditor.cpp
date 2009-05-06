@@ -156,7 +156,11 @@ void DataEditor::saveChanges()
 			if(name->text()!=loadName)
 				db->getDataInserter()->renameObject(loadName,newName);
 			if(objectEditor->hasChanges())
+			{
+				DrawableObject * ob=objectEditor->getData();
+				ob->setName(newName.toStdString());
 				db->getDataInserter()->modifyObject(newName,objectEditor->getData());
+			}
 			this->loadObject(newName);
 			break;
 		case forceLoaded:
