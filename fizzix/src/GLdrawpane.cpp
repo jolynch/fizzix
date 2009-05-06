@@ -76,7 +76,7 @@ void GLDrawPane::drawObject(const DrawableObject & obj)
 	const vec3 & color = obj["color"].vector;
 	const vec3 & pos = obj.getPos();
 	const Quaternion & q = obj.getQuaternion();
-//	drawObject(mesh, color, pos, q, obj.getProperty(HIDDEN), obj.getProperty(SMOOTH));
+	drawObject(mesh, color, pos, q, obj.getProperty(HIDDEN), obj.getProperty(SMOOTH));
 }
 
 void GLDrawPane::drawObject(const vector<triangle *> & mesh, const vec3 & color, const vec3 & pos, const Quaternion & q, bool hidden, bool smooth)
@@ -241,11 +241,6 @@ void GLDrawPane::initializeGL()
 
 void GLDrawPane::paintGL()
 {
-//  vector<triangle *> triangles = DrawableObject::makeSphere(.5);
-	vec3 color(1,.5,1);
-	vec3 position(0,0,0);
-	Quaternion q;
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -260,11 +255,14 @@ void GLDrawPane::paintGL()
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom*sideToZoom,pos[0],pos[1],pos[2]),.25,false);
 	glDisable(GL_BLEND);
-	/*const vector<DrawableObject *> & objs = panel->getObjs();
+	const QList<DrawableObject *> & objs = (db->getObjectModel()->getData()->values());
 	for (int i = 0;i < (int)objs.size();i++) {
-	  drawObject(*(objs[i]));
-	  }*/
-//	drawObject(triangles,color,position,q,false,true);
+		DrawableObject * curr = objs[i];
+		if (curr != 0)
+		{
+			drawObject(*curr);
+		}
+	}
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom*sideToZoom,pos[0],pos[1],pos[2]),.25,true);
 	glDisable(GL_BLEND);

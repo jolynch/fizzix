@@ -4,6 +4,8 @@
 #include <vector>
 #include <QGLWidget>
 #include <QMouseEvent>
+#include <QKeyEvent>
+#include <QList>
 #include <libfizzix/gen_structs.h>
 #include <libfizzix/quaternion.h>
 
