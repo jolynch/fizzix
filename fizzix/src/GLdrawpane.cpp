@@ -73,7 +73,7 @@ vec3 GLDrawPane::moveCamera()
 void GLDrawPane::drawObject(const DrawableObject & obj)
 {
 	const vector<triangle*> & mesh = obj.getVertices();
-	const vec3 & color = obj["color"].vector;
+	const vec3 & color = obj["SYSTEM_color"].vector;
 	const vec3 & pos = obj.getPos();
 	const Quaternion & q = obj.getQuaternion();
 	drawObject(mesh, color, pos, q, obj.getProperty(HIDDEN), obj.getProperty(SMOOTH));
@@ -258,7 +258,7 @@ void GLDrawPane::paintGL()
 	const QList<DrawableObject *> & objs = (db->getObjectModel()->getData()->values());
 	for (int i = 0;i < (int)objs.size();i++) {
 		DrawableObject * curr = objs[i];
-		if (curr != 0)
+		if (curr != NULL && ((FizObject *)(curr))->contains("SYSTEM_preset_geomtype"))
 		{
 			drawObject(*curr);
 		}

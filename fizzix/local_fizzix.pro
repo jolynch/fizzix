@@ -28,7 +28,8 @@ src/databackend/drawableobject.h \
 src/GLdrawpane.h \
 src/databackend/mapkeylistmodel.h \
 src/databackend/changefactory.h \
-
+src/databackend/maputil.h \
+src/databackend/parser.h \
 
 
 SOURCES+=src/main.cpp \
@@ -46,4 +47,3 @@ src/simulationcontrol.cpp \
 src/databackend/drawableobject.cpp \
 src/GLdrawpane.cpp \
 src/databackend/changefactory.cpp \
-

@@ -6,6 +6,7 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QList>
+#include <QDebug>
 #include <libfizzix/gen_structs.h>
 #include <libfizzix/quaternion.h>
 
