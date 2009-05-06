@@ -16,8 +16,9 @@ Quaternion GLDrawPane::lookatYZ(.5,.5,.5,.5);
 Quaternion GLDrawPane::lookatZX(.5,-.5,-.5,-.5);
 Quaternion GLDrawPane::isometric(0.880476, 0.279848, .364705, -0.115917);
 
-GLDrawPane::GLDrawPane(QWidget * parent, double _rotate, double _zoom, double _minZoom, double _maxZoom, double fieldOfView) : QGLWidget(parent)
+GLDrawPane::GLDrawPane(DataBackend * _db,QWidget * parent, double _rotate, double _zoom, double _minZoom, double _maxZoom, double fieldOfView) : QGLWidget(parent)
 {
+	db=_db;
 	rotSpeed = _rotate;
 	zoomSpeed = _zoom;
 	fov = fieldOfView;

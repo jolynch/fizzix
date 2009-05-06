@@ -12,13 +12,13 @@ bool ObjectEditor::hasChanges()
 
 DrawableObject * ObjectEditor::getData()
 {
-	return tempData;
+	return &tempData;
 }
 
 void ObjectEditor::changes()
 {hChanges=true;}
 
-void ObjectEditor::setData(DrawableObject * f)
+void ObjectEditor::setData(DrawableObject f)
 {
 	tempData=f;
 	hChanges=false;

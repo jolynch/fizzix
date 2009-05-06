@@ -1,6 +1,7 @@
 #ifndef OBJECTEDITOR_H
 #define OBJECTEDITOR_H
 #include <QWidget>
+#include <QTabWidget>
 
 #include "databackend/drawableobject.h"
 
@@ -9,13 +10,13 @@ class ObjectEditor:public QWidget
 	private:
 		bool hChanges;
 		
-		DrawableObject * tempData;
+		DrawableObject tempData;
 	public:
 		ObjectEditor();
 		bool hasChanges();
 		DrawableObject * getData();
 	public slots:
 		void changes();
-		void setData(DrawableObject * o);
+		void setData(DrawableObject o);
 };
 #endif

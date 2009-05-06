@@ -57,6 +57,16 @@ class MainWindow:public QMainWindow
 		QTimer * timer;
 	public:
 		MainWindow (QDesktopWidget * d);
+	public slots:
+		void view_setIsometric();
+		void view_setXY();
+		void view_setXZ();
+		void view_setYZ();
+		void view_zoom10();
+		void view_zoom50();
+		void view_zoom100();
+		void view_zoom150();
+		void view_zoom200();
 };
 
 #endif

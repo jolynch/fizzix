@@ -8,12 +8,14 @@
 #include <libfizzix/quaternion.h>
 
 #include "databackend/drawableobject.h"
+#include "databackend/databackend.h"
 
 enum View {XY,YZ,ZX,ISOMETRIC};
 
 class GLDrawPane: public QGLWidget
 { Q_OBJECT
 	private:
+		DataBackend * db;
 		//Rotate the current quaternion
 		//  @param up:  How much to rotate following the up vector.  Negative for down.
 		//  @param left:  How much to rotate following the left vector.  Negative for right.
@@ -76,7 +78,7 @@ class GLDrawPane: public QGLWidget
 		void wheelEvent(QWheelEvent * event);
 	public:
 		//Create the GL panel
-		GLDrawPane(QWidget * parent = 0, double _rotate = .1, double _zoom = .01, double _minZoom = .1, double _maxZoom = 100, double fieldOfView = 13);
+		GLDrawPane(DataBackend * _db,QWidget * parent = 0, double _rotate = .1, double _zoom = .01, double _minZoom = .1, double _maxZoom = 100, double fieldOfView = 13);
 
 		//Return the requested size of this widget.
 		QSize sizeHint() const;

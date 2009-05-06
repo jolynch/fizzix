@@ -98,7 +98,10 @@ void DataEditor::loadObject(QString n)
 	this->setWindowTitle("Object editor");
 	loadName=n;
 	name->setText(loadName);
-	objectEditor->setData(db->getObjectModel()->getData()->value(loadName));
+	if(db->getObjectModel()->getData()->value(loadName)==NULL)
+		objectEditor->setData(DrawableObject());
+	else
+		objectEditor->setData(*(db->getObjectModel()->getData()->value(loadName)));
 	curr=objectLoaded;
 	centerL->setCurrentIndex(curr);
 }
@@ -109,7 +112,10 @@ void DataEditor::loadForce(QString n)
 	this->setWindowTitle("Force editor");
 	loadName=n;
 	name->setText(loadName);
-	forceEditor->setData(db->getForceModel()->getData()->value(loadName));
+	if(db->getForceModel()->getData()->value(loadName)==NULL)
+		forceEditor->setData(FizForce(FizFormula()));
+	else
+		forceEditor->setData(*(db->getForceModel()->getData()->value(loadName)));
 	curr=forceLoaded;
 	centerL->setCurrentIndex(curr);
 }
@@ -120,7 +126,10 @@ void DataEditor::loadMacro(QString n)
 	this->setWindowTitle("Macro editor");
 	loadName=n;
 	name->setText(loadName);
-	macroEditor->setData(db->getMacroModel()->getData()->value(loadName));
+	if(db->getMacroModel()->getData()->value(loadName)==NULL)
+		macroEditor->setData(FizFormula());
+	else
+		macroEditor->setData(*(db->getMacroModel()->getData()->value(loadName)));
 	curr=macroLoaded;
 	centerL->setCurrentIndex(curr);
 }

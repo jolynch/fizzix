@@ -49,10 +49,11 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	QObject::connect(databrowser,SIGNAL(editConstant(QString)),dataeditor,SLOT(loadConstant(QString)));
 	
 	simcontrol=new SimulationControl();
-	openglpane=new GLDrawPane(d);
+	openglpane=new GLDrawPane(databackend,d);
 
 	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), openglpane, SLOT(updateGL()));
+	connect(qApp, SIGNAL(lastWindowClosed()),timer,SLOT(stop()));
 	timer -> start(15);
 
 	this->setCentralWidget(openglpane);
@@ -78,31 +79,33 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	importMenu->addAction("Macro");
 	fileMenu->addAction("Exit",qApp, SLOT(closeAllWindows()));
 	QMenu * editMenu = this->menuBar()->addMenu(tr("Edit"));
-	editMenu->addAction(databackend->getUndoStack()->createUndoAction(this));
-	editMenu->addAction(databackend->getUndoStack()->createRedoAction(this));
-	editMenu->addAction("Cut");
-	editMenu->addAction("Copy");
-	editMenu->addAction("Paste");
-	editMenu->addAction("Find");
+	QAction * undo=databackend->getUndoStack()->createUndoAction(this);
+	undo->setShortcut(QKeySequence(QKeySequence::Undo));
+	editMenu->addAction(undo);
+	QAction * redo=databackend->getUndoStack()->createRedoAction(this);
+	redo->setShortcut(QKeySequence(QKeySequence::Redo));
+	editMenu->addAction(redo);
+//	editMenu->addAction("Cut");
+//	editMenu->addAction("Copy");
+//	editMenu->addAction("Paste");
+//	editMenu->addAction("Find");
 	QMenu * viewMenu = this->menuBar()->addMenu(tr("View"));
 	QMenu * cameraMenu=viewMenu->addMenu("Camera Presets");
-	cameraMenu->addAction("Isometric");
-	cameraMenu->addAction("View XY Plane");
-	cameraMenu->addAction("View XZ Plane");
-	cameraMenu->addAction("View YZ Plane");
+	cameraMenu->addAction("Isometric",this,SLOT(view_setIsometric()));
+	cameraMenu->addAction("View XY Plane",this,SLOT(view_setXY()));
+	cameraMenu->addAction("View XZ Plane",this,SLOT(view_setXZ()));
+	cameraMenu->addAction("View YZ Plane",this,SLOT(view_setYZ()));
 	QMenu * zoomMenu=viewMenu->addMenu("Zoom");
 	QActionGroup * zoomGroup=new QActionGroup(NULL);
-	zoomGroup->addAction(zoomMenu->addAction("To Scale"))->setCheckable(true);
-	zoomGroup->addAction(zoomMenu->addAction("25%"))->setCheckable(true);
-	zoomGroup->addAction(zoomMenu->addAction("50%"))->setCheckable(true);
-	zoomGroup->addAction(zoomMenu->addAction("75&"))->setCheckable(true);
-	zoomGroup->addAction(zoomMenu->addAction("100%"))->setCheckable(true);
-	zoomGroup->addAction(zoomMenu->addAction("125%"))->setCheckable(true);
-	zoomGroup->addAction(zoomMenu->addAction("150&"))->setCheckable(true);
-	zoomGroup->addAction(zoomMenu->addAction("175&"))->setCheckable(true);
-	viewMenu->addAction("Focus at Center");
+	//zoomGroup->addAction(zoomMenu->addAction("To Scale"))->setCheckable(true);
+	zoomGroup->addAction(zoomMenu->addAction("10%",this,SLOT(view_zoom10())))->setCheckable(true);
+	zoomGroup->addAction(zoomMenu->addAction("50%",this,SLOT(view_zoom50())))->setCheckable(true);
+	zoomGroup->addAction(zoomMenu->addAction("100%",this,SLOT(view_zoom100())))->setCheckable(true);
+	zoomGroup->addAction(zoomMenu->addAction("150%",this,SLOT(view_zoom150())))->setCheckable(true);
+	zoomGroup->addAction(zoomMenu->addAction("200%",this,SLOT(view_zoom200())))->setCheckable(true);
 	QAction * coordAxes = viewMenu->addAction("Show Coordinate Axes");
 	coordAxes->setCheckable(true);
+	coordAxes->setEnabled(false);
 	QMenu * simulationMenu = this->menuBar()->addMenu(tr("Simulation"));
 	simulationMenu->addAction("Start");
 	simulationMenu->addAction("Reset to Initial Conditions");
@@ -134,5 +137,34 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	helpMenu->addAction("Manual");
 	helpMenu->addAction("About");
 }
+
+
+void MainWindow::view_setIsometric()
+{openglpane->setRotation(ISOMETRIC);}
+
+void MainWindow::view_setXY()
+{openglpane->setRotation(XY);}
+
+void MainWindow::view_setXZ()
+{openglpane->setRotation(ZX);}
+
+void MainWindow::view_setYZ()
+{openglpane->setRotation(YZ);}
+
+void MainWindow::view_zoom10()
+{openglpane->setZoomPercent(10);}
+
+void MainWindow::view_zoom50()
+{openglpane->setZoomPercent(50);}
+
+void MainWindow::view_zoom100()
+{openglpane->setZoomPercent(100);}
+
+void MainWindow::view_zoom150()
+{openglpane->setZoomPercent(150);}
+
+void MainWindow::view_zoom200()
+{openglpane->setZoomPercent(200);}
+
 
 #endif
