@@ -80,8 +80,16 @@ void PropertyListEditor::delProp()
 
 void PropertyListEditor::editProp()
 {
-	//QDialog * foo=new QDialog(this);
-	//foo->exec();
+	QString s=model->getModel()->data(plist->currentIndex(), Qt::DisplayRole).toString();
+	fizdatum d=model->getData()->value(s);
+	EditPropertyDialog * edit=new EditPropertyDialog(s,d);
+	if(edit->exec()==QDialog::Accepted)
+	{
+		if(edit->saveName()!=s)
+			model->delElement(s);
+		model->setElement(edit->saveName(),edit->getData());
+		hChanges=true;
+	}
 }
 
 #endif

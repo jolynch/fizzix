@@ -6,6 +6,7 @@
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QInputDialog>
+#include "editpropertydialog.h"
 #include "databackend/drawableobject.h"
 #include "databackend/mapkeylistmodel.h"
 
