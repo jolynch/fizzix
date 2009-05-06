@@ -45,7 +45,9 @@ class FizStack
 		FizStack(std::vector<T> s);	
 		void reset();
 		bool empty();
-		
+		int size();	
+		const T operator[](int index) const;
+		T& operator[](int index);
 		T pop();
 		void push(T f);
 };
@@ -53,6 +55,20 @@ class FizStack
 /* Class definitions
  * Must be present in .h file as it is a template class
  * */
+template< typename T >
+const T FizStack<T>::operator[](int index) const
+{
+	return stack[index];
+}
+
+template< typename T >
+T& FizStack<T>::operator[](int index)
+{
+	return stack[index];
+}
+
+
+
 template< typename T >
 FizStack<T>::FizStack(std::vector<T> s)
 {
@@ -71,6 +87,12 @@ template< typename T >
 void FizStack<T>::reset()
 {
 	index = stack.size() - 1;
+}
+
+template <typename T>
+int FizStack<T>::size()
+{
+	return stack.size();
 }
 
 template< typename T >
