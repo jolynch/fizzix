@@ -23,7 +23,8 @@ bool FormulaEditor::hasChanges()
 FizFormula * FormulaEditor::getData()
 {
 	hChanges=false;
-	return new FizFormula (Parser::parse(formEdit->toPlainText()));
+	int i;
+	return new FizFormula (Parser::parse(formEdit->toPlainText(),i));
 }
 
 void FormulaEditor::changes()

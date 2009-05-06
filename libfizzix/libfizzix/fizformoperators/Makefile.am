@@ -38,7 +38,8 @@ logarithm.cpp  \
 operators.h  \
 random.cpp  \
 square.cpp \
-tanh.cpp
+tanh.cpp \
+if.cpp \
 
 
 

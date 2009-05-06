@@ -24,7 +24,7 @@ class ConstantEditor:public QWidget
 		QLineEdit * v2_edit;
 		QLineEdit * v3_edit;
 	public:
-		ConstantEditor();
+		ConstantEditor(bool forceScalar=false, bool forceVector=false);
 		fizdatum getData();
 		bool hasChanges();
 	public slots:

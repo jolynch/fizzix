@@ -2,7 +2,7 @@
 #define CONSTANTEDITOR_CPP
 #include "constanteditor.h"
 
-ConstantEditor::ConstantEditor():QWidget()
+ConstantEditor::ConstantEditor(bool forceScalar, bool forceVector):QWidget()
 {
 	hChanges=false; isScalar=false;
 	QGridLayout * layout = new QGridLayout();
@@ -38,9 +38,11 @@ ConstantEditor::ConstantEditor():QWidget()
 	v1_edit->setText("0.0");
 	v2_edit->setText("0.0");
 	v3_edit->setText("0.0");
+	vector_rb->setEnabled(!forceScalar);
+	scalar_rb->setEnabled(!forceVector);
 	this->setLayout(layout);
 	hChanges=false;
-	}
+}
 
 bool ConstantEditor::hasChanges()
 {return hChanges;}

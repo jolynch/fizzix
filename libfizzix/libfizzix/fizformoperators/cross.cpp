@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "operators.h"
 
 using namespace FizOper;
-std::string Cross::token = "if";
+std::string Cross::token = "X*";
 
 Cross::Cross(int numOperands)
 {
