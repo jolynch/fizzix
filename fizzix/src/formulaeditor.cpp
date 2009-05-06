@@ -23,7 +23,7 @@ bool FormulaEditor::hasChanges()
 FizFormula * FormulaEditor::getData()
 {
 	hChanges=false;
-	return &tempData;
+	return new FizFormula (Parser::parse(formEdit->toPlainText()));
 }
 
 void FormulaEditor::changes()
@@ -31,7 +31,7 @@ void FormulaEditor::changes()
 
 void FormulaEditor::setData(FizFormula f)
 {
-	tempData=f;
+	formEdit->setPlainText(Parser::parse(f.getStack()));
 	hChanges=false;
 }
 

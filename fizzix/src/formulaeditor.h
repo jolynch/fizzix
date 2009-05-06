@@ -6,6 +6,7 @@
 #include <QTextEdit>
 #include <QGridLayout>
 #include <libfizzix/fizformula.h>
+#include "databackend/parser.h"
 
 class FormulaEditor:public QWidget
 {	Q_OBJECT

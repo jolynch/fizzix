@@ -181,6 +181,11 @@ class Parser
 			}
 			return stack;
 		}
+		
+		static QString parse(fizstack input)
+		{
+		return "Parser not implemented";
+		}
 };
 
 #endif
