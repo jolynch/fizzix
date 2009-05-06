@@ -39,4 +39,9 @@ const fizdatum FizFormGetForce::eval(fizstack &stack, const FizObject &obj1, con
 	return eng->getForceVal(identifier, obj1, tri1, obj2, tri2); // gets force value from engine
 }
 
+const std::string FizFormGetForce::eval(fizstack& stack)
+{
+	return "{"+identifier+"}";
+}
+
 #endif

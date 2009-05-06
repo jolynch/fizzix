@@ -39,4 +39,9 @@ const fizdatum FizFormGetMacro::eval(fizstack &stack, const FizObject &obj1, con
 	return eng->getMacroVal(identifier, obj1, tri1, obj2, tri2); // gets macro value from engine
 }
 
+const std::string FizFormGetMacro::toString(fizstack& stack)
+{
+	return "["+identifier+"]";
+}
+
 #endif

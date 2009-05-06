@@ -42,7 +42,7 @@ class FizFormNode
 		FizFormNode();
 		virtual const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Gets the value of the node */
 		void setEngine(FizEngine* e);
-		
+		virtual const std::string toString (fizstack& stack);
 };
 
 #endif

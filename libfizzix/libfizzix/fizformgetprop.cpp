@@ -73,4 +73,11 @@ const fizdatum FizFormGetProp::eval(fizstack &stack, const FizObject &obj1, cons
 	return a;
 }
 
+const std::string FizFormGetProp::toString(fizstack& stack)
+{
+	if (objectname != "") return "#"+objectname+"."+identifier;
+	else if (firstobject) return "$"+identifier;
+	else return "@"+identifier;
+}
+
 #endif

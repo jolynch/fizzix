@@ -43,6 +43,7 @@ class FizFormGetMacro : public FizFormGet
 	public:
 		FizFormGetMacro(std::string id);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
+		const std::string toString(fizstack& stack);
 };
 
 class FizFormGetForce : public FizFormGet
@@ -50,6 +51,7 @@ class FizFormGetForce : public FizFormGet
 	public:
 		FizFormGetForce(std::string id);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
+		const std::string toString(fizstack& stack);
 };
 
 class FizFormGetConst : public FizFormGet
@@ -57,6 +59,7 @@ class FizFormGetConst : public FizFormGet
 	public:
 		FizFormGetConst(std::string id);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
+		const std::string toString(fizstack& stack);
 };
 
 class FizFormGetProp : public FizFormGet
@@ -69,6 +72,7 @@ class FizFormGetProp : public FizFormGet
 		FizFormGetProp(std::string id, bool first);
 		FizFormGetProp(std::string id, std::string name);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
+		const std::string toString(fizstack& stack);
 };
 
 #endif

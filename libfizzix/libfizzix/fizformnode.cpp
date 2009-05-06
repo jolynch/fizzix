@@ -39,4 +39,9 @@ const fizdatum FizFormNode::eval(fizstack &stack, const FizObject &obj1, const t
 {
 	return fizdatum();
 }
+
+const std::string FizFormNode::toString(fizstack& stack)
+{
+	return "";
+}
 #endif

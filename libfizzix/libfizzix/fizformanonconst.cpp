@@ -38,4 +38,14 @@ const fizdatum FizFormAnonConst::eval(fizstack &stack, const FizObject &obj1, co
 	return value; //returns the anonymous constant (example: 2)
 }
 
+const std::string FizFormAnonConst::toString(fizstack& stack)
+{
+	if (value.type == SCALAR)
+		return ""+value.scalar;
+	else if (value.type == VECTOR)
+		return "<"+value.vector[0]+" "+value.vector[1]+" "+value.vector[2]+">";
+	else
+		return "NIL";
+}
+
 #endif
