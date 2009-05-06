@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef DOT_CPP
+#define DOT_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -30,7 +32,6 @@ Dot::Dot(int numOperands)
 {
 	this->numOperands=numOperands;
 	description = "Takes the dot product (scalar product) of two vectors.";
-	token = "dot";
 }
 
 const fizdatum Dot::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
@@ -50,4 +51,7 @@ const fizdatum Dot::eval(fizstack &stack, const FizObject &obj1, const triangle 
 	else throw std::logic_error("Can only take the dot product of two vectors.");
 	return c;
 }
+
+
+#endif
 

@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef ARCSIN_CPP
+#define ARCSIN_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -29,7 +31,6 @@ using namespace FizOper;
 Arcsin::Arcsin(int numOperands)
 {
 	this->numOperands=numOperands;
-	token="arcsin";
 	description="Takes the arcsine of a number.";
 }
 
@@ -48,4 +49,7 @@ const fizdatum Arcsin::eval(fizstack &stack, const FizObject &obj1, const triang
 	else throw std::logic_error("Can only take the arcsin of a single value.");
 	return c;
 }
+
+
+#endif
 

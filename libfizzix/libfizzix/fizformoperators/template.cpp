@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef TEMPLATE_CPP
+#define TEMPLATE_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -29,7 +31,6 @@ using namespace FizOper;
 Operator::Operate(int numOperands)
 {
 	this->numOperands=numOperands;
-	token="operate";
 	description="Operates.";
 }
 
@@ -37,4 +38,7 @@ const fizdatum Operate::eval(fizstack &stack, const FizObject &obj1, const trian
 {
 
 }
+
+
+#endif
 

@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef COSINE_CPP
+#define COSINE_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -29,7 +31,6 @@ using namespace FizOper;
 Cosine::Cosine(int numOperands)
 {
 	this->numOperands=numOperands;
-	token="cos";
 	description="Takes the cosine of a number.";
 }
 
@@ -48,4 +49,7 @@ const fizdatum Cosine::eval(fizstack &stack, const FizObject &obj1, const triang
 	else throw std::logic_error("Can only take the cos of a single value.");
 	return c;
 }
+
+
+#endif
 

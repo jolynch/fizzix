@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef LESS_CPP
+#define LESS_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -31,7 +33,6 @@ using namespace std;
 Less::Less(int numOperands)
 {
 	Less::numOperands=numOperands;
-	token="less";
 	description="Returns true if first argument is less than the second";
 }
 
@@ -49,4 +50,7 @@ const fizdatum Less::eval(fizstack &stack, const FizObject &obj1, const triangle
 	else throw std::logic_error("Greater than is a binary operator");
 	return a;
 }
+
+
+#endif
 

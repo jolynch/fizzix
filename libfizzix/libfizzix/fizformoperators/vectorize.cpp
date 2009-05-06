@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef VECTORIZE_CPP
+#define VECTORIZE_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -29,7 +31,6 @@ using namespace FizOper;
 Vectorize::Vectorize(int numOperands)
 {
 	this->numOperands=numOperands;
-	token="vector";
 	description="Takes three scalars and puts them into a vector";
 }
 
@@ -45,3 +46,6 @@ const fizdatum Vectorize::eval(fizstack &stack, const FizObject &obj1, const tri
 	else throw std::logic_error("Can only make a vector from three scalars");
 	return d;
 }
+
+#endif
+

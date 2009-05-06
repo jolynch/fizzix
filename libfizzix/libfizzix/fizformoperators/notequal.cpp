@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef NOTEQUAL_CPP
+#define NOTEQUAL_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -31,7 +33,6 @@ using namespace std;
 Notequal::Notequal(int numOperands)
 {
 	Notequal::numOperands=numOperands;
-	token="notequals";
 	description="Returns true if not all arguments are equal";
 }
 
@@ -51,4 +52,7 @@ const fizdatum Notequal::eval(fizstack &stack, const FizObject &obj1, const tria
 	else throw std::logic_error("Not equals is a binary operator");
 	return a;
 }
+
+
+#endif
 

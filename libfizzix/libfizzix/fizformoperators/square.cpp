@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef SQUARE_CPP
+#define SQUARE_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -30,7 +32,6 @@ Square::Square(int numOperands)
 {
 	this->numOperands=numOperands;
 	description = "Takes the square of a scalar.";
-	token = "square";
 }
 
 const fizdatum Square::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
@@ -43,3 +44,6 @@ const fizdatum Square::eval(fizstack &stack, const FizObject &obj1, const triang
 	else throw std::logic_error("Cannot square a vector.");
 	return b;
 }
+
+#endif
+

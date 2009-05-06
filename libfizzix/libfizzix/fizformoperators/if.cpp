@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef IF_CPP
+#define IF_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -31,7 +33,6 @@ using namespace std;
 If::If(int numOperands)
 {
 	If::numOperands=numOperands;
-	token="if";
 	description="Returns the first value if the condition is true, and the second if the condition is false, and nil if the second term is not supplied";
 }
 
@@ -57,4 +58,7 @@ const fizdatum If::eval(fizstack &stack, const FizObject &obj1, const triangle &
 	else throw std::logic_error("If statements only take a condition, a true value, and optionally a false value.");
 	return a;
 }
+
+
+#endif
 

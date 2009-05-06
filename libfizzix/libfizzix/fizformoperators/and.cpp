@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef AND_CPP
+#define AND_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -31,7 +33,6 @@ using namespace std;
 And::And(int numOperands)
 {
 	And::numOperands=numOperands;
-	token="and";
 	description="Returns true if supplied\"booleans\" are all true";
 }
 
@@ -51,4 +52,7 @@ const fizdatum And::eval(fizstack &stack, const FizObject &obj1, const triangle 
 	}
 	return a;
 }
+
+
+#endif
 

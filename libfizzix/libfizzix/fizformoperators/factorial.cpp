@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef FACTORIAL_CPP
+#define FACTORIAL_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -30,7 +32,6 @@ Factorial::Factorial(int numOperands)
 {
 	this->numOperands=numOperands;
 	description = "Takes the factorial of a scalar.";
-	token = "factorial";
 }
 
 const fizdatum Factorial::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
@@ -47,3 +48,6 @@ const fizdatum Factorial::eval(fizstack &stack, const FizObject &obj1, const tri
 	else throw std::logic_error("Cannot take the factorial of multiple numbers, negative numbers, or vectors.");
 	return c;
 }
+
+#endif
+

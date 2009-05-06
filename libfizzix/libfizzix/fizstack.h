@@ -41,6 +41,7 @@ class FizStack
 		std::vector<T> stack;
 		int index;
 	public:
+		FizStack();
 		FizStack(std::vector<T> s);	
 		void reset();
 		bool empty();
@@ -60,6 +61,13 @@ FizStack<T>::FizStack(std::vector<T> s)
 }
 
 template< typename T >
+FizStack<T>::FizStack()
+{
+	reset();
+}
+
+
+template< typename T >
 void FizStack<T>::reset()
 {
 	index = stack.size() - 1;
@@ -74,9 +82,9 @@ bool FizStack<T>::empty()
 template< typename T >
 T FizStack<T>::pop()
 {
-	if( empty() ) 
-		throw std::out_of_range("Can't pop an empty stack");
-	else 
+	if( !empty() ) 
+	//	throw std::out_of_range("Can't pop an empty stack");
+	//else 
 		return stack[index--];
 }
 

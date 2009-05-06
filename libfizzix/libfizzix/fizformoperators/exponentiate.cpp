@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef EXPONENTIATE_CPP
+#define EXPONENTIATE_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -29,7 +31,6 @@ using namespace FizOper;
 Exponentiate::Exponentiate(int numOperands)
 {
 	this->numOperands=numOperands;
-	token="exp";
 	description="Raises e to a power.";
 }
 
@@ -48,4 +49,7 @@ const fizdatum Exponentiate::eval(fizstack &stack, const FizObject &obj1, const 
 	else throw std::logic_error("Raising e to multiple powers is ambiguous.");
 	return b;
 }
+
+
+#endif
 

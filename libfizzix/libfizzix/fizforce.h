@@ -37,13 +37,13 @@ class FizForce
 		FizFormula formula;
 	public:
 		//default constructor - F = 0
-		FizForce();
+// 		FizForce();
 		//constructor that takes a string
-		FizForce(std::string form);
+// 		FizForce(std::string form);
 		//constructor that takes a formula
 		FizForce(FizFormula form);
 		//default destructor
-		~FizForce();
+// 		~FizForce();
 		//applies and evaluates force and torque between two different objects
 		//std::vector<vec3> eval(FizObject& obj1, FizObject& obj2); //first is F about COM on the first, second is T, F2, T2
 		vec3 getForce(const FizObject& obj1,const triangle& tri1,const FizObject& obj2,const triangle& tri2);

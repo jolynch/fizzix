@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef CROSS_CPP
+#define CROSS_CPP
 
 #include "operators.h"
 
@@ -31,7 +33,6 @@ Cross::Cross(int numOperands)
 {
 	this->numOperands=numOperands;
 	description = "Takes the cross product (vector product) of two vectors.";
-	token = "cross";
 }
 
 const fizdatum Cross::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
@@ -50,3 +51,6 @@ const fizdatum Cross::eval(fizstack &stack, const FizObject &obj1, const triangl
 	else throw std::logic_error("Can only take the cross product of two vectors.");
 	return c;
 }
+
+#endif
+

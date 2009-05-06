@@ -42,6 +42,7 @@ class FizFormula
 		fizstack stack; //various operators pop different number of operands off the stack, and you can't just do current++
 		bool symmetric;
 	public:
+		FizFormula();
 		/* Constructs a new FizFormula with the given node stack */
 		//FizFormula(std::vector<FizFormNode> stack);
 		FizFormula(const fizstack stk);

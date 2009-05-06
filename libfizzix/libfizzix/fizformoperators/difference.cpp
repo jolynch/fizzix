@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef DIFFERENCE_CPP
+#define DIFFERENCE_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -31,7 +33,6 @@ using namespace std;
 FizOper::Difference::Difference(int numOperands)
 {
 	Difference::numOperands=numOperands;
-	token="diff";
 	description="Finds the difference of scalars or vectors";
 }
 
@@ -49,4 +50,7 @@ const fizdatum FizOper::Difference::eval(fizstack &stack, const FizObject &obj1,
 	}
 	return diff;
 }
+
+
+#endif
 

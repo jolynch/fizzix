@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef MAGNITUDE_CPP
+#define MAGNITUDE_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -29,7 +31,6 @@ using namespace FizOper;
 Magnitude::Magnitude(int numOperands)
 {
 	this->numOperands=numOperands;
-	token="mag";
 	description="Takes the magnitude of a value: absolute value of a scalar, length of a vector.";
 }
 
@@ -51,4 +52,7 @@ const fizdatum Magnitude::eval(fizstack &stack, const FizObject &obj1, const tri
 	else throw std::logic_error("Cannot take the magnitude of multiple values");
 	return c;
 }
+
+
+#endif
 

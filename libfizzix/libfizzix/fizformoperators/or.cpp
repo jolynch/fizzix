@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef OR_CPP
+#define OR_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -31,7 +33,6 @@ using namespace std;
 Or::Or(int numOperands)
 {
 	Or::numOperands=numOperands;
-	token="or";
 	description="Returns false if supplied\"booleans\" are all false";
 }
 
@@ -49,4 +50,7 @@ const fizdatum Or::eval(fizstack &stack, const FizObject &obj1, const triangle &
 	}
 	return a;
 }
+
+
+#endif
 

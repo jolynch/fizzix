@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef RANDOM_CPP
+#define RANDOM_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -29,7 +31,6 @@ using namespace FizOper;
 Random::Random(int numOperands)
 {
 	this->numOperands=numOperands;
-	token="rand";
 	description="Generates a random number.";
 }
 
@@ -41,4 +42,7 @@ const fizdatum Random::eval(fizstack &stack, const FizObject &obj1, const triang
 	a.scalar = rand();
 	return a;
 }
+
+
+#endif
 

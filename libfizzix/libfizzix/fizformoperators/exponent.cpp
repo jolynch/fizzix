@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef EXPONENT_CPP
+#define EXPONENT_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -29,7 +31,6 @@ using namespace FizOper;
 Exponent::Exponent(int numOperands)
 {
 	this->numOperands=numOperands;
-	token="pow";
 	description="Raises a scalar to an exponent.";
 }
 
@@ -50,4 +51,7 @@ const fizdatum Exponent::eval(fizstack &stack, const FizObject &obj1, const tria
 	else throw std::logic_error("Can only exponentiate two scalars at a time.");
 	return c;
 }
+
+
+#endif
 

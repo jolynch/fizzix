@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef SUM_CPP
+#define SUM_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -31,7 +33,6 @@ using namespace std;
 Sum::Sum(int numOperands)
 {
 	Sum::numOperands=numOperands;
-	token="sum";
 	description="Finds the sum of scalars or vectors";
 }
 
@@ -50,4 +51,7 @@ const fizdatum Sum::eval(fizstack &stack, const FizObject &obj1, const triangle 
 	}
 	return sum;
 }
+
+
+#endif
 

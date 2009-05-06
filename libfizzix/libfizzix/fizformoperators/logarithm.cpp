@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef LOGARITHM_CPP
+#define LOGARITHM_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -30,7 +32,6 @@ Logarithm::Logarithm(int numOperands)
 {
 	this->numOperands=numOperands;
 	description = "Finds the log of a scalar to a base, and takes the natural log if no base is specified.";
-	token = "log";
 }
 
 const fizdatum Logarithm::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
@@ -56,4 +57,7 @@ const fizdatum Logarithm::eval(fizstack &stack, const FizObject &obj1, const tri
 	else throw std::logic_error("Cannot take a log with multiple bases.");
 	return c;
 }
+
+
+#endif
 

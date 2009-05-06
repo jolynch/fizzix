@@ -28,6 +28,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizforce.h"
 
+FizForce::FizForce(FizFormula form)
+{
+	formula = form;
+}
+
 vec3 FizForce::getForce(const FizObject& obj1,const triangle& tri1,const FizObject& obj2,const triangle& tri2)
 {
 	vec3 force;

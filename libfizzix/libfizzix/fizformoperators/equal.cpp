@@ -22,6 +22,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ************************************************************************************************/
+#ifndef EQUAL_CPP
+#define EQUAL_CPP
 
 #include "operators.h"
 using namespace FizOper;
@@ -31,7 +33,6 @@ using namespace std;
 Equal::Equal(int numOperands)
 {
 	Equal::numOperands=numOperands;
-	token="equals";
 	description="Returns true if all arguments are equal";
 }
 
@@ -59,4 +60,7 @@ const fizdatum Equal::eval(fizstack &stack, const FizObject &obj1, const triangl
 	}
 	return a;
 }
+
+
+#endif
 
