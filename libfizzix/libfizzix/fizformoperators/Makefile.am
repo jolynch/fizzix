@@ -39,7 +39,7 @@ operators.h  \
 random.cpp  \
 square.cpp \
 tanh.cpp \
-if.cpp \
+if.cpp
 
 
 

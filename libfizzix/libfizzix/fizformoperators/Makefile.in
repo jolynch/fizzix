@@ -49,7 +49,7 @@ am_libfizformoperators_la_OBJECTS = and.lo or.lo equal.lo notequal.lo \
 	difference.lo exponentiate.lo magnitude.lo product.lo sine.lo \
 	sum.lo arcsin.lo cosine.lo dot.lo factorial.lo quotient.lo \
 	sinh.lo tangent.lo vectorize.lo arctan.lo cross.lo exponent.lo \
-	logarithm.lo random.lo square.lo tanh.lo
+	logarithm.lo random.lo square.lo tanh.lo if.lo
 libfizformoperators_la_OBJECTS = $(am_libfizformoperators_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -240,7 +240,8 @@ logarithm.cpp  \
 operators.h  \
 random.cpp  \
 square.cpp \
-tanh.cpp
+tanh.cpp \
+if.cpp
 
 all: all-am
 
@@ -308,6 +309,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factorial.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/greater.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/greatereq.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/if.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/less.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lesseq.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logarithm.Plo@am__quote@
