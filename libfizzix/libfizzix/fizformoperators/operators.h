@@ -41,224 +41,224 @@ namespace FizOper
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Dot::token = ".*";	
+//	std::string Dot::token = ".*";	
 
 	class Cross: public FizFormOperator
 	{	public: Cross(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Cross::token = "if";
+//	std::string Cross::token = "if";
 
 	class Sum: public FizFormOperator
 	{	public: Sum(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Sum::token = "+";
+//	std::string Sum::token = "+";
 
 	class Difference: public FizFormOperator
 	{	public: Difference(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Difference::token = "-";
+//	std::string Difference::token = "-";
 
 	class Product: public FizFormOperator
 	{	public: Product(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Product::token = "*";
+//	std::string Product::token = "*";
 
 	class Quotient: public FizFormOperator
 	{	public: Quotient(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Quotient::token = "/";
+//	std::string Quotient::token = "/";
 
 	class Cosine: public FizFormOperator
 	{	public: Cosine(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Cosine::token = "cos";
+//	std::string Cosine::token = "cos";
 
 	class Sine: public FizFormOperator
 	{	public: Sine(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Sine::token = "sin";
+//	std::string Sine::token = "sin";
 
 	class Tangent: public FizFormOperator
 	{	public: Tangent(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Tangent::token = "tan";
+//	std::string Tangent::token = "tan";
 
 	class Arcsin: public FizFormOperator
 	{	public: Arcsin(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Arcsin::token = "asin";
+//	std::string Arcsin::token = "asin";
 
 	class Arccos: public FizFormOperator
 	{	public: Arccos(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Arccos::token = "acos";
+//	std::string Arccos::token = "acos";
 
 	class Arctan: public FizFormOperator
 	{	public: Arctan(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Arctan::token = "atan";
+//	std::string Arctan::token = "atan";
 
 	class Sinh: public FizFormOperator
 	{	public: Sinh(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Sinh::token = "sinh";
+//	std::string Sinh::token = "sinh";
 
 	class Cosh: public FizFormOperator
 	{	public: Cosh(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Cosh::token = "cosh";
+//	std::string Cosh::token = "cosh";
 
 	class Tanh: public FizFormOperator
 	{	public: Tanh(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Tanh::token = "tanh";
+//	std::string Tanh::token = "tanh";
 
 	class Factorial: public FizFormOperator
 	{	public: Factorial(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Factorial::token = "!";
+//	std::string Factorial::token = "!";
 
 	class Magnitude: public FizFormOperator
 	{	public: Magnitude(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Magnitude::token = "mag";
+//	std::string Magnitude::token = "mag";
 
 	class Square: public FizFormOperator
 	{	public: Square(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Square::token = "square";
+//	std::string Square::token = "square";
 
 	class Exponent: public FizFormOperator
 	{	public: Exponent(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Exponent::token = "^";
+//	std::string Exponent::token = "^";
 
 	class Exponentiate: public FizFormOperator
 	{	public: Exponentiate(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Exponentiate::token = "exp";
+//	std::string Exponentiate::token = "exp";
 
 	class Random: public FizFormOperator
 	{	public: Random(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Random::token = "rand";
+//	std::string Random::token = "rand";
 
 	class Vectorize: public FizFormOperator
 	{	public: Vectorize(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Vectorize::token = "vector";
+//	std::string Vectorize::token = "vector";
 
 	class Logarithm: public FizFormOperator
 	{	public: Logarithm(int numOperands);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2);
 		static std::string token;
 	};
-	std::string Logarithm::token = "log";
+//	std::string Logarithm::token = "log";
 
 	class If: public FizFormOperator
 	{	public: If(int numOperands);
 		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		static std::string token;
 	};
-	std::string If::token = "if";
+//	std::string If::token = "if";
 
 	class And: public FizFormOperator
 	{	public: And(int numOperands);
 		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		static std::string token;
 	};
-	std::string And::token = "&";
+//	std::string And::token = "&";
 
 	class Or: public FizFormOperator
 	{	public: Or(int numOperands);
 		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		static std::string token;
 	};
-	std::string Or::token = "|";
+//	std::string Or::token = "|";
 	
 	class Equal: public FizFormOperator
 	{	public: Equal(int numOperands);
 		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		static std::string token;
 	};
-	std::string Equal::token = "=";
+//	std::string Equal::token = "=";
 
 	class Notequal: public FizFormOperator
 	{	public: Notequal(int numOperands);
 		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		static std::string token;
 	};
-	std::string Notequal::token = "!=";
+//	std::string Notequal::token = "!=";
 
 	class Greater: public FizFormOperator
 	{	public: Greater(int numOperands);
 		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		static std::string token;
 	};
-	std::string Greater::token = ">";
+//	std::string Greater::token = ">";
 
 	class Greatereq: public FizFormOperator
 	{	public: Greatereq(int numOperands);
 		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		static std::string token;
 	};
-	std::string Greatereq::token = ">=";
+//	std::string Greatereq::token = ">=";
 
 	class Less: public FizFormOperator
 	{	public: Less(int numOperands);
 		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		static std::string token;
 	};
-	std::string Less::token = "<";
+//	std::string Less::token = "<";
 
 	class Lesseq: public FizFormOperator
 	{	public: Lesseq(int numOperands);
 		const fizdatum eval(fizstack& stack, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		static std::string token;
 	};
-	std::string Lesseq::token = "<=";
+//	std::string Lesseq::token = "<=";
 
 }
 

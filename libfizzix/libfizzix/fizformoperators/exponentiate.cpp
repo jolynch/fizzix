@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "operators.h"
 using namespace FizOper;
+std::string Exponentiate::token = "exp";
 
 Exponentiate::Exponentiate(int numOperands)
 {

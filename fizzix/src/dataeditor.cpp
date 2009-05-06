@@ -47,9 +47,12 @@ DataEditor::DataEditor(DataBackend * _db,QDesktopWidget * d):QDockWidget(tr("Dat
 	
 	centerL=new QStackedLayout();
 	centerL->insertWidget(none, new QLabel("Nothing selected to edit"));
-	centerL->insertWidget(objectLoaded, new QLabel("Object Editor Goes Here"));
-	centerL->insertWidget(forceLoaded, new QLabel("Formula Editor Goes Here"));
-	centerL->insertWidget(macroLoaded, new QLabel("Formula Editor Goes Here"));
+	objectEditor=new ObjectEditor();
+	centerL->insertWidget(objectLoaded, objectEditor);
+	forceEditor=new ForceEditor();
+	centerL->insertWidget(forceLoaded, forceEditor);
+	macroEditor=new FormulaEditor();
+	centerL->insertWidget(macroLoaded,macroEditor);
 	constEditor=new ConstantEditor();
 	QObject::connect(constEditor,SIGNAL(saveChanges()),this,SLOT(saveChanges()));
 	centerL->insertWidget(constantLoaded,constEditor);
@@ -67,7 +70,11 @@ bool DataEditor::checkToSave()
 	bool needsSave=false;
 	switch(curr)
 	{
+		case objectLoaded: needsSave=objectEditor->hasChanges(); break;
+		case forceLoaded: needsSave=forceEditor->hasChanges(); break;
+		case macroLoaded: needsSave=macroEditor->hasChanges(); break;
 		case constantLoaded: needsSave=constEditor->hasChanges(); break;
+		default: break;
 	};
 	if(needsSave)
 	{
@@ -91,6 +98,7 @@ void DataEditor::loadObject(QString n)
 	this->setWindowTitle("Object editor");
 	loadName=n;
 	name->setText(loadName);
+	objectEditor->setData(db->getObjectModel()->getData()->value(loadName));
 	curr=objectLoaded;
 	centerL->setCurrentIndex(curr);
 }
@@ -101,6 +109,7 @@ void DataEditor::loadForce(QString n)
 	this->setWindowTitle("Force editor");
 	loadName=n;
 	name->setText(loadName);
+	forceEditor->setData(db->getForceModel()->getData()->value(loadName));
 	curr=forceLoaded;
 	centerL->setCurrentIndex(curr);
 }
@@ -111,6 +120,7 @@ void DataEditor::loadMacro(QString n)
 	this->setWindowTitle("Macro editor");
 	loadName=n;
 	name->setText(loadName);
+	macroEditor->setData(db->getMacroModel()->getData()->value(loadName));
 	curr=macroLoaded;
 	centerL->setCurrentIndex(curr);
 }
@@ -134,16 +144,22 @@ void DataEditor::saveChanges()
 		case objectLoaded:
 			if(name->text()!=loadName)
 				db->getDataInserter()->renameObject(loadName,newName);
+			if(objectEditor->hasChanges())
+				db->getDataInserter()->modifyObject(newName,objectEditor->getData());
 			this->loadObject(newName);
 			break;
 		case forceLoaded:
 			if(name->text()!=loadName)
 				db->getDataInserter()->renameForce(loadName,newName);
+			if(forceEditor->hasChanges())
+				db->getDataInserter()->modifyForce(newName,forceEditor->getData());
 			this->loadForce(newName);
 			break;
 		case macroLoaded:
 			if(name->text()!=loadName)
 				db->getDataInserter()->renameMacro(loadName,newName);
+			if(macroEditor->hasChanges())
+				db->getDataInserter()->modifyMacro(newName,macroEditor->getData());
 			this->loadMacro(newName);
 			break;
 		case constantLoaded:

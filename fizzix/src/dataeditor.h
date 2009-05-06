@@ -60,7 +60,7 @@ class DataEditor:public QDockWidget
 		ConstantEditor * constEditor;
 		ObjectEditor * objectEditor;
 		ForceEditor * forceEditor;
-		FormulaEditor * formulaEditor;
+		FormulaEditor * macroEditor;
 	public:
 		DataEditor (DataBackend * _db, QDesktopWidget * d);
 		bool checkToSave();

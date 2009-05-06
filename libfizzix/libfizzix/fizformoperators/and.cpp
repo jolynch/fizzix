@@ -30,6 +30,8 @@ using namespace FizOper;
 
 using namespace std;
 
+std::string And::token = "&";
+
 And::And(int numOperands)
 {
 	And::numOperands=numOperands;
