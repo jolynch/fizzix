@@ -20,6 +20,8 @@ src/constanteditor.h \
 src/objecteditor.h \
 src/forceeditor.h \
 src/formulaeditor.h \
+src/shapeeditor.h \
+src/propertylisteditor.h \
 src/databackend/databackend.h \
 src/simulationcontrol.h \
 src/databackend/drawableobject.h \
@@ -36,6 +38,8 @@ src/constanteditor.cpp \
 src/objecteditor.cpp \
 src/forceeditor.cpp \
 src/formulaeditor.cpp \
+src/shapeeditor.cpp \
+src/propertylisteditor.cpp \
 src/databackend/databackend.cpp \
 src/simulationcontrol.cpp \
 src/databackend/drawableobject.cpp \

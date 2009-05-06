@@ -241,7 +241,7 @@ void GLDrawPane::initializeGL()
 
 void GLDrawPane::paintGL()
 {
-  vector<triangle *> triangles = DrawableObject::makeSphere(.5);
+//  vector<triangle *> triangles = DrawableObject::makeSphere(.5);
 	vec3 color(1,.5,1);
 	vec3 position(0,0,0);
 	Quaternion q;
@@ -264,7 +264,7 @@ void GLDrawPane::paintGL()
 	for (int i = 0;i < (int)objs.size();i++) {
 	  drawObject(*(objs[i]));
 	  }*/
-	drawObject(triangles,color,position,q,false,true);
+//	drawObject(triangles,color,position,q,false,true);
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom*sideToZoom,pos[0],pos[1],pos[2]),.25,true);
 	glDisable(GL_BLEND);

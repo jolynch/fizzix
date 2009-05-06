@@ -2,17 +2,25 @@
 #define OBJECTEDITOR_CPP
 #include "objecteditor.h"
 
-ObjectEditor::ObjectEditor():QWidget()
+ObjectEditor::ObjectEditor():QTabWidget()
 {
+	shape=new ShapeEditor();
+	this->addTab(shape,"Shape");
+	plist=new PropertyListEditor();
+	this->addTab(plist,"Properties");
 	hChanges=false;
 }
 
 bool ObjectEditor::hasChanges()
-{return hChanges;}
+{return hChanges||plist->hasChanges()||shape->hasChanges();}
 
 DrawableObject * ObjectEditor::getData()
 {
-	return &tempData;
+	hChanges=false;
+	DrawableObject * out=new DrawableObject("Temp name",shape->getData());
+	plist->getAdditionalData(out);
+	shape->getAdditionalData(out);
+	return out;
 }
 
 void ObjectEditor::changes()
@@ -20,7 +28,8 @@ void ObjectEditor::changes()
 
 void ObjectEditor::setData(DrawableObject f)
 {
-	tempData=f;
+	shape->setData(f);
+	plist->setData(f);
 	hChanges=false;
 }
 

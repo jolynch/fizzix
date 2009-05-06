@@ -318,6 +318,15 @@ void FizObject::setMass(double newmass)			{ mass = newmass;
 const std::string FizObject::getName() const		{ return name; }
 void FizObject::setName(std::string newname)		{ name = newname;}
 
+
+std::vector<std::string> FizObject::getSetProperties() const
+{
+	std::vector<std::string> v;
+	for(std::map<std::string, fizdatum>::const_iterator it = props.begin();	it != props.end();	++it)
+		{v.push_back(it->first);}
+	return v;
+}
+
 fizdatum FizObject::getProperty(std::string key) const
 {
 	if(contains(key))

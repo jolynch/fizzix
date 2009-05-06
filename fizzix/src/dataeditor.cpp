@@ -46,7 +46,9 @@ DataEditor::DataEditor(DataBackend * _db,QDesktopWidget * d):QDockWidget(tr("Dat
 	layout->addWidget(cancel_PB,2,4);
 	
 	centerL=new QStackedLayout();
-	centerL->insertWidget(none, new QLabel("Nothing selected to edit"));
+	QLabel * blankLabel=new QLabel("Nothing selected to edit");
+	blankLabel->setAlignment(Qt::AlignCenter);
+	centerL->insertWidget(none, blankLabel);
 	objectEditor=new ObjectEditor();
 	centerL->insertWidget(objectLoaded, objectEditor);
 	forceEditor=new ForceEditor();

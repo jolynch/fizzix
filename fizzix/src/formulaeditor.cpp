@@ -9,6 +9,7 @@ FormulaEditor::FormulaEditor():QWidget()
 	layout->addWidget(new QLabel("Value ="),0,0);
 	formEdit=new QTextEdit();
 	formEdit->setAcceptRichText(false);
+	QObject::connect(formEdit,SIGNAL(textChanged()),this,SLOT(changes()));
 	layout->addWidget(formEdit,1,0,1,3);
 	QPushButton * showAvailSym=new QPushButton("Show Available Symbols");
 	showAvailSym->setEnabled(false);
@@ -21,6 +22,7 @@ bool FormulaEditor::hasChanges()
 
 FizFormula * FormulaEditor::getData()
 {
+	hChanges=false;
 	return &tempData;
 }
 

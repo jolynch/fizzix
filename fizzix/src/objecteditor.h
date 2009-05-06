@@ -3,14 +3,16 @@
 #include <QWidget>
 #include <QTabWidget>
 
+#include "shapeeditor.h"
+#include "propertylisteditor.h"
 #include "databackend/drawableobject.h"
 
-class ObjectEditor:public QWidget
+class ObjectEditor:public QTabWidget
 {	Q_OBJECT
 	private:
 		bool hChanges;
-		
-		DrawableObject tempData;
+		ShapeEditor * shape;
+		PropertyListEditor * plist;
 	public:
 		ObjectEditor();
 		bool hasChanges();

@@ -197,9 +197,10 @@ class FizObject
 
 		const std::string getName() const;
 		void setName(std::string newname);
-
+		
 		/** User defined properties
 		 */
+		std::vector<std::string> getSetProperties() const;
 		fizdatum getProperty(std::string key) const;
 		void setProperty(std::string key, fizdatum);
 		//Returns the number of elements removed (0 for none, 1 for one ...)	

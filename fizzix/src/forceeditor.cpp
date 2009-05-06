@@ -21,12 +21,12 @@ ForceEditor::ForceEditor():QWidget()
 }
 
 bool ForceEditor::hasChanges()
-{return hChanges;}
+{return hChanges||formEdit->hasChanges();}
 
 FizForce * ForceEditor::getData()
 {
-	return new FizForce(*(formEdit->getData()));
 	hChanges=false;
+	return new FizForce(*(formEdit->getData()));
 }
 
 void ForceEditor::changes()
