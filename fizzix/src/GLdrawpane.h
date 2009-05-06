@@ -2,13 +2,14 @@
 #define GLDRAWPANE_H
 
 #include <vector>
-#include "databackend/drawableobject.h"
 #include <QGLWidget>
 #include <QMouseEvent>
 #include <libfizzix/gen_structs.h>
 #include <libfizzix/quaternion.h>
 
-enum View {XY,YZ,ZX,ISOMETRIC}; 
+#include "databackend/drawableobject.h"
+
+enum View {XY,YZ,ZX,ISOMETRIC};
 
 class GLDrawPane: public QGLWidget
 { Q_OBJECT

@@ -240,32 +240,7 @@ void GLDrawPane::initializeGL()
 
 void GLDrawPane::paintGL()
 {
-	vertex * vertices = new vertex[8];
-	double r = 2;
-	r *= sideToZoom;
-	vertices[0] = vertex(r,r,r);
-	vertices[1] = vertex(r,r,-r);
-	vertices[2] = vertex(r,-r,r);
-	vertices[3] = vertex(r,-r,-r);
-	vertices[4] = vertex(-r,r,r);
-	vertices[5] = vertex(-r,r,-r);
-	vertices[6] = vertex(-r,-r,r);
-	vertices[7] = vertex(-r,-r,-r);
-
-	vector<triangle *> triangles;
-	triangles.push_back(new triangle(vertices+0,vertices+2,vertices+1));
-	triangles.push_back(new triangle(vertices+1,vertices+2,vertices+3));
-	triangles.push_back(new triangle(vertices+4,vertices+5,vertices+6));
-	triangles.push_back(new triangle(vertices+6,vertices+5,vertices+7));
-	triangles.push_back(new triangle(vertices+0,vertices+1,vertices+4));
-	triangles.push_back(new triangle(vertices+4,vertices+1,vertices+5));
-	triangles.push_back(new triangle(vertices+2,vertices+6,vertices+3));
-	triangles.push_back(new triangle(vertices+3,vertices+6,vertices+7));
-	triangles.push_back(new triangle(vertices+0,vertices+4,vertices+2));
-	triangles.push_back(new triangle(vertices+2,vertices+4,vertices+6));
-	triangles.push_back(new triangle(vertices+1,vertices+3,vertices+5));
-	triangles.push_back(new triangle(vertices+5,vertices+3,vertices+7));
-
+	vector<triangle *> triangles = DrawableObject::makeSphere(1);
 	vec3 color(1,.5,1);
 	vec3 position(0,0,0);
 	Quaternion q;
@@ -288,14 +263,12 @@ void GLDrawPane::paintGL()
 	for (int i = 0;i < (int)objs.size();i++) {
 	  drawObject(*(objs[i]));
 	  }*/
-	drawObject(triangles,color,position,q,false,true);
+	drawObject(triangles,color,position,q,false,false);
 	glEnable(GL_BLEND);
 	drawBox(GLDrawPane::boxFrontFaces(maxZoom*sideToZoom,pos[0],pos[1],pos[2]),.25,true);
 	glDisable(GL_BLEND);
 	
-	delete[] vertices;
 	delete[] toUse;
-	for (int i = 0;i < (int)triangles.size();i++) delete triangles[i];
 }
 
 void GLDrawPane::resizeGL(int _width,int _height)

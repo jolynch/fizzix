@@ -107,6 +107,7 @@ struct vec4
 	triangle& operator()(int index); 
 	
 	void add_triangle(triangle* t);
+	void clear_triangles();
 	vertex(double _x, double _y, double _z);
 	vertex();
 };
@@ -122,7 +123,7 @@ struct triangle
 	const vertex operator[](int index) const;
 	vertex& operator[](int index);
 	
-	triangle(vertex * v1, vertex * v2, vertex * v3);
+	triangle(vertex * v1, vertex * v2, vertex * v3, bool add = true);
 	triangle();
 };
 

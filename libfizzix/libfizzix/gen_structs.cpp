@@ -227,10 +227,16 @@ void vertex::add_triangle(triangle * t)
 {
 	triangles.push_back(t);
 }
+
+void vertex::clear_triangles()
+{
+	triangles.clear();
+}
+
 /******************* VERTEX *******************/
 
 /****************** TRIANGLE ******************/
-triangle::triangle(vertex* v1, vertex* v2, vertex* v3)
+triangle::triangle(vertex* v1, vertex* v2, vertex* v3, bool add)
 {
 	vertices[0] = v1; vertices[1] =  v2; vertices[2] = v3;
 	vertex& vr1 = *v1;vertex& vr2 = *v2;vertex& vr3 = *v3;
@@ -241,9 +247,12 @@ triangle::triangle(vertex* v1, vertex* v2, vertex* v3)
 	unit_normal = vec3(normal[0]/normal.mag(), 
 			   normal[1]/normal.mag(), 
 			   normal[2]/normal.mag());
-	v1->add_triangle(this);
-	v2->add_triangle(this);
-	v3->add_triangle(this);
+	if (add)
+	{
+		v1->add_triangle(this);
+		v2->add_triangle(this);
+		v3->add_triangle(this);
+	}
 }
 
 triangle::triangle()
