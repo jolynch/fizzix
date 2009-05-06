@@ -87,6 +87,7 @@ class FizEngine
 		*/
 		void collisions(FizObject& obj1, FizObject& obj2);
 		void collide(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2, vec3 normal, point p);
+		void collisionDetect(FizObject& obj1, FizObject& obj2, vec3 direction, triangle& tri1, triangle& tri2);
 
 		/** Applys the force and torque on ob1 using a Runge-Kutta foruth order solver
 		* 

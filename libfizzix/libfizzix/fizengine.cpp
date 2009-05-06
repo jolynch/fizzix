@@ -301,7 +301,46 @@ void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
 	{
 		//TODO: check if actually colliding
 		//TODO: find where collision is
+		triangle tri1 = triangle();
+		triangle tri2 = triangle();
+		collisionDetect(obj1, obj2, direction, tri1, tri2);
 		//TODO: call collide
+		collide(obj1, tri1, obj2, tri2, direction, point());
+	}
+}
+
+//currently assumes a sphere
+void FizEngine::collisionDetect(FizObject& obj1, FizObject& obj2, vec3 direction, triangle& tri1, triangle& tri2)
+{
+	double delta = .001;
+	std::vector<triangle*> tris1 = obj1.getVertices();
+	std::vector<triangle*> tris2 = obj2.getVertices();
+	double mag = 50;
+	for (int i = 0; i < tris1.size(); i++)
+	{
+		triangle temptri = *(tris1[i]);
+		double tempmag = temptri.unit_normal.cross(direction).mag();
+		if (tempmag < delta)
+		{
+			if (tempmag < mag)
+			{
+				tri1 = temptri;
+				mag = tempmag;
+			}
+		}
+	}
+	for (int i = 0; i < tris2.size(); i++)
+	{
+		triangle temptri = *(tris2[i]);
+		double tempmag = temptri.unit_normal.cross(direction).mag();
+		if (tempmag < delta)
+		{
+			if (tempmag < mag)
+			{
+				tri2 = temptri;
+				mag = tempmag;
+			}
+		}
 	}
 }
 
