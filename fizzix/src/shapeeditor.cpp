@@ -1,6 +1,7 @@
 #ifndef SHAPEEDITOR_CPP
 #define SHAPEEDITOR_CPP
 #include "shapeeditor.h"
+#include <QDebug>
 
 ShapeEditor::ShapeEditor():QWidget()
 {
@@ -56,6 +57,17 @@ std::vector<triangle *> ShapeEditor::getData()
 		case SPHERE: return DrawableObject::makeSphere(redit->text().toDouble());
 		default: return std::vector<triangle *> ();
 	};
+}
+
+void ShapeEditor::setProperties(DrawableObject * _o)
+{
+	switch(shapeSelect->currentIndex())
+	{
+		case PRISM:break;
+		case CYLINDER: _o->setProperty(SMOOTH,true);break;
+		case SPHERE: _o->setProperty(SMOOTH,true);break;
+		default:break;
+	}
 }
 
 DrawableObject * ShapeEditor::getAdditionalData(DrawableObject * _o)

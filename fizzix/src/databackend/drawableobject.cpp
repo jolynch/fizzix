@@ -36,7 +36,7 @@ DrawableObject::DrawableObject(string newname, vec3 color, vector<triangle*> ini
 
 bool DrawableObject::getProperty(Bit bit) const
 {
-	return ((bool)((properties & (1 << bit))) >> bit);
+	return ((bool)(((properties & (1 << bit))) >> bit));
 }
 
 int DrawableObject::getProperties() const
@@ -47,7 +47,7 @@ int DrawableObject::getProperties() const
 void DrawableObject::setProperty(Bit bit, bool set)
 {
 	properties|=(((int)set) << bit);
-	properties&=(((int)set) << bit);
+	properties&=~(((int)!set) << bit);
 }
 
 void DrawableObject::setProperties(int props)
