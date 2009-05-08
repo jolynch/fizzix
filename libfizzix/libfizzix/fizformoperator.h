@@ -43,7 +43,7 @@ namespace FizOper
 		public:
 			//static std::string token;
 			virtual const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2) =0; /* Gets the value of the node */
-			virtual const std::string toString(fizstack& stack);
+			virtual const std::string toString(fizstack& stack) =0;
 	};
 	//std::string FizFormOperator::token = "generic_operator";
 }

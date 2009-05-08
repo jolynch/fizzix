@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizformula.h"
 
-FizFormula::FizFormula() {}
+FizFormula::FizFormula() {stack=fizstack();}
 
 FizFormula::FizFormula(fizstack stk) : stack(stk) {}
 
@@ -48,6 +48,7 @@ bool FizFormula::isSymmetric()
 
 std::string FizFormula::toString()
 {
+	if(stack.size()==0) return "Formula empty";
 	stack.reset();
 	std::string oper = stack.pop()->toString(stack);
 	stack.reset();	
