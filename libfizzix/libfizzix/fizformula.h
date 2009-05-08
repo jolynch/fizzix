@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define FIZFORMULA_H
 
 #include <vector>
+#include <string>
 #include <stack>
 
 #include "fizformnode.h"
@@ -51,6 +52,7 @@ class FizFormula
 		//const std::vector<FizFormNode> getStack();
 		const fizstack getStack();
 		bool isSymmetric();
+		std::string toString();
 };
 
 #endif

@@ -52,6 +52,16 @@ const fizdatum FizOper::Difference::eval(fizstack &stack, const FizObject &obj1,
 	return diff;
 }
 
+const std::string Difference::toString(fizstack& stack)
+{
+	std::string val = "";
+	for(int i=0;i<numOperands;i++)
+	{
+		val = " "+stack.pop()->toString() + val;
+	}
+	val = "("+token+val+")";
+}
+
 
 #endif
 

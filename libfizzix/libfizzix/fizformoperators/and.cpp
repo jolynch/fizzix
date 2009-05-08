@@ -38,7 +38,7 @@ And::And(int numOperands)
 	description="Returns true if supplied\"booleans\" are all true";
 }
 
-const fizdatum And::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
+const fizdatum And::eval(fizstack& stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
 	fizdatum a = fizdatum(1.0);
 	for (int i = 0; i < numOperands; i++)
@@ -55,6 +55,15 @@ const fizdatum And::eval(fizstack &stack, const FizObject &obj1, const triangle 
 	return a;
 }
 
+const std::string And::toString(fizstack& stack)
+{
+	std::string val = "";
+	for(int i=0;i<numOperands;i++)
+	{
+		val = " "+stack.pop()->toString() + val;
+	}
+	val = "("+token+val+")";
+}
 
 #endif
 

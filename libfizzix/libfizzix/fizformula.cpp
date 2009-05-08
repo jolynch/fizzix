@@ -45,3 +45,11 @@ bool FizFormula::isSymmetric()
 {
 	return symmetric;
 }
+
+std::string FizFormula::toString()
+{
+	stack.reset();
+	std::string oper = stack.pop()->toString();
+	stack.reset();	
+	return oper;
+}

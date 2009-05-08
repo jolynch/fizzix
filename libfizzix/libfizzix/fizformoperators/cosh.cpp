@@ -51,6 +51,17 @@ const fizdatum Cosh::eval(fizstack &stack, const FizObject &obj1, const triangle
 	return c;
 }
 
+const std::string Cosh::toString(fizstack& stack)
+{
+	std::string val = "";
+	for(int i=0;i<numOperands;i++)
+	{
+		val = " "+stack.pop()->toString() + val;
+	}
+	val = "("+token+val+")";
+}
+
+
 
 #endif
 
