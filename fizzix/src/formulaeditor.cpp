@@ -32,8 +32,8 @@ void FormulaEditor::changes()
 
 void FormulaEditor::setData(FizFormula f)
 {
-	formEdit->setPlainText("String not available");
-//	formEdit->setPlainText((f.toString()));
+//	formEdit->setPlainText("String not available");
+	formEdit->setPlainText(QString::fromStdString(f.toString()));
 	hChanges=false;
 }
 
