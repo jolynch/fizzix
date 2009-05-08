@@ -54,6 +54,15 @@ const fizdatum Magnitude::eval(fizstack &stack, const FizObject &obj1, const tri
 	return c;
 }
 
+const std::string Magnitude::toString(fizstack& stack)
+{
+	std::string val = "";
+	for(int i=0;i<numOperands;i++)
+	{
+		val = " "+stack.pop()->toString(stack) + val;
+	}
+	val = "("+token+val+")";
+}
 
 #endif
 

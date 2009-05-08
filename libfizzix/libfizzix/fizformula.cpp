@@ -49,7 +49,7 @@ bool FizFormula::isSymmetric()
 std::string FizFormula::toString()
 {
 	stack.reset();
-	std::string oper = stack.pop()->toString();
+	std::string oper = stack.pop()->toString(stack);
 	stack.reset();	
 	return oper;
 }

@@ -53,6 +53,15 @@ const fizdatum Exponent::eval(fizstack &stack, const FizObject &obj1, const tria
 	return c;
 }
 
+const std::string Exponent::toString(fizstack& stack)
+{
+	std::string val = "";
+	for(int i=0;i<numOperands;i++)
+	{
+		val = " "+stack.pop()->toString(stack) + val;
+	}
+	val = "("+token+val+")";
+}
 
 #endif
 

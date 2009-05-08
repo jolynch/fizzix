@@ -46,5 +46,15 @@ const fizdatum Square::eval(fizstack &stack, const FizObject &obj1, const triang
 	return b;
 }
 
+const std::string Square::toString(fizstack& stack)
+{
+	std::string val = "";
+	for(int i=0;i<numOperands;i++)
+	{
+		val = " "+stack.pop()->toString(stack) + val;
+	}
+	val = "("+token+val+")";
+}
+
 #endif
 

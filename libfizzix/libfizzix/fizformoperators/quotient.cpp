@@ -67,5 +67,15 @@ const fizdatum Quotient::eval(fizstack &stack, const FizObject &obj1, const tria
 	return quotient;
 }
 
+const std::string Quotient::toString(fizstack& stack)
+{
+	std::string val = "";
+	for(int i=0;i<numOperands;i++)
+	{
+		val = " "+stack.pop()->toString(stack) + val;
+	}
+	val = "("+token+val+")";
+}
+
 #endif
 

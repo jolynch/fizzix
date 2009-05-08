@@ -52,6 +52,15 @@ const fizdatum Less::eval(fizstack &stack, const FizObject &obj1, const triangle
 	return a;
 }
 
+const std::string Less::toString(fizstack& stack)
+{
+	std::string val = "";
+	for(int i=0;i<numOperands;i++)
+	{
+		val = " "+stack.pop()->toString(stack) + val;
+	}
+	val = "("+token+val+")";
+}
 
 #endif
 

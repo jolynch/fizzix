@@ -48,5 +48,15 @@ const fizdatum Vectorize::eval(fizstack &stack, const FizObject &obj1, const tri
 	return d;
 }
 
+const std::string Vectorize::toString(fizstack& stack)
+{
+	std::string val = "";
+	for(int i=0;i<numOperands;i++)
+	{
+		val = " "+stack.pop()->toString(stack) + val;
+	}
+	val = "<"+val.substr(1)+">";
+}
+
 #endif
 

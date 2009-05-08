@@ -52,6 +52,15 @@ const fizdatum Greater::eval(fizstack &stack, const FizObject &obj1, const trian
 	return a;
 }
 
+const std::string Greater::toString(fizstack& stack)
+{
+	std::string val = "";
+	for(int i=0;i<numOperands;i++)
+	{
+		val = " "+stack.pop()->toString(stack) + val;
+	}
+	val = "("+token+val+")";
+}
 
 #endif
 
