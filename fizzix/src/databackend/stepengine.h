@@ -15,11 +15,12 @@ class StepEngine:public QObject
 		DataBackend * db;
 		double dt;
 		void step();
+		FizEngine eng;
 	public:
-		FizEngine(double _dt, DataBackend * _db);
+		StepEngine(double _dt, DataBackend * _db, FizEngine _eng);
 		void run();
 	signals:
-		void newDataAvailable();s
+		void newDataAvailable();
 };
 
 
