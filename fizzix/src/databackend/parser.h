@@ -120,12 +120,15 @@ class Parser
 						} 
 						//e_iter--;
 						qDebug()<<"RECURING WITH"<<input.mid(iter,next-iter);
-						int operand_count;
+						int operand_count = 0;
 						fizstack operands = Parser::parse(input.mid(iter,next-iter), operand_count);
 						iter = next;
 						for(int i = 0; i<operands.size();i++)
 							stack.push(operands[i]);
+						
+						qDebug()<<"PUSHING AN OPERATOR"<<oper<<"WITH"<<operand_count<<"OPERANDS";
 						stack.push(getOperator(oper, operand_count));
+						num += 1;
 						break;
 					}
 					case '"':
@@ -187,12 +190,12 @@ class Parser
 					{
 						if(!isspace(input[iter].toAscii()))
 						{
-							QString num = "";
+							QString val = "";
 							for(; !isspace(input[iter].toAscii()) && iter < e_iter; iter++)
-								num+=input[iter]; 
-							qDebug()<<"FOUND ANONCONST:"<<num<<num.toDouble();
+								val+=input[iter]; 
+							qDebug()<<"FOUND ANONCONST:"<<val<<val.toDouble();
 							//NOTE, for some reason this won't compile UNCOMMENT
-							fizdatum f(num.toDouble());
+							fizdatum f(val.toDouble());
 							stack.push(new FizFormAnonConst(f)); 
 							num += 1;
 						}
@@ -208,7 +211,11 @@ class Parser
 // 				qDebug()<<iter;
 				iter++;
 			}
-			qDebug()<<"Done";
+			qDebug()<<"Done"<<"FOUND: "<<num<<"arguments";
+			stack.reset();
+			qDebug()<<stack.pop()<< stack.size();
+			//qDebug()<<"DONE PARSING:"<<QString(stack.pop()->toString(stack).c_str());
+			stack.reset();
 			return stack;
 		}
 		
