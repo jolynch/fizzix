@@ -27,8 +27,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef SIMULATIONCONTROL_H
 #define SIMULATIONCONTROL_H
 #include <QPushButton>
+#include <QLabel>
 #include <QDockWidget>
 #include <QDesktopWidget>
+#include "stepengine.h"
 
 /*@class SimulationControl
  @brief Provides a panel to control Simulation running*/
@@ -36,6 +38,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class SimulationControl:public QDockWidget
 {	Q_OBJECT
 	private:
+		QLabel * status;
+		QLabel * currentTime;
+		QPushButton * play_pause;
+		QPushButton * stop;
+		QPushButton * reset;
 	public:
 		SimulationControl ();
 };
