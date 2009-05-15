@@ -31,7 +31,10 @@ using namespace std;
 
 FizFormAnonConst::FizFormAnonConst() {value = fizdatum(0);}
 
-FizFormAnonConst::FizFormAnonConst(const fizdatum val) : value(val) {};
+FizFormAnonConst::FizFormAnonConst(fizdatum val)
+{
+	value = val;
+}
 
 const fizdatum FizFormAnonConst::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
@@ -48,6 +51,12 @@ const std::string FizFormAnonConst::toString(fizstack& stack)
 	else
 		return "NIL";
 	return o.str();
+}
+
+//for testing purposes
+const fizdatum FizFormAnonConst::getValue()
+{
+	return value;
 }
 
 #endif

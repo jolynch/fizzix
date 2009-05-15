@@ -58,7 +58,7 @@ const std::string Sum::toString(fizstack& stack)
 	std::string val = "";
 	for(int i=0;i<numOperands;i++)
 	{
-		val = " "+stack.pop()->toString(stack) + val;
+		val = " " + stack.pop()->toString(stack) + val;
 	}
 	val = "("+token+val+")";
 }

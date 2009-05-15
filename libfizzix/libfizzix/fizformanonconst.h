@@ -41,6 +41,8 @@ class FizFormAnonConst:public FizFormNode
 		FizFormAnonConst(fizdatum val);
 		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Returns the constant */
 		const std::string toString(fizstack& stack);
+		//for testing purposes
+		const fizdatum getValue();
 };
 
 #endif
