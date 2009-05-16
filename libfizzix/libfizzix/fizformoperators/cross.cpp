@@ -61,6 +61,7 @@ const std::string Cross::toString(fizstack& stack)
 		val = " "+stack.pop()->toString(stack) + val;
 	}
 	val = "("+token+val+")";
+	return val;
 }
 
 

@@ -59,6 +59,7 @@ const std::string Arccos::toString(fizstack& stack)
 		val = " "+stack.pop()->toString(stack) + val;
 	}
 	val = "("+token+val+")";
+	return val;
 }
 
 

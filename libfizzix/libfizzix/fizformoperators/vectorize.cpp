@@ -56,6 +56,7 @@ const std::string Vectorize::toString(fizstack& stack)
 		val = " "+stack.pop()->toString(stack) + val;
 	}
 	val = "<"+val.substr(1)+">";
+	return val;
 }
 
 #endif

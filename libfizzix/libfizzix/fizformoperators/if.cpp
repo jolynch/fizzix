@@ -68,6 +68,7 @@ const std::string If::toString(fizstack& stack)
 		val = " "+stack.pop()->toString(stack) + val;
 	}
 	val = "("+token+val+")";
+	return val;
 }
 
 #endif

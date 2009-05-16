@@ -59,6 +59,7 @@ const std::string Tangent::toString(fizstack& stack)
 		val = " "+stack.pop()->toString(stack) + val;
 	}
 	val = "("+token+val+")";
+	return val;
 }
 
 #endif
