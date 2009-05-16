@@ -59,9 +59,9 @@ const fizdatum Quotient::eval(fizstack &stack, const FizObject &obj1, const tria
 		else
 		{
 			quotient.type = VECTOR;
-			quotient.vector[0] = next.vector[0]/quotient.scalar;
-			quotient.vector[1] = next.vector[1]/quotient.scalar;
-			quotient.vector[2] = next.vector[2]/quotient.scalar;
+			quotient.vector[0] = next.vector[0]*quotient.scalar;
+			quotient.vector[1] = next.vector[1]*quotient.scalar;
+			quotient.vector[2] = next.vector[2]*quotient.scalar;
 		}
 	}
 	return quotient;
