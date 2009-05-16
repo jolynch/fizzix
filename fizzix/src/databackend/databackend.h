@@ -42,6 +42,9 @@ class DataBackend:public QObject
 		void toggleDataLock();
 		void applyDataChange(QUndoCommand * c);
 		void applyUnpredictableDataChange(QUndoCommand * c);
+
+	signals:
+		void dataLocked(bool locked);
 };
 
 #endif

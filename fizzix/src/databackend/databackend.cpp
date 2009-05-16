@@ -39,7 +39,10 @@ ChangeFactory * DataBackend::getDataInserter()
 {return dataInserter;}
 
 void DataBackend::toggleDataLock()
-{dataLock=!dataLock;}
+{
+	dataLock=!dataLock;
+	emit dataLocked(dataLock);
+}
 
 void DataBackend::applyDataChange(QUndoCommand * c)
 {

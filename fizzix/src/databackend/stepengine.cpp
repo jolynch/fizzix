@@ -2,35 +2,30 @@
 #define STEPENGINE_CPP
 #include "stepengine.h"
 
+StepEngine::StepEngine(DataBackend * _db) : QObject()
+{
+	dt=0.1;
+	db=_db;
+	eng=new FizEngine();
+} 
 
-	StepEngine::StepEngine(double _dt, DataBackend * _db) : QObject()
-	{
-		dt=_dt;
-		db=_db;
-		eng=new FizEngine();
-	} 
+double StepEngine::getDt()
+{return dt;}
 
-	void StepEngine::run()
-	{
-		step();
-	}
+void StepEngine::step()
+{
+}
 
-	void StepEngine::step()
-	{
-		// Get out of databackend
-		// Need: thisStep, nextStep, forces, macros, ccache, dt:
-		//std::map<std::string, FizObject*> * new_data;
-		/*eng->step
-		(
-			MapUtil<DrawableObject *>::qMapToStdMap(*(db->getObjectModel()->getData())), // Need to do create FizObject from DrawableObject
-			new_data,
-			MapUtil<FizForce *>::qMapToStdMap(*(db->getForceModel()->getData())),
-			MapUtil<FizFormula *>::qMapToStdMap(*(db->getMacroModel()->getData())),
-			MapUtil<fizdatum>::qMapToStdMap(*(db->getConstModel()->getData())),
-		);*/
-		//db->getObjectModel()->setData(QMap(new_data)); // Need to create DrawableObject from FizObject
-		// Put back in databackend
-		emit newDataAvailable();
-	}
+void StepEngine::setDt(double _dt)
+{
+}
+
+void StepEngine::startPull()
+{
+}
+
+void StepEngine::stopPull()
+{
+}
 
 #endif

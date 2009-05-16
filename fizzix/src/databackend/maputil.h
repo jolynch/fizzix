@@ -9,33 +9,33 @@ template <class T>
 class MapUtil
 {
 	public:
-	static std::map<std::string, T> qMapToStdMap(QMap<QString, T> arg)
+	static std::map<std::string, T> * qMapToStdMapCopy(QMap<QString, T> arg)
 	{
-		std::map<std::string, T> toReturn;
+		std::map<std::string, T> * toReturn=new std::map<std::string, T>();
 		QMapIterator<QString, T> i(arg);
 		while(i.hasNext()) 
 		{
 			i.next();
-			toReturn[i.key().toStdString()] = i.value();
+			toReturn->insert(i.key().toStdString(),i.value());
  		}
 		return toReturn;
 	}
 	
-	static QMap<QString, T*> mapCopy(QMap<QString, T*> arg)
+	static QMap<QString, T*> * mapCopy(QMap<QString, T*> arg)
 	{
-		QMap<QString, T*> toReturn;
+		QMap<QString, T*> * toReturn=new QMap<QString, T*>();
 		QMapIterator<QString, T*> i(arg);
 		while(i.hasNext()) 
 		{
 			i.next();
-			toReturn[i.key()] = new T(*(i.value()));
+			toReturn->insert(i.key(), new T(*(i.value())));
  		}
 		return toReturn;
 	}
 
-	static QMap<QString, T> mapCopy(QMap<QString, T> arg)
+	static QMap<QString, T> * mapCopy(QMap<QString, T> arg)
 	{
-		QMap<QString, T> toReturn = arg;
+		QMap<QString, T> * toReturn = new QMap<QString, T>(arg);
 		return toReturn;
 	}
 	
