@@ -44,9 +44,9 @@ const fizdatum And::eval(fizstack& stack, const FizObject &obj1, const triangle 
 	for (int i = 0; i < numOperands; i++)
 	{
 		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
-		if (b.type == SCALAR && a.scalar != 0)
+		if (b.type == SCALAR)
 		{
-			a.scalar = b.scalar;
+			if (a.scalar != 0) a.scalar = b.scalar;
 		}
 		else if (b.type == NIL)
 			a = fizdatum();

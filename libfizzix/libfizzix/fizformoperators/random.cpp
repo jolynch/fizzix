@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define RANDOM_CPP
 
 #include "operators.h"
+#include <time.h>
 using namespace FizOper;
 std::string Random::token = "rand";
 
@@ -40,6 +41,7 @@ const fizdatum Random::eval(fizstack &stack, const FizObject &obj1, const triang
 	for (int i = 0; i < numOperands; i++) ;
 	fizdatum a;
 	a.type = SCALAR;
+	srand(time(NULL));
 	a.scalar = rand();
 	return a;
 }

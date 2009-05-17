@@ -41,7 +41,7 @@ const fizdatum Equal::eval(fizstack &stack, const FizObject &obj1, const triangl
 {
 	fizdatum a = fizdatum(1);
 	fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
-	if (b.type == NIL) a = fizdatum();
+	if (b.type == NIL) return fizdatum();
 	for (int i = 1; i < numOperands; i++)
 	{
 		fizdatum c = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
@@ -52,9 +52,9 @@ const fizdatum Equal::eval(fizstack &stack, const FizObject &obj1, const triangl
 			{
 				if (c.type == VECTOR)
 				{
-					a.scalar = (c.vector[0]==b.vector[0] && c.vector[1]==b.vector[1] && c.vector[2]==b.vector[2])?1:0;
+					a.scalar = (abs(c.vector[0]-b.vector[0]) < .000001 && abs(c.vector[1]-b.vector[1])<.000001 && abs(c.vector[2]-b.vector[2])<.000001)?1:0;
 				}
-				else a.scalar = (c.scalar == b.scalar)?1:0;
+				else a.scalar = (abs(c.scalar - b.scalar)<.000001)?1:0;
 			}
 			else a.scalar = 0;
 		}

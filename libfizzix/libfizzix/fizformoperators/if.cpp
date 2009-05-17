@@ -49,7 +49,7 @@ const fizdatum If::eval(fizstack &stack, const FizObject &obj1, const triangle &
 		fizdatum b = stack.pop()->eval(stack, obj1, tri1, obj2, tri2);
 		if (b.type == SCALAR)
 		{
-			if (b.scalar == 0) a = c;
+			if (b.scalar == 1) a = c;
 			else a = d;
 
 		}
