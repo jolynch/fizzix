@@ -68,6 +68,7 @@ class Parser
 			else if(token ==  Cosh::token)		{ return new Cosh(num); }
 			else if(token ==  Cosine::token)		{ return new Cosine(num); }
 			else if(token ==  Cross::token)		{ return new Cross(num); }
+			else if(token ==  Difference::token)		{ return new Difference(num); }
 			else if(token ==  Dot::token)		{ return new Dot(num); }
 			else if(token ==  Equal::token)		{ return new Equal(num); }
 			else if(token ==  Exponent::token)	{ return new Exponent(num); }
@@ -96,7 +97,7 @@ class Parser
 		static fizstack parse(QString input,int& num)
 		{
 			input = input.trimmed();
-			qDebug()<<"PARSING:" <<input;
+			//qDebug()<<"PARSING:" <<input;
 			fizstack stack;	
 			int iter = 0;
 			int e_iter = input.length();
@@ -110,7 +111,7 @@ class Parser
 						iter++;
 						QString oper = "";
 						for(;input[iter] != ' ';iter++) oper += input[iter];
-						qDebug()<<"FOUND OPERATOR: "<<oper;
+						//qDebug()<<"FOUND OPERATOR: "<<oper;
 						int next = iter;
 						for(counter = 1; next < input.length() && counter>0;)
 						{
@@ -119,14 +120,14 @@ class Parser
 							if(input[next].toAscii() == ')') counter -= 1;
 						} 
 						//e_iter--;
-						qDebug()<<"RECURING WITH"<<input.mid(iter,next-iter);
+						//qDebug()<<"RECURING WITH"<<input.mid(iter,next-iter);
 						int operand_count = 0;
 						fizstack operands = Parser::parse(input.mid(iter,next-iter), operand_count);
 						iter = next;
 						for(int i = 0; i<operands.size();i++)
 							stack.push(operands[i]);
 						
-						qDebug()<<"PUSHING AN OPERATOR"<<oper<<"WITH"<<operand_count<<"OPERANDS";
+						//qDebug()<<"PUSHING AN OPERATOR"<<oper<<"WITH"<<operand_count<<"OPERANDS";
 						stack.push(getOperator(oper, operand_count));
 						num += 1;
 						break;
@@ -136,7 +137,7 @@ class Parser
 						iter++;
 						int next_iter = input.indexOf("\"",iter);
 						QString val = input.mid(iter, next_iter-iter);
-						qDebug()<<"FOUND CONSTANT"<<val;
+						//qDebug()<<"FOUND CONSTANT"<<val;
  						stack.push(new FizFormGetConst(val.toStdString()));
 						iter = next_iter;
 						num += 1;
@@ -147,7 +148,7 @@ class Parser
 						iter++;
 						int next_iter = input.indexOf("]",iter);
 						QString val = input.mid(iter, next_iter-iter);
-						qDebug()<<"FOUND MACRO"<<val;
+						//qDebug()<<"FOUND MACRO"<<val;
  						stack.push(new FizFormGetMacro(val.toStdString()));
 						iter = next_iter;
 						num += 1;
@@ -158,7 +159,7 @@ class Parser
 						iter++;
 						int next_iter = input.indexOf("}",iter);
 						QString val = input.mid(iter, next_iter-iter);
-						qDebug()<<"FOUND FORCE"<<val;
+						//qDebug()<<"FOUND FORCE"<<val;
 						stack.push(new FizFormGetForce(val.toStdString()));
 						iter = next_iter;
 						num += 1;
@@ -170,7 +171,7 @@ class Parser
 						QString val;
 						for(; !isspace(input[iter].toAscii()) && iter < input.length(); iter++)
 							val+=input[iter]; 
-						qDebug()<<"FOUND FROM TOKEN"<<val;
+						//qDebug()<<"FOUND FROM TOKEN"<<val;
 						stack.push(new FizFormGetProp(val.toStdString(),true));
 						num += 1;
 						break;	
@@ -181,7 +182,7 @@ class Parser
 						QString val;
 						for(; !isspace(input[iter].toAscii()) && iter < input.length(); iter++)
 							val+=input[iter]; 
-						qDebug()<<"FOUND TO TOKEN"<<val;
+						//qDebug()<<"FOUND TO TOKEN"<<val;
 						stack.push(new FizFormGetProp(val.toStdString(),false));			
 						num += 1;
 						break;
@@ -193,28 +194,29 @@ class Parser
 							QString val = "";
 							for(; !isspace(input[iter].toAscii()) && iter < e_iter; iter++)
 								val+=input[iter]; 
-							qDebug()<<"FOUND ANONCONST:"<<val<<val.toDouble();
+							//qDebug()<<"FOUND ANONCONST:"<<val<<val.toDouble();
 							//NOTE, for some reason this won't compile UNCOMMENT
+							//NOTE, Fixed
 							fizdatum f(val.toDouble());
 							stack.push(new FizFormAnonConst(f)); 
 							num += 1;
 						}
 						break;
 					}
-					qDebug()<<"hum";
+					//qDebug()<<"hum";
 				}
 				if(iter == e_iter)
 				{
-					//qDebug()<<opers<<stack;
+					////qDebug()<<opers<<stack;
 // 					stack.push(
 				}
-// 				qDebug()<<iter;
+// 				//qDebug()<<iter;
 				iter++;
 			}
-			qDebug()<<"Done"<<"FOUND: "<<num<<"arguments";
-			stack.reset();
-			qDebug()<<stack.pop()<< stack.size();
-			//qDebug()<<"DONE PARSING:"<<QString(stack.pop()->toString(stack).c_str());
+			//qDebug()<<"Done"<<"FOUND: "<<num<<"arguments";
+			//stack.reset();
+			//qDebug()<<stack.pop()<< stack.size();
+			////qDebug()<<"DONE PARSING:"<<QString(stack.pop()->toString(stack).c_str());
 			stack.reset();
 			return stack;
 		}
