@@ -74,6 +74,10 @@ void FizSphere::init_object(std::string name, vec3 color, const std::vector<tria
 	setProperty("SYSTEM_color", fizdatum(0.0, color, VECTOR));
 	setRadius(rad);
 	setMass(mass);
+	vertex v = vertex();
+	triangle com = triangle(&v,&v,&v,0); //hopefully this line works correctly
+	com.massp = mass;
+	setCOMTriangle(com);
 }
 
 void FizSphere::computeBounds()

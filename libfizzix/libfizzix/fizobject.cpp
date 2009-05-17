@@ -81,6 +81,10 @@ void FizObject::init_object(std::string name, vec3 color, const std::vector<tria
 	vertices = tinit;
 	props["SYSTEM_color"] = fizdatum(0.0, color, VECTOR);
 	setMass(mass);
+	vertex v = vertex();
+	triangle com = triangle(&v,&v,&v,0); //hopefully this line works correctly
+	com.massp = mass;
+	setCOMTriangle(com);
 }
 
 /** Next two methods complements to Game Physics, 2nd Edition, by David H Elberly,

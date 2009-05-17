@@ -75,6 +75,10 @@ void FizCylinder::init_object(std::string name, vec3 color, const std::vector<tr
 	setRadius(rad);
 	setHeight(h);
 	setMass(mass);
+	vertex v = vertex();
+	triangle com = triangle(&v,&v,&v,0); //hopefully this line works correctly
+	com.massp = mass;
+	setCOMTriangle(com);
 }
 
 void FizCylinder::computeBounds()

@@ -76,6 +76,10 @@ void FizPrism::init_object(std::string name, vec3 color, const std::vector<trian
 	setWidth(w);
 	setDepth(d);
 	setMass(mass);
+	vertex v = vertex();
+	triangle com = triangle(&v,&v,&v,0); //hopefully this line works correctly
+	com.massp = mass;
+	setCOMTriangle(com);
 }
 
 void FizPrism::computeBounds()
