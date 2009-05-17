@@ -70,9 +70,9 @@ void SimulationControl::statusChanged(QString newString, bool error)
 	status->setText(newString);
 	QPalette pal=status->palette();
 	if(!error)
-		pal.setColor(QPalette::Window,Qt::darkGray);
+		pal.setColor(QPalette::Window,QColor::fromRgb(128,128,128,128));
 	else
-		pal.setColor(QPalette::Window,Qt::darkRed);
+		pal.setColor(QPalette::Window,QColor::fromRgb(255,128,128,128));
 	status->setPalette(pal);
 }
 

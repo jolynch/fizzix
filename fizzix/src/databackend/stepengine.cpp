@@ -57,6 +57,15 @@ void StepEngine::step()
 	std::map <std::string, FizFormula *> * oldMcrs=MapUtil<FizFormula>::qMapToStdMapCopy(*(db->getMacroModel()->getData()));
 	std::map <std::string, fizdatum> * oldCnst=MapUtil<fizdatum>::qMapToStdMapCopy(*(db->getConstModel()->getData()));
 	try{eng->step(oldObjs,newObjs,oldFrcs,oldMcrs,oldCnst,dt);}
+	catch(std::logic_error e)
+	{
+		QString errmsg("Engine stopped: ");
+		errmsg.append(e.what());
+		emit statusChanged(errmsg,true);
+		timer->stop();
+		db->toggleDataLock();
+		return;
+	}
 	catch(std::exception e)
 	{
 		QString errmsg("Engine stopped: ");
