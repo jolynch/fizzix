@@ -57,27 +57,31 @@ FizSphere::FizSphere(std::string newname, vec3 color, std::vector<triangle*> new
 	this->init(newname, color, new_vertices, mass, rad);
 }
 
-void FizSphere::init(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass, double rad)
+void FizSphere::init(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double rad)
 {
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
-	this->init_object(name,color,tinit, mass, rad);
+	this->init_object(new_name,color,tinit, new_mass, rad);
 	this->compute();
 	this->adjustMasses();
 	this->computeBounds();
 }
 
-void FizSphere::init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass, double rad)
+void FizSphere::init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double rad)
 {
-	this->name = name;
+	name = new_name;
 	vertices = tinit;
 	setProperty("SYSTEM_color", fizdatum(0.0, color, VECTOR));
 	setRadius(rad);
-	setMass(mass);
+	setMass(new_mass);
 	vertex v = vertex();
 	triangle com = triangle(&v,&v,&v,0); //hopefully this line works correctly
 	com.massp = mass;
 	setCOMTriangle(com);
+	setVel(vec3());
+	setAcc(vec3());
+	setOme(vec3());
+	setAlp(vec3());
 }
 
 void FizSphere::computeBounds()
@@ -116,6 +120,7 @@ void FizSphere::compute()
 	setProperty("temp_mass", fizdatum(getMass()));
 	setMass(integral[0]); 
 	setPos(vec3(integral[1]/mass, integral[2]/mass, integral[3]/mass));
+std::cout << '\n' << integral[1] << ' ' << integral[2] << ' ' << integral[3] << ' ' << mass << ' ' << getMass() <<'\n';
 	/**end copied code
 	*/
 	

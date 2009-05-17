@@ -315,7 +315,7 @@ void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
 //currently assumes a sphere
 void FizEngine::collisionDetect(FizObject& obj1, FizObject& obj2, vec3 direction, triangle& tri1, triangle& tri2)
 {
-	double delta = .001;
+	double delta = .1;
 	std::vector<triangle*> tris1 = obj1.getVertices();
 	std::vector<triangle*> tris2 = obj2.getVertices();
 	double mag = 50;

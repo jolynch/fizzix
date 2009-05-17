@@ -57,29 +57,33 @@ FizPrism::FizPrism(std::string newname, vec3 color, std::vector<triangle*> new_v
 	this->init(newname, color, new_vertices, mass, h, w, d);
 }
 
-void FizPrism::init(std::string name, vec3 color, const std::vector<triangle*>& new_vertices, double mass, double h, double w, double d)
+void FizPrism::init(std::string new_name, vec3 color, const std::vector<triangle*>& new_vertices, double new_mass, double h, double w, double d)
 {
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
-	this->init_object(name,color,new_vertices, mass, h, w, d);
+	this->init_object(new_name,color,new_vertices, new_mass, h, w, d);
 	this->compute();
 	this->adjustMasses();
 	this->computeBounds();
 }
 
-void FizPrism::init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass, double h, double w, double d)
+void FizPrism::init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double h, double w, double d)
 {
-	this->name = name;
+	name = new_name;
 	vertices = tinit;
 	setProperty("SYSTEM_color", fizdatum(0.0, color, VECTOR));
 	setHeight(h);
 	setWidth(w);
 	setDepth(d);
-	setMass(mass);
+	setMass(new_mass);
 	vertex v = vertex();
 	triangle com = triangle(&v,&v,&v,0); //hopefully this line works correctly
 	com.massp = mass;
 	setCOMTriangle(com);
+	setVel(vec3());
+	setAcc(vec3());
+	setOme(vec3());
+	setAlp(vec3());
 }
 
 void FizPrism::computeBounds()

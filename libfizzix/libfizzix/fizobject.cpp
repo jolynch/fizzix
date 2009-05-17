@@ -63,11 +63,11 @@ FizObject::FizObject(std::string newname, vec3 color, std::vector<triangle*> new
 }
 
 // Init the object
-void FizObject::init(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass)
+void FizObject::init(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass)
 {
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
-	this->init_object(name,color,tinit, mass);
+	this->init_object(new_name,color,tinit, new_mass);
 	this->compute();
 	this->adjustMasses();
 	this->computeBounds();
@@ -75,19 +75,23 @@ void FizObject::init(std::string name, vec3 color, const std::vector<triangle*>&
 
 /** Initialized the structure, used by constructors
  */
-void FizObject::init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass) 
+void FizObject::init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass) 
 {
-	this->name = name;
+	name = new_name;
 	vertices = tinit;
 	props["SYSTEM_color"] = fizdatum(0.0, color, VECTOR);
-	setMass(mass);
+	setMass(new_mass);
 	vertex v = vertex();
 	triangle com = triangle(&v,&v,&v,0); //hopefully this line works correctly
 	com.massp = mass;
 	setCOMTriangle(com);
+	setVel(vec3());
+	setAcc(vec3());
+	setOme(vec3());
+	setAlp(vec3());
 }
 
-/** Next two methods complements to Game Physics, 2nd Edition, by David H Elberly,
+/** Next two methods complements to Game Physics, 2nd Edition, by David H Eberly,
  *  Chapter 2.5, Momenta
  *:q
 
@@ -118,12 +122,14 @@ void FizObject::compute()
 	double f1y, f2y, f3y, g0y, g1y, g2y;
 	double f1z, f2z, f3z, g0z, g1z, g2z;
 	point p0,p1,p2;
+std::cout << vertices.size();
 	for(int i = 0; i < vertices.size(); i++) 
 	{
 		triangle& t = *vertices[i];
 		sub_compute(t[0][0], t[1][0], t[2][0], f1x, f2x, f3x, g0x, g1x, g2x);
 		sub_compute(t[0][1], t[1][1], t[2][1], f1y, f2y, f3y, g0y, g1y, g2y);
 		sub_compute(t[0][2], t[1][2], t[2][2], f1z, f2z, f3z, g0z, g1z, g2z);
+std::cout << '\n' << f1x << '\n';
 		const vec3& d = t.normal;
 		t.massp = d[0] * f1x;
 		integral[0] += d[0] * f1x;
@@ -138,6 +144,7 @@ void FizObject::compute()
 		integral[9] += d[2] * (t[0][0] * g0z + t[1][0] * g1z + t[2][0] * g2z);
 	}
 
+std::cout << '\n' << integral[0] << ' ' << div_consts[0] << '\n';
 	integral[0] *= div_consts[0];
 	integral[1] *= div_consts[1];
 	integral[2] *= div_consts[1];

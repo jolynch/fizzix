@@ -40,8 +40,8 @@ class FizPrism:public FizObject
 		FizPrism(std::string newname, std::vector<triangle*> new_vertices, double mass = 1, double h = 1, double w = 1, double d = 1); //Constructor that inits the name, triangle*s, and dimensions
 		FizPrism(std::string newname, vec3 color, std::vector<triangle*> new_vertices, double mass = 1, double h = 1, double w = 1, double d = 1); //Constructor that inits the name, color, triangle*s, and dimensions
 		
-		void init(std::string name, vec3 color, const std::vector<triangle*>& new_vertices, double mass, double h, double w, double d);
-		void init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass, double h, double w, double d);
+		void init(std::string new_name, vec3 color, const std::vector<triangle*>& new_vertices, double new_mass, double h, double w, double d);
+		void init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double h, double w, double d);
 		
 		void compute();
 		void computeBounds();

@@ -87,11 +87,11 @@ class FizObject
 		
 		/** Initialize the Object by calling init_object, compute and adjustMasses
 		 */
-		void init(std::string name, vec3 color, const std::vector<triangle*>& new_vertices, double mass);
+		void init(std::string new_name, vec3 color, const std::vector<triangle*>& new_vertices, double new_mass);
 		
 		/** Initialize the object with info passed into constructors
 		 */
-		virtual void init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass);
+		virtual void init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass);
 		
 		void sub_compute(const double& w0, const double& w1, const double& w2, double& f1, double& f2, double& f3, double& g0, double& g1, double& g2);
 		

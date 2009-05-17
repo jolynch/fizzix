@@ -39,6 +39,27 @@ class FizObjectTests: public CxxTest::TestSuite
 			ttt.push_back(&t4);
 			FizObject* x = new FizSphere("Purnima", vec3(64,64,64), ttt, 12, 3);
 			TS_ASSERT_EQUALS(x->getMass(),12);
+			TS_ASSERT_EQUALS(((FizSphere*)x)->getRadius(),3);
+			vec3 s = x->getProperty("SYSTEM_color").vector;
+			TS_ASSERT_EQUALS(s[0],64);
+			TS_ASSERT_EQUALS(s[1],64);
+			TS_ASSERT_EQUALS(s[2],64);
+			s = x->getVel();
+			TS_ASSERT_EQUALS(s[0],0);
+			TS_ASSERT_EQUALS(s[1],0);
+			TS_ASSERT_EQUALS(s[2],0);
+			s = x->getAcc();
+			TS_ASSERT_EQUALS(s[0],0);
+			TS_ASSERT_EQUALS(s[1],0);
+			TS_ASSERT_EQUALS(s[2],0);
+			s = x->getOme();
+			TS_ASSERT_EQUALS(s[0],0);
+			TS_ASSERT_EQUALS(s[1],0);
+			TS_ASSERT_EQUALS(s[2],0);
+			s = x->getAlp();
+			TS_ASSERT_EQUALS(s[0],0);
+			TS_ASSERT_EQUALS(s[1],0);
+			TS_ASSERT_EQUALS(s[2],0);
 			std::vector<double> d(6,0.0);
 			d[0] = d[1] = d[2] = 8/15.;
 			std::vector<double> i = x->getInertiaTensor();
@@ -49,16 +70,20 @@ class FizObjectTests: public CxxTest::TestSuite
 			TS_ASSERT_EQUALS(d[4],i[4]);
 			TS_ASSERT_EQUALS(d[5],i[5]);
 			d[0] = d[1] = d[2] = 15/8.;
+			vec3 p = x->getPos();
+			TS_ASSERT_EQUALS(p[0],0);
+			TS_ASSERT_EQUALS(p[1],0);
+			TS_ASSERT_EQUALS(p[2],0);
 			//i = x->getInertiaTensorInv();
-			Quaternion q = x->getQuaternion();
-			std::vector<double> r = q.toRotationMatrix();
+			//Quaternion q = x->getQuaternion();
+			//std::vector<double> r = q.toRotationMatrix();
 			//i = x->getInertiaTensorInvWorld();
-			TS_ASSERT_EQUALS(d[0],r[0]);
-			TS_ASSERT_EQUALS(d[1],r[1]);
-			TS_ASSERT_EQUALS(d[2],r[2]);
-			TS_ASSERT_EQUALS(d[3],r[3]);
-			TS_ASSERT_EQUALS(d[4],r[4]);
-			TS_ASSERT_EQUALS(d[5],r[5]);
+			/*TS_ASSERT_EQUALS(d[0],i[0]);
+			TS_ASSERT_EQUALS(d[1],i[1]);
+			TS_ASSERT_EQUALS(d[2],i[2]);
+			TS_ASSERT_EQUALS(d[3],i[3]);
+			TS_ASSERT_EQUALS(d[4],i[4]);
+			TS_ASSERT_EQUALS(d[5],i[5]);*/
 			
 		}
 };

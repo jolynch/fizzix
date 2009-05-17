@@ -38,8 +38,8 @@ class FizSphere:public FizObject
 		FizSphere(std::string newname, std::vector<triangle*> new_vertices, double mass = 1, double rad = 1); //Constructor that inits the name, triangle*s, and radius
 		FizSphere(std::string newname, vec3 color, std::vector<triangle*> new_vertices, double mass = 1, double rad = 1); //Constructor that inits the name, color, triangle*s, and radius
 		
-		void init(std::string name, vec3 color, const std::vector<triangle*>& new_vertices, double mass, double rad);
-		void init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass, double rad);
+		void init(std::string new_name, vec3 color, const std::vector<triangle*>& new_vertices, double new_mass, double rad);
+		void init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double rad);
 		
 		void compute();
 		void computeBounds();

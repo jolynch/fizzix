@@ -57,28 +57,32 @@ FizCylinder::FizCylinder(std::string newname, vec3 color, std::vector<triangle*>
 	this->init(newname, color, new_vertices, mass, rad, h);
 }
 
-void FizCylinder::init(std::string name, vec3 color, const std::vector<triangle*>& new_vertices, double mass, double rad, double h)
+void FizCylinder::init(std::string new_name, vec3 color, const std::vector<triangle*>& new_vertices, double new_mass, double rad, double h)
 {
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
-	this->init_object(name,color,new_vertices, mass, rad, h);
+	this->init_object(new_name,color,new_vertices, new_mass, rad, h);
 	this->compute();
 	this->adjustMasses();
 	this->computeBounds();
 }
 
-void FizCylinder::init_object(std::string name, vec3 color, const std::vector<triangle*>& tinit, double mass, double rad, double h)
+void FizCylinder::init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double rad, double h)
 {
-	this->name = name;
+	name = new_name;
 	vertices = tinit;
 	setProperty("SYSTEM_color", fizdatum(0.0, color, VECTOR));
 	setRadius(rad);
 	setHeight(h);
-	setMass(mass);
+	setMass(new_mass);
 	vertex v = vertex();
 	triangle com = triangle(&v,&v,&v,0); //hopefully this line works correctly
 	com.massp = mass;
 	setCOMTriangle(com);
+	setVel(vec3());
+	setAcc(vec3());
+	setOme(vec3());
+	setAlp(vec3());
 }
 
 void FizCylinder::computeBounds()
