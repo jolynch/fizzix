@@ -52,7 +52,7 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	QObject::connect(databrowser,SIGNAL(deleteMacro(QString)),dataeditor,SLOT(loadBlank()));
 	QObject::connect(databrowser,SIGNAL(deleteConstant(QString)),dataeditor,SLOT(loadBlank()));
 	
-	simcontrol=new SimulationControl();
+	simcontrol=new SimulationControl(databackend);
 	openglpane=new GLDrawPane(databackend,d);
 
 	timer = new QTimer(this);

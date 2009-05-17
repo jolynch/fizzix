@@ -29,11 +29,51 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "simulationcontrol.h"
 
-SimulationControl::SimulationControl():QDockWidget(tr("Simulation control"))
+SimulationControl::SimulationControl(DataBackend * _db):QDockWidget(tr("Simulation control"))
 {
+	db=_db;
+	eng=new StepEngine(db);
+	
+	QWidget * container=new QWidget();
+	QGridLayout * layout=new QGridLayout();
+	status=new QLabel();
+	statusChanged("Engine ready",false);
+	status->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+	status->setAutoFillBackground(true);
+	layout->addWidget(status,0,0);
+	layout->addWidget(new QLabel("Time delta:"),0,1);
+	dt=new QDoubleSpinBox();
+	dt->setValue(0.1);
+	QObject::connect(dt,SIGNAL(valueChanged(double)),eng,SLOT(setDt(double)));
+	layout->addWidget(dt,0,2);
+	start=new QPushButton("Start");
+	QObject::connect(start,SIGNAL(clicked()),eng,SLOT(startPull()));
+	QObject::connect(db,SIGNAL(dataLocked(bool)),start,SLOT(setDisabled(bool)));
+	layout->addWidget(start,0,3);
+	stop=new QPushButton("Stop");
+	stop->setEnabled(false);
+	QObject::connect(stop,SIGNAL(clicked()),eng,SLOT(stopPull()));
+	QObject::connect(db,SIGNAL(dataLocked(bool)),stop,SLOT(setEnabled(bool)));
+	layout->addWidget(stop,0,4);
+	reset=new QPushButton("Reset");
+	layout->addWidget(reset,0,5);
+	container->setLayout(layout);
+	
 	this->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-	this->setWidget(new QPushButton("Bar"));
+	this->setWidget(container);
 	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
+	QObject::connect(eng,SIGNAL(statusChanged(QString, bool)),this,SLOT(statusChanged(QString, bool)));
+}
+
+void SimulationControl::statusChanged(QString newString, bool error)
+{
+	status->setText(newString);
+	QPalette pal=status->palette();
+	if(!error)
+		pal.setColor(QPalette::Window,Qt::darkGray);
+	else
+		pal.setColor(QPalette::Window,Qt::darkRed);
+	status->setPalette(pal);
 }
 
 #endif

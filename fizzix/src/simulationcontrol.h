@@ -30,6 +30,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QLabel>
 #include <QDockWidget>
 #include <QDesktopWidget>
+#include <QDoubleSpinBox>
+#include <QPalette>
+#include <QGridLayout>
 #include "databackend/stepengine.h"
 
 /*@class SimulationControl
@@ -38,13 +41,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class SimulationControl:public QDockWidget
 {	Q_OBJECT
 	private:
+		bool running;
+		DataBackend * db;
+		StepEngine * eng;
 		QLabel * status;
-		QLabel * currentTime;
-		QPushButton * play_pause;
+		QDoubleSpinBox * dt;
+		QPushButton * start;
 		QPushButton * stop;
 		QPushButton * reset;
 	public:
-		SimulationControl ();
+		SimulationControl (DataBackend * _db);
+	public slots:
+		void statusChanged(QString newString, bool error);
 };
 
 #endif
