@@ -44,6 +44,8 @@ SimulationControl::SimulationControl(DataBackend * _db):QDockWidget(tr("Simulati
 	layout->addWidget(new QLabel("Time delta:"),0,1);
 	dt=new QDoubleSpinBox();
 	dt->setValue(0.1);
+	dt->setMinimum(0.0);
+	dt->setSingleStep(0.1);
 	QObject::connect(dt,SIGNAL(valueChanged(double)),eng,SLOT(setDt(double)));
 	layout->addWidget(dt,0,2);
 	start=new QPushButton("Start");

@@ -88,9 +88,12 @@ void StepEngine::step()
 void StepEngine::setDt(double _dt)
 {
 	dt=_dt;
-	timer->stop();
-	timer->setInterval(dt);
-	timer->start();
+	if(timer->isActive())
+	{
+		timer->stop();
+		timer->setInterval(dt);
+		timer->start();
+	}
 	emit statusChanged("Engine dt changed sucessfully", 0);
 }
 

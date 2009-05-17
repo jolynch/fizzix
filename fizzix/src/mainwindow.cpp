@@ -113,9 +113,7 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	QMenu * simulationMenu = this->menuBar()->addMenu(tr("Simulation"));
 	simulationMenu->addAction("Start");
 	simulationMenu->addAction("Reset to Initial Conditions");
-	simulationMenu->addAction("Set Current Conditions as Initial");
 	simulationMenu->addAction("Change Timestep");
-	simulationMenu->addAction("Change Data Buffer Size");
 	QMenu * dataMenu = this->menuBar()->addMenu(tr("Data"));
 	QMenu * newDataMenu = dataMenu->addMenu("New");
 	newDataMenu->addAction("Object");
