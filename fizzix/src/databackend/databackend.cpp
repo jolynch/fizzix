@@ -89,7 +89,7 @@ fizstack DataBackend::parse(QString in)
 	fizstack out;
 	int i=0;
 	try{
-		fizstack out=Parser::parse(in,i);
+		out=Parser::parse(in,i);
 	}
 	catch(std::logic_error e)
 	{
