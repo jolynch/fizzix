@@ -6,6 +6,7 @@
 #include <QUndoCommand>
 #include <QFile>
 #include <QString>
+#include <QMessageBox>
 #include "mapkeylistmodel.h"
 #include "drawableobject.h"
 #include <libfizzix/gen_structs.h>
@@ -20,6 +21,7 @@ class DataBackend:public QObject
 	private:
 		bool dataLock;
 		bool lastChangeUnpredictable;
+		int unpredictableChange;
 		MapKeyListModel <DrawableObject *> * objects;
 		MapKeyListModel <FizForce *> * forces;
 		MapKeyListModel <FizFormula *> * macros;
@@ -39,9 +41,10 @@ class DataBackend:public QObject
 		ChangeFactory * getDataInserter();
 		
 	public slots:
+		void dataUndone(int index);
 		void toggleDataLock();
 		void applyDataChange(QUndoCommand * c);
-		void applyUnpredictableDataChange(QUndoCommand * c);
+		void applyUnpredictableDataChange(QUndoCommand * c, bool addToStack);
 
 	signals:
 		void dataLocked(bool locked);

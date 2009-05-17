@@ -2,7 +2,6 @@
 #define CHANGEFACTORY_H
 #include <QObject>
 #include <QUndoCommand>
-#include <QString>
 #include "databackend.h"
 #include "mapkeylistmodel.h"
 #include <libfizzix/gen_structs.h>
@@ -70,6 +69,21 @@ protected:
 		void undo();
 		void redo();
 	};
+
+public:
+	class DC_RunSimulation : public QUndoCommand
+	{
+	private:
+		DataBackend * db;
+		QMap<QString, DrawableObject *> * oldData;
+		QMap<QString, DrawableObject *> * newData;
+	public:
+		DC_RunSimulation(DataBackend * db, QMap<QString, DrawableObject *> * _newData);
+		DC_RunSimulation(DataBackend * db, QMap<QString, DrawableObject *> * _oldData, QMap<QString, DrawableObject *> * _newData);
+		void undo();
+		void redo();
+	};
+	
 #endif //CHANGES_H
 public:
 	ChangeFactory(DataBackend * _db);
@@ -90,6 +104,7 @@ public slots:
 	void modifyForce(QString n, FizForce * nv);
 	void modifyConstant(QString n, fizdatum nv);
 	void modifyMacro(QString n, FizFormula * nv);
+	void changeObjectsFromSim(QMap<QString, DrawableObject *> * newData);
 };
 
 #endif //CHANGEFACTORY_H
@@ -181,13 +196,12 @@ ChangeFactory::DC_ModifyElement<T>::DC_ModifyElement(QString n, MapKeyListModel 
 template <class T>
 void ChangeFactory::DC_ModifyElement<T>::redo()
 {
-		target->setElement(name,newVal);
+	target->setElement(name,newVal);
 }
 
 template <class T>
 void ChangeFactory::DC_ModifyElement<T>::undo()
 {
-		target->setElement(name,oldVal);
+	target->setElement(name,oldVal);
 }
-
 #endif

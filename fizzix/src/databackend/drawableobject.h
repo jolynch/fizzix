@@ -16,6 +16,9 @@ class DrawableObject:public FizObject
         /** Default Constructor
          */
         DrawableObject();
+	/** Copy Constructor
+	 */
+	DrawableObject(FizObject * f);
         /** Constructor that inits the name
          */
 		DrawableObject(std::string newname, double mass = 1);

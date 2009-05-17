@@ -14,6 +14,11 @@ DrawableObject::DrawableObject():FizObject()
 	properties = 0;
 }
 
+DrawableObject::DrawableObject(FizObject * f):FizObject(*f)
+{
+	properties = 0;
+}
+
 DrawableObject::DrawableObject(string newname, double mass):FizObject(newname, mass)
 {
 	properties = 0;

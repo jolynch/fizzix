@@ -6,12 +6,13 @@ DataBackend::DataBackend():QObject()
 {
 	dataLock=false;
 	lastChangeUnpredictable=false;
-	
+	unpredictableChange=0;
 	objects=new MapKeyListModel <DrawableObject *> ();
 	forces=new MapKeyListModel <FizForce *> ();
 	macros=new MapKeyListModel <FizFormula *> ();
 	constants=new MapKeyListModel <fizdatum> ();
 	dataChanges=new QUndoStack();
+	QObject::connect(dataChanges,SIGNAL(indexChanged(int)),this,SLOT(dataUndone(int)));
 }
 
 bool DataBackend::isDataLocked()
@@ -53,18 +54,33 @@ void DataBackend::applyDataChange(QUndoCommand * c)
 	}
 	else
 	{
-		//Popup, you lose previous undo stack.
-		//Tell stepengine to ditch init conditions.
-		c->redo();
-		dataChanges->push(c);
+		if(QMessageBox::question(NULL, "Clear Undo Stack?", 
+			"Making changes to the input data will prevent you from resetting to the state before the engine ran. Make changes?",
+			QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes)
+		{
+			dataChanges->clear(); //MASSIVE UTTERLY ENORMOUS MEMORY LEAK.
+			c->redo();
+			dataChanges->push(c);
+			lastChangeUnpredictable=false;
+		}
 	}
 }
 
-void DataBackend::applyUnpredictableDataChange(QUndoCommand * c)
+void DataBackend::applyUnpredictableDataChange(QUndoCommand * c, bool addToStack)
 {
 	lastChangeUnpredictable=true;
 	c->redo();
-	dataChanges->push(c);
+	if(addToStack)
+	{
+		dataChanges->push(c);
+		unpredictableChange=dataChanges->index();
+	}
 }
 
+
+void DataBackend::dataUndone(int index)
+{
+	if(index<unpredictableChange)
+		lastChangeUnpredictable=false;
+}
 #endif

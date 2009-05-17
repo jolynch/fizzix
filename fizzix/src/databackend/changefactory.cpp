@@ -104,4 +104,36 @@ void ChangeFactory::modifyMacro(QString n, FizFormula * nv)
 }
 
 
+void ChangeFactory::changeObjectsFromSim(QMap<QString, DrawableObject *> * newData)
+{
+	DC_RunSimulation * dc=new DC_RunSimulation(db,newData);
+	db->applyUnpredictableDataChange(dc,false);
+}
+
+ChangeFactory::DC_RunSimulation::DC_RunSimulation(DataBackend * _db, QMap<QString, DrawableObject *> * _newData)
+{
+	this->setText("Run Simulation");
+	db=_db;
+	oldData=db->getObjectModel()->getData();
+	newData=_newData;
+}
+
+ChangeFactory::DC_RunSimulation::DC_RunSimulation(DataBackend * _db, QMap<QString, DrawableObject *> * _oldData, QMap<QString, DrawableObject *> * _newData)
+{
+	this->setText("Run Simulation");
+	db=_db;
+	oldData=_oldData;
+	newData=_newData;
+}
+
+void ChangeFactory::DC_RunSimulation::redo()
+{
+	db->getObjectModel()->setData(newData);
+}
+
+void ChangeFactory::DC_RunSimulation::undo()
+{
+	db->getObjectModel()->setData(oldData);
+}
+
 #endif
