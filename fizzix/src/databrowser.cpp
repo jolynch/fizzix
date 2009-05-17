@@ -176,12 +176,16 @@ void DataBrowser::addElement()
 	switch(tabs->currentIndex())
 	{
 		case 0: emit addObject(name);
+			emit editObject(name);
 			break;
 		case 1: emit addForce(name);
+			emit editForce(name);
 			break;
 		case 2: emit addMacro(name);
+			emit editMacro(name);
 			break;
 		case 3: emit addConstant(name);
+			emit editConstant(name);
 			break;
 	};
 }

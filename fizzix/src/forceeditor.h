@@ -10,12 +10,13 @@
 class ForceEditor:public QWidget
 {	Q_OBJECT
 	private:
+		DataBackend * db;
 		bool hChanges;
 		FormulaEditor * formEdit;
 		QLineEdit * fromField;
 		QLineEdit * onField;
 	public:
-		ForceEditor();
+		ForceEditor(DataBackend * _db);
 		bool hasChanges();
 		FizForce * getData();
 	public slots:

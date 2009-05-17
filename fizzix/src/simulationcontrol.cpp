@@ -62,17 +62,25 @@ SimulationControl::SimulationControl(DataBackend * _db):QDockWidget(tr("Simulati
 	this->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	this->setWidget(container);
 	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
-	QObject::connect(eng,SIGNAL(statusChanged(QString, bool)),this,SLOT(statusChanged(QString, bool)));
+	QObject::connect(eng,SIGNAL(statusChanged(QString, int)),this,SLOT(statusChanged(QString, int)));
+	QObject::connect(db,SIGNAL(statusChanged(QString, int)),this,SLOT(statusChanged(QString, int)));
 }
 
-void SimulationControl::statusChanged(QString newString, bool error)
+void SimulationControl::statusChanged(QString newString, int errorSource)
 {
 	status->setText(newString);
 	QPalette pal=status->palette();
-	if(!error)
-		pal.setColor(QPalette::Window,QColor::fromRgb(128,128,128,128));
-	else
-		pal.setColor(QPalette::Window,QColor::fromRgb(255,128,128,128));
+	switch(errorSource)
+	{
+		case 0: pal.setColor(QPalette::Window,QColor::fromRgb(128,128,128,128));
+			break;
+		case 1: pal.setColor(QPalette::Window,QColor::fromRgb(255,128,128,128));
+			break;
+		case 2: pal.setColor(QPalette::Window,QColor::fromRgb(200,150,128,128));
+			break;
+		default:pal.setColor(QPalette::Window,QColor::fromRgb(100,100,100,128));
+			break;
+	};
 	status->setPalette(pal);
 }
 

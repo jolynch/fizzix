@@ -83,4 +83,28 @@ void DataBackend::dataUndone(int index)
 	if(index<unpredictableChange)
 		lastChangeUnpredictable=false;
 }
+
+fizstack DataBackend::parse(QString in)
+{
+	fizstack out;
+	int i=0;
+	try{
+		fizstack out=Parser::parse(in,i);
+	}
+	catch(std::logic_error e)
+	{
+		QString errmsg("Parser error: ");
+		errmsg.append(e.what());
+		emit statusChanged(errmsg,2);
+		return out;
+	}
+	catch(std::exception e)
+	{
+		QString errmsg("Parser error: ");
+		errmsg.append(e.what());
+		emit statusChanged(errmsg,2);
+		return out;
+	}
+	return out;
+}
 #endif

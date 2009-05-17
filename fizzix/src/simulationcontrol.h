@@ -53,7 +53,7 @@ class SimulationControl:public QDockWidget
 	public:
 		SimulationControl (DataBackend * _db);
 	public slots:
-		void statusChanged(QString newString, bool error);
+		void statusChanged(QString newString, int errorSource);
 };
 
 #endif

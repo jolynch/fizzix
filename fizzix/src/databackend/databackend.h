@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include "mapkeylistmodel.h"
 #include "drawableobject.h"
+#include "parser.h"
 #include <libfizzix/gen_structs.h>
 #include <libfizzix/fizforce.h>
 #include <libfizzix/fizobject.h>
@@ -39,6 +40,7 @@ class DataBackend:public QObject
 		QUndoStack * getUndoStack();
 		void setDataInserter(ChangeFactory * di);
 		ChangeFactory * getDataInserter();
+		fizstack parse(QString in);
 		
 	public slots:
 		void dataUndone(int index);
@@ -48,6 +50,8 @@ class DataBackend:public QObject
 
 	signals:
 		void dataLocked(bool locked);
+		void statusChanged(QString, int);
 };
+
 
 #endif

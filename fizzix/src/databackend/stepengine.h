@@ -36,7 +36,7 @@ class StepEngine:public QObject
 		void stopPull();
 	signals:
 		void newDataAvailable();
-		void statusChanged(QString info, bool error);
+		void statusChanged(QString info, int error);
 };
 
 

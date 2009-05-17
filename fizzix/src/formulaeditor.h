@@ -6,16 +6,17 @@
 #include <QTextEdit>
 #include <QGridLayout>
 #include <libfizzix/fizformula.h>
-#include "databackend/parser.h"
+#include "databackend/databackend.h"
 
 class FormulaEditor:public QWidget
 {	Q_OBJECT
 	private:
+		DataBackend * db;
 		bool hChanges;
 		QTextEdit * formEdit;
 		FizFormula tempData;
 	public:
-		FormulaEditor();
+		FormulaEditor(DataBackend * _db);
 		bool hasChanges();
 		FizFormula * getData();
 	public slots:

@@ -2,8 +2,9 @@
 #define FORCEEDITOR_CPP
 #include "forceeditor.h"
 
-ForceEditor::ForceEditor():QWidget()
+ForceEditor::ForceEditor(DataBackend * _db):QWidget()
 {
+	db=_db;
 	QGridLayout * layout=new QGridLayout();
 	layout->addWidget(new QLabel("Force evaluated acting"),0,0,1,2);
 	layout->addWidget(new QLabel("$FROM = "),1,0);
@@ -14,7 +15,7 @@ ForceEditor::ForceEditor():QWidget()
 	onField=new QLineEdit("All Objects");
 	onField->setEnabled(false);
 	layout->addWidget(onField,2,1);
-	formEdit=new FormulaEditor();
+	formEdit=new FormulaEditor(db);
 	layout->addWidget(formEdit,3,0,1,2);
 	this->setLayout(layout);
 	hChanges=false;

@@ -63,9 +63,12 @@ void FizEngine::step(	std::map<std::string, FizObject*>  * thisStep,
  */
 void FizEngine::evalForces()
 {
-	if(thisStep == NULL) 
+	if(thisStep == NULL || thisStep->size()==0) 
+	{
 		throw std::logic_error("Nothing to work on??");
-	
+		return;
+	}
+
 	std::map<std::string, FizObject*>::iterator outer_iter = thisStep->begin();
 	std::map<std::string, FizObject*>::iterator inner_iter;
 	std::map<std::string,FizForce*>::iterator force_iter;

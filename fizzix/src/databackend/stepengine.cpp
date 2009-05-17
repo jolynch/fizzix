@@ -11,7 +11,7 @@ StepEngine::StepEngine(DataBackend * _db) : QObject()
 	timer->setSingleShot(false);
 	QObject::connect(timer,SIGNAL(timeout()),this,SLOT(step()));
 	changesSaved=false;
-	emit statusChanged("Engine ready", false);
+	emit statusChanged("Engine ready", 0);
 } 
 
 double StepEngine::getDt()
@@ -44,7 +44,7 @@ void StepEngine::createUndoCommand()
 {
 	if(changesSaved)
 	{
-		db->applyUnpredictableDataChange(new ChangeFactory::DC_RunSimulation(db,initData,db->getObjectModel()->getData()), true);
+		db->applyUnpredictableDataChange(new ChangeFactory::DC_RunSimulation(db,initData,db->getObjectModel()->getData()), 1);
 		changesSaved=false;
 	}
 }
@@ -91,7 +91,7 @@ void StepEngine::setDt(double _dt)
 	timer->stop();
 	timer->setInterval(dt);
 	timer->start();
-	emit statusChanged("Engine dt changed sucessfully", false);
+	emit statusChanged("Engine dt changed sucessfully", 0);
 }
 
 void StepEngine::startPull()
@@ -101,14 +101,14 @@ void StepEngine::startPull()
 	db->toggleDataLock();
 	initData=db->getObjectModel()->getData();
 	changesSaved=false;
-	emit statusChanged("Engine started", false);
+	emit statusChanged("Engine started", 0);
 }
 
 void StepEngine::stopPull()
 {
 	timer->stop();
 	db->toggleDataLock();
-	emit statusChanged("Engine stopped", false);
+	emit statusChanged("Engine stopped", 0);
 }
 
 #endif

@@ -51,9 +51,9 @@ DataEditor::DataEditor(DataBackend * _db,QDesktopWidget * d):QDockWidget(tr("Dat
 	centerL->insertWidget(none, blankLabel);
 	objectEditor=new ObjectEditor();
 	centerL->insertWidget(objectLoaded, objectEditor);
-	forceEditor=new ForceEditor();
+	forceEditor=new ForceEditor(db);
 	centerL->insertWidget(forceLoaded, forceEditor);
-	macroEditor=new FormulaEditor();
+	macroEditor=new FormulaEditor(db);
 	centerL->insertWidget(macroLoaded,macroEditor);
 	constEditor=new ConstantEditor();
 	QObject::connect(constEditor,SIGNAL(saveChanges()),this,SLOT(saveChanges()));
