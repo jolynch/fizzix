@@ -59,6 +59,7 @@ FizSphere::FizSphere(std::string newname, vec3 color, std::vector<triangle*> new
 
 void FizSphere::init(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double rad)
 {
+std::cout << tinit.size();
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
 	this->init_object(new_name,color,tinit, new_mass, rad);
@@ -69,6 +70,7 @@ void FizSphere::init(std::string new_name, vec3 color, const std::vector<triangl
 
 void FizSphere::init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double rad)
 {
+std::cout << tinit.size();
 	name = new_name;
 	vertices = tinit;
 	setProperty("SYSTEM_color", fizdatum(0.0, color, VECTOR));
@@ -93,11 +95,13 @@ void FizSphere::compute()
 {
 	/**computing masses of triangles copied from FizObject
 	*/
+std::cout << "I'M IN SPHERE COMPUTE";
 	double integral[4] = {0.0, 0.0, 0.0, 0.0};
 	double f1x, f2x, f3x, g0x, g1x, g2x;
 	double f1y, f2y, f3y, g0y, g1y, g2y;
 	double f1z, f2z, f3z, g0z, g1z, g2z;
 	point p0,p1,p2;
+std::cout <<vertices.size();
 	for(int i = 0; i < vertices.size(); i++) 
 	{
 		triangle& t = *(vertices[i]);
@@ -111,7 +115,7 @@ void FizSphere::compute()
 		integral[2] += d[1] * f2y;
 		integral[3] += d[2] * f2z;
 	}
-
+std::cout << '\n' << integral[0] << ' ' << div_consts[0] << '\n';
 	integral[0] *= div_consts[0];
 	integral[1] *= div_consts[1];
 	integral[2] *= div_consts[1];
@@ -126,9 +130,9 @@ std::cout << '\n' << integral[1] << ' ' << integral[2] << ' ' << integral[3] << 
 	
 	std::vector<double> tempI(6,0.0);
 	std::vector<double> tempIi(6,0.0);
-	tempI[0] = tempI[1] = tempI[2] = 2/5*mass/pow(radius,2);
+	tempI[0] = tempI[1] = tempI[2] = 2/5.*getProperty("temp_mass").scalar/pow(radius,2);
 	tempI[4] = tempI[5] = tempI[3] = 0;
-	tempIi[0] = tempIi[1] = tempIi [3] = 1/tempI[0];
+	tempIi[0] = tempIi[1] = tempIi [2] = 1./tempI[0];
 	tempIi[3] = tempIi[4] = tempIi[5] = 0;
 	setInertiaTensor(tempI);
 	setInertiaTensorInv(tempIi);

@@ -127,13 +127,13 @@ void FizPrism::compute()
 	
 	std::vector<double> tempI(6,0.0);
 	std::vector<double> tempIi(6,0.0);
-	tempI[0] = 1/12*mass*(pow(height,2)+pow(depth,2));
-	tempI[1] = 1/12*mass*(pow(width,2)+pow(depth,2));
-	tempI[2] = 1/12*mass*(pow(width,2)+pow(height,2));
+	tempI[0] = 1/12.*getProperty("temp_mass").scalar*(pow(height,2)+pow(depth,2));
+	tempI[1] = 1/12.*getProperty("temp_mass").scalar*(pow(width,2)+pow(depth,2));
+	tempI[2] = 1/12.*getProperty("temp_mass").scalar*(pow(width,2)+pow(height,2));
 	tempI[4] = tempI[5] = tempI[3] = 0;
-	tempIi[0] = 1/tempI[0];
-	tempIi[1] = 1/tempI[1];
-	tempIi[2] = 1/tempI[2];
+	tempIi[0] = 1./tempI[0];
+	tempIi[1] = 1./tempI[1];
+	tempIi[2] = 1./tempI[2];
 	tempIi[3] = tempIi[4] = tempIi[5] = 0;
 	setInertiaTensor(tempI);
 	setInertiaTensorInv(tempIi);

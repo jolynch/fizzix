@@ -33,6 +33,7 @@ FizObject::FizObject()
 {
 	vec3 color(64.0, 64.0, 64.0);
 	//The pointer is so that the default vertices don't die after the constructor
+std::cout << "YO YO";
 	this->init("UnNamed", color, *(new std::vector<triangle*>()), 1);
 }
 	
@@ -67,6 +68,7 @@ void FizObject::init(std::string new_name, vec3 color, const std::vector<triangl
 {
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
+std::cout << tinit.size();
 	this->init_object(new_name,color,tinit, new_mass);
 	this->compute();
 	this->adjustMasses();
@@ -78,6 +80,7 @@ void FizObject::init(std::string new_name, vec3 color, const std::vector<triangl
 void FizObject::init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass) 
 {
 	name = new_name;
+std::cout << tinit.size();
 	vertices = tinit;
 	props["SYSTEM_color"] = fizdatum(0.0, color, VECTOR);
 	setMass(new_mass);

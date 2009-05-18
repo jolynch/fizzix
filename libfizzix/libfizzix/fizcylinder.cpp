@@ -126,11 +126,11 @@ void FizCylinder::compute()
 	
 	std::vector<double> tempI(6,0.0);
 	std::vector<double> tempIi(6,0.0);
-	tempI[0] = tempI[1] = 1/12*mass*(3*pow(radius,2)+pow(height,2));
-	tempI[2] = 1/2*mass*pow(radius,2);
+	tempI[0] = tempI[1] = 1/12.*mass*(3*pow(radius,2)+pow(height,2));
+	tempI[2] = 1/2.*mass*pow(radius,2);
 	tempI[4] = tempI[5] = tempI[3] = 0;
-	tempIi[0] = tempIi[1] = 1/tempI[0];
-	tempIi[2] = 1/tempI[2];
+	tempIi[0] = tempIi[1] = 1./tempI[0];
+	tempIi[2] = 1./tempI[2];
 	tempIi[3] = tempIi[4] = tempIi[5] = 0;
 	setInertiaTensor(tempI);
 	setInertiaTensorInv(tempIi);

@@ -29,14 +29,19 @@ class FizObjectTests: public CxxTest::TestSuite
 			vertex p3 = vertex(0,sqrt(3),0);
 			vertex p4 = vertex(0,0,sqrt(3));
 			triangle t1 = triangle(&p1,&p2,&p3,0);
-			triangle t2 = triangle(&p1,&p2,&p4,0);
+			vec3 norm = t1.unit_normal;
+			TS_ASSERT_EQUALS(norm[0],0);
+			TS_ASSERT_EQUALS(norm[1],0);
+			TS_ASSERT_EQUALS(norm[2],-1); //OUTER normal
+			triangle t2 = triangle(&p1,&p4,&p2,0);
 			triangle t3 = triangle(&p1,&p3,&p4,0);
-			triangle t4 = triangle(&p2,&p3,&p4,0);
+			triangle t4 = triangle(&p2,&p4,&p3,0);
 			std::vector<triangle*> ttt;
 			ttt.push_back(&t1);
 			ttt.push_back(&t2);
 			ttt.push_back(&t3);
 			ttt.push_back(&t4);
+			std::cout << ttt.size();
 			FizObject* x = new FizSphere("Purnima", vec3(64,64,64), ttt, 12, 3);
 			TS_ASSERT_EQUALS(x->getMass(),12);
 			TS_ASSERT_EQUALS(((FizSphere*)x)->getRadius(),3);
@@ -74,16 +79,17 @@ class FizObjectTests: public CxxTest::TestSuite
 			TS_ASSERT_EQUALS(p[0],0);
 			TS_ASSERT_EQUALS(p[1],0);
 			TS_ASSERT_EQUALS(p[2],0);
-			//i = x->getInertiaTensorInv();
+			i = x->getInertiaTensorInv();
 			//Quaternion q = x->getQuaternion();
 			//std::vector<double> r = q.toRotationMatrix();
-			//i = x->getInertiaTensorInvWorld();
-			/*TS_ASSERT_EQUALS(d[0],i[0]);
+			
+			TS_ASSERT_EQUALS(d[0],i[0]);
 			TS_ASSERT_EQUALS(d[1],i[1]);
 			TS_ASSERT_EQUALS(d[2],i[2]);
 			TS_ASSERT_EQUALS(d[3],i[3]);
 			TS_ASSERT_EQUALS(d[4],i[4]);
-			TS_ASSERT_EQUALS(d[5],i[5]);*/
+			TS_ASSERT_EQUALS(d[5],i[5]);
+			i = x->getInertiaTensorInvWorld();
 			
 		}
 };
