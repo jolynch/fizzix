@@ -2,6 +2,6 @@
 <qresource>
 	<file>images/logomini.png</file>
 	<file>images/logo.png</file>
-	<file>data/default.xml</file>
+	<file>data/default.xml</file> 
 </qresource>
 </RCC>

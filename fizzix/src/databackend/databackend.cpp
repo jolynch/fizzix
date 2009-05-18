@@ -111,7 +111,7 @@ void DataBackend::createObject(QDomNode d_)
 	QDomElement d=d_.toElement();
 	DrawableObject * f_=new DrawableObject();
 	QString name = d.attribute("name");
-	QDomNodeList constantL = d.elementsByTagName("fizzix constant");
+	QDomNodeList constantL = d.elementsByTagName("fizzix_constant");
 	FizObject * f=((FizObject *)(f_));
 	for(int i=0; i<constantL.size(); i++)
 	{
@@ -136,6 +136,11 @@ void DataBackend::createObject(QDomNode d_)
 				break;
 		};
 	}
+	for(int i=0; i<constantL.size(); i++)
+	{
+		QDomElement dp=(constantL.at(i)).toElement();
+		f->setProperty(dp.attribute("name").toStdString(),Parser::parseFizdatum(dp.text(),((Type)(dp.attribute("type").toInt()))));
+	}
 	objects->setElement(name, f_);
 }
 
@@ -149,6 +154,7 @@ void DataBackend::createForce(QDomNode d_)
 
 void DataBackend::createMacro(QDomNode d_)
 {
+	if(d_.parentNode().nodeName()=="fizzix_force") return;
 	QDomElement d=d_.toElement();
 	QString name = d.attribute("name");
 	int i=0;
@@ -157,6 +163,7 @@ void DataBackend::createMacro(QDomNode d_)
 
 void DataBackend::createConstant(QDomNode d_)
 {
+	if(d_.parentNode().nodeName()=="fizzix_object") return;
 	QDomElement d=d_.toElement();
 	QString name = d.attribute("name");
 	constants->setElement(name, Parser::parseFizdatum(d.text(),((Type)(d.attribute("type").toInt()))));
@@ -164,7 +171,7 @@ void DataBackend::createConstant(QDomNode d_)
 
 QDomNode DataBackend::createObjectNode(QString name, DrawableObject n, QDomDocument * d)
 {
-	QDomElement out=d->createElement("fizzix object");
+	QDomElement out=d->createElement("fizzix_object");
 	out.setAttribute("name",name);
 	std::vector<std::string> v=n.getSetProperties();
 	for(unsigned int i=0; i<v.size(); i++)
@@ -174,7 +181,7 @@ QDomNode DataBackend::createObjectNode(QString name, DrawableObject n, QDomDocum
 
 QDomNode DataBackend::createConstantNode(QString name, fizdatum n, QDomDocument * d)
 {
-	QDomElement out=d->createElement("fizzix constant");
+	QDomElement out=d->createElement("fizzix_constant");
 	out.setAttribute("name",name);
 	out.setAttribute("type",((int)n.type));
 	out.appendChild(d->createTextNode(Parser::parseFizdatum(n)));
@@ -183,48 +190,51 @@ QDomNode DataBackend::createConstantNode(QString name, fizdatum n, QDomDocument 
 
 QDomNode DataBackend::createForceNode(QString name, FizForce n, QDomDocument * d)
 {
-	QDomElement out=d->createElement("fizzix force");
+	QDomElement out=d->createElement("fizzix_force");
 	out.setAttribute("name",name);
-	out.appendChild(createFormulaNode("internal formula",n.getFormula(),d));
+	out.appendChild(createFormulaNode("internal_formula",n.getFormula(),d));
 	return out;
 }
 
 QDomNode DataBackend::createFormulaNode(QString name, FizFormula n, QDomDocument * d)
 {
-	QDomElement out=d->createElement("fizzix formula");
+	QDomElement out=d->createElement("fizzix_formula");
 	out.setAttribute("name",name);
+
 	out.appendChild(d->createTextNode(QString::fromStdString(n.toString())));
 	return out;
 }
 
 void DataBackend::saveDataAsXML(QString filename)
 {
+	dataChanges->setClean();
 	QFile f (filename);
 	if(f.exists())
 		if(QMessageBox::question(NULL, "Overwrite file?", "This file already exists. Overwrite?",QMessageBox::Yes|QMessageBox::No)==QMessageBox::No)
 			return;
 
-	QDomDocument * d=new QDomDocument("fizzix project");
+	QDomDocument * d_=new QDomDocument("fizzix_document");
+	QDomElement d=d_->createElement("fizzix_project");
 	QList<QString> k=objects->getData()->keys();
 	for(int i=0; i<k.size(); i++)
-		d->appendChild(createObjectNode(k.at(i),*(objects->getData()->value(k.at(i))),d));
+		d.appendChild(createObjectNode(k.at(i),*(objects->getData()->value(k.at(i))),d_));
 	k=forces->getData()->keys();
 	for(int i=0; i<k.size(); i++)
-		d->appendChild(createForceNode(k.at(i),*(forces->getData()->value(k.at(i))),d));
+		d.appendChild(createForceNode(k.at(i),*(forces->getData()->value(k.at(i))),d_));
 	k=macros->getData()->keys();
 	for(int i=0; i<k.size(); i++)
-		d->appendChild(createFormulaNode(k.at(i),*(macros->getData()->value(k.at(i))),d));
+		d.appendChild(createFormulaNode(k.at(i),*(macros->getData()->value(k.at(i))),d_));
 	k=constants->getData()->keys();
 	for(int i=0; i<k.size(); i++)
-		d->appendChild(createConstantNode(k.at(i),constants->getData()->value(k.at(i)),d));
-	
+		d.appendChild(createConstantNode(k.at(i),constants->getData()->value(k.at(i)),d_));
+	d_->appendChild(d);
 	if(f.open(QIODevice::WriteOnly))
 	{
 		QTextStream ts (&f);
-		ts<<d->toString();
+		ts<<d_->toString();
 		f.close();
 	}
-	delete d;
+	delete d_;
 }
 
 void DataBackend::loadDataFromXML(QString filename)
@@ -232,17 +242,23 @@ void DataBackend::loadDataFromXML(QString filename)
 	QDomDocument doc("fizzix project");
 	QFile file(filename);
 	if (!file.open(QIODevice::ReadOnly))
+	{
+	qDebug()<<"cannot open: "<<filename;
 		return;
-	if (!doc.setContent(&file)) {
+	}
+	QString error;
+	if (!doc.setContent(&file,false,&error))
+	{
+	qDebug()<<"cannot parse: "<<error;
 		file.close();
 		return;
 	}
 	file.close();
 	QDomElement docElem = doc.documentElement();
-	QDomNodeList objectL = docElem.elementsByTagName("fizzix object");
-	QDomNodeList forceL = docElem.elementsByTagName("fizzix force");
-	QDomNodeList macroL = docElem.elementsByTagName("fizzix formula");
-	QDomNodeList constantL = docElem.elementsByTagName("fizzix constant");
+	QDomNodeList objectL = docElem.elementsByTagName("fizzix_object");
+	QDomNodeList forceL = docElem.elementsByTagName("fizzix_force");
+	QDomNodeList macroL = docElem.elementsByTagName("fizzix_formula");
+	QDomNodeList constantL = docElem.elementsByTagName("fizzix_constant");
 	for(int i=0; i<objectL.size(); i++)
 		createObject(objectL.at(i));
 	for(int i=0; i<forceL.size(); i++)
@@ -316,7 +332,7 @@ void DataBackend::newFromDefault()
 	lastChangeUnpredictable=false;
 	unpredictableChange=0;
 	dataChanges->clear();
-	loadDataFromXML(":default.xml");
+	loadDataFromXML(":data/default.xml");
 }
 
 bool DataBackend::checkBeforeDataUnload()

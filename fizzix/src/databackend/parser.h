@@ -227,9 +227,9 @@ class Parser
 			switch(t)
 			{
 				case SCALAR:
-					return fizdatum(vec3(s_[0].toDouble(),s_[1].toDouble(),s_[2].toDouble()));
-				case VECTOR:
 					return fizdatum(s.toDouble());
+				case VECTOR:
+					return fizdatum(vec3(s_[0].toDouble(),s_[1].toDouble(),s_[2].toDouble()));
 				default: return fizdatum();
 			};
 		}

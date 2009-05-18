@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QtXml>
+#include <QDebug>
 #include "mapkeylistmodel.h"
 #include "drawableobject.h"
 #include "parser.h"
