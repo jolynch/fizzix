@@ -123,7 +123,8 @@ std::vector<double> Quaternion::toRotationMatrix()
 	toReturn[5] = 2*c*d - 2*a*b;
 	toReturn[6] = 2*b*d - 2*a*c;
 	toReturn[7] = 2*a*b + 2*c*d;
-	toReturn[8] = a*a - b*b - c*c + d*d;	
+	toReturn[8] = a*a - b*b - c*c + d*d;
+	return toReturn;
 }
 
 std::vector<double> Quaternion::toRotationMatrixTranspose()
