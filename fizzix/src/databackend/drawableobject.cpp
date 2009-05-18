@@ -120,7 +120,8 @@ vector<triangle*> DrawableObject::makeSphere(double radius, int subdivs)
 		int numVs;
 		for(numVs = 0;numVs < pnv;numVs++)
 		{
-			currVs[numVs] = prevVs[numVs];
+			vertex prevV = prevVs[numVs];
+			currVs[numVs] = vertex(prevV[0],prevV[1],prevV[2]);
 		}
 		triangle * currTs = new triangle[cnf];
 		for (int t = 0;t < pnf;t++)

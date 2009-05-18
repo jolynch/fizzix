@@ -80,7 +80,6 @@ std::cout << tinit.size();
 void FizObject::init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass) 
 {
 	name = new_name;
-std::cout << tinit.size();
 	vertices = tinit;
 	props["SYSTEM_color"] = fizdatum(0.0, color, VECTOR);
 	setMass(new_mass);
@@ -125,14 +124,12 @@ void FizObject::compute()
 	double f1y, f2y, f3y, g0y, g1y, g2y;
 	double f1z, f2z, f3z, g0z, g1z, g2z;
 	point p0,p1,p2;
-std::cout << vertices.size();
 	for(int i = 0; i < vertices.size(); i++) 
 	{
 		triangle& t = *vertices[i];
 		sub_compute(t[0][0], t[1][0], t[2][0], f1x, f2x, f3x, g0x, g1x, g2x);
 		sub_compute(t[0][1], t[1][1], t[2][1], f1y, f2y, f3y, g0y, g1y, g2y);
 		sub_compute(t[0][2], t[1][2], t[2][2], f1z, f2z, f3z, g0z, g1z, g2z);
-std::cout << '\n' << f1x << '\n';
 		const vec3& d = t.normal;
 		t.massp = d[0] * f1x;
 		integral[0] += d[0] * f1x;
@@ -147,7 +144,6 @@ std::cout << '\n' << f1x << '\n';
 		integral[9] += d[2] * (t[0][0] * g0z + t[1][0] * g1z + t[2][0] * g2z);
 	}
 
-std::cout << '\n' << integral[0] << ' ' << div_consts[0] << '\n';
 	integral[0] *= div_consts[0];
 	integral[1] *= div_consts[1];
 	integral[2] *= div_consts[1];

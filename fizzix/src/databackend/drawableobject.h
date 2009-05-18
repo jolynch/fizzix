@@ -38,9 +38,9 @@ class DrawableObject:public FizObject
         void setProperties(int props);
 
 		//Create an approximation to a sphere, the number of faces is 8 * (4 ^ subdivs)
-		static std::vector<triangle *> makeSphere(double radius, int subdivs = 3);
+		static std::vector<triangle *> makeSphere(double radius, int subdivs = 4);
 		//Create an approximation to a cylinder, the number of rectangles around it is num
-		static std::vector<triangle *> makeCylinder(double radius, double height, int num=24);
+		static std::vector<triangle *> makeCylinder(double radius, double height, int num=48);
 		//Create a l x w x h box
 		static std::vector<triangle *> makePrism(double width, double length, double height);
 };

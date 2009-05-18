@@ -77,7 +77,7 @@ void GLDrawPane::drawObject(const DrawableObject & obj)
 	const vec3 & pos = obj.getPos();
 	const vec3 npos(0,0,0);
 	const Quaternion & q = obj.getQuaternion();
-	if(isnan(pos.x)||isnan(pos.y)||isnan(pos.y))
+	if(isnan(pos.x)||isnan(pos.y)||isnan(pos.z))
 		{drawObject(mesh, color, npos, q, obj.getProperty(HIDDEN), obj.getProperty(SMOOTH));}
 	else
 		{drawObject(mesh, color, pos, q, obj.getProperty(HIDDEN), obj.getProperty(SMOOTH));}
@@ -107,7 +107,17 @@ void GLDrawPane::drawObject(const vector<triangle *> & mesh, const vec3 & color,
 					double num;
 					for (num = 0;num < (int)currV.triangles.size();num++)
 					{
-						currNormal += currV(num).unit_normal;
+						vec3 unitNormal = currV(num).unit_normal;
+						vec3 normal = currV(num).normal;
+						if (isnan(unitNormal.x)||isnan(unitNormal.y)||isnan(unitNormal.z))
+						{
+						  cout << "Unit:(%f,%f,%f)" << unitNormal.x << " " << unitNormal.y << " " << unitNormal.z << endl;
+						  cout << "Normal:(%f,%f,%f)" << normal.x << " " << normal.y << " " << normal.z << endl;
+						}
+						else
+						{
+							currNormal += currV(num).unit_normal;
+						}
 					}
 					currNormal/=currNormal.mag();
 					currNormal = q.transformVec(currNormal);

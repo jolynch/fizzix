@@ -95,13 +95,11 @@ void FizSphere::compute()
 {
 	/**computing masses of triangles copied from FizObject
 	*/
-std::cout << "I'M IN SPHERE COMPUTE";
 	double integral[4] = {0.0, 0.0, 0.0, 0.0};
 	double f1x, f2x, f3x, g0x, g1x, g2x;
 	double f1y, f2y, f3y, g0y, g1y, g2y;
 	double f1z, f2z, f3z, g0z, g1z, g2z;
 	point p0,p1,p2;
-std::cout <<vertices.size();
 	for(int i = 0; i < vertices.size(); i++) 
 	{
 		triangle& t = *(vertices[i]);
@@ -115,7 +113,6 @@ std::cout <<vertices.size();
 		integral[2] += d[1] * f2y;
 		integral[3] += d[2] * f2z;
 	}
-std::cout << '\n' << integral[0] << ' ' << div_consts[0] << '\n';
 	integral[0] *= div_consts[0];
 	integral[1] *= div_consts[1];
 	integral[2] *= div_consts[1];
@@ -124,7 +121,6 @@ std::cout << '\n' << integral[0] << ' ' << div_consts[0] << '\n';
 	setProperty("temp_mass", fizdatum(getMass()));
 	setMass(integral[0]); 
 	setPos(vec3(integral[1]/mass, integral[2]/mass, integral[3]/mass));
-std::cout << '\n' << integral[1] << ' ' << integral[2] << ' ' << integral[3] << ' ' << mass << ' ' << getMass() <<'\n';
 
 	/**end copied code
 	*/
