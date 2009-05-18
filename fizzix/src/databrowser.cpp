@@ -33,7 +33,7 @@ DataBrowser::DataBrowser( DataBackend * _d,QDesktopWidget * d):QDockWidget(tr("D
 {
 	db=_d;
 	this->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
+	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetClosable);
 	tabs=new QTabWidget();
 	
 	QWidget * owidget=new QWidget();
@@ -139,6 +139,23 @@ DataBrowser::DataBrowser( DataBackend * _d,QDesktopWidget * d):QDockWidget(tr("D
 	clayout->addWidget(ced,2,4);
 	cwidget->setLayout(clayout);
 	tabs->addTab(cwidget,"Constants");
+	
+	QPalette pal=owidget->palette();
+	pal.setColor(QPalette::Window,pal.color(QPalette::Window).darker(105));
+	owidget->setAutoFillBackground(true);
+	owidget->setPalette(pal);
+	pal=fwidget->palette();
+	pal.setColor(QPalette::Window,pal.color(QPalette::Window).darker(110));
+	fwidget->setAutoFillBackground(true);
+	fwidget->setPalette(pal);
+	pal=mwidget->palette();
+	pal.setColor(QPalette::Window,pal.color(QPalette::Window).darker(115));
+	mwidget->setAutoFillBackground(true);
+	mwidget->setPalette(pal);
+	pal=cwidget->palette();
+	pal.setColor(QPalette::Window,pal.color(QPalette::Window).darker(120));
+	cwidget->setAutoFillBackground(true);
+	cwidget->setPalette(pal);
 	
 	QObject::connect(this,SIGNAL(addObject(QString)),db->getDataInserter(),SLOT(addObject(QString)));
 	QObject::connect(this,SIGNAL(deleteObject(QString)),db->getDataInserter(),SLOT(deleteObject(QString)));

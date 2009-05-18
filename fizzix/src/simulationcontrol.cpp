@@ -61,9 +61,9 @@ SimulationControl::SimulationControl(DataBackend * _db):QDockWidget(tr("Simulati
 	layout->addWidget(reset,0,5);
 	container->setLayout(layout);
 	
-	this->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	this->setAllowedAreas(Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
 	this->setWidget(container);
-	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
+	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetClosable);
 	QObject::connect(eng,SIGNAL(statusChanged(QString, int)),this,SLOT(statusChanged(QString, int)));
 	QObject::connect(db,SIGNAL(statusChanged(QString, int)),this,SLOT(statusChanged(QString, int)));
 }

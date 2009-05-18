@@ -53,7 +53,7 @@ class DataEditor:public QDockWidget
 		currentlyLoaded curr;
 		
 		DataBackend * db;
-		
+		QLabel * nameL;
 		QLineEdit * name;
 		QString loadName;
 		QStackedLayout * centerL;

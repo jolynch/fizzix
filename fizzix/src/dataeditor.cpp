@@ -37,7 +37,9 @@ DataEditor::DataEditor(DataBackend * _db,QDesktopWidget * d):QDockWidget(tr("Dat
 	name=new QLineEdit();
 	QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(saveChanges()));
 	layout->addWidget(name,0,1,1,4);
-	layout->addWidget(new QLabel("Name:"),0,0);
+	nameL=new QLabel("Name:");
+	nameL->setAutoFillBackground(true);
+	layout->addWidget(nameL,0,0);
 	QPushButton * save_PB=new QPushButton("Save");
 	QObject::connect(save_PB,SIGNAL(clicked()),this,SLOT(saveChanges()));
 	QPushButton * cancel_PB=new QPushButton("Cancel");
@@ -64,7 +66,7 @@ DataEditor::DataEditor(DataBackend * _db,QDesktopWidget * d):QDockWidget(tr("Dat
 	container->setLayout(layout);
 	container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 	this->setWidget(container);
-	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
+	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetClosable);
 	QObject::connect(db, SIGNAL(dataLocked(bool)),this,SLOT(setDisabled(bool)));
 	QObject::connect(db,SIGNAL(unloadData()),this,SLOT(loadBlank()));
 }
@@ -99,7 +101,9 @@ bool DataEditor::checkToSave()
 void DataEditor::loadObject(QString n)
 {
 	if(!checkToSave()) return;
-	this->setWindowTitle("Object editor");
+	QPalette pal=nameL->palette();
+	pal.setColor(QPalette::Window,this->palette().color(QPalette::Window).darker(105));
+	nameL->setPalette(pal);
 	loadName=n;
 	name->setText(loadName);
 	if(db->getObjectModel()->getData()->value(loadName)==NULL)
@@ -113,7 +117,9 @@ void DataEditor::loadObject(QString n)
 void DataEditor::loadForce(QString n)
 {
 	if(!checkToSave()) return;
-	this->setWindowTitle("Force editor");
+	QPalette pal=nameL->palette();
+	pal.setColor(QPalette::Window,this->palette().color(QPalette::Window).darker(110));
+	nameL->setPalette(pal);
 	loadName=n;
 	name->setText(loadName);
 	if(db->getForceModel()->getData()->value(loadName)==NULL)
@@ -127,7 +133,9 @@ void DataEditor::loadForce(QString n)
 void DataEditor::loadMacro(QString n)
 {
 	if(!checkToSave()) return;
-	this->setWindowTitle("Macro editor");
+	QPalette pal=nameL->palette();
+	pal.setColor(QPalette::Window,this->palette().color(QPalette::Window).darker(115));
+	nameL->setPalette(pal);
 	loadName=n;
 	name->setText(loadName);
 	if(db->getMacroModel()->getData()->value(loadName)==NULL)
@@ -141,7 +149,9 @@ void DataEditor::loadMacro(QString n)
 void DataEditor::loadConstant(QString n)
 {
 	if(!checkToSave()) return;
-	this->setWindowTitle("Constant editor");
+	QPalette pal=nameL->palette();
+	pal.setColor(QPalette::Window,this->palette().color(QPalette::Window).darker(120));
+	nameL->setPalette(pal);
 	loadName=n;
 	name->setText(loadName);
 	constEditor->setData(db->getConstModel()->getData()->value(loadName));
@@ -195,6 +205,9 @@ void DataEditor::loadBlank()
 	name->setText("");
 	curr=none;
 	centerL->setCurrentIndex(curr);
+	QPalette pal=nameL->palette();
+	pal.setColor(QPalette::Window,this->palette().color(QPalette::Window));
+	nameL->setPalette(pal);
 }
 
 void DataEditor::revertChanges()
