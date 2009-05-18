@@ -7,7 +7,7 @@ CONFIG = qt opengl thread resources exceptions warn_on stl rtti
 MOC_DIR = moc
 OBJECTS_DIR = build
 RESOURCES = fizzix.qrc
-QT += opengl
+QT += opengl xml
 LIBS += -L../local_install/lib -lfizzix
 
 

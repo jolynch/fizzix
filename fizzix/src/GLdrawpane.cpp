@@ -74,12 +74,13 @@ void GLDrawPane::drawObject(const DrawableObject & obj)
 {
 	const vector<triangle*> & mesh = obj.getVertices();
 	const vec3 & color = obj["SYSTEM_color"].vector/256.0;
-	//const vec3 & pos = obj.getPos();
+	const vec3 & pos = obj.getPos();
+	const vec3 npos(0,0,0);
 	const Quaternion & q = obj.getQuaternion();
-	//const vec3 color(.9,.5,.2);
-	const vec3 pos(0,0,0);
-	//const Quaternion q;
-	drawObject(mesh, color, pos, q, obj.getProperty(HIDDEN), obj.getProperty(SMOOTH));
+	if(isnan(pos.x)||isnan(pos.y)||isnan(pos.y))
+		{drawObject(mesh, color, npos, q, obj.getProperty(HIDDEN), obj.getProperty(SMOOTH));}
+	else
+		{drawObject(mesh, color, pos, q, obj.getProperty(HIDDEN), obj.getProperty(SMOOTH));}
 }
 
 void GLDrawPane::drawObject(const vector<triangle *> & mesh, const vec3 & color, const vec3 & pos, const Quaternion & q, bool hidden, bool smooth)

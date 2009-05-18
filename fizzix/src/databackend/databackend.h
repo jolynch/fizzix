@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QString>
 #include <QMessageBox>
+#include <QtXml>
 #include "mapkeylistmodel.h"
 #include "drawableobject.h"
 #include "parser.h"
@@ -23,12 +24,21 @@ class DataBackend:public QObject
 		bool dataLock;
 		bool lastChangeUnpredictable;
 		int unpredictableChange;
+		QString currentName;
 		MapKeyListModel <DrawableObject *> * objects;
 		MapKeyListModel <FizForce *> * forces;
 		MapKeyListModel <FizFormula *> * macros;
 		MapKeyListModel <fizdatum> * constants;
 		ChangeFactory * dataInserter;
 		QUndoStack * dataChanges;
+		
+	private:
+		//QDomNode createObjectNode(QString name, DrawableObject * n, QDomDocument * d);
+		//QDomNode createConstantNode(QString name, fizdatum n, QDomDocument * d);
+		//QDomNode createForceode(QString name, FizForce * n, QDomDocument * d);
+		//QDomNode createFormulaNode(QString name, FizFormula * n, QDomDocument * d);
+		//void saveDataAsXML(QString filename);
+		//void loadDataFromXML(QString filename);
 		
 	public:
 		DataBackend();
@@ -47,6 +57,8 @@ class DataBackend:public QObject
 		void toggleDataLock();
 		void applyDataChange(QUndoCommand * c);
 		void applyUnpredictableDataChange(QUndoCommand * c, bool addToStack);
+		//void saveAs();
+		//void save();
 
 	signals:
 		void dataLocked(bool locked);

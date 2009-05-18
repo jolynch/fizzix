@@ -352,6 +352,36 @@ fizdatum FizObject::getProperty(std::string key) const
 
 void FizObject::setProperty(std::string key, fizdatum value) 
 {
+	if(key=="SYSTEM_mass")
+	{
+		setMass(value.scalar);
+		return;
+	}
+	if(key=="SYSTEM_position")
+	{
+		setPos(value.vector);
+		return;
+	}
+	if(key=="SYSTEM_velocity")
+	{
+		setVel(value.vector);
+		return;
+	}
+	if(key=="SYSTEM_acceleration")
+	{
+		setAcc(value.vector);
+		return;
+	}
+	if(key=="SYSTEM_angular_velocity")
+	{
+		setOme(value.vector);
+		return;
+	}
+	if(key=="SYSTEM_angular_acceleration")
+	{
+		setAlp(value.vector);
+		return;
+	}
 	props[key] = value;
 }
 
