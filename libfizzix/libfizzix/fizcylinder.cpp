@@ -121,6 +121,7 @@ void FizCylinder::compute()
 	setProperty("temp_mass", fizdatum(getMass()));
 	setMass(integral[0]); 
 	setPos(vec3(integral[1]/mass, integral[2]/mass, integral[3]/mass));
+	std::map<vertex*,bool> vlist;
 	/**end copied code
 	*/
 	

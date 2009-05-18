@@ -125,6 +125,7 @@ std::cout << '\n' << integral[0] << ' ' << div_consts[0] << '\n';
 	setMass(integral[0]); 
 	setPos(vec3(integral[1]/mass, integral[2]/mass, integral[3]/mass));
 std::cout << '\n' << integral[1] << ' ' << integral[2] << ' ' << integral[3] << ' ' << mass << ' ' << getMass() <<'\n';
+
 	/**end copied code
 	*/
 	

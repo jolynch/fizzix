@@ -44,4 +44,6 @@ const std::string FizFormNode::toString(fizstack& stack)
 {
 	return "";
 }
+
+std::string FizFormNode::token = "_";
 #endif

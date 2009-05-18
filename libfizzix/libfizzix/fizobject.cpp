@@ -202,10 +202,20 @@ std::cout << '\n' << integral[0] << ' ' << div_consts[0] << '\n';
 
 void FizObject::adjustMasses()
 {
-	for(std::vector<triangle*>::iterator i = vertices.begin(); i != vertices.end(); i++)
-	{
-		(*i)->massp = (*i)->massp / mass;
-	}
+	std::map<vertex*,bool> vlist;
+	for(int i=0; i<vertices.size();i++)
+	{	
+		triangle& t = *vertices[i];
+		t.massp = t.massp / mass;
+		for(int j =0; j<3;j++)
+		{
+			if(vlist.find(&(t[j])) == vlist.end())
+			{
+				t[j].p -= pos;
+				vlist[&(t[j])] = true;
+			}
+		}
+	}	
 
 	setMass(getProperty("temp_mass").scalar);
 	removeProperty("temp_mass");

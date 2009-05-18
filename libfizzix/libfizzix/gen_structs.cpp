@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "gen_structs.h"
 #include <stdexcept>
+#include <iostream>
 
 /******************** VEC3 ********************/
 vec3::vec3(double _x, double _y, double _z) : x(_x), y(_y), z(_z) {}
@@ -241,9 +242,12 @@ triangle::triangle(vertex* v1, vertex* v2, vertex* v3, bool add)
 	vertices[0] = v1; vertices[1] =  v2; vertices[2] = v3;
 	vertex& vr1 = *v1;vertex& vr2 = *v2;vertex& vr3 = *v3;
 	massp = 0.0;
-	vec3 e1 = vec3((double)(vr1[0])-vr2[0],vr1[1]-vr2[1],vr1[2]-vr2[2]);
-	vec3 e2 = vec3(vr1[0]-vr3[0],vr1[1]-vr3[1],vr1[2]-vr3[2]);
+	vec3 e1 = vr2.p - vr1.p;
+	vec3 e2 = vr3.p - vr1.p;
+// 	std::cout<<"Calculating normal: "<<e1[0]<<" "<<e1[1]<<" "<<e1[2]<<" and "<<e2[0]<<" "<<e2[1]<<" "<<e2[2]<<std::endl;
 	normal = e1.cross(e2);
+// 	std::cout<<"Got: "<<normal[0]<<" "<<normal[1]<<" "<<normal[2]<<std::endl;
+
 	unit_normal = vec3(normal[0]/normal.mag(), 
 			   normal[1]/normal.mag(), 
 			   normal[2]/normal.mag());

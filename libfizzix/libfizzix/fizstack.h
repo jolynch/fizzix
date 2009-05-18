@@ -92,7 +92,7 @@ void FizStack<T>::reset()
 template <typename T>
 int FizStack<T>::size()
 {
-	return stack.size();
+	return index+1;
 }
 
 template< typename T >
