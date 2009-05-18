@@ -10,6 +10,7 @@ StepEngine::StepEngine(DataBackend * _db) : QObject()
 	timer=new QTimer();
 	timer->setSingleShot(false);
 	QObject::connect(timer,SIGNAL(timeout()),this,SLOT(step()));
+	QObject::connect(db,SIGNAL(unloadData()),this,SLOT(stopPull()));
 	changesSaved=false;
 	emit statusChanged("Engine ready", 0);
 } 

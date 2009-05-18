@@ -7,6 +7,7 @@
 #include <libfizzix/fizprism.h>
 
 enum Bit { HIDDEN, SMOOTH };
+enum PredefinedShapeType {PRISM,CYLINDER,SPHERE};
 
 class DrawableObject:public FizObject
 {

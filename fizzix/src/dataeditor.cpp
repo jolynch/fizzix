@@ -66,6 +66,7 @@ DataEditor::DataEditor(DataBackend * _db,QDesktopWidget * d):QDockWidget(tr("Dat
 	this->setWidget(container);
 	this->setFeatures(QDockWidget::DockWidgetMovable|QDockWidget::DockWidgetFloatable);
 	QObject::connect(db, SIGNAL(dataLocked(bool)),this,SLOT(setDisabled(bool)));
+	QObject::connect(db,SIGNAL(unloadData()),this,SLOT(loadBlank()));
 }
 
 bool DataEditor::checkToSave()

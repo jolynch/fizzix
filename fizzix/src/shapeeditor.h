@@ -8,7 +8,7 @@
 
 #include "databackend/drawableobject.h"
 
-enum PredefinedShapeType {PRISM,CYLINDER,SPHERE};
+
 
 class ShapeEditor:public QWidget
 {	Q_OBJECT

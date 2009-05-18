@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QString>
 #include <QMessageBox>
+#include <QFileDialog>
 #include <QtXml>
 #include "mapkeylistmodel.h"
 #include "drawableobject.h"
@@ -33,12 +34,17 @@ class DataBackend:public QObject
 		QUndoStack * dataChanges;
 		
 	private:
-		//QDomNode createObjectNode(QString name, DrawableObject * n, QDomDocument * d);
-		//QDomNode createConstantNode(QString name, fizdatum n, QDomDocument * d);
-		//QDomNode createForceode(QString name, FizForce * n, QDomDocument * d);
-		//QDomNode createFormulaNode(QString name, FizFormula * n, QDomDocument * d);
-		//void saveDataAsXML(QString filename);
-		//void loadDataFromXML(QString filename);
+		bool checkBeforeDataUnload();
+		void createObject(QDomNode d_);
+		void createForce(QDomNode d_);
+		void createMacro(QDomNode d_);
+		void createConstant(QDomNode d_);
+		QDomNode createObjectNode(QString name, DrawableObject n, QDomDocument * d);
+		QDomNode createConstantNode(QString name, fizdatum n, QDomDocument * d);
+		QDomNode createForceNode(QString name, FizForce n, QDomDocument * d);
+		QDomNode createFormulaNode(QString name, FizFormula n, QDomDocument * d);
+		void saveDataAsXML(QString filename);
+		void loadDataFromXML(QString filename);
 		
 	public:
 		DataBackend();
@@ -57,12 +63,16 @@ class DataBackend:public QObject
 		void toggleDataLock();
 		void applyDataChange(QUndoCommand * c);
 		void applyUnpredictableDataChange(QUndoCommand * c, bool addToStack);
-		//void saveAs();
-		//void save();
+		void saveAs();
+		void save();
+		void load();
+		void newFromBlank();
+		void newFromDefault();
 
 	signals:
 		void dataLocked(bool locked);
 		void statusChanged(QString, int);
+		void unloadData();
 };
 
 

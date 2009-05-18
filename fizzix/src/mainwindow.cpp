@@ -67,9 +67,12 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	this->addDockWidget(Qt::BottomDockWidgetArea, simcontrol);
 	
 	QMenu * fileMenu = this->menuBar()->addMenu(tr("File"));
-	fileMenu->addAction("New Project");
-	fileMenu->addAction("Open Project");
-	fileMenu->addAction("Save Project");
+	QMenu * newMenu=fileMenu->addMenu("New Project");
+	newMenu->addAction("Blank Project",databackend,SLOT(newFromBlank()));
+	newMenu->addAction("From Default",databackend,SLOT(newFromDefault()));
+	fileMenu->addAction("Open Project",databackend,SLOT(load()));
+	fileMenu->addAction("Save Project",databackend,SLOT(save()));
+	fileMenu->addAction("Save Project As",databackend,SLOT(saveAs()));
 	QMenu * exportMenu=fileMenu->addMenu("Export");
 	exportMenu->addAction("Project as XML");
 	exportMenu->addAction("Object");

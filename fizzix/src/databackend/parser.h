@@ -220,6 +220,36 @@ class Parser
 			stack.reset();
 			return stack;
 		}
+	
+		static fizdatum parseFizdatum(QString s, Type t)
+		{
+			QStringList s_=s.split(" ");
+			switch(t)
+			{
+				case SCALAR:
+					return fizdatum(vec3(s_[0].toDouble(),s_[1].toDouble(),s_[2].toDouble()));
+				case VECTOR:
+					return fizdatum(s.toDouble());
+				default: return fizdatum();
+			};
+		}
 		
+		static QString parseFizdatum(fizdatum d)
+		{
+			QString out="";
+			switch(d.type)
+			{
+				case SCALAR:
+					return QString::number(d.scalar);
+				case VECTOR:
+					out.append(QString::number(d.vector[0]));
+					out.append(" ");
+					out.append(QString::number(d.vector[1]));
+					out.append(" ");
+					out.append(QString::number(d.vector[2]));
+					return out;
+				default: return QString();
+			};
+		}
 };
 #endif
