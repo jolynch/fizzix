@@ -1,1 +1,53 @@
 <!DOCTYPE fizzix project>
+<fizzix object name="Cyl1" >
+ <fizzix constant type="2" name="SYSTEM_acceleration" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_angular_acceleration" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_angular_velocity" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_color" >64 64 64</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_height" >10</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_mass" >1</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_position" >-50 0 0</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_preset_geomtype" >1</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_radius" >4</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_velocity" >0 0 0</fizzix constant>
+</fizzix object>
+<fizzix object name="Rect1" >
+ <fizzix constant type="2" name="SYSTEM_acceleration" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_angular_acceleration" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_angular_velocity" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_color" >64 64 64</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_height" >4</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_length" >5</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_mass" >1</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_position" >50 0 0</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_preset_geomtype" >0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_velocity" >0 0 0</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_width" >3</fizzix constant>
+</fizzix object>
+<fizzix object name="Sphere1" >
+ <fizzix constant type="2" name="SYSTEM_acceleration" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_angular_acceleration" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_angular_velocity" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_color" >64 64 64</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_mass" >1</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_position" >0 50 0</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_preset_geomtype" >2</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_radius" >10</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_velocity" >0 0 0</fizzix constant>
+</fizzix object>
+<fizzix object name="Sphere2" >
+ <fizzix constant type="2" name="SYSTEM_acceleration" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_angular_acceleration" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_angular_velocity" >0 0 0</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_color" >64 64 64</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_mass" >50</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_position" >0 -50 0</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_preset_geomtype" >2</fizzix constant>
+ <fizzix constant type="1" name="SYSTEM_radius" >5</fizzix constant>
+ <fizzix constant type="2" name="SYSTEM_velocity" >0 0 0</fizzix constant>
+</fizzix object>
+<fizzix force name="Gravity" >
+ <fizzix formula name="internal formula" >(/ (* "G" $SYSTEM_mass @SYSTEM_mass) (^ [radius] 2))</fizzix formula>
+</fizzix force>
+<fizzix formula name="radius" >(mag (- $SYSTEM_position @SYSTEM_position))</fizzix formula>
+<fizzix constant type="1" name="G" >6.673e-11</fizzix constant>

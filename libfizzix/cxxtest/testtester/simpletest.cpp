@@ -14,53 +14,23 @@
 int main() {
  return CxxTest::ErrorPrinter().run();
 }
-#include "SimpleTest.h"
+#include "fizformulatests.h"
 
-static SimpleTest suite_SimpleTest;
+static FizFormulaTests suite_FizFormulaTests;
 
-static CxxTest::List Tests_SimpleTest = { 0, 0 };
-CxxTest::StaticSuiteDescription suiteDescription_SimpleTest( "SimpleTest.h", 10, "SimpleTest", suite_SimpleTest, Tests_SimpleTest );
+static CxxTest::List Tests_FizFormulaTests = { 0, 0 };
+CxxTest::StaticSuiteDescription suiteDescription_FizFormulaTests( "fizformulatests.h", 16, "FizFormulaTests", suite_FizFormulaTests, Tests_FizFormulaTests );
 
-static class TestDescription_SimpleTest_testEquality : public CxxTest::RealTestDescription {
+static class TestDescription_FizFormulaTests_testFormula : public CxxTest::RealTestDescription {
 public:
- TestDescription_SimpleTest_testEquality() : CxxTest::RealTestDescription( Tests_SimpleTest, suiteDescription_SimpleTest, 13, "testEquality" ) {}
- void runTest() { suite_SimpleTest.testEquality(); }
-} testDescription_SimpleTest_testEquality;
+ TestDescription_FizFormulaTests_testFormula() : CxxTest::RealTestDescription( Tests_FizFormulaTests, suiteDescription_FizFormulaTests, 19, "testFormula" ) {}
+ void runTest() { suite_FizFormulaTests.testFormula(); }
+} testDescription_FizFormulaTests_testFormula;
 
-static class TestDescription_SimpleTest_testAddition : public CxxTest::RealTestDescription {
+static class TestDescription_FizFormulaTests_testOperators : public CxxTest::RealTestDescription {
 public:
- TestDescription_SimpleTest_testAddition() : CxxTest::RealTestDescription( Tests_SimpleTest, suiteDescription_SimpleTest, 21, "testAddition" ) {}
- void runTest() { suite_SimpleTest.testAddition(); }
-} testDescription_SimpleTest_testAddition;
-
-static class TestDescription_SimpleTest_TestMultiplication : public CxxTest::RealTestDescription {
-public:
- TestDescription_SimpleTest_TestMultiplication() : CxxTest::RealTestDescription( Tests_SimpleTest, suiteDescription_SimpleTest, 27, "TestMultiplication" ) {}
- void runTest() { suite_SimpleTest.TestMultiplication(); }
-} testDescription_SimpleTest_TestMultiplication;
-
-static class TestDescription_SimpleTest_testComparison : public CxxTest::RealTestDescription {
-public:
- TestDescription_SimpleTest_testComparison() : CxxTest::RealTestDescription( Tests_SimpleTest, suiteDescription_SimpleTest, 34, "testComparison" ) {}
- void runTest() { suite_SimpleTest.testComparison(); }
-} testDescription_SimpleTest_testComparison;
-
-static class TestDescription_SimpleTest_testTheWorldIsCrazy : public CxxTest::RealTestDescription {
-public:
- TestDescription_SimpleTest_testTheWorldIsCrazy() : CxxTest::RealTestDescription( Tests_SimpleTest, suiteDescription_SimpleTest, 40, "testTheWorldIsCrazy" ) {}
- void runTest() { suite_SimpleTest.testTheWorldIsCrazy(); }
-} testDescription_SimpleTest_testTheWorldIsCrazy;
-
-static class TestDescription_SimpleTest_test_Failure : public CxxTest::RealTestDescription {
-public:
- TestDescription_SimpleTest_test_Failure() : CxxTest::RealTestDescription( Tests_SimpleTest, suiteDescription_SimpleTest, 45, "test_Failure" ) {}
- void runTest() { suite_SimpleTest.test_Failure(); }
-} testDescription_SimpleTest_test_Failure;
-
-static class TestDescription_SimpleTest_test_TS_WARN_macro : public CxxTest::RealTestDescription {
-public:
- TestDescription_SimpleTest_test_TS_WARN_macro() : CxxTest::RealTestDescription( Tests_SimpleTest, suiteDescription_SimpleTest, 51, "test_TS_WARN_macro" ) {}
- void runTest() { suite_SimpleTest.test_TS_WARN_macro(); }
-} testDescription_SimpleTest_test_TS_WARN_macro;
+ TestDescription_FizFormulaTests_testOperators() : CxxTest::RealTestDescription( Tests_FizFormulaTests, suiteDescription_FizFormulaTests, 62, "testOperators" ) {}
+ void runTest() { suite_FizFormulaTests.testOperators(); }
+} testDescription_FizFormulaTests_testOperators;
 
 #include <cxxtest/Root.cpp>

@@ -331,7 +331,13 @@ void FizObject::setInertiaTensorInv(std::vector<double> newtensor)	{
 									}
 double FizObject::getMass()	const			{ return mass; }
 double& FizObject::rgetMass()				{ return mass; }
-void FizObject::setMass(double newmass)			{ mass = newmass; 
+void FizObject::setMass(double newmass)			{ 
+							  for(int i=0;i<6;i++)
+							  {
+							  	inertiaTensor[i] = (newmass / mass) * inertiaTensor[i]; 
+							  	inertiaTensorInv[i] = (newmass / mass) * inertiaTensorInv[i]; 
+							  } 
+							  mass = newmass; 
       						          props["SYSTEM_mass"] = fizdatum(mass, vec3(), SCALAR);
 							}
 
