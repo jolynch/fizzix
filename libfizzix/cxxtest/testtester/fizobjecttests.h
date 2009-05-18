@@ -80,8 +80,6 @@ class FizObjectTests: public CxxTest::TestSuite
 			TS_ASSERT_EQUALS(p[1],0);
 			TS_ASSERT_EQUALS(p[2],0);
 			i = x->getInertiaTensorInv();
-			//Quaternion q = x->getQuaternion();
-			//std::vector<double> r = q.toRotationMatrix();
 			
 			TS_ASSERT_EQUALS(d[0],i[0]);
 			TS_ASSERT_EQUALS(d[1],i[1]);
@@ -89,7 +87,10 @@ class FizObjectTests: public CxxTest::TestSuite
 			TS_ASSERT_EQUALS(d[3],i[3]);
 			TS_ASSERT_EQUALS(d[4],i[4]);
 			TS_ASSERT_EQUALS(d[5],i[5]);
-			i = x->getInertiaTensorInvWorld();
+			//i = x->getInertiaTensorInvWorld();
+			
+			Quaternion q = x->getQuaternion();
+			//std::vector<double> r = q.toRotationMatrix();
 			
 		}
 };

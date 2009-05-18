@@ -78,8 +78,9 @@ std::cout << tinit.size();
 	setMass(new_mass);
 	vertex v = vertex();
 	triangle com = triangle(&v,&v,&v,0); //hopefully this line works correctly
-	com.massp = mass;
+	com.massp = 1;
 	setCOMTriangle(com);
+	comapprox = 1;
 	setVel(vec3());
 	setAcc(vec3());
 	setOme(vec3());

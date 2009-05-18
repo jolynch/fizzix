@@ -31,7 +31,10 @@ FizFormula::FizFormula(fizstack stk) : stack(stk) {}
 
 const fizdatum FizFormula::eval(const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
 {
+std::cout << "I'M IN FIZFORMULA EVALING YOUR SHIT" << '\n';
+	stack.reset();
 	fizdatum a = stack.pop()->eval(stack,obj1,tri1,obj2,tri2); //the stack represents a postfix expression, which is recursively evaluated from the back
+std::cout << "I'VE EVALED THE SHIT" << '\n';
 	stack.reset();
 	return a;
 }

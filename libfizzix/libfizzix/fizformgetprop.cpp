@@ -46,6 +46,7 @@ FizFormGetProp::FizFormGetProp(string id, string name)
 
 const fizdatum FizFormGetProp::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
+cout << "GONNA GET A PROPERTY CALLED " << identifier << '\n';
 	fizdatum a;
 	if (objectname != "") a = eng->getPropVal(objectname, identifier);
 	else

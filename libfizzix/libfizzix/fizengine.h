@@ -183,9 +183,12 @@ class FizEngine
 
 		// True = Thing is cached, false = Thing is not cached
 		template< class T >	
-		bool contains(const std::map<std::string, T> cache, const std::string& key)
+		bool contains(const std::map<std::string, T>& cache, const std::string& key)
 		{
-		        return cache.count(key) != 0;
+std::cout << "ABOUT TO CHECK IF THE CACHE CONTAINS " << key << '\n';
+std::cout << "COUNT IS " << '\n';
+std::cout << cache.count(key) << '\n';
+			return cache.count(key) != 0;
 		}
 
 		void clearDistributedCaches(); // Clears distributed properties from cache

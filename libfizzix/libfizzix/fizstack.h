@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <vector>
 #include <stdexcept>
+#include <iostream>
 
 /* Class declaration
  * */
@@ -104,10 +105,11 @@ bool FizStack<T>::empty()
 template< typename T >
 T FizStack<T>::pop()
 {
+std::cout << "POPPING" << '\n';
 	if( !empty() ) 
 	//	throw std::out_of_range("Can't pop an empty stack");
 	//else 
-		return stack[index--];
+	{std::cout << "NOT EMPTY - ACTUALLY POPPING" << '\n';	return stack[index--];}
 }
 
 template< typename T >

@@ -78,8 +78,9 @@ void FizPrism::init_object(std::string new_name, vec3 color, const std::vector<t
 	setMass(new_mass);
 	vertex v = vertex();
 	triangle com = triangle(&v,&v,&v,0); //hopefully this line works correctly
-	com.massp = mass;
+	com.massp = 1;
 	setCOMTriangle(com);
+	comapprox = 1;
 	setVel(vec3());
 	setAcc(vec3());
 	setOme(vec3());

@@ -36,6 +36,7 @@ FizFormGetConst::FizFormGetConst(std::string id)
 
 const fizdatum FizFormGetConst::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
+cout << "GONNA GET CONST OF " << identifier << '\n';
 	return eng->getConstVal(identifier); // gets const value from engine
 }
 

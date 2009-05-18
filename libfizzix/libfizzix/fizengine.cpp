@@ -56,6 +56,10 @@ void FizEngine::step(	std::map<std::string, FizObject*>  * thisStep,
 	this->props = macros; // Eventually props should be renamed to macros
 	this->ccache = ccache;
 	this->dt = dt;
+	mcache = *(new std::map<std::string, fizdatum>());
+	fcache = *(new std::map<std::string, fizdatum>());
+	evaluatedForces = new std::map<FizObject*, std::pair<vec3,vec3> >();
+	forceEvaled = new std::map<std::string, bool>();
 	evalForces();
 }
 
@@ -86,29 +90,42 @@ void FizEngine::evalForces()
 			//Anton, we don't need this is you keep names up to date ...
 			obj1.setName(outer_iter->first);
 			obj2.setName(inner_iter->first);
-
+std::cout << "YO I'VE GOT OBJECTS" << '\n';
 			collisions(obj1, obj2);
 			std::vector<triangle*>& tris1 = obj1.rgetVertices(); //actually, triangles, not vertices
 			std::vector<triangle*>& tris2 = obj2.rgetVertices();
 			vec3 dforce;
 			//evalForce(forces[i], *outer_iter, *inner_iter);
 			//need a COM triangle in each object
+std::cout << "ABOUT TO EVALUATE SHIT" << '\n';
 			if (obj1.comApprox()) //if object 1 can be approximated as at its COM
 			{
+std::cout << "OBJ 1 CAN BE COMAPPROXED" << '\n';
 				if (obj2.comApprox())
 				{
+std::cout << "OBJ 2 CAN BE COMAPPROXED" << '\n';
 					force_iter = forces->begin();
+std::cout << "ABOUT TO GO THROUGH FORCES" << '\n';
 					while(!(force_iter == forces->end()))
 					{
+std::cout << "IN FORCES YO" << '\n';
 						FizForce* force = force_iter->second;
 						std::string forcename = force_iter->first;
+std::cout << "ABOUT TO CHECK FORCEEVALED" << '\n';
 						if(!(*forceEvaled)[forcename])
 						{
-							dforce = force->getForce(obj1, obj1.rgetCOMTriangle(), obj2, obj2.rgetCOMTriangle());
+std::cout << "EVALING SHIT" << '\n';
+							triangle tri1 = obj1.getCOMTriangle();
+							triangle tri2 = obj2.getCOMTriangle();
+std::cout << "GOTTEN TRIANGLES" << '\n';
+							dforce = force->getForce(obj1, tri1, obj2, tri2);
+std::cout << "ABOUT TO CHECK EVALUATEDFORCES" << '\n';
 							(*evaluatedForces)[&obj1].first += dforce;
+std::cout << "ABOUT TO CHECK SYMMETRY" << '\n';
 							if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce; //opposite direction
 							else
 							{
+std::cout << "ABOUT TO CLEAR CACHE" << '\n';
 								clearNonsymmetricCaches();
 								dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, obj1.rgetCOMTriangle());
 								((*evaluatedForces)[&obj2]).first += dforce;
@@ -120,6 +137,7 @@ void FizEngine::evalForces()
 				}
 				else
 				{
+std::cout << "OBJ 2 CANNOT BE COMAPPROXED" << '\n';
 					for (int j = 0; j < tris2.size(); j++)
 					{
 						force_iter = forces->begin();
@@ -150,10 +168,12 @@ void FizEngine::evalForces()
 			}
 			else
 			{
+std::cout << "OBJ 1 CANNOT BE COMAPPROXED" << '\n';
 				for (int i = 0; i < tris1.size(); i++)
 				{
 					if (obj2.comApprox())
 					{
+std::cout << "OBJ 2 CAN BE COMAPPROXED" << '\n';
 						force_iter = forces->begin();
 						while(!(force_iter == forces->end()))
 						{
@@ -180,6 +200,7 @@ void FizEngine::evalForces()
 					}
 					else
 					{
+std::cout << "OBJ 2 CANNOT BE COMAPPROXED" << '\n';
 						for (int j = 0; j < tris2.size(); j++)
 						{
 							force_iter = forces->begin();
@@ -404,8 +425,10 @@ fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1,
 
 fizdatum FizEngine::getMacroVal(const std::string& macro, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
 {	
+std::cout << "GONNA CHECK THE MCACHE" << '\n';
 	if(contains(mcache,macro))
 	{		
+std::cout << "IT'S IN THERE" << '\n';
 		fizdatum& cachedVal=mcache[macro];
 		if(cachedVal.type==INPROGRESS)
 		{
@@ -413,10 +436,15 @@ fizdatum FizEngine::getMacroVal(const std::string& macro, const FizObject& obj1,
 		}
 		return cachedVal;
 	}
+std::cout << "IT'S NOT IN THERE" << '\n';
+if (props == NULL) std::cout << "OH NO PROPS IS NULLS" << '\n';
+std::cout << "COUNNNNT " << props->size() << '\n';
 	if(!contains(*props,macro))
 	{
+std::cout << "IT'S NOT IN THERE" << '\n';
 		throw std::logic_error("Invalid macro");
 	}
+std::cout << "IT'S IN THERE" << '\n';
 	fizdatum& cachedVal=mcache[macro];
 	cachedVal.type=INPROGRESS;
 	return cachedVal=(*props)[macro]->eval(obj1, tri1, obj2, tri2);
@@ -424,10 +452,12 @@ fizdatum FizEngine::getMacroVal(const std::string& macro, const FizObject& obj1,
 
 fizdatum FizEngine::getConstVal(const std::string& constant)
 {
+std::cout << "ABOUT TO CHECK THE CCACHE" << '\n';
 	if(!contains(*ccache,constant))
 	{
 		throw std::logic_error("Invalid constant");
 	}
+std::cout << "IT'S IN THERE" << '\n';
 	return (*ccache)[constant];
 }
 
