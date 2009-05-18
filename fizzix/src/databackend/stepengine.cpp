@@ -11,6 +11,7 @@ StepEngine::StepEngine(DataBackend * _db) : QObject()
 	timer->setSingleShot(false);
 	QObject::connect(timer,SIGNAL(timeout()),this,SLOT(step()));
 	QObject::connect(db,SIGNAL(unloadData()),this,SLOT(stopPull()));
+	lockstep=false;
 	changesSaved=false;
 	emit statusChanged("Engine ready", 0);
 } 
@@ -52,6 +53,8 @@ void StepEngine::createUndoCommand()
 
 void StepEngine::step()
 {
+	if(!lockstep) return;
+	lockstep=true;
 	std::map <std::string, FizObject *> * oldObjs=castToFizObject(*(db->getObjectModel()->getData()));
 	std::map <std::string, FizObject *> * newObjs=castToFizObject(*(db->getObjectModel()->getData()));
 	std::map <std::string, FizForce *> * oldFrcs=MapUtil<FizForce>::qMapToStdMapCopy(*(db->getForceModel()->getData()));
@@ -65,6 +68,7 @@ void StepEngine::step()
 		emit statusChanged(errmsg,true);
 		timer->stop();
 		db->toggleDataLock();
+		lockstep=false;
 		return;
 	}
 	catch(std::exception e)
@@ -74,16 +78,18 @@ void StepEngine::step()
 		emit statusChanged(errmsg,true);
 		timer->stop();
 		db->toggleDataLock();
+		lockstep=false;
 		return;
 	}
-	MapUtil<FizObject>::deepDelete(oldObjs);
+	delete oldObjs;
 	delete oldCnst;
-	MapUtil<FizFormula>::deepDelete(oldMcrs);
-	MapUtil<FizForce>::deepDelete(oldFrcs);
+	delete oldMcrs;
+	delete oldFrcs;
 	QMap<QString, DrawableObject *> * out=castFromFizObject(newObjs);
 	MapUtil<FizObject>::deepDelete(newObjs);
 	db->getDataInserter()->changeObjectsFromSim(out);
 	changesSaved=true;
+	lockstep=false;
 }
 
 void StepEngine::setDt(double _dt)

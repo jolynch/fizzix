@@ -15,6 +15,7 @@
 class StepEngine:public QObject
 {	Q_OBJECT
 	private:
+		bool lockstep;
 		bool changesSaved;
 		DataBackend * db;
 		FizEngine *eng;

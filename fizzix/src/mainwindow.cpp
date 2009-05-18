@@ -142,8 +142,8 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	clearDataMenu->addAction("All Properties");
 	clearDataMenu->addAction("All Macros and Forces");
 	QMenu * helpMenu = this->menuBar()->addMenu(tr("Help"));
-	helpMenu->addAction("Manual");
-	helpMenu->addAction("About");
+	helpMenu->addAction("Manual",this,SLOT(showManual()));
+	helpMenu->addAction("About",this,SLOT(showAbout()));
 }
 
 
@@ -174,5 +174,38 @@ void MainWindow::view_zoom150()
 void MainWindow::view_zoom200()
 {openglpane->setZoomPercent(200);}
 
+void MainWindow::showManual()
+{
+	QTextBrowser * tb=new QTextBrowser(NULL);
+	tb->setSource(QUrl(":data/man/manual.html"));
+	tb->setMinimumSize(650,550);
+	tb->setWindowTitle("fizzix Manual");
+	tb->show();
+}
+
+void MainWindow::showAbout()
+{
+	QWidget * about=new QWidget(NULL);
+	about->setVisible(false);
+	about->setWindowTitle("About fizzix");
+	QGridLayout * layout=new QGridLayout();
+	QLabel * image=new QLabel();
+	image->setPixmap(QPixmap::fromImage(QImage(":images/logo.png")));
+	image->setAlignment(Qt::AlignCenter);
+	layout->addWidget(image, 0,0);
+	QLabel * text=new QLabel();
+	text->setText("A physics simulation engine of variable accuracy. \nVersion 0.1\n (C) 2009 \n Joseph Lynch, Anton Frolenkov, Purnima Balakrishnan, Daniel Stiles, Eric Van Albert ");
+	text->setAlignment(Qt::AlignCenter);
+	layout->addWidget(text, 1,0);
+	QTextEdit * tb=new QTextEdit(NULL);
+	tb->setTextInteractionFlags(Qt::TextBrowserInteraction);
+	QFile f(":gpl.txt");
+	f.open(QIODevice::ReadOnly);
+	tb->setPlainText(QString(f.readAll()));
+	f.close();
+	layout->addWidget(tb, 2,0);
+	about->setLayout(layout);
+	about->show();
+}
 
 #endif

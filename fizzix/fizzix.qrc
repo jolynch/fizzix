@@ -3,5 +3,13 @@
 	<file>images/logomini.png</file>
 	<file>images/logo.png</file>
 	<file>data/default.xml</file> 
+	<file>data/man/manual.html</file>
+	<file alias="gpl.txt">../gpl.txt</file>
+	<file alias="editor-constant.png">data/man/editor-constant.png</file>
+	<file alias="main-win.png">data/man/main-win.png</file>
+	<file alias="browser-new.png">data/man/browser-new.png</file>
+	<file alias="browser-find.png">data/man/browser-find.png</file>
+	<file alias="editor-object-shape.png">data/man/editor-object-shape.png</file>
+	<file alias="controlbar-dt.png">data/man/controlbar-dt.png</file>
 </qresource>
 </RCC>

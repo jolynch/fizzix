@@ -35,6 +35,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QTimer>
+#include <QTextBrowser>
+#include <QGridLayout>
+#include <QUrl>
 
 #include "GLdrawpane.h"
 #include "databrowser.h"
@@ -67,6 +70,8 @@ class MainWindow:public QMainWindow
 		void view_zoom100();
 		void view_zoom150();
 		void view_zoom200();
+		void showManual();
+		void showAbout();
 };
 
 #endif
