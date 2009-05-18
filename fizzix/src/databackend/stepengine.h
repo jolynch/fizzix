@@ -6,6 +6,7 @@
 #include <QString>
 #include <QTimer>
 #include <QUndoCommand>
+#include <QDebug>
 #include <map>
 #include <libfizzix/fizengine.h>
 #include "databackend.h"
