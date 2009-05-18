@@ -51,6 +51,7 @@ class FizFormula
 		const fizdatum eval(const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
 		//const std::vector<FizFormNode> getStack();
 		const fizstack getStack();
+		fizstack&  rgetStack();
 		bool isSymmetric();
 		std::string toString();
 };

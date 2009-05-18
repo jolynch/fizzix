@@ -28,6 +28,8 @@ class StepEngine:public QObject
 	private:
 		std::map<std::string, FizObject *> * castToFizObject(QMap<QString, DrawableObject *> param);
 		QMap<QString, DrawableObject *> * castFromFizObject(std::map<std::string, FizObject *> * param);
+		void setCorrectFizEngines();
+		void setCorrectFizEngine(fizstack f);
 		void createUndoCommand();
 	public:
 		StepEngine(DataBackend * _db);

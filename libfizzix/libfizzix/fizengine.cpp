@@ -52,6 +52,7 @@ void FizEngine::step(	std::map<std::string, FizObject*>  * thisStep,
 			std::map<std::string, fizdatum>    * ccache,
 		      	double dt)
 {
+std::cout<< "FizEngine pointer from step "<<this<<std::endl; 
 	this->thisStep = thisStep;
 	this->nextStep = nextStep;
 	this->forces = forces;
@@ -60,16 +61,18 @@ std::cout << props->size() <<" "<<(*props)["distance"]->toString()<<std::endl;
 	this->ccache = ccache;
 	this->dt = dt;
 	mcache.clear();
+std::cout << &mcache <<std::endl;
 	fcache.clear();
 	evaluatedForces->clear();
 	forceEvaled->clear();
+std::cout << &mcache <<std::endl;
 	evalForces();
 }
 
 /* Step thorugh objects
  */
 void FizEngine::evalForces()
-{
+{std::cout << &mcache <<std::endl;
 	if(thisStep == NULL || thisStep->size()==0) 
 	{
 		throw std::logic_error("Nothing to work on??");
@@ -94,6 +97,7 @@ void FizEngine::evalForces()
 			obj1.setName(outer_iter->first);
 			obj2.setName(inner_iter->first);
 std::cout << "YO I'VE GOT OBJECTS" << '\n';
+std::cout << &mcache <<std::endl;
 			collisions(obj1, obj2);
 			std::vector<triangle*>& tris1 = obj1.rgetVertices(); //actually, triangles, not vertices
 			std::vector<triangle*>& tris2 = obj2.rgetVertices();
@@ -101,26 +105,34 @@ std::cout << "YO I'VE GOT OBJECTS" << '\n';
 			//evalForce(forces[i], *outer_iter, *inner_iter);
 			//need a COM triangle in each object
 std::cout << "ABOUT TO EVALUATE SHIT" << '\n';
+std::cout << &mcache <<std::endl;
 			if (obj1.comApprox()) //if object 1 can be approximated as at its COM
 			{
 std::cout << "OBJ 1 CAN BE COMAPPROXED" << '\n';
+std::cout << &mcache <<std::endl;
 				if (obj2.comApprox())
 				{
 std::cout << "OBJ 2 CAN BE COMAPPROXED" << '\n';
+std::cout << &mcache <<std::endl;
 					force_iter = forces->begin();
 std::cout << "ABOUT TO GO THROUGH FORCES" << '\n';
+std::cout << &mcache <<std::endl;
 					while(!(force_iter == forces->end()))
 					{
 std::cout << "IN FORCES YO" << '\n';
+std::cout << &mcache <<std::endl;
 						FizForce* force = force_iter->second;
 						std::string forcename = force_iter->first;
 std::cout << "ABOUT TO CHECK FORCEEVALED" << '\n';
+std::cout << &mcache <<std::endl;
 						if(!(*forceEvaled)[forcename])
 						{
 std::cout << "EVALING SHIT" << '\n';
+std::cout << &mcache <<std::endl;
 							triangle tri1 = obj1.getCOMTriangle();
 							triangle tri2 = obj2.getCOMTriangle();
 std::cout << "GOTTEN TRIANGLES" << '\n';
+std::cout << &mcache <<std::endl;
 							dforce = force->getForce(obj1, tri1, obj2, tri2);
 std::cout << "ABOUT TO CHECK EVALUATEDFORCES" << '\n';
 							(*evaluatedForces)[&obj1].first += dforce;
@@ -427,7 +439,8 @@ fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1,
 }
 
 fizdatum FizEngine::getMacroVal(const std::string& macro, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
-{	
+{
+std::cout << &mcache <<std::endl;	
 std::cout << "GONNA CHECK THE MCACHE" << '\n';
 	if(contains(mcache,macro))
 	{		

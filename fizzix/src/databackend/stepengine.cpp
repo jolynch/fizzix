@@ -51,6 +51,28 @@ void StepEngine::createUndoCommand()
 	}
 }
 
+void StepEngine::setCorrectFizEngines()
+{
+	QMapIterator<QString, FizForce *> i(*(db->getForceModel()->getData()));
+	while(i.hasNext()) 
+	{
+		i.next();
+		setCorrectFizEngine(i.value()->getFormula().rgetStack());
+	}
+	QMapIterator<QString, FizFormula *> i_(*(db->getMacroModel()->getData()));
+	while(i_.hasNext()) 
+	{
+		i_.next();
+		setCorrectFizEngine(i_.value()->rgetStack());
+	}
+}
+
+void StepEngine::setCorrectFizEngine(fizstack f)
+{
+	for(int i=0; i<f.size(); i++)
+		f[i]->setEngine(eng);
+}
+
 void StepEngine::step()
 {
 qDebug("Front step called.");
@@ -113,6 +135,7 @@ void StepEngine::startPull()
 	db->toggleDataLock();
 	initData=db->getObjectModel()->getData();
 	changesSaved=false;
+	setCorrectFizEngines();
 	emit statusChanged("Engine started", 0);
 }
 

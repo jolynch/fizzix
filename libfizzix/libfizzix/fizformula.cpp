@@ -44,6 +44,11 @@ const fizstack FizFormula::getStack()
 	return stack;
 }
 
+fizstack& FizFormula::rgetStack()
+{
+	return stack;
+}
+
 bool FizFormula::isSymmetric()
 {
 	return symmetric;
