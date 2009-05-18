@@ -57,9 +57,9 @@ std::cout<< "FizEngine pointer from step "<<this<<std::endl;
 	this->nextStep = nextStep;
 	this->forces = forces;
 	this->props = macros; // Eventually props should be renamed to macros
-std::cout << props->size() <<" "<<(*props)["distance"]->toString()<<std::endl;
 	this->ccache = ccache;
 	this->dt = dt;
+	std::cout << "STEPPING BIATCH"<<std::endl;
 	mcache.clear();
 std::cout << &mcache <<std::endl;
 	fcache.clear();
@@ -89,7 +89,12 @@ void FizEngine::evalForces()
 		inner_iter++;
 		while(!(inner_iter == thisStep->end()))
 		{
-			if(inner_iter == outer_iter) continue;
+			if(inner_iter == outer_iter)
+			{
+				inner_iter++;
+				std::cout << "CONTINUING BITCH" <<std::endl;
+				continue;
+			}
 			FizObject& obj1 = *(outer_iter->second);
 			FizObject& obj2 = *(inner_iter->second);
 			//TODO
@@ -134,10 +139,15 @@ std::cout << &mcache <<std::endl;
 std::cout << "GOTTEN TRIANGLES" << '\n';
 std::cout << &mcache <<std::endl;
 							dforce = force->getForce(obj1, tri1, obj2, tri2);
+std::cout << "WOOT GOT A FORCE OF: "<<dforce[0]<<" "<<dforce[1]<<" "<<dforce[2]<<std::endl;
 std::cout << "ABOUT TO CHECK EVALUATEDFORCES" << '\n';
 							(*evaluatedForces)[&obj1].first += dforce;
 std::cout << "ABOUT TO CHECK SYMMETRY" << '\n';
-							if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce; //opposite direction
+							if (force->isSymmetric()) 
+							{	
+std::cout<< "FORCE IS SYMMETRIC"<<std::endl;
+								(*evaluatedForces)[&obj2].first -= dforce; //opposite direction
+							}
 							else
 							{
 std::cout << "ABOUT TO CLEAR CACHE" << '\n';
@@ -145,6 +155,7 @@ std::cout << "ABOUT TO CLEAR CACHE" << '\n';
 								dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, obj1.rgetCOMTriangle());
 								((*evaluatedForces)[&obj2]).first += dforce;
 							}
+std::cout << "DONE WITH EVALUATING FORCES"<<std::endl;
 						}
 						//no torque for obj1 nor obj2
 						force_iter++;
@@ -248,18 +259,22 @@ std::cout << "OBJ 2 CANNOT BE COMAPPROXED" << '\n';
 			}
 			
 			
+			std::cout << "GOING FOR NEXT OBJECT ... WOOT?"<<std::endl;
 			inner_iter++;
 			fcache.clear();
 			mcache.clear();
+			std::cout << "NEXT ITERATION PLEASE" <<std::endl;
 		}
 
 		//DO NOT CHANGE BELOW THIS POINT
 		outer_iter++;
 		//DONE
 	}
+std::cout << "DONE WITH EVALUATIONS "<<std::endl;
 	std::map<FizObject*, std::pair<vec3,vec3> >::iterator iter = evaluatedForces->begin();
-	while(iter!= evaluatedForces->end())
+	for(;iter!= evaluatedForces->end();iter++)
 	{
+
 		this->applyForceAndTorque(iter->second.first,iter->second.second, iter->first, this->dt);
 	}
 }
@@ -455,7 +470,6 @@ std::cout << "IT'S IN THERE" << '\n';
 std::cout << "IT'S NOT IN THERE" << '\n';
 std::cout << "UH OH"<<macro<<std::endl;
 std::cout << this->props <<std::endl;
-std::cout << dynamic_cast< std::map<std::string, FizFormula *> * >(props);
 std::cout << (*props)[macro]<<std::endl;
 /*if (props == NULL) std::cout << "OH NO PROPS IS NULLS" << '\n';*/
 std::cout << "COUNNNNT " << props->size() << '\n';
