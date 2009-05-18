@@ -39,6 +39,8 @@ FizEngine::FizEngine()
 	forces = NULL;
 	props = NULL;
 	ccache = NULL;	
+	evaluatedForces = new std::map<FizObject*, std::pair<vec3,vec3> >();
+	forceEvaled = new std::map<std::string, bool>();
 }
 
 /* Step and compute
@@ -54,12 +56,13 @@ void FizEngine::step(	std::map<std::string, FizObject*>  * thisStep,
 	this->nextStep = nextStep;
 	this->forces = forces;
 	this->props = macros; // Eventually props should be renamed to macros
+std::cout << props->size() <<" "<<(*props)["distance"]->toString()<<std::endl;
 	this->ccache = ccache;
 	this->dt = dt;
-	mcache = *(new std::map<std::string, fizdatum>());
-	fcache = *(new std::map<std::string, fizdatum>());
-	evaluatedForces = new std::map<FizObject*, std::pair<vec3,vec3> >();
-	forceEvaled = new std::map<std::string, bool>();
+	mcache.clear();
+	fcache.clear();
+	evaluatedForces->clear();
+	forceEvaled->clear();
 	evalForces();
 }
 
@@ -437,7 +440,11 @@ std::cout << "IT'S IN THERE" << '\n';
 		return cachedVal;
 	}
 std::cout << "IT'S NOT IN THERE" << '\n';
-if (props == NULL) std::cout << "OH NO PROPS IS NULLS" << '\n';
+std::cout << "UH OH"<<macro<<std::endl;
+std::cout << this->props <<std::endl;
+std::cout << dynamic_cast< std::map<std::string, FizFormula *> * >(props);
+std::cout << (*props)[macro]<<std::endl;
+/*if (props == NULL) std::cout << "OH NO PROPS IS NULLS" << '\n';*/
 std::cout << "COUNNNNT " << props->size() << '\n';
 	if(!contains(*props,macro))
 	{
