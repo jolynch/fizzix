@@ -107,6 +107,8 @@ std::cout << &mcache <<std::endl;
 			std::vector<triangle*>& tris1 = obj1.rgetVertices(); //actually, triangles, not vertices
 			std::vector<triangle*>& tris2 = obj2.rgetVertices();
 			vec3 dforce;
+			bool fnan;
+			bool rnan;
 			//evalForce(forces[i], *outer_iter, *inner_iter);
 			//need a COM triangle in each object
 std::cout << "ABOUT TO EVALUATE SHIT" << '\n';
@@ -141,19 +143,21 @@ std::cout << &mcache <<std::endl;
 							dforce = force->getForce(obj1, tri1, obj2, tri2);
 std::cout << "WOOT GOT A FORCE OF: "<<dforce[0]<<" "<<dforce[1]<<" "<<dforce[2]<<std::endl;
 std::cout << "ABOUT TO CHECK EVALUATEDFORCES" << '\n';
-							(*evaluatedForces)[&obj1].first += dforce;
+							fnan = isnan(dforce[0]) || isnan(dforce[1]) || isnan(dforce[2]);
+							if (!fnan) (*evaluatedForces)[&obj1].first += dforce;
 std::cout << "ABOUT TO CHECK SYMMETRY" << '\n';
 							if (force->isSymmetric()) 
 							{	
 std::cout<< "FORCE IS SYMMETRIC"<<std::endl;
-								(*evaluatedForces)[&obj2].first -= dforce; //opposite direction
+								if (!fnan) (*evaluatedForces)[&obj2].first -= dforce; //opposite direction
 							}
 							else
 							{
 std::cout << "ABOUT TO CLEAR CACHE" << '\n';
 								clearNonsymmetricCaches();
 								dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, obj1.rgetCOMTriangle());
-								((*evaluatedForces)[&obj2]).first += dforce;
+								fnan = isnan(dforce[0]) || isnan(dforce[1]) || isnan(dforce[2]);
+								if (!fnan) ((*evaluatedForces)[&obj2]).first += dforce;
 							}
 std::cout << "DONE WITH EVALUATING FORCES"<<std::endl;
 						}
@@ -175,17 +179,23 @@ std::cout << "OBJ 2 CANNOT BE COMAPPROXED" << '\n';
 							{
 								if (!force->isDistributed()) clearDistributedCaches();
 								dforce = force->getForce(obj1, obj1.rgetCOMTriangle(), obj2, *(tris2[j]));
-								(*evaluatedForces)[&obj1].first += dforce;
+								fnan = isnan(dforce[0]) || isnan(dforce[1]) || isnan(dforce[2]);
+								if (!fnan) (*evaluatedForces)[&obj1].first += dforce;
 								//no torque for obj1
-								if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce;
+								if (force->isSymmetric())
+								{
+									if (!fnan) (*evaluatedForces)[&obj2].first -= dforce;
+								}
 								else
 								{
 									clearNonsymmetricCaches();
 									dforce = force->getForce(obj2, *(tris2[j]), obj1, obj1.rgetCOMTriangle());
-									(*evaluatedForces)[&obj2].first += dforce;
+									fnan = isnan(dforce[0]) || isnan(dforce[1]) || isnan(dforce[2]);
+									if (!fnan) (*evaluatedForces)[&obj2].first += dforce;
 								}
 								vec3 radius = (tris2[j]->vertices[0]->p + tris2[j]->vertices[1]->p + tris2[j]->vertices[2]->p)/3; //vector from center of object to center of triangle
-								(*evaluatedForces)[&obj2].second += dforce.cross(radius); //T = F x r
+								rnan = isnan(radius[0]) || isnan(radius[1]) || isnan(radius[2]);
+								if (!(fnan || rnan)) (*evaluatedForces)[&obj2].second += dforce.cross(radius); //T = F x r
 							}
 							force_iter++;
 						}
@@ -209,15 +219,24 @@ std::cout << "OBJ 2 CAN BE COMAPPROXED" << '\n';
 							{
 								if (!force->isDistributed()) clearDistributedCaches();
 								dforce = force->getForce(obj1, *(tris1[i]), obj2, obj2.rgetCOMTriangle());
-								(*evaluatedForces)[&obj1].first += dforce;
+								fnan = isnan(dforce[0]) || isnan(dforce[1]) || isnan(dforce[2]);
 								vec3 radius = (tris1[i]->vertices[0]->p + tris1[i]->vertices[1]->p + tris1[i]->vertices[2]->p)/3;
-								(*evaluatedForces)[&obj1].second += dforce.cross(radius);
-								if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce;
+								rnan = isnan(radius[0]) || isnan(radius[1]) || isnan(radius[2]);
+								if (!fnan)
+								{
+									(*evaluatedForces)[&obj1].first += dforce;
+									if (!rnan) (*evaluatedForces)[&obj1].second += dforce.cross(radius);
+								}
+								if (force->isSymmetric())
+								{
+									if (!fnan) (*evaluatedForces)[&obj2].first -= dforce;
+								}
 								else
 								{
 									clearNonsymmetricCaches();
 									dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, *(tris1[i]));
-									(*evaluatedForces)[&obj2].first += dforce;
+									fnan = isnan(dforce[0]) || isnan(dforce[1]) || isnan(dforce[2]);
+									if (!fnan) (*evaluatedForces)[&obj2].first += dforce;
 								}
 								//no torque for obj2
 							}
@@ -238,18 +257,28 @@ std::cout << "OBJ 2 CANNOT BE COMAPPROXED" << '\n';
 								{
 									if (!force->isDistributed()) clearDistributedCaches();
 									dforce = force->getForce(obj1, *(tris1[i]), obj2, *(tris2[j]));
-									(*evaluatedForces)[&obj1].first += dforce;
+									fnan = isnan(dforce[0]) || isnan(dforce[1]) || isnan(dforce[2]);
 									vec3 radius = (tris1[i]->vertices[0]->p + tris1[i]->vertices[1]->p + tris1[i]->vertices[2]->p)/3;
-									(*evaluatedForces)[&obj1].second += dforce.cross(radius);
-									if (force->isSymmetric()) (*evaluatedForces)[&obj2].first -= dforce;
+									rnan = isnan(radius[0]) || isnan(radius[1]) || isnan(radius[2]);
+									if (!fnan)
+									{
+										(*evaluatedForces)[&obj1].first += dforce;
+										if (!rnan) (*evaluatedForces)[&obj1].second += dforce.cross(radius);
+									}
+									if (force->isSymmetric())
+									{
+										if (!fnan) (*evaluatedForces)[&obj2].first -= dforce;
+									}
 									else
 									{
 										clearNonsymmetricCaches();
 										dforce = force->getForce(obj2, *(tris2[j]), obj1, *(tris1[i]));
-										(*evaluatedForces)[&obj2].first += dforce;
+										fnan = isnan(dforce[0]) || isnan(dforce[1]) || isnan(dforce[2]);
+										if (!fnan) (*evaluatedForces)[&obj2].first += dforce;
 									}
 									radius = (tris2[j]->vertices[0]->p + tris2[j]->vertices[1]->p + tris2[j]->vertices[2]->p)/3;
-									(*evaluatedForces)[&obj2].second += dforce.cross(radius);
+									rnan = isnan(radius[0]) || isnan(radius[1]) || isnan(radius[2]);
+									if (!(fnan || rnan)) (*evaluatedForces)[&obj2].second += dforce.cross(radius);
 								}
 								force_iter++;
 							}
