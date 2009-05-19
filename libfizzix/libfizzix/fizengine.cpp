@@ -271,11 +271,16 @@ std::cout << "OBJ 2 CANNOT BE COMAPPROXED" << '\n';
 		//DONE
 	}
 std::cout << "DONE WITH EVALUATIONS "<<std::endl;
-	std::map<FizObject*, std::pair<vec3,vec3> >::iterator iter = evaluatedForces->begin();
-	for(;iter!= evaluatedForces->end();iter++)
+	//std::map<FizObject*, std::pair<vec3,vec3> >::iterator iter = evaluatedForces->begin();
+	//for(;iter!= evaluatedForces->end();iter++)
+	std::map<std::string, FizObject*>::iterator iter = thisStep->begin();
+	while (iter != thisStep->end())
 	{
-
-		this->applyForceAndTorque(iter->second.first,iter->second.second, iter->first, this->dt);
+		FizObject* obj = iter->second;
+		std::pair<vec3,vec3> forcetorque = (*evaluatedForces)[obj];
+		applyForceAndTorque(forcetorque.first, forcetorque.second, obj, dt);
+		//this->applyForceAndTorque(iter->second.first,iter->second.second, iter->first, this->dt);
+		iter++;
 	}
 }
 
@@ -294,6 +299,9 @@ vec3 torque_helper(vec3 w, std::vector<double> i, vec3 t)
 
 void FizEngine::applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt)
 {
+std::cout << "APPLYING FORCE OF "<<force[0] << ' ' << force[1] << ' ' << force[2] << '\n';
+std::cout << "APPLYING TORQUE OF "<<torque[0] << ' ' << torque[1] << ' ' << torque[2] << '\n';
+std::cout << "MOVING FROM " << ob1->getPos()[0] << ' ' <<ob1->getPos()[1] << ' ' << ob1->getPos()[2] << '\n';
 	FizObject * new_object = new FizObject(*ob1);
 	vec3 new_pos, new_vel, new_w;
 	Quaternion new_quat;
@@ -344,6 +352,7 @@ void FizEngine::applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, do
 	new_object->setVel(ob1->getVel() + ((dvdt + (dvdt + dvdt)*2.0 + dvdt)*(dt/6.0)));
 	new_object->setOme(ob1->getOme() + ((dwdt + (dwdt + dwdt)*2.0 + dwdt)*(dt/6.0)));
 	(*nextStep)[new_object->getName()] = new_object;	
+std::cout <<"TO POSITION" << new_object->getPos()[0] << ' '<< new_object->getPos()[1] << ' ' << new_object->getPos()[2] << '\n';
 }	
 
 void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
@@ -472,7 +481,6 @@ std::cout << "UH OH"<<macro<<std::endl;
 std::cout << this->props <<std::endl;
 std::cout << (*props)[macro]<<std::endl;
 /*if (props == NULL) std::cout << "OH NO PROPS IS NULLS" << '\n';*/
-std::cout << "COUNNNNT " << props->size() << '\n';
 	if(!contains(*props,macro))
 	{
 std::cout << "IT'S NOT IN THERE" << '\n';

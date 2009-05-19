@@ -43,6 +43,8 @@ class FizObjectTests: public CxxTest::TestSuite
 			ttt.push_back(&t4);
 			std::cout << ttt.size();
 			FizObject* x = new FizSphere("Purnima", vec3(64,64,64), ttt, 12, 3);
+			TS_WARN(sizeof(char));
+			TS_WARN(sizeof(*x));
 			TS_ASSERT_EQUALS(x->getMass(),12);
 			TS_ASSERT_EQUALS(((FizSphere*)x)->getRadius(),3);
 			vec3 s = x->getProperty("SYSTEM_color").vector;

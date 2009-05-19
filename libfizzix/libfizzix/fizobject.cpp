@@ -221,6 +221,7 @@ void FizObject::adjustMasses()
 
 void FizObject::computeBounds()
 {
+	maxrad = 0;
 	for (int i = 0; i < vertices.size(); i++)
 	{
 		for (int j = 0; j < 3; j++)
