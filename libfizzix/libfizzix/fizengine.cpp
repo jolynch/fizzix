@@ -342,15 +342,22 @@ std::cout << "MOVING FROM " << ob1->getPos()[0] << ' ' <<ob1->getPos()[1] << ' '
 	//I^-1 = R * I^-1 * R^T, not I^-1
 	//NOTE I think I fixed it
 	std::vector<double> i = ob1->getInertiaTensorInvWorld();
+std::cout <<"WORLD INERTIA TENSOR"<<std::endl;
+for(int cntr = 0; cntr<6;cntr++)
+std::cout <<" "<<i[cntr];
+std::cout <<std::endl;
+		
 	vec3 t = torque_helper(ob1->getOme(),ob1->getInertiaTensor(),torque); // just for convenience
 	//T = dL/dt = I * dw/dt = I * alpha
 	vec3 dwdt = vec3(i[0] * t[0] + i[3] * t[1] + i[5] * t[2],
 		       	 i[3] * t[0] + i[1] * t[1] + i[4] * t[2], 
 			 i[5] * t[0] + i[4] + t[1] + i[2] + t[2]);
+std::cout << "DWDT: "<<dwdt[0]<<" "<<dwdt[1]<<" "<<dwdt[2]<<std::endl;
 	//Step 1 
 	vec3 dxdt1 = ob1->getVel();
 	vec3 omega = ob1->getOme();
 	Quaternion dqdt1 = (Quaternion(0.0, omega[0],omega[1], omega[2]) * ob1->getQuaternion()) * 0.5;
+std::cout << "DQDT: "<<dqdt1[0] <<" " <<dqdt1[1] << " "<<dqdt1[2]<<" "<<dqdt1[3]<<std::endl;
 	new_pos = ob1->getPos() + (dxdt1 * (dt/2.0));
 	new_quat = ob1->getQuaternion() + (dqdt1 * (dt/2.0));
 	new_vel = ob1->getVel() + (dvdt * (dt/2.0));
@@ -377,7 +384,14 @@ std::cout << "MOVING FROM " << ob1->getPos()[0] << ' ' <<ob1->getPos()[1] << ' '
   	vec3 dxdt4 = new_vel;
 	Quaternion dqdt4 = (Quaternion(0.0, new_w[0],new_w[1], new_w[2]) * new_quat) * 0.5;
 	new_object->setPos(ob1->getPos() + ((dxdt1 + (dxdt2 + dxdt3)*2.0 + dxdt4)*(dt/6.0)));
+	Quaternion test = ob1->getQuaternion() + ((dqdt1 + (dqdt2 + dqdt3)*2.0 + dqdt4)*(dt/6.0));
+	test.normalize(.001);
+std::cout <<"QUE SENOR?"<< test[0]<< " "<<test[1]<<" "<<test[2]<<" "<<test[3]<<std::endl;
+
 	new_object->setQuaternion(ob1->getQuaternion() + ((dqdt1 + (dqdt2 + dqdt3)*2.0 + dqdt4)*(dt/6.0)));
+	new_object->rgetQuaternion().normalize(.001);
+	test = new_object->getQuaternion();
+std::cout <<"HOW IS THIS HAPPENING?"<< test[0]<< " "<<test[1]<<" "<<test[2]<<" "<<test[3]<<std::endl;
 	new_object->setVel(ob1->getVel() + ((dvdt + (dvdt + dvdt)*2.0 + dvdt)*(dt/6.0)));
 	new_object->setOme(ob1->getOme() + ((dwdt + (dwdt + dwdt)*2.0 + dwdt)*(dt/6.0)));
 	(*nextStep)[new_object->getName()] = new_object;	

@@ -281,9 +281,17 @@ void FizObject::setVertices(std::vector<triangle*> newvertices) 	{
 								}
 		
 
-const Quaternion FizObject::getQuaternion() const 	{ return quaternion; }
-Quaternion& FizObject::rgetQuaternion()			{ return quaternion; }
-void FizObject::setQuaternion(Quaternion newquat)	{ quaternion = newquat;	}
+const Quaternion FizObject::getQuaternion() const 	{ 
+std::cout<<"HM NOW QUATERNION: "<<quaternion[0]<<" "<<quaternion[1]<<" "<<quaternion[2]<<" "<<quaternion[3]<<std::endl;
+						return this->quaternion; }
+Quaternion& FizObject::rgetQuaternion()			{ 
+std::cout<<"OH SNAP RQUATERNION: "<<quaternion[0]<<" "<<quaternion[1]<<" "<<quaternion[2]<<" "<<quaternion[3]<<std::endl;
+
+return this->quaternion; }
+void FizObject::setQuaternion(Quaternion newquat)	{ 
+std::cout<<"SETTING QUATERNION: "<<newquat[0]<<" "<<newquat[1]<<" "<<newquat[2]<<" "<<newquat[3]<<std::endl;
+							  quaternion = newquat;	
+							}
 
 const std::vector<double> FizObject::getInertiaTensor() const	{ return inertiaTensor; }
 std::vector<double>& FizObject::rgetInertiaTensor()		{ return inertiaTensor; }

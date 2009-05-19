@@ -93,7 +93,11 @@ class FizObjectTests: public CxxTest::TestSuite
 			
 			Quaternion q = x->getQuaternion();
 			//std::vector<double> r = q.toRotationMatrix();
-			
+			i = x->getInertiaTensorInvWorld();
+			std::cout << "INVERSE WORLD COORDS:" <<std::endl;
+			for(int cntr = 0; cntr < i.size();cntr++)
+				std::cout <<" "<<i[cntr];
+			std::cout<<std::endl;
 		}
 };
 
