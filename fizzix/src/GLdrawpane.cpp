@@ -141,7 +141,7 @@ void GLDrawPane::drawObject(const vector<triangle *> & mesh, const vec3 & color,
 				{
 					const vertex & currV = currT[v];
 					vec3 rotV = q.transformVec(currV.p);
-					glVertex3d(currV[0],currV[1],currV[2]);
+					glVertex3d(rotV[0],rotV[1],rotV[2]);
 				}
 			}
 			glEnd();
