@@ -117,7 +117,6 @@ void StepEngine::step()
 		db->getDataInserter()->changeObjectsFromSim(out);
 	changesSaved=true;
 	lockstep=false;
-qDebug()<<db->getObjectModel()->getData()->size();
 }
 
 void StepEngine::setDt(double _dt)
