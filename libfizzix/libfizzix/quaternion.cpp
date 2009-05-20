@@ -49,10 +49,10 @@ Quaternion::Quaternion(const vector<double> & rot)
 
 Quaternion::Quaternion(const Quaternion & toCopy)
 {
-	values.w = 1.0;
-	values.x = 0.0;
-	values.y = 0.0;
-	values.z = 0.0;
+	values.w = toCopy[0];
+	values.x = toCopy[1];
+	values.y = toCopy[2];
+	values.z = toCopy[3];
 }
 
 Quaternion::Quaternion(const vec4 & vec)
