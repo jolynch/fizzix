@@ -1,0 +1,43 @@
+<!DOCTYPE fizzix_document>
+<fizzix_project>
+ <fizzix_object name="earth" >
+  <fizzix_constant type="2" name="SYSTEM_acceleration" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_angular_acceleration" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_angular_velocity" >-1.33761e-12 -4.08562 -4.08562</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_color" >0 128 255</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_geom_approximateWithCenter" >1</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_mass" >1</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_position" >31.9404 3.25078 0</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_preset_geomtype" >2</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_radius" >0.5</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_velocity" >-0.0082973 1.37647 0</fizzix_constant>
+ </fizzix_object>
+ <fizzix_object name="other_planet" >
+  <fizzix_constant type="2" name="SYSTEM_acceleration" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_angular_acceleration" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_angular_velocity" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_color" >128 24 24</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_geom_approximateWithCenter" >1</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_mass" >1</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_position" >-20 12 0</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_preset_geomtype" >2</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_radius" >0.5</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_velocity" >2 -2 -2</fizzix_constant>
+ </fizzix_object>
+ <fizzix_object name="sun" >
+  <fizzix_constant type="2" name="SYSTEM_acceleration" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_angular_acceleration" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_angular_velocity" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_color" >255 255 0</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_geom_approximateWithCenter" >1</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_mass" >250</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_position" >0.00216907 2.66563 0</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_preset_geomtype" >2</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_radius" >5</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_velocity" >0.000548108 0.0136463 0</fizzix_constant>
+ </fizzix_object>
+ <fizzix_force name="gravity" >
+  <fizzix_formula name="internal_formula" >(* $SYSTEM_mass @SYSTEM_mass (^ [distance] -2))</fizzix_formula>
+ </fizzix_force>
+ <fizzix_formula name="distance" >(mag (- $SYSTEM_position @SYSTEM_position))</fizzix_formula>
+</fizzix_project>
