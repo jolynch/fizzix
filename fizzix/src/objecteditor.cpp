@@ -29,6 +29,9 @@ void ObjectEditor::changes()
 
 void ObjectEditor::setData(DrawableObject f)
 {
+	const vec3 & pos = f.getPos();
+	if(isnan(pos.x)||isnan(pos.y)||isnan(pos.z))
+		f.setPos(vec3(0.0,0.0,0.0));
 	shape->setData(f);
 	plist->setData(f);
 	hChanges=false;

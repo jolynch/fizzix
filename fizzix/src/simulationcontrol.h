@@ -54,6 +54,7 @@ class SimulationControl:public QDockWidget
 		SimulationControl (DataBackend * _db);
 	public slots:
 		void statusChanged(QString newString, int errorSource);
+		void connectReset(bool disconn);
 };
 
 #endif

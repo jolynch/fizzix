@@ -9,7 +9,7 @@ ChangeFactory::ChangeFactory(DataBackend * _db):QObject()
 
 void ChangeFactory::addObject(QString n)
 {
-	DC_AddElement <DrawableObject *> * dc=new DC_AddElement <DrawableObject *> (n, db->getObjectModel());
+	DC_AddElement <DrawableObject *> * dc=new DC_AddElement <DrawableObject *> (n, db->getObjectModel(),new DrawableObject(n.toStdString()));
 	db->applyDataChange(dc);
 }
 
@@ -21,7 +21,7 @@ void ChangeFactory::deleteObject(QString n)
 
 void ChangeFactory::addForce(QString n)
 {
-	DC_AddElement <FizForce *> * dc=new DC_AddElement <FizForce *> (n, db->getForceModel());
+	DC_AddElement <FizForce *> * dc=new DC_AddElement <FizForce *> (n, db->getForceModel(), new FizForce(FizFormula()));
 	db->applyDataChange(dc);
 }
 
@@ -33,7 +33,7 @@ void ChangeFactory::deleteForce(QString n)
 
 void ChangeFactory::addMacro(QString n)
 {
-	DC_AddElement <FizFormula *> * dc=new DC_AddElement <FizFormula *> (n, db->getMacroModel());
+	DC_AddElement <FizFormula *> * dc=new DC_AddElement <FizFormula *> (n, db->getMacroModel(), new FizFormula());
 	db->applyDataChange(dc);
 }
 

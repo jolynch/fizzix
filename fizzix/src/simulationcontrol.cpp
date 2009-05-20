@@ -60,6 +60,7 @@ SimulationControl::SimulationControl(DataBackend * _db):QDockWidget(tr("Simulati
 	reset=new QPushButton("Reset");
 	reset->setEnabled(false);
 	QObject::connect(reset,SIGNAL(clicked()),db->getUndoStack(),SLOT(undo()));
+	QObject::connect(db,SIGNAL(dataLocked(bool)),this,SLOT(connectReset(bool)));
 	QObject::connect(db,SIGNAL(gainedUnpredicatableChanges(bool)),reset,SLOT(setEnabled(bool)));
 	layout->addWidget(reset,0,5);
 	container->setLayout(layout);
@@ -87,6 +88,20 @@ void SimulationControl::statusChanged(QString newString, int errorSource)
 			break;
 	};
 	status->setPalette(pal);
+}
+
+void SimulationControl::connectReset(bool disconn)
+{
+	if(disconn)
+	{
+		QObject::disconnect(reset,SLOT(setEnabled(bool)));
+		reset->setEnabled(false);
+	}
+	else
+	{
+		reset->setEnabled(db->haveUnpredicatableChanges());
+		QObject::connect(db,SIGNAL(gainedUnpredicatableChanges(bool)),reset,SLOT(setEnabled(bool)));
+	}
 }
 
 #endif

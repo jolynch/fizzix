@@ -83,7 +83,7 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	importMenu->addAction("Force");
 	importMenu->addAction("Macro");
 	exportMenu->addAction("Constant");
-	fileMenu->addAction("Exit",databackend, SLOT(quit));
+	fileMenu->addAction("Exit",databackend, SLOT(quit()));
 	QMenu * editMenu = this->menuBar()->addMenu(tr("Edit"));
 	QAction * undo=databackend->getUndoStack()->createUndoAction(this);
 	undo->setShortcut(QKeySequence(QKeySequence::Undo));
@@ -91,10 +91,6 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	QAction * redo=databackend->getUndoStack()->createRedoAction(this);
 	redo->setShortcut(QKeySequence(QKeySequence::Redo));
 	editMenu->addAction(redo);
-//	editMenu->addAction("Cut");
-//	editMenu->addAction("Copy");
-//	editMenu->addAction("Paste");
-//	editMenu->addAction("Find");
 	QMenu * viewMenu = this->menuBar()->addMenu(tr("View"));
 	QMenu * cameraMenu=viewMenu->addMenu("Camera Presets");
 	cameraMenu->addAction("Isometric",this,SLOT(view_setIsometric()));
@@ -124,8 +120,8 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	QMenu * newDataMenu = dataMenu->addMenu("New");
 	newDataMenu->addAction("Object");
 	newDataMenu->addAction("Force");
-	newDataMenu->addAction("Property");
 	newDataMenu->addAction("Macro");
+	newDataMenu->addAction("Constant");
 	QMenu * editDataMenu = dataMenu->addMenu("Edit");
 	editDataMenu->addAction("Object");
 	editDataMenu->addAction("Force");

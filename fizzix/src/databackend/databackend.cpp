@@ -81,8 +81,9 @@ void DataBackend::applyUnpredictableDataChange(QUndoCommand * c, bool addToStack
 	{
 		c->redo();
 	}
+	if(!lastChangeUnpredictable)
+		emit(gainedUnpredicatableChanges(lastChangeUnpredictable));
 	lastChangeUnpredictable=true;
-	emit(gainedUnpredicatableChanges(lastChangeUnpredictable));
 }
 
 

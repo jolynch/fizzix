@@ -75,6 +75,7 @@ void StepEngine::setCorrectFizEngine(fizstack f)
 
 void StepEngine::step()
 {
+qDebug()<<db->getObjectModel()->getData()->size();
 	if(lockstep) return;
 	lockstep=true;
 	std::map <std::string, FizObject *> * oldObjs=castToFizObject(*(db->getObjectModel()->getData()));
@@ -117,6 +118,7 @@ void StepEngine::step()
 		db->getDataInserter()->changeObjectsFromSim(out);
 	changesSaved=true;
 	lockstep=false;
+qDebug()<<db->getObjectModel()->getData()->size();
 }
 
 void StepEngine::setDt(double _dt)
