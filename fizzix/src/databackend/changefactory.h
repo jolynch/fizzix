@@ -25,9 +25,10 @@ protected:
 		QString name;
 		T initVal;
 	public:
+		//Creates a change adding an element that can be pushed onto the undo stack.
 		DC_AddElement(QString n, MapKeyListModel <T> * t, T i=NULL);
-		void undo();
-		void redo();
+		void undo(); //Undoes the change.
+		void redo(); //Does the change.
 	};
 	
 	template <class T>
@@ -38,9 +39,10 @@ protected:
 		QString name;
 		T val;
 	public:
+		//Creates a change deleting an element that can be pushed onto the undo stack.
 		DC_DeleteElement(QString n, MapKeyListModel <T> * t);
-		void undo();
-		void redo();
+		void undo(); //Undoes the change.
+		void redo(); //Does the change.
 	};
 	
 	template <class T>
@@ -50,9 +52,11 @@ protected:
 		MapKeyListModel <T> * target;
 		QMap<QString, T> * old;
 	public:
+		//Creates a change clearing an element that can be pushed onto the undo stack.
 		DC_ClearElements(MapKeyListModel <T> * t);
-		void undo();
-		void redo();
+		//WARNING: CURRENTLY DOES NOT UNDO CORRECTLY
+		void undo(); //Undoes the change.
+		void redo(); //Does the change.
 	};
 	
 	template <class T>
@@ -64,9 +68,10 @@ protected:
 		QString oldName;
 		T val;
 	public:
+		//Creates a change renaming an element that can be pushed onto the undo stack.
 		DC_RenameElement(QString on, QString nn, MapKeyListModel <T> * t);
-		void undo();
-		void redo();
+		void undo(); //Undoes the change.
+		void redo(); //Does the change.
 	};
 	
 	
@@ -79,9 +84,10 @@ protected:
 		T oldVal;
 		T newVal;
 	public:
+		//Creates a change modifying an element that can be pushed onto the undo stack.
 		DC_ModifyElement(QString n, MapKeyListModel <T> * t, T nv);
-		void undo();
-		void redo();
+		void undo(); //Undoes the change.
+		void redo(); //Does the change.
 	};
 
 public:
@@ -93,36 +99,59 @@ public:
 		QMap<QString, DrawableObject *> * oldData;
 		QMap<QString, DrawableObject *> * newData;
 	public:
+		//Creates a change running a simulation that can be pushed onto the undo stack.
 		DC_RunSimulation(DataBackend * db, QMap<QString, DrawableObject *> * _newData);
 		DC_RunSimulation(DataBackend * db, QMap<QString, DrawableObject *> * _oldData, QMap<QString, DrawableObject *> * _newData);
-		void undo();
-		void redo();
+		void undo(); //Undoes the change.
+		void redo(); //Does the change.
 	};
 	
 #endif //CHANGES_H
 public:
+	//Creates a data inserter that contains utility functions to edit data, inserting it onto the undo stack.
 	ChangeFactory(DataBackend * _db);
 public slots:
+	//Utility function to add an Object.
 	void addObject(QString n);
+	//Utility function to add a Force.
 	void addForce(QString n);
+	//Utility function to add a Constant.
 	void addConstant(QString n);
+	//Utility function to add a Macro.
 	void addMacro(QString n);
+	//Utility function to delete an Object.
 	void deleteObject(QString n);
+	//Utility function to delete a Force.
 	void deleteForce(QString n);
+	//Utility function to delete a Constant.
 	void deleteConstant(QString n);
+	//Utility function to delete a Macro.
 	void deleteMacro(QString n);
+	//Utility function to rename an Object.
 	void renameObject(QString on, QString nn);
+	//Utility function to rename a Force.
 	void renameForce(QString on, QString nn);
+	//Utility function to rename a Constant.
 	void renameConstant(QString on, QString nn);
+	//Utility function to rename a Macro.
 	void renameMacro(QString on, QString nn);
+	//Utility function to modify an Object.
 	void modifyObject(QString n, DrawableObject * nv);
+	//Utility function to modify a Force.
 	void modifyForce(QString n, FizForce * nv);
+	//Utility function to modify a Constant.
 	void modifyConstant(QString n, fizdatum nv);
+	//Utility function to modify a Macro.
 	void modifyMacro(QString n, FizFormula * nv);
+	//Changes the Objects with new data.
 	void changeObjectsFromSim(QMap<QString, DrawableObject *> * newData);
+	//Utility function to clear all Objects.
 	void clearObjects();
+	//Utility function to clear all Forces.
 	void clearForces();
+	//Utility function to clear all Macros.
 	void clearMacros();
+	//Utility function to clear all Constants.
 	void clearConstants();
 };
 

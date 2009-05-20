@@ -50,14 +50,22 @@ class ShapeEditor:public QWidget
 		QLineEdit * ledit;
 		QCheckBox * approxCOM;
 	public:
+		//Creates a widget to edit shape of an object.
 		ShapeEditor();
+		//Returns true if the widget has changes.
 		bool hasChanges();
+		//Returns the verticies of the shape.
 		std::vector<triangle *> getData();
+		//Utility funtion to load properties.
 		void setProperties(DrawableObject * _o);
+		//Utility funtion to add additional data to objects.
 		DrawableObject * getAdditionalData(DrawableObject * _o);
 	public slots:
+		//User response function.
 		void changes();
+		//Loads the shape of an object.
 		void setData(DrawableObject o);
+		//Responds to a change in shape.
 		void selectedShape(int s);
 };
 #endif

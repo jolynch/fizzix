@@ -34,7 +34,9 @@ class DrawableObject:public FizObject
          */
         DrawableObject(std::string newname, vec3 color, std::vector<triangle*> init, double mass = 1);
         bool getProperty(Bit bit) const;
+		//Returns the number of properties that the object has
         int getProperties() const;
+		//
         void setProperty(Bit bit, bool set);
         void setProperties(int props);
 

@@ -41,11 +41,16 @@ class ForceEditor:public QWidget
 		QLineEdit * fromField;
 		QLineEdit * onField;
 	public:
+		//Create a widget to edit a force
 		ForceEditor(DataBackend * _db);
+		//Returns true if there are changes.
 		bool hasChanges();
+		//Returns the data.
 		FizForce * getData();
 	public slots:
+		//Responds to user input.
 		void changes();
+		//Loads a FizForce.
 		void setData(FizForce f);
 };
 

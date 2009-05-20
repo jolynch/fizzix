@@ -41,11 +41,16 @@ class EditPropertyDialog:public QDialog
 		QLineEdit * name;
 		ConstantEditor * constEditor;
 	public:
+		//Contructs a popup dialog containing a constant editor to object properties.
 		EditPropertyDialog(QString _name, fizdatum obj);
+		//Returns true if changes have been made.
 		bool hasChanges();
+		//Returns the name under which the edited property will be saved.
 		QString saveName();
+		//Returns the GUI as a property
 		fizdatum getData();
 	public slots:
+		//Notifies the widget of changes.
 		void changes();
 };
 

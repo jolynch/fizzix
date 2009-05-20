@@ -11,6 +11,7 @@ template <class T>
 class MapUtil
 {
 	public:
+	//Utility function to copy a QMap into an std::map for non-pointer elements.
 	static std::map<std::string, T> * qMapToStdMapCopy(QMap<QString, T> arg)
 	{
 		std::map<std::string, T> * toReturn=new std::map<std::string, T>();
@@ -23,6 +24,7 @@ class MapUtil
 		return toReturn;
 	}
 	
+	//Utility function to copy a QMap into an std::map for pointer elements.
 	static std::map<std::string, T*> * qMapToStdMapCopy(QMap<QString, T*> arg)
 	{
 		std::map<std::string, T*> * toReturn=new std::map<std::string, T*>();
@@ -35,6 +37,7 @@ class MapUtil
 		return toReturn;
 	}
 	
+	//Utility function to deep delete all the elements in pointer-valued QMap.
 	static void deepDelete(QMap<QString, T*> * arg)
 	{
 		QMapIterator<QString, T*> i(&arg);
@@ -46,7 +49,8 @@ class MapUtil
  		}
 		delete arg;
 	}
-
+	
+	//Utility function to deep delete all the elements in pointer-valued std::map.
 	static void deepDelete(std::map<std::string, T*> * arg)
 	{
 		typename std::map<std::string, T*>::iterator p;

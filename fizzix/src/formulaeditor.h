@@ -41,12 +41,18 @@ class FormulaEditor:public QWidget
 		QTextEdit * formEdit;
 		FizFormula tempData;
 	public:
+		//Creates a widget to edit a formula.
 		FormulaEditor(DataBackend * _db);
+		//Returns true if there are changes.
 		bool hasChanges();
+		//Returns the data.
 		FizFormula * getData();
 	public slots:
+		//User input response.
 		void changes();
+		//Loads a formula.
 		void setData(FizFormula f);
+		//Shows a help dialog with formulas. Currently unimplemented.
 		void showAvailableSymbolsDialog();
 };
 

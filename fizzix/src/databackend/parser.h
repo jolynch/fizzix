@@ -94,6 +94,7 @@ class Parser
 			else if(token ==  Vectorize::token)	{ return new Vectorize(num); }
 			else { throw std::logic_error("It does not seem that we have an operator for: "+token); }
 		}
+		//Parses a QString into a fizStack.
 		static fizstack parse(QString input,int& num)
 		{
 			input = input.trimmed();
@@ -220,7 +221,7 @@ class Parser
 			stack.reset();
 			return stack;
 		}
-	
+		//Parses a string into a fizdatum.
 		static fizdatum parseFizdatum(QString s, Type t)
 		{
 			QStringList s_=s.split(" ");
@@ -233,7 +234,7 @@ class Parser
 				default: return fizdatum();
 			};
 		}
-		
+		//Parses a fizdatum into a string.
 		static QString parseFizdatum(fizdatum d)
 		{
 			QString out="";

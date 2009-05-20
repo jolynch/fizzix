@@ -63,20 +63,34 @@ class MainWindow:public QMainWindow
 		GLDrawPane * openglpane;
 		QTimer * timer;
 	public:
+		//Creates a mainwindow for fizzix.
 		MainWindow (QDesktopWidget * d);
+		//Checks for a needs to save data if the x button is pressed.
 		void closeEvent(QCloseEvent *event);
 	public slots:
+		//Sets the view to isometric.
 		void view_setIsometric();
+		//Sets the view to the xy-plane.
 		void view_setXY();
+		//Sets the view to the xz-plane.
 		void view_setXZ();
+		//Sets the view to the yz-plane.
 		void view_setYZ();
+		//Zooms out to 10%.
 		void view_zoom10();
+		//Zooms out to 50%.
 		void view_zoom50();
+		//Zooms to scale.
 		void view_zoom100();
+		//Zooms in to 150%.
 		void view_zoom150();
+		//Zooms in to 200%.
 		void view_zoom200();
+		//Shows the manual.
 		void showManual();
+		//Shows the about popup.
 		void showAbout();
+		//Checks if there is an available reset.
 		void checkResetAction();
 };
 

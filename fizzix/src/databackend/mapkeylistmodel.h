@@ -13,15 +13,22 @@ class MapKeyListModel
 	private:
 		QStringListModel * model;
 		QMap <QString, T> * data;
+		//Set the model to be synchronized to the QMap.
 		void synchronizeKeys();
 	public:
+		//Creates a new MapKeyListModel.
 		MapKeyListModel();
+		//Retrieves the stringlist model.
 		QStringListModel * getModel();
+		//Retrieves the data stored in the list.
 		QMap <QString, T> * getData();
+		//Sets the data of the model to d, deleting the previous data by default.
 		void setData(QMap <QString, T> * d, bool deletePrevData=true);
 		//To create a new element, call setElement with a new name.
 		void setElement(QString name, T d);
+		//To delete an element, call delElement with the element's name
 		void delElement(QString name);
+		//Deletes all elements from the model
 		void purge();
 };
 #endif

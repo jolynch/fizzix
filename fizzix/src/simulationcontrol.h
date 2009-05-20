@@ -48,17 +48,21 @@ class SimulationControl:public QDockWidget
 	private:
 		bool running;
 		DataBackend * db;
-		StepEngine * eng;
-		QLabel * status;
+		StepEngine * eng; 
+		QLabel * status; //Displays syntax and engine errors.
 		QDoubleSpinBox * dt;
 		QPushButton * start;
 		QPushButton * stop;
 		QPushButton * reset;
 	public:
+		//Constructs a widget to control the StepEngine, which contains the FizEngine.
 		SimulationControl (DataBackend * _db);
+		//Retrieves the StepEngine.
 		StepEngine * getStepEngine();
 	public slots:
+		//Displays and colors the status QLabel based on whether the new String is an error or not.
 		void statusChanged(QString newString, int errorSource);
+		//Disconnects the reset button, which should not notice that new data is being added until the simulation stops running.
 		void connectReset(bool disconn);
 };
 

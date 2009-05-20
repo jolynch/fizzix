@@ -36,7 +36,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <libfizzix/gen_structs.h>
 
-// This class is a dialog that can edit constants. It has an option to switch between scalar and vector, and text boxes to enter numerical floating-point values.
+// This class is a dialog that can edit constants. It has an option to switch between scalar and vector,
+// and text boxes to enter numerical floating-point values.
 class ConstantEditor:public QWidget
 {	Q_OBJECT
 	private:
@@ -49,14 +50,21 @@ class ConstantEditor:public QWidget
 		QLineEdit * v2_edit;
 		QLineEdit * v3_edit;
 	public:
+		//Returns a graphical widget to edit fizdatums.
 		ConstantEditor(bool forceScalar=false, bool forceVector=false);
+		//Retrieves the data.
 		fizdatum getData();
+		//Is set when there are changes to be saved.
 		bool hasChanges();
 	public slots:
+		//Loads data.
 		void setData(fizdatum d);
+		//Utility slot when changes are made.
 		void changes();
+		//Responds to a change in type of constant.
 		void radioButtonSelected(bool s); //true if scalar, false if vector.
 	signals:
+		//Saves the changes of the program.
 		void saveChanges();
 };
 

@@ -67,15 +67,24 @@ class DataEditor:public QDockWidget
 		ForceEditor * forceEditor;
 		FormulaEditor * macroEditor;
 	public:
+		//Creates a widget to edit selected elements.
 		DataEditor (DataBackend * _db, QDesktopWidget * d);
+		//Checks if the editor needs to save changes.
 		bool checkToSave();
 	public slots:
+		//Loads the default view.
 		void loadBlank();
+		//Loads an object.
 		void loadObject(QString n);
+		//Loads a force.
 		void loadForce(QString n);
+		//Loads a macro.
 		void loadMacro(QString n);
+		//Loads a constant.
 		void loadConstant(QString n);
+		//Saves changes.
 		void saveChanges();
+		//Reverts changes.
 		void revertChanges();
 };
 

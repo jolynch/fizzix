@@ -56,14 +56,21 @@ class DataBrowser:public QDockWidget
 		QListView * consts;
 		DataBackend * db;
 	public:
+		//Creates a graphical data browser.
 		DataBrowser ( DataBackend * _d,QDesktopWidget * d);
 	public slots:
+		//Is called when text is entered to search.
 		void textEntered(QString);
+		//Adds an element based on the selected tab.
 		void addElement();
+		//Deletes the selected element.
 		void deleteElement();
+		//Edits the selected element in the DataEditor.
 		void editElement();
+		//Disconnects the objects pane during editing to prevent editing without pausing.
 		void disconnectObjects(bool discon);
 	signals:
+		//These signals are emitted to inform of actions, and represent their names.
 		void addObject(QString);
 		void deleteObject(QString);
 		void editObject(QString);

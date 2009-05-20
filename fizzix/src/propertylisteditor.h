@@ -42,14 +42,22 @@ class PropertyListEditor:public QWidget
 		QListView * plist;
 		MapKeyListModel <fizdatum> * model;
 	public:
+		//Creates a widget to edit the properties of an object.
 		PropertyListEditor();
+		//Returns true if there are changes to be saved.
 		bool hasChanges();
+		//Saves the properties into an object.
 		DrawableObject * getAdditionalData(DrawableObject * o);
 	public slots:
+		//Detects changes.
 		void changes();
+		//Adds a new property.
 		void addProp();
+		//Deletes an existing property.
 		void delProp();
+		//Edits an existing property.
 		void editProp();
+		//Loads properties from data.
 		void setData(DrawableObject _o);
 };
 #endif

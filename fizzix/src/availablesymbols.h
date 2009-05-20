@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QStackedWidget>
 #include "databackend/databackend.h"
 
+//This class is not implemented yet.
 class AvailableSymbols:public QWidget
 {	Q_OBJECT
 	private:
