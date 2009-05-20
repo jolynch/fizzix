@@ -37,7 +37,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "databackend/stepengine.h"
 
 /*@class SimulationControl
- @brief Provides a panel to control Simulation running*/
+ @brief Provides a panel to control Simulation running
+ *  This dockable panel allows control of the simulation. It interfaces with the
+ *  backend and can start, stop, reset, and change the dt. It provides a box
+ *  that shows the status of the fizengine.
+*/
 
 class SimulationControl:public QDockWidget
 {	Q_OBJECT

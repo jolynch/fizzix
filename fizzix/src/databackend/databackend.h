@@ -20,6 +20,7 @@
 
 class ChangeFactory;
 
+// This class eases the interface with the backend. It does all the non-graphical work of the frontend.
 class DataBackend:public QObject
 {	Q_OBJECT
 	private:

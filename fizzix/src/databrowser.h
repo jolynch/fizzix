@@ -39,9 +39,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "databackend/databackend.h"
 #include "databackend/changefactory.h"
 
-/*@class DateBrowser
- @brief Provides a panel to browse data*/
-
+/*@class DataBrowser
+ @brief Provides a panel to browse data
+ *  The DataBrowser is a graphical component that has five tabs: one for
+ *  objects, one for forces, macros, and constants. Each tab shows a list of the
+ *  given element, and a search box to locate elements. New elements can be
+ *  added, and old one deleted and edited.
+*/
 class DataBrowser:public QDockWidget
 {	Q_OBJECT
 	private:

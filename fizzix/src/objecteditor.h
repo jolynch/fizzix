@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "propertylisteditor.h"
 #include "databackend/drawableobject.h"
 
+// This class provides a panel with controls to edit an object. It has a shape editor, for changing the shape of an object, and a property editor, for changing quantitative information about the object such as mass or position.
 class ObjectEditor:public QTabWidget
 {	Q_OBJECT
 	private:

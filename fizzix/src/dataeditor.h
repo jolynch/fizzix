@@ -44,7 +44,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "formulaeditor.h"
 
 /*@class DataEditor
- @brief Provides a panel to edit data*/
+ @brief Provides a panel to edit data
+ *  The DataEditor lets the user change the properties of any element. For
+ *  objects, it has two tabs, one for shape information and one for the system
+ *  properties. It can also display a formula editor for forces and macros, or
+ *  a simple set of text boxes for constants.
+*/
 
 class DataEditor:public QDockWidget
 {	Q_OBJECT

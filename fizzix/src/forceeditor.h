@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "formulaeditor.h"
 #include <libfizzix/fizforce.h>
 
+// This panel lets the user edit a force by entering a formula. They have a large text box with which to enter a prefix LISP-style equation, and can reference properties with $ and @.
 class ForceEditor:public QWidget
 {	Q_OBJECT
 	private:

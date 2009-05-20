@@ -13,6 +13,7 @@
 #include "changefactory.h"
 #include "maputil.h"
 
+// StepEngine calls the library's "step()" in a loop-ed manner.
 class StepEngine:public QObject
 {	Q_OBJECT
 	private:

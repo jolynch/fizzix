@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <libfizzix/gen_structs.h>
 
+// This class is a dialog that can edit constants. It has an option to switch between scalar and vector, and text boxes to enter numerical floating-point values.
 class ConstantEditor:public QWidget
 {	Q_OBJECT
 	private:

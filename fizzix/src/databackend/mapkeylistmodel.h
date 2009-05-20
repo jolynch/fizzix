@@ -7,6 +7,7 @@
 #include <map>
 
 template <class T>
+// This is a template class that provides functionality to create a Qt model that provides a QStringListModel to a view. It provides an easy way to link the data to the widgets that display them.
 class MapKeyListModel
 {
 	private:

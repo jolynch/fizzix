@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 enum View {XY,YZ,ZX,ISOMETRIC};
 
+// GLDrawPane is a component that will draw the actual simulation.
 class GLDrawPane: public QGLWidget
 { Q_OBJECT
 	private:

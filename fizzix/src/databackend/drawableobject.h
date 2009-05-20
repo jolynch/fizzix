@@ -9,6 +9,7 @@
 enum Bit { HIDDEN, SMOOTH };
 enum PredefinedShapeType {PRISM,CYLINDER,SPHERE};
 
+// This is the frontend version of Fizobject. It adds methods to draw things.
 class DrawableObject:public FizObject
 {
 	private:

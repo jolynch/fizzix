@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "databackend/drawableobject.h"
 #include "databackend/mapkeylistmodel.h"
 
+// This constitutes a tab of the Object Editor, and shows a list of an objects' properties that the user can change.
 class PropertyListEditor:public QWidget
 {	Q_OBJECT
 	private:

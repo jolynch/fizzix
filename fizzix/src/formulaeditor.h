@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <libfizzix/fizformula.h>
 #include "databackend/databackend.h"
 
+// This is very similar to the ForceEditor, but is for creating macros instead.
 class FormulaEditor:public QWidget
 {	Q_OBJECT
 	private:

@@ -33,8 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "databackend/drawableobject.h"
 
-
-
+// This class lets the user change the shape of their objects. For example, it allows them to change radius and height of a cylinder, and may be used to redefine the geometry of custom objects.
 class ShapeEditor:public QWidget
 {	Q_OBJECT
 	private:

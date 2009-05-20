@@ -7,6 +7,7 @@
 #include <QMap>
 
 template <class T>
+// This class provides utilities to change QMaps into stl maps.
 class MapUtil
 {
 	public:

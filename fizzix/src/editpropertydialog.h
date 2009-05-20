@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "databackend/mapkeylistmodel.h"
 #include "constanteditor.h"
 
+// This class provides a dialog with which the user can edit an object's properties. It is launched from the data editor when the user wants to edit a property.
 class EditPropertyDialog:public QDialog
 {	Q_OBJECT
 	private:

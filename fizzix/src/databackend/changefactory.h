@@ -9,6 +9,7 @@
 #include <libfizzix/fizobject.h>
 #include <libfizzix/fizformula.h>
 
+// All of these classes are nodes that can be added to the undo stack. ChangeFactory gives some nice commands for constructing them and adding them to the undo stack. Each internal class is a different action that can be undone.
 class ChangeFactory : public QObject
 {	Q_OBJECT
 private:

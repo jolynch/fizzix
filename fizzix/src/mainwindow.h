@@ -47,7 +47,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "databackend/changefactory.h"
 
 /*@class MainWindow
- @brief The overhead window class.*/
+ @brief The overhead window class.
+ *  The MainWindow class contains the four big parts of Fizzix: the universe,
+ *  the editor, the browser, and the control bar. These components are dockable.
+ *  It handles some communication with the backend.
+*/
 
 class MainWindow:public QMainWindow
 {	Q_OBJECT
