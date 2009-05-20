@@ -185,9 +185,11 @@ class FizEngine
 		template< class T >	
 		bool contains(const std::map<std::string, T>& cache, const std::string& key)
 		{
-std::cout << "ABOUT TO CHECK IF THE CACHE CONTAINS " << key << '\n';
-std::cout << "COUNT IS " << '\n';
-std::cout << cache.count(key) << '\n';
+
+
+
+
+
 			return cache.count(key) != 0;
 		}
 

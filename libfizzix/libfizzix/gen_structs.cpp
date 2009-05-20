@@ -244,7 +244,7 @@ triangle::triangle(vertex* v1, vertex* v2, vertex* v3, bool add)
 	massp = 0.0;
 	vec3 e1 = vr2.p - vr1.p;
 	vec3 e2 = vr3.p - vr1.p;
-	// 	std::cout<<"Calculating normal: "<<e1[0]<<" "<<e1[1]<<" "<<e1[2]<<" and "<<e2[0]<<" "<<e2[1]<<" "<<e2[2]<<std::endl;
+
 	normal = e1.cross(e2);
 	double mag = normal.mag();
 	unit_normal = normal/mag;

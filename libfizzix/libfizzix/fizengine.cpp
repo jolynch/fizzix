@@ -52,27 +52,27 @@ void FizEngine::step(	std::map<std::string, FizObject*>  * thisStep,
 			std::map<std::string, fizdatum>    * ccache,
 		      	double dt)
 {
-std::cout<< "FizEngine pointer from step "<<this<<std::endl; 
+
 	this->thisStep = thisStep;
 	this->nextStep = nextStep;
 	this->forces = forces;
 	this->props = macros; // Eventually props should be renamed to macros
 	this->ccache = ccache;
 	this->dt = dt;
-	std::cout << "STEPPING BIATCH"<<std::endl;
+
 	mcache.clear();
-std::cout << &mcache <<std::endl;
+
 	fcache.clear();
 	evaluatedForces->clear();
 	forceEvaled->clear();
-std::cout << &mcache <<std::endl;
+
 	evalForces();
 }
 
 /* Step thorugh objects
  */
 void FizEngine::evalForces()
-{std::cout << &mcache <<std::endl;
+{
 	if(thisStep == NULL || thisStep->size()==0) 
 	{
 		throw std::logic_error("Nothing to work on??");
@@ -92,7 +92,7 @@ void FizEngine::evalForces()
 			if(inner_iter == outer_iter)
 			{
 				inner_iter++;
-//std::cout << "CONTINUING BITCH" <<std::endl;
+
 				continue;
 			}
 			FizObject& obj1 = *(outer_iter->second);
@@ -101,9 +101,9 @@ void FizEngine::evalForces()
 			//Anton, we don't need this is you keep names up to date ...
 			obj1.setName(outer_iter->first);
 			obj2.setName(inner_iter->first);
-//std::cout << "YO I'VE GOT OBJECTS" << '\n';
-//std::cout << &mcache <<std::endl;
-std::cout << "GONNA SEE IF ANYTHING'S COLLIDED" << '\n';
+
+
+
 			collisions(obj1, obj2);
 			std::vector<triangle*>& tris1 = obj1.rgetVertices(); //actually, triangles, not vertices
 			std::vector<triangle*>& tris2 = obj2.rgetVertices();
@@ -292,7 +292,7 @@ vec3 torque_helper(vec3 w, std::vector<double> i, vec3 t)
 	vec3 L( (i[0] * w[0] + i[3] * w[1] + i[5] * w[2]),
 		(i[3] * w[0] + i[1] * w[1] + i[4] * w[2]),
 		(i[5] * w[0] + i[4] * w[1] + i[2] * w[2]));
-std::cout<<"ANGULAR MOMENTUM"<<L[0]<<" "<<L[1]<<" "<<L[2];
+
 	return (L.cross(w) + t);
 } 
 
@@ -301,9 +301,6 @@ std::cout<<"ANGULAR MOMENTUM"<<L[0]<<" "<<L[1]<<" "<<L[2];
 
 void FizEngine::applyForceAndTorque(vec3 force, vec3 torque, FizObject * ob1, double dt)
 {
-std::cout << "APPLYING FORCE OF "<<force[0] << ' ' << force[1] << ' ' << force[2] << '\n';
-std::cout << "APPLYING TORQUE OF "<<torque[0] << ' ' << torque[1] << ' ' << torque[2] << '\n';
-std::cout << "MOVING FROM " << ob1->getPos()[0] << ' ' <<ob1->getPos()[1] << ' ' << ob1->getPos()[2] << '\n';
 	FizObject * new_object = new FizObject(*ob1);
 	vec3 new_pos, new_vel, new_w;
 	Quaternion new_quat; //woot
@@ -315,23 +312,19 @@ std::cout << "MOVING FROM " << ob1->getPos()[0] << ' ' <<ob1->getPos()[1] << ' '
 	//I^-1 = R * I^-1 * R^T, not I^-1
 	//NOTE I think I fixed it
 	std::vector<double> i = ob1->getInertiaTensorInvWorld();
-std::cout <<"WORLD INERTIA TENSOR"<<std::endl;
-for(int cntr = 0; cntr<6;cntr++)
-std::cout <<" "<<i[cntr];
-std::cout <<std::endl;
-		
+
 	vec3 t = torque_helper(ob1->getOme(),ob1->getInertiaTensor(),torque); // just for convenience
-std::cout << "RESULTING TORQUE: "<<t[0]<<" "<<t[1]<<" "<<t[2]<<std::endl;
+
 	//T = dL/dt = I * dw/dt = I * alpha
 	vec3 dwdt = vec3(i[0] * t[0] + i[3] * t[1] + i[5] * t[2],
 		       	 i[3] * t[0] + i[1] * t[1] + i[4] * t[2], 
 			 i[5] * t[0] + i[4] * t[1] + i[2] * t[2]);
-std::cout << "DWDT: "<<dwdt[0]<<" "<<dwdt[1]<<" "<<dwdt[2]<<std::endl;
+
 	//Step 1 
 	vec3 dxdt1 = ob1->getVel();
 	vec3 omega = ob1->getOme();
 	Quaternion dqdt1 = (Quaternion(0.0, omega[0],omega[1], omega[2]) * ob1->getQuaternion()) * 0.5;
-std::cout << "DQDT: "<<dqdt1[0] <<" " <<dqdt1[1] << " "<<dqdt1[2]<<" "<<dqdt1[3]<<std::endl;
+
 	new_pos = ob1->getPos() + (dxdt1 * (dt/2.0));
 	new_quat = ob1->getQuaternion() + (dqdt1 * (dt/2.0));
 	new_vel = ob1->getVel() + (dvdt * (dt/2.0));
@@ -360,37 +353,37 @@ std::cout << "DQDT: "<<dqdt1[0] <<" " <<dqdt1[1] << " "<<dqdt1[2]<<" "<<dqdt1[3]
 	new_object->setPos(ob1->getPos() + ((dxdt1 + (dxdt2 + dxdt3)*2.0 + dxdt4)*(dt/6.0)));
 	Quaternion test = ob1->getQuaternion() + ((dqdt1 + (dqdt2 + dqdt3)*2.0 + dqdt4)*(dt/6.0));
 	test.normalize(.001);
-//std::cout <<"QUE SENOR?"<< test[0]<< " "<<test[1]<<" "<<test[2]<<" "<<test[3]<<std::endl;
+
 
 	new_object->setQuaternion(ob1->getQuaternion() + ((dqdt1 + (dqdt2 + dqdt3)*2.0 + dqdt4)*(dt/6.0)));
 	new_object->rgetQuaternion().normalize(.001);
 	test = new_object->getQuaternion();
-//std::cout <<"HOW IS THIS HAPPENING?"<< test[0]<< " "<<test[1]<<" "<<test[2]<<" "<<test[3]<<std::endl;
+
 	new_object->setVel(ob1->getVel() + ((dvdt + (dvdt + dvdt)*2.0 + dvdt)*(dt/6.0)));
 	new_object->setOme(ob1->getOme() + ((dwdt + (dwdt + dwdt)*2.0 + dwdt)*(dt/6.0)));
 	(*nextStep)[new_object->getName()] = new_object;	
-std::cout <<"TO POSITION" << new_object->getPos()[0] << ' '<< new_object->getPos()[1] << ' ' << new_object->getPos()[2] << '\n';
+
 }	
 
 void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
 {
-std::cout << "I'M IN COLLISIONS RIGHT NOW... TOMMY CAN YOU HEAR ME?" << '\n';
+
 	vec3 radius = obj1.getPos() - obj2.getPos();
 	double distance = radius.mag();
 	vec3 direction = radius/distance;
-std::cout << "DIRECTION FROM "<<obj2.getName()<<" TO "<<obj1.getName()<<" IS "<<direction[0]<<' '<<direction[1]<<' '<<direction[2]<<'\n';
-std::cout << "MAXRADS ARE " << obj1.getMaxRad()<<" and "<<obj2.getMaxRad()<<" AS COMPARED TO DISTANCE OF " << distance<<'\n';
+
+
 	if (distance <= obj1.getMaxRad() + obj2.getMaxRad()) //if within their bounding spheres
 	{
-std::cout << "OY! NO TOUCHING IN THIS HERE RESPECTABLE FACILITY!\n";
+
 		//TODO: check if actually colliding
 		//TODO: find where collision is
 		triangle tri1 = triangle();
 		triangle tri2 = triangle();
-std::cout << "I'M INVESTIGATING THIS PDA A BIT MORE\n";
+
 		collisionDetect(obj1, obj2, direction, tri1, tri2);
 		//TODO: call collide
-std::cout << "GONNA FORCE YOU TWO APART\n";
+
 		collide(obj1, tri1, obj2, tri2, direction, point());
 	}
 }
@@ -401,7 +394,7 @@ void FizEngine::collisionDetect(FizObject& obj1, FizObject& obj2, vec3 direction
 	std::vector<triangle*> tris1 = obj1.getVertices();
 	std::vector<triangle*> tris2 = obj2.getVertices();
 	double mag = 1000;
-std::cout << "FINDING " << obj1.getName()<<"'S TRIANGLE OF CONTACT\n";
+
 	tri1 = *(tris1[0]);
 	for (int i = 0; i < tris1.size(); i++)
 	{
@@ -413,17 +406,17 @@ std::cout << "FINDING " << obj1.getName()<<"'S TRIANGLE OF CONTACT\n";
 		{
 			tri1 = temptri;
 			mag = tempmag;
-std::cout << "TRIANGLES'S MASSP IS "<<tri1.massp<<'\n';
-std::cout << "TRIANGLES'S NORMAL IS "<<tri1.normal[0]<<' '<<tri1.normal[1]<<' '<<tri1.normal[2]<<'\n';
-std::cout << "MAG IS "<<mag<<'\n';
-std::cout << "temp "<<i<<"'s MASSP IS "<<temptri.massp<<'\n';
-std::cout << "TRIANGLES'S NORMAL IS "<<temptri.normal[0]<<' '<<temptri.normal[1]<<' '<<temptri.normal[2]<<'\n';
-std::cout << "MAG IS "<<tempmag<<'\n';
+
+
+
+
+
+
 		}
 	}
-std::cout << "triangle's massp is "<<tri1.massp<<'\n';
-std::cout << "TRIANGLES'S NORMAL IS "<<tri1.normal[0]<<' '<<tri1.normal[1]<<' '<<tri1.normal[2]<<'\n';
-std::cout << "FINDING " << obj2.getName()<<"'S TRIANGLE OF CONTACT\n";
+
+
+
 	mag = 1000;
 	tri2 = *(tris1[0]);
 	for (int i = 0; i < tris2.size(); i++)
@@ -436,16 +429,16 @@ std::cout << "FINDING " << obj2.getName()<<"'S TRIANGLE OF CONTACT\n";
 		{
 			tri2 = temptri;
 			mag = tempmag;
-std::cout << "TRIANGLES'S MASSP IS "<<tri2.massp<<'\n';
-std::cout << "TRIANGLES'S NORMAL IS "<<tri2.normal[0]<<' '<<tri2.normal[1]<<' '<<tri2.normal[2]<<'\n';
-std::cout << "MAG IS "<<mag<<'\n';
-std::cout << "temp "<<i<<"'s MASSP IS "<<temptri.massp<<'\n';
-std::cout << "TRIANGLES'S NORMAL IS "<<temptri.normal[0]<<' '<<temptri.normal[1]<<' '<<temptri.normal[2]<<'\n';
-std::cout << "MAG IS "<<tempmag<<'\n';
+
+
+
+
+
+
 		}
 	}
-std::cout << "triangle's massp is "<<tri2.massp<<'\n';
-std::cout << "TRIANGLES'S NORMAL IS "<<tri2.normal[0]<<' '<<tri2.normal[1]<<' '<<tri2.normal[2]<<'\n';
+
+
 }
 
 double sub_collide(vec3 r, std::vector<double> i) //r is a 3x1 column vector, i is an inertia tensor symmetric matrix, returns r(T)*i*r
@@ -456,7 +449,7 @@ double sub_collide(vec3 r, std::vector<double> i) //r is a 3x1 column vector, i 
 //vec3 normal is the outward pointing normal of tri1 OR cross product of the edges
 void FizEngine::collide(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2, vec3 normal, point p) //not sure if all of these are necessary Eric - you can change if you need to
 {
-std::cout<<"IN COLLIDE\n";
+
 	vec3 r1 = (tri1.vertices[0]->p + tri1.vertices[1]->p + tri1.vertices[2]->p)/3;
 	vec3 r2 = (tri2.vertices[0]->p + tri2.vertices[1]->p + tri2.vertices[2]->p)/3;
 	
@@ -475,7 +468,7 @@ std::cout<<"IN COLLIDE\n";
 	vec3 f2 = f1*-1;
 	vec3 t1 = f1.cross(r1);
 	vec3 t2 = f2.cross(r2);
-std::cout<<"enFORCEING STUFF HA HA HA lol\n";
+
 	(*evaluatedForces)[&obj1].first += f1;
 	(*evaluatedForces)[&obj1].second += t1;
 	(*evaluatedForces)[&obj2].first += f2;
@@ -506,11 +499,11 @@ fizdatum FizEngine::getForceVal(const std::string& force, const FizObject& obj1,
 
 fizdatum FizEngine::getMacroVal(const std::string& macro, const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2)
 {
-std::cout << &mcache <<std::endl;	
-std::cout << "GONNA CHECK THE MCACHE" << '\n';
+
+
 	if(contains(mcache,macro))
 	{		
-std::cout << "IT'S IN THERE" << '\n';
+
 		fizdatum& cachedVal=mcache[macro];
 		if(cachedVal.type==INPROGRESS)
 		{
@@ -518,17 +511,17 @@ std::cout << "IT'S IN THERE" << '\n';
 		}
 		return cachedVal;
 	}
-std::cout << "IT'S NOT IN THERE" << '\n';
-std::cout << "UH OH"<<macro<<std::endl;
-std::cout << this->props <<std::endl;
-std::cout << (*props)[macro]<<std::endl;
-/*if (props == NULL) std::cout << "OH NO PROPS IS NULLS" << '\n';*/
+
+
+
+
+
 	if(!contains(*props,macro))
 	{
-std::cout << "IT'S NOT IN THERE" << '\n';
+
 		throw std::logic_error("Invalid macro");
 	}
-std::cout << "IT'S IN THERE" << '\n';
+
 	fizdatum& cachedVal=mcache[macro];
 	cachedVal.type=INPROGRESS;
 	return cachedVal=(*props)[macro]->eval(obj1, tri1, obj2, tri2);
@@ -536,12 +529,12 @@ std::cout << "IT'S IN THERE" << '\n';
 
 fizdatum FizEngine::getConstVal(const std::string& constant)
 {
-std::cout << "ABOUT TO CHECK THE CCACHE" << '\n';
+
 	if(!contains(*ccache,constant))
 	{
 		throw std::logic_error("Invalid constant");
 	}
-std::cout << "IT'S IN THERE" << '\n';
+
 	return (*ccache)[constant];
 }
 

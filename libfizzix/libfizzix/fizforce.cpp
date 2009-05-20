@@ -37,10 +37,10 @@ distributed = true; //by default
 
 vec3 FizForce::getForce(const FizObject& obj1,const triangle& tri1,const FizObject& obj2,const triangle& tri2)
 {
-std::cout << "YO I'M IN GET FORCE" << '\n';
+
 	vec3 force;
 	fizdatum form = formula.eval(obj1, tri1, obj2, tri2);
-std::cout << "EVALUATED THE FORMULA" << '\n';
+
 	if (form.type == SCALAR)
 	{
 		force = obj2.getPos() - obj1.getPos(); //F on obj 1

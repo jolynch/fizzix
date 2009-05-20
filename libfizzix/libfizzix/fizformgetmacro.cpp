@@ -36,8 +36,8 @@ FizFormGetMacro::FizFormGetMacro(std::string id)
 
 const fizdatum FizFormGetMacro::eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2)
 {
-	cout << "ABOUT TO GET THIS MACRO CALLED " << identifier << '\n';
-	std::cout<< "FizEngine pointer from getmacro "<<eng<<std::endl; 
+
+
 	return eng->getMacroVal(identifier, obj1, tri1, obj2, tri2); // gets macro value from engine
 }
 

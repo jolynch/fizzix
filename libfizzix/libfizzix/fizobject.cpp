@@ -33,7 +33,7 @@ FizObject::FizObject()
 {
 	vec3 color(64.0, 64.0, 64.0);
 	//The pointer is so that the default vertices don't die after the constructor
-std::cout << "YO YO";
+
 	this->init("UnNamed", color, *(new std::vector<triangle*>()), 1);
 }
 	
@@ -68,7 +68,7 @@ void FizObject::init(std::string new_name, vec3 color, const std::vector<triangl
 {
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
-std::cout << tinit.size();
+
 	this->init_object(new_name,color,tinit, new_mass);
 	this->compute();
 	this->adjustMasses();
@@ -282,14 +282,14 @@ void FizObject::setVertices(std::vector<triangle*> newvertices) 	{
 		
 
 const Quaternion FizObject::getQuaternion() const 	{ 
-// std::cout<<"HM NOW QUATERNION: "<<quaternion[0]<<" "<<quaternion[1]<<" "<<quaternion[2]<<" "<<quaternion[3]<<std::endl;
+
 						return this->quaternion; }
 Quaternion& FizObject::rgetQuaternion()			{ 
-// std::cout<<"OH SNAP RQUATERNION: "<<quaternion[0]<<" "<<quaternion[1]<<" "<<quaternion[2]<<" "<<quaternion[3]<<std::endl;
+
 
 return this->quaternion; }
 void FizObject::setQuaternion(Quaternion newquat)	{ 
-// std::cout<<"SETTING QUATERNION: "<<newquat[0]<<" "<<newquat[1]<<" "<<newquat[2]<<" "<<newquat[3]<<std::endl;
+
 							  quaternion = newquat;	
 							}
 

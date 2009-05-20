@@ -59,7 +59,7 @@ FizSphere::FizSphere(std::string newname, vec3 color, std::vector<triangle*> new
 
 void FizSphere::init(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double rad)
 {
-std::cout << tinit.size();
+
 	inertiaTensor.resize(6);
 	inertiaTensorInv.resize(6);
 	this->init_object(new_name,color,tinit, new_mass, rad);
@@ -70,7 +70,7 @@ std::cout << tinit.size();
 
 void FizSphere::init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double rad)
 {
-std::cout << tinit.size();
+
 	name = new_name;
 	vertices = tinit;
 	setProperty("SYSTEM_color", fizdatum(0.0, color, VECTOR));
