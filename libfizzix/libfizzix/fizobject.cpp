@@ -371,7 +371,8 @@ fizdatum FizObject::getProperty(std::string key) const
 	}
 	else
 	{
-		throw std::out_of_range("Key does not exist");
+		return fizdatum(0,vec3(0,0,0),NIL);
+		//throw std::out_of_range("Key does not exist");
 	}
 }
 
