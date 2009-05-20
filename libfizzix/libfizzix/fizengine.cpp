@@ -375,15 +375,24 @@ void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
 	if (distance <= obj1.getMaxRad() + obj2.getMaxRad()) //if within their bounding spheres
 	{
 
+		//Elastic collisions for now
+		vec3 vel1 = obj1.getVel();
+		vec3 vel2 = obj2.getVel();
+		double mass1 = obj1.getMass();
+		double mass2 = obj2.getMass();
+		vec3 newvel1 = (vel1*(mass1-mass2) + vel2*mass2*2)/(mass1+mass2);
+		vec3 newvel2 = (vel2*(mass2-mass1) + vel1*mass1*2)/(mass1+mass2);
+		obj1.setVel(newvel1);
+		obj2.setVel(newvel2);
 		//TODO: check if actually colliding
 		//TODO: find where collision is
-		triangle tri1 = triangle();
-		triangle tri2 = triangle();
+		//triangle tri1 = triangle();
+		//triangle tri2 = triangle();
 
-		collisionDetect(obj1, obj2, direction, tri1, tri2);
+		//collisionDetect(obj1, obj2, direction, tri1, tri2);
 		//TODO: call collide
 
-		collide(obj1, tri1, obj2, tri2, direction, point());
+		//collide(obj1, tri1, obj2, tri2, direction, point());
 	}
 }
 
@@ -392,52 +401,48 @@ void FizEngine::collisionDetect(FizObject& obj1, FizObject& obj2, vec3 direction
 {
 	std::vector<triangle*> tris1 = obj1.getVertices();
 	std::vector<triangle*> tris2 = obj2.getVertices();
-	double mag = 1000;
+	double mag = 0;
 
 	tri1 = *(tris1[0]);
 	for (int i = 0; i < tris1.size(); i++)
 	{
 		triangle temptri = *(tris1[i]);
 		vec3 radius = (temptri.vertices[0]->p + temptri.vertices[1]->p + temptri.vertices[2]->p)/3;
-		double tempmag = direction.cross(radius/radius.mag()).mag();
+		double tempmag = direction.dot(radius/radius.mag());
 		//double tempmag = temptri.unit_normal.cross(direction).mag();
-		if (tempmag < mag)
+		if (tempmag > mag)
 		{
 			tri1 = temptri;
 			mag = tempmag;
-
-
-
-
-
-
+std::cout << "TRIANGLES'S MASSP IS "<<tri1.massp<<'\n';
+std::cout << "TRIANGLES'S NORMAL IS "<<tri1.normal[0]<<' '<<tri1.normal[1]<<' '<<tri1.normal[2]<<'\n';
+std::cout << "MAG IS "<<mag<<'\n';
 		}
+std::cout << "temp "<<i<<"'s MASSP IS "<<temptri.massp<<'\n';
+std::cout << "TRIANGLES'S NORMAL IS "<<temptri.normal[0]<<' '<<temptri.normal[1]<<' '<<temptri.normal[2]<<'\n';
+std::cout << "MAG IS "<<tempmag<<'\n';
 	}
 
-
-
-	mag = 1000;
+	mag = 0;
 	tri2 = *(tris1[0]);
 	for (int i = 0; i < tris2.size(); i++)
 	{
 		triangle temptri = *(tris2[i]);
 		vec3 radius = (temptri.vertices[0]->p + temptri.vertices[1]->p + temptri.vertices[2]->p)/3;
-		double tempmag = direction.cross(radius/radius.mag()).mag();
+		double tempmag = direction.dot(radius/radius.mag());
 		//double tempmag = temptri.unit_normal.cross(direction).mag();
-		if (tempmag < mag)
+		if (tempmag > mag)
 		{
 			tri2 = temptri;
 			mag = tempmag;
-
-
-
-
-
-
+std::cout << "TRIANGLES'S MASSP IS "<<tri2.massp<<'\n';
+std::cout << "TRIANGLES'S NORMAL IS "<<tri2.normal[0]<<' '<<tri2.normal[1]<<' '<<tri2.normal[2]<<'\n';
+std::cout << "MAG IS "<<mag<<'\n';
 		}
+std::cout << "temp "<<i<<"'s MASSP IS "<<temptri.massp<<'\n';
+std::cout << "TRIANGLES'S NORMAL IS "<<temptri.normal[0]<<' '<<temptri.normal[1]<<' '<<temptri.normal[2]<<'\n';
+std::cout << "MAG IS "<<tempmag<<'\n';
 	}
-
-
 }
 
 double sub_collide(vec3 r, std::vector<double> i) //r is a 3x1 column vector, i is an inertia tensor symmetric matrix, returns r(T)*i*r
