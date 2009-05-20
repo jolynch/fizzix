@@ -1,0 +1,33 @@
+<!DOCTYPE fizzix_document>
+<fizzix_project>
+ <fizzix_object name="ball1" >
+  <fizzix_constant type="2" name="SYSTEM_acceleration" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_angular_acceleration" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_angular_velocity" >-7.24643e-19 -0.0317071 -0.0317071</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_color" >64 64 64</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_geom_approximateWithCenter" >1</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_mass" >1</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_position" >1.75721 0 0</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_preset_geomtype" >2</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_radius" >1</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_velocity" >-0.554441 0 0</fizzix_constant>
+ </fizzix_object>
+ <fizzix_object name="ball2" >
+  <fizzix_constant type="2" name="SYSTEM_acceleration" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_angular_acceleration" >0 0 0</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_angular_velocity" >1.89472e-18 0.0317071 0.0317071</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_color" >64 64 64</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_geom_approximateWithCenter" >1</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_mass" >1</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_position" >-1.75721 0 0</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_preset_geomtype" >2</fizzix_constant>
+  <fizzix_constant type="1" name="SYSTEM_radius" >1</fizzix_constant>
+  <fizzix_constant type="2" name="SYSTEM_velocity" >0.554441 0 0</fizzix_constant>
+ </fizzix_object>
+ <fizzix_force name="springyness" >
+  <fizzix_formula name="internal_formula" >(* "spring_konstant" (^ (- [distance] "spring_distance") 1))</fizzix_formula>
+ </fizzix_force>
+ <fizzix_formula name="distance" >(mag (- $SYSTEM_position @SYSTEM_position))</fizzix_formula>
+ <fizzix_constant type="1" name="spring_distance" >5</fizzix_constant>
+ <fizzix_constant type="1" name="spring_konstant" >0.3</fizzix_constant>
+</fizzix_project>
