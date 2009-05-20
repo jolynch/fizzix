@@ -92,7 +92,7 @@ class FizObject
 		/** Initialize the object with info passed into constructors
 		 */
 		virtual void init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass);
-		
+		//a helper function for compute that computes various variables
 		void sub_compute(const double& w0, const double& w1, const double& w2, double& f1, double& f2, double& f3, double& g0, double& g1, double& g2);
 		
 		/** Calculate COM, Inertia Tensor, and relative masses of triangles
@@ -104,7 +104,7 @@ class FizObject
 		/** Knowing the mass and the volume, now calculate the correct masses of triangles 
 		 */
 		void adjustMasses();
-
+		//computes the largest distance from the COM to the outside of the object
 		virtual void computeBounds();
 
 	public:
@@ -134,10 +134,12 @@ class FizObject
 		 *  @return a result_t struct containing any values if found (otherwise 0,NULL,NULL)
 		 */
 		const fizdatum operator[] (const std::string& key) const;
-
+		//returns true if the object contains the property "key"
 		bool contains(const std::string& key) const;
 		
 		/** Time dependant property access and modification 
+			get__() cannot be modified
+			rget__() can be modified
 		 */
 		const vec3 getPos() const;
 		vec3& rgetPos(); 
@@ -186,6 +188,7 @@ class FizObject
                 
 		const std::vector<double> getInertiaTensorInv() const;
 		std::vector<double>& rgetInertiaTensorInv();
+		//gets the inverse inertia tensor relative to world coordinates
 		std::vector<double> getInertiaTensorInvWorld();
 		void setInertiaTensorInv(std::vector<double> newtensor);
 		
@@ -200,12 +203,16 @@ class FizObject
 		
 		/** User defined properties
 		 */
+		//gets a list of all properties the object has
 		std::vector<std::string> getSetProperties() const;
+		//returns the value of a given property
 		fizdatum getProperty(std::string key) const;
+		//sets a property
 		void setProperty(std::string key, fizdatum);
-		//Returns the number of elements removed (0 for none, 1 for one ...)	
+		//removes a given property and returns the number of elements removed (0 for none, 1 for one ...)	
 		int removeProperty(std::string key);
-			
+		
+		//returns true if the object can be approximated by its center of mass
 		bool comApprox();
 
 };

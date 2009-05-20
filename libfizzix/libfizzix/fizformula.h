@@ -55,9 +55,12 @@ class FizFormula
 		const fizdatum eval(const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2); // Evaluate the formula between two FizObjects and their triangles
 
 		// Getters and setters
+		//gets the stack of nodes required for evaluation
 		const fizstack getStack();
 		fizstack&  rgetStack();
+		//returns true if the formula can be evaluated with the order of objects switched and return the same answer
 		bool isSymmetric();
+		//returns a string representation of the formula that corresponds to what the user would type
 		std::string toString();
 };
 

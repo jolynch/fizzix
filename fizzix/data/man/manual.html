@@ -10,8 +10,8 @@
 <p>Welcome to Fizzix, a physics engine with fairly undetermined laws of physics. Fizzix allows the user to change the laws of physics and just see what happens. Gravity as G*M1*M2*R instead of G*M1*M2/R^2? A force that attracts things together if they're pink? How about F = omega*(foo1-foo2)? No problem! </p>
 <p>Fizzix was conceived by Anton F., Joey L., Daniel S., Purnima B., and Eric V. for their software design class at Montgomery Blair High School. It is divided into two main parts:</p>
 <ul>
-	<li><a href="#fizzix">fizzix</a> (Front-end)</li>
-	<li><a href="#libfizzix">libfizzix</a> (Back-end)</li>
+	<li><a href=":manual.html#fizzix">fizzix</a> (Front-end)</li>
+	<li><a href=":manual.html#libfizzix">libfizzix</a> (Back-end)</li>
 </ul>
 
 <a name="libfizzix"><h3>libfizzix</h3></a>
@@ -29,10 +29,10 @@
 	<li>Editor</li>
 	<li>Control bar</li>
 </ul>
-<p>The Universe window provides a 3D view of the user's objects. This is where the simulation happens. All other panels allow you to alter properties of the Universe. <a href="#universe">More on the Universe...</a></p>
-<p>The Browser shows lists of things that exist in the universe: Objects, Forces, Macros, and Constants. These lists can be searched and modified. <a href="#browser">More on the Browser...</a>.</p>
-<p>The Editor allows you to edit the properties of anything that exists in the Universe. By navigating to an element in the Browser and choosing Edit, its properties appear in the Editor. <a href="#editor">More on the Editor...</a></p>
-<p>The Control bar provides easy simulation control. Here, you can start and stop the simulation, as well as change the properties of the simulator. <a href="#controlbar">More on the Control bar...</a></p>
+<p>The Universe window provides a 3D view of the user's objects. This is where the simulation happens. All other panels allow you to alter properties of the Universe. <a href=":manual.html#universe">More on the Universe...</a></p>
+<p>The Browser shows lists of things that exist in the universe: Objects, Forces, Macros, and Constants. These lists can be searched and modified. <a href=":manual.html#browser">More on the Browser...</a>.</p>
+<p>The Editor allows you to edit the properties of anything that exists in the Universe. By navigating to an element in the Browser and choosing Edit, its properties appear in the Editor. <a href=":manual.html#editor">More on the Editor...</a></p>
+<p>The Control bar provides easy simulation control. Here, you can start and stop the simulation, as well as change the properties of the simulator. <a href=":manual.html#controlbar">More on the Control bar...</a></p>
 
 <a name="universe"><h2>Universe</h2></a>
 <p>The Universe is where things happen. Objects that you create appear in the universe, and interact with forces you define.</p>
@@ -55,23 +55,23 @@
 		<td>View &rarr; Zoom</td>
 	</tr>
 </table>
-<p>To create objects in the universe, use the <a href="#browser">Browser</a>.</p>
-<p>To edit objects in the universe, use the <a href="#editor">Editor</a>.</p>
-<p>To run the simulation in the universe, use the <a href="#controlbar">Control bar</a>.</p>
+<p>To create objects in the universe, use the <a href=":manual.html#browser">Browser</a>.</p>
+<p>To edit objects in the universe, use the <a href=":manual.html#editor">Editor</a>.</p>
+<p>To run the simulation in the universe, use the <a href=":manual.html#controlbar">Control bar</a>.</p>
 
 <a name="browser"><h2>Browser</h2></a>
 <p>The Browser lists elements that are at work in the universe.</p>
-<p>To browse the four different elements, click the tab that says <a href="#objects">Objects</a>, <a href="#forces">Forces</a>, <a href="#constants">Constants</a>, or <a href="#macros">Macros</a>. A list will appear.</p>
+<p>To browse the four different elements, click the tab that says <a href=":manual.html#objects">Objects</a>, <a href=":manual.html#forces">Forces</a>, <a href=":manual.html#constants">Constants</a>, or <a href=":manual.html#macros">Macros</a>. A list will appear.</p>
 <p>To add an element, choose its corresponding tab and click <i>New</i>. Then, type a name for it in the dialog box.</p>
 <p><img src="browser-new.png"></P>
 <p>To remove an element, find it in the browser and click <i>Delete</i>.</p>
-<p>To modify an element's properties, find it in the browser and click <i>Edit</i>. You can then change its properties in the <a href=#editor">Editor</a> pane.</p>
+<p>To modify an element's properties, find it in the browser and click <i>Edit</i>. You can then change its properties in the <a href=:manual.html#editor">Editor</a> pane.</p>
 <p>To search through elements, begin typing in the <i>Find</i> text box.</p>
 <p><img src="browser-find.png"></P>
 
 <a name="editor"><h2>Editor</h2></a>
 <p>The Editor lets you change an element's properties.</p>
-<p>To choose an element to edit, use the <a href="#browser">browser</a>.</p>
+<p>To choose an element to edit, use the <a href=":manual.html#browser">browser</a>.</p>
 </p>Once you are done making changes to an object, click the </i>Save</i> button. This will update the Browser and the Universe.</p>
 
 <h3>Editing Objects</h3>
@@ -80,7 +80,7 @@
 <p>Under the properties tab, you have access to some of the more advanced attributes of the object. You can, for instance, change its position, mass, and color. You can add new properties by clicking the <i>New</i> button. To change a property's value, select it and choose <i>Edit</i>. Properties can be either scalar or vector quantities. To remove a property, click the <i>Delete</i> button.</p>
 
 <h3>Editing Forces and Macros</h3>
-<p>Forces and Macros are defined by formulae. You can type a formula into the formula box in the Editor. <a href="#formulae">Click here to learn about formulae.</a></p>
+<p>Forces and Macros are defined by formulae. You can type a formula into the formula box in the Editor. <a href=":manual.html#formulae">Click here to learn about formulae.</a></p>
 
 <h3>Editing Constants</h3>
 <p>A constant can be either a scalar or a vector. Choose the appropriate radio button and enter data into the text boxes.</p>
@@ -94,16 +94,16 @@
 <p><img src="controlbar-dt.png"></P>
 
 <a name="objects"><h2>Objects</h2></a>
-<p>Objects are elements in the universe that have mass and move around. Objects have <a href="#properties">properties</a> and are governed by <a href="#forces">forces</a>.</p>
+<p>Objects are elements in the universe that have mass and move around. Objects have <a href=":manual.html#properties">properties</a> and are governed by <a href=":manual.html#forces">forces</a>.</p>
 <p>Objects are stored as the triangles forming their surface, and are assumed to have uniform density. Triangles have no torque, but varying forces on an object's triangles will exert a torque on the whole object.</p>
 
 <a name="forces"><h2>Forces</h2></a>
-<p>Forces describe how <a href="#objects">objects</a> interact in the universe. A force always acts between two objects. A force is defined by a <a href="#formulae">formula</a> that may involve properties of the objects on which it is working, universal constants, or sub-formulae called <a href="#macros">macros</a>.</p>
+<p>Forces describe how <a href=":manual.html#objects">objects</a> interact in the universe. A force always acts between two objects. A force is defined by a <a href=":manual.html#formulae">formula</a> that may involve properties of the objects on which it is working, universal constants, or sub-formulae called <a href=":manual.html#macros">macros</a>.</p>
 <p>Forces are either evaluated from an object's center of mass, or from its individual triangles. If a force is only calculated from the center of mass, no torque is applied. However, calculating forces from triangles is computationally intensive, and generalizing objects to their center of mass can greatly reduce CPU load.</p>
 <p>If a force's formula evaluates to a vector, that is the exact force which is applied. If a force evaluates to a scalar, it is multiplied by r-hat to obtain a vector (the force is assumed to act towards the second object).</p>
 
 <a name="macros"><h2>Macros</h2></a>
-<p>Macros are sub-formulae inside of <a href="#forces">forces</a> that provide common expressions, such as the distance formula. They can be used to make formulae neater, and can speed up the simulation if the value is used often.</p>
+<p>Macros are sub-formulae inside of <a href=":manual.html#forces">forces</a> that provide common expressions, such as the distance formula. They can be used to make formulae neater, and can speed up the simulation if the value is used often.</p>
 
 <a name="constants"><h2>Constants</h2></a>
 <p>Constants are important and universal values, such as the gravitational constant G.</p>
@@ -111,14 +111,14 @@
 <p>Constants can be either scalars or vectors.</p>
 
 <a name="formulae"><h2>Formulae</h2></a>
-<p>Formulae are user-defined expressions that describe a  <a href="#forces">force</a> or a  <a href="#macro">macro</a>.</p>
+<p>Formulae are user-defined expressions that describe a  <a href=":manual.html#forces">force</a> or a  <a href=":manual.html#macro">macro</a>.</p>
 <p>Formulae are entered in prefix LISP notation: (operator operand operand ...)</p>
 <p>A list of operators is coming soon.</p>
 <p>Operands may be any of the following:</p>
 <ul>
 	<li>Anonymous scalar constant. Examples: 2, -3, 5.7</li>
-	<li><a href="#forces">Force</a> names enclosed in braces. Examples: {gravity}, {electrostatic}, {magnetism}</li>
-	<li><a href="#macros">Macro</a> names enclosed in square brackets. Examples: [distance], [r-hat], [velocity_difference]</li>
+	<li><a href=":manual.html#forces">Force</a> names enclosed in braces. Examples: {gravity}, {electrostatic}, {magnetism}</li>
+	<li><a href=":manual.html#macros">Macro</a> names enclosed in square brackets. Examples: [distance], [r-hat], [velocity_difference]</li>
 	<li>Property of the act<b>or</b> object, prefixed with a $. Examples: $SYSTEM_mass, $SYSTEM_position, $SYSTEM_color</li>
 	<li>Property of the act<b>ed</b> object, prefixed with an @. Examples: @SYSTEM_mass, @SYSTEM_position, @SYSTEM_color</li>
 </ul>
