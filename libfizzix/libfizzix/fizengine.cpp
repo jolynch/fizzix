@@ -320,6 +320,7 @@ vec3 torque_helper(vec3 w, std::vector<double> i, vec3 t)
 	vec3 L( (i[0] * w[0] + i[3] * w[1] + i[5] * w[2]),
 		(i[3] * w[0] + i[1] * w[1] + i[4] * w[2]),
 		(i[5] * w[0] + i[4] * w[1] + i[2] * w[2]));
+std::cout<<"ANGULAR MOMENTUM"<<L[0]<<" "<<L[1]<<" "<<L[2];
 	return (L.cross(w) + t);
 } 
 
@@ -348,10 +349,11 @@ std::cout <<" "<<i[cntr];
 std::cout <<std::endl;
 		
 	vec3 t = torque_helper(ob1->getOme(),ob1->getInertiaTensor(),torque); // just for convenience
+std::cout << "RESULTING TORQUE: "<<t[0]<<" "<<t[1]<<" "<<t[2]<<std::endl;
 	//T = dL/dt = I * dw/dt = I * alpha
 	vec3 dwdt = vec3(i[0] * t[0] + i[3] * t[1] + i[5] * t[2],
 		       	 i[3] * t[0] + i[1] * t[1] + i[4] * t[2], 
-			 i[5] * t[0] + i[4] + t[1] + i[2] + t[2]);
+			 i[5] * t[0] + i[4] * t[1] + i[2] * t[2]);
 std::cout << "DWDT: "<<dwdt[0]<<" "<<dwdt[1]<<" "<<dwdt[2]<<std::endl;
 	//Step 1 
 	vec3 dxdt1 = ob1->getVel();
