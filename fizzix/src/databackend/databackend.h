@@ -35,7 +35,6 @@ class DataBackend:public QObject
 		QUndoStack * dataChanges;
 		
 	private:
-		bool checkBeforeDataUnload();
 		void createObject(QDomNode d_);
 		void createForce(QDomNode d_);
 		void createMacro(QDomNode d_);
@@ -50,6 +49,8 @@ class DataBackend:public QObject
 	public:
 		DataBackend();
 		bool isDataLocked();
+		bool checkBeforeDataUnload();
+		bool haveUnpredicatableChanges();
 		MapKeyListModel <DrawableObject *> * getObjectModel();
 		MapKeyListModel <FizForce *> * getForceModel();
 		MapKeyListModel <FizFormula *> * getMacroModel();
@@ -70,8 +71,10 @@ class DataBackend:public QObject
 		void newFromBlank();
 		void newFromDefault();
 		void purgeData();
+		void quit();
 
 	signals:
+		void gainedUnpredicatableChanges(bool);
 		void dataLocked(bool locked);
 		void statusChanged(QString, int);
 		void unloadData();

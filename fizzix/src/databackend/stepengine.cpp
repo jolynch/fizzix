@@ -109,7 +109,12 @@ void StepEngine::step()
 	delete oldFrcs;
 	QMap<QString, DrawableObject *> * out=castFromFizObject(newObjs);
 	MapUtil<FizObject>::deepDelete(newObjs);
-	db->getDataInserter()->changeObjectsFromSim(out);
+	if(!changesSaved)
+	{
+		db->applyUnpredictableDataChange(new ChangeFactory::DC_RunSimulation(db,initData,out), 0);
+	}
+	else
+		db->getDataInserter()->changeObjectsFromSim(out);
 	changesSaved=true;
 	lockstep=false;
 }
@@ -131,7 +136,15 @@ void StepEngine::startPull()
 	timer->setInterval(dt);
 	timer->start();
 	db->toggleDataLock();
-	initData=db->getObjectModel()->getData();
+	initData=new QMap<QString, DrawableObject *>();
+	QMapIterator<QString, DrawableObject *> i(*(db->getObjectModel()->getData()));
+	while(i.hasNext()) 
+	{
+			i.next();
+			DrawableObject * d=new DrawableObject();
+			(*d)=(*i.value());
+			initData->insert(i.key(),d);
+	}
 	changesSaved=false;
 	setCorrectFizEngines();
 	emit statusChanged("Engine started", 0);
@@ -140,6 +153,7 @@ void StepEngine::startPull()
 void StepEngine::stopPull()
 {
 	timer->stop();
+	createUndoCommand();
 	db->toggleDataLock();
 	emit statusChanged("Engine stopped", 0);
 }

@@ -75,6 +75,7 @@ public:
 	{
 	private:
 		DataBackend * db;
+		bool constructor1;
 		QMap<QString, DrawableObject *> * oldData;
 		QMap<QString, DrawableObject *> * newData;
 	public:

@@ -83,7 +83,7 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	importMenu->addAction("Force");
 	importMenu->addAction("Macro");
 	exportMenu->addAction("Constant");
-	fileMenu->addAction("Exit",qApp, SLOT(closeAllWindows()));
+	fileMenu->addAction("Exit",databackend, SLOT(quit));
 	QMenu * editMenu = this->menuBar()->addMenu(tr("Edit"));
 	QAction * undo=databackend->getUndoStack()->createUndoAction(this);
 	undo->setShortcut(QKeySequence(QKeySequence::Undo));
@@ -208,4 +208,11 @@ void MainWindow::showAbout()
 	about->show();
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+	if(databackend->checkBeforeDataUnload())
+		event->accept();
+	else
+		event->ignore();
+}
 #endif

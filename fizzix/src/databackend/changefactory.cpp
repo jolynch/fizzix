@@ -113,6 +113,7 @@ void ChangeFactory::changeObjectsFromSim(QMap<QString, DrawableObject *> * newDa
 ChangeFactory::DC_RunSimulation::DC_RunSimulation(DataBackend * _db, QMap<QString, DrawableObject *> * _newData)
 {
 	this->setText("Run Simulation");
+	constructor1=true;
 	db=_db;
 	oldData=db->getObjectModel()->getData();
 	newData=_newData;
@@ -121,6 +122,7 @@ ChangeFactory::DC_RunSimulation::DC_RunSimulation(DataBackend * _db, QMap<QStrin
 ChangeFactory::DC_RunSimulation::DC_RunSimulation(DataBackend * _db, QMap<QString, DrawableObject *> * _oldData, QMap<QString, DrawableObject *> * _newData)
 {
 	this->setText("Run Simulation");
+	constructor1=false;
 	db=_db;
 	oldData=_oldData;
 	newData=_newData;
@@ -128,12 +130,12 @@ ChangeFactory::DC_RunSimulation::DC_RunSimulation(DataBackend * _db, QMap<QStrin
 
 void ChangeFactory::DC_RunSimulation::redo()
 {
-	db->getObjectModel()->setData(newData);
+	db->getObjectModel()->setData(newData,constructor1);
 }
 
 void ChangeFactory::DC_RunSimulation::undo()
 {
-	db->getObjectModel()->setData(oldData);
+	db->getObjectModel()->setData(oldData,constructor1);
 }
 
 #endif

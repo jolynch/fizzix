@@ -43,11 +43,15 @@ void DataBackend::toggleDataLock()
 	emit dataLocked(dataLock);
 }
 
+bool DataBackend::haveUnpredicatableChanges()
+{
+	return lastChangeUnpredictable;
+}
+
 void DataBackend::applyDataChange(QUndoCommand * c)
 {
 	if(!lastChangeUnpredictable)
 	{
-		c->redo();
 		dataChanges->push(c);
 	}
 	else
@@ -60,26 +64,35 @@ void DataBackend::applyDataChange(QUndoCommand * c)
 			c->redo();
 			dataChanges->push(c);
 			lastChangeUnpredictable=false;
+			emit(gainedUnpredicatableChanges(lastChangeUnpredictable));
 		}
 	}
 }
 
 void DataBackend::applyUnpredictableDataChange(QUndoCommand * c, bool addToStack)
 {
-	lastChangeUnpredictable=true;
-	c->redo();
 	if(addToStack)
 	{
 		dataChanges->push(c);
-		unpredictableChange=dataChanges->index();
+		if(!lastChangeUnpredictable)
+			unpredictableChange=dataChanges->index();
 	}
+	else
+	{
+		c->redo();
+	}
+	lastChangeUnpredictable=true;
+	emit(gainedUnpredicatableChanges(lastChangeUnpredictable));
 }
 
 
 void DataBackend::dataUndone(int index)
 {
-	if(index<unpredictableChange)
+	if(index<=unpredictableChange)
+	{
 		lastChangeUnpredictable=false;
+		emit(gainedUnpredicatableChanges(lastChangeUnpredictable));
+	}
 }
 
 fizstack DataBackend::parse(QString in)
@@ -290,12 +303,13 @@ void DataBackend::save()
 
 void DataBackend::load()
 {
-	checkBeforeDataUnload();
+	if(!checkBeforeDataUnload()) return;
 	emit(unloadData());
 	dataLock=false;
 	emit(dataLocked(false));
 	currentName="";
 	lastChangeUnpredictable=false;
+	emit(gainedUnpredicatableChanges(lastChangeUnpredictable));
 	unpredictableChange=0;
 	purgeData();
 	QString filename = QFileDialog::getOpenFileName(NULL, "Load Project",QString(),"*xml");
@@ -308,24 +322,26 @@ void DataBackend::load()
 
 void DataBackend::newFromBlank()
 {
-	checkBeforeDataUnload();
+	if(!checkBeforeDataUnload()) return;
 	emit(unloadData());
 	dataLock=false;
 	emit(dataLocked(false));
 	currentName="";
 	lastChangeUnpredictable=false;
+	emit(gainedUnpredicatableChanges(lastChangeUnpredictable));
 	unpredictableChange=0;
 	purgeData();
 }
 
 void DataBackend::newFromDefault()
 {
-	checkBeforeDataUnload();
+	if(!checkBeforeDataUnload()) return;
 	emit(unloadData());
 	dataLock=false;
 	emit(dataLocked(false));
 	currentName="";
 	lastChangeUnpredictable=false;
+	emit(gainedUnpredicatableChanges(lastChangeUnpredictable));
 	unpredictableChange=0;
 	purgeData();
 	loadDataFromXML(":data/default.xml");
@@ -369,5 +385,11 @@ bool DataBackend::checkBeforeDataUnload()
 			return true;
 		default: return false;
 	}
+}
+
+void DataBackend::quit()
+{
+	if(!checkBeforeDataUnload()) return;
+	qApp->quit();
 }
 #endif

@@ -17,7 +17,7 @@ class MapKeyListModel
 		MapKeyListModel();
 		QStringListModel * getModel();
 		QMap <QString, T> * getData();
-		void setData(QMap <QString, T> * d);
+		void setData(QMap <QString, T> * d, bool deletePrevData=true);
 		//To create a new element, call setElement with a new name.
 		void setElement(QString name, T d);
 		void delElement(QString name);
@@ -51,12 +51,13 @@ QMap <QString, T> * MapKeyListModel<T>::getData()
 	{return data;}
 
 template <class T>
-void MapKeyListModel<T>::setData(QMap <QString, T> * d)
-	{
-	delete data;
+void MapKeyListModel<T>::setData(QMap <QString, T> * d, bool deletePrevData)
+{
+	if(deletePrevData)
+		delete data;
 	data=d;
 	synchronizeKeys();
-	}
+}
 
 template <class T>
 void MapKeyListModel<T>::setElement(QString name, T d)

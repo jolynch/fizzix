@@ -60,6 +60,7 @@ class MainWindow:public QMainWindow
 		QTimer * timer;
 	public:
 		MainWindow (QDesktopWidget * d);
+		void closeEvent(QCloseEvent *event);
 	public slots:
 		void view_setIsometric();
 		void view_setXY();
