@@ -42,7 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *  @brief This class computes object positions from the last step 
  *  
  *  The FizEngine class is in charge of managing all the objects and forces
- *  within the physics simulator.  Each time step someone calls step with the 
+ *  within the physics simulator.  Each time step someone calls step with the
  *  current objects in the simulation and where to store the results of this
  *  step, the engine loops through each force and applies them to each object
  */

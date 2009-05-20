@@ -31,19 +31,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizobject.h"
 class FizEngine;
-//#include "fizengine.h"
 
+/** @class FizFormNode fizformnode.h "libfizzix/src/fizformnode.h"
+ *  @brief Objects of this class can be added to a FizStack and evaluated.
+ *
+ *  All operators and operands extend this class. A node is a single part of a
+ *  FizFormula. It may take data from the objects themselves or the engine
+ *  (getters), the formula's stack (operators), or from themselves and how they
+ *  are constructed (anonymous constants). What they have in common is that
+ *  they can all be evaluated. Evaluating the first node should evaluate the
+ *  entire formula.
+ */
 class FizFormNode 
 {
 	protected:
-		FizEngine* eng;
-	
+		FizEngine* eng; // Where to get global data, like named constants
 	public:
 		FizFormNode();
-		virtual const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Gets the value of the node */
-		void setEngine(FizEngine* e);
-		virtual const std::string toString (fizstack& stack);
-		static std::string token;
+		virtual const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); // Gets the value of the node
+		void setEngine(FizEngine* e); // Sets the engine that the node should use for global data
+		virtual const std::string toString (fizstack& stack); // Converts the node to a string 
+		static std::string token; // A short string that is the function name (token) of the node.
 };
 
 #endif

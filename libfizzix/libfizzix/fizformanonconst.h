@@ -30,18 +30,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizformnode.h"
 
+// An anonymous constant in a formula. For example, 4 and 3 in 4/3*pi*r^2. Can be a scalar or a vector.
 class FizFormAnonConst:public FizFormNode
 {
 	private:
-		fizdatum value; /* Holds the constant's value */
+		fizdatum value; // Holds the constant's value
 	public:
-		/*Default constructor creates 0 scalar*/
+		// Default constructor creates 0 scalar
 		FizFormAnonConst();
-		/*constructor takes a fizdatum value*/
+		// Constructor takes a fizdatum value
 		FizFormAnonConst(fizdatum val);
-		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Returns the constant */
+		const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); // Returns the constant
 		const std::string toString(fizstack& stack);
-		//for testing purposes
+		// For testing purposes:
 		const fizdatum getValue();
 };
 

@@ -32,9 +32,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <stdexcept>
 #include <iostream>
 
-/* Class declaration
- * */
-
+/** @class FizStack fizstack.h "libfizzix/src/fizstack.h"
+ *  @brief A FizStack is a stack that can be reset
+ *
+ *  A FizStack is a stack that can be pushed and popped, but will reset itself
+ *  to the state with the most elements whenever something is pushed or reset
+ *  is called. It is useful if you want to do non-destructive pops, such as in
+ *  FizFormulae.
+ */
 template <class T>
 class FizStack
 {
@@ -42,9 +47,10 @@ class FizStack
 		std::vector<T> stack;
 		int index;
 	public:
+		// Same as std::stack, except for reset, and pop returns the popped element.
 		FizStack();
 		FizStack(std::vector<T> s);	
-		void reset();
+		void reset(); // Puts back all popped items
 		bool empty();
 		int size();	
 		const T operator[](int index) const;

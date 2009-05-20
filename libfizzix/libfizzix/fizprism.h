@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizobject.h"
 
+// A rectangular prism (box) FizObject. Has a height, width, and depth.
 class FizPrism:public FizObject
 {
 	private:
@@ -35,14 +36,16 @@ class FizPrism:public FizObject
 		double depth;
 	public:
 		FizPrism(); //Default constructor
-		FizPrism(std::string newname, double mass = 1, double h = 1, double w = 1, double d = 1); //Constructor that inits the name and dimensions
-		FizPrism(std::string newname, vec3 color, double mass = 1, double h = 1, double w = 1, double d = 1);	//Constructor that inits the name, color, and dimensions
-		FizPrism(std::string newname, std::vector<triangle*> new_vertices, double mass = 1, double h = 1, double w = 1, double d = 1); //Constructor that inits the name, triangle*s, and dimensions
-		FizPrism(std::string newname, vec3 color, std::vector<triangle*> new_vertices, double mass = 1, double h = 1, double w = 1, double d = 1); //Constructor that inits the name, color, triangle*s, and dimensions
+		FizPrism(std::string newname, double mass = 1, double h = 1, double w = 1, double d = 1); // Constructor that inits the name and dimensions
+		FizPrism(std::string newname, vec3 color, double mass = 1, double h = 1, double w = 1, double d = 1);	// Constructor that inits the name, color, and dimensions
+		FizPrism(std::string newname, std::vector<triangle*> new_vertices, double mass = 1, double h = 1, double w = 1, double d = 1); // Constructor that inits the name, triangle*s, and dimensions
+		FizPrism(std::string newname, vec3 color, std::vector<triangle*> new_vertices, double mass = 1, double h = 1, double w = 1, double d = 1); // Constructor that inits the name, color, triangle*s, and dimensions
 		
+		// Init functions used by constructors:
 		void init(std::string new_name, vec3 color, const std::vector<triangle*>& new_vertices, double new_mass, double h, double w, double d);
 		void init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double h, double w, double d);
 		
+		// From FizObject
 		void compute();
 		void computeBounds();
 		

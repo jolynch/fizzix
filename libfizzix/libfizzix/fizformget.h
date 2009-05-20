@@ -32,14 +32,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizformnode.h"
 
+// This class provides a template for "getter" nodes. These nodes retrieve information from the engine, such as named constants or forces. This class is abstract, and is subclassed by getconst, getmacro, getforce, and getprop.
 class FizFormGet : public FizFormNode
 {
 	protected:
-		std::string identifier;
+		std::string identifier; // Name of thing to get
 	public:
 		FizFormGet();
 		FizFormGet(std::string id);
-		virtual const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Gets the value of the node */
+		virtual const fizdatum eval(fizstack &stack, const FizObject &obj1, const triangle &tri1, const FizObject &obj2, const triangle &tri2); /* Returns the value of whatever it has been told to get */
 };
 
 #endif

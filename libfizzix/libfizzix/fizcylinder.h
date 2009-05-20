@@ -27,11 +27,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "fizobject.h"
 
+// A default object: a cylinder. Has a radius and a height. 
 class FizCylinder:public FizObject
 {
 	private:
 		double radius;
-		double height; //if oriented differently, initial orientation will have to be different
+		double height;
 	public:
 		FizCylinder(); //Default constructor
 		FizCylinder(std::string newname, double mass = 1, double rad = 1, double h = 1); //Constructor that inits the name and dimensions
@@ -42,6 +43,7 @@ class FizCylinder:public FizObject
 		void init(std::string new_name, vec3 color, const std::vector<triangle*>& new_vertices, double new_mass, double rad, double h);
 		void init_object(std::string new_name, vec3 color, const std::vector<triangle*>& tinit, double new_mass, double rad, double h);
 		
+		// Default from FizObject
 		void compute();
 		void computeBounds();
 		

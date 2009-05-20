@@ -34,22 +34,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "fizformoperator.h"
 #include "fizformanonconst.h"
 #include "fizformget.h"
-//#include "fizformvariable.h"
 
+/** @class FizFormula fizformula.h "libfizzix/src/fizformula.h"
+ *  @brief This class stores a prefix formula that can be evaluated.
+ *  A FizFormula contains a stack of nodes. Each node, when evaluated, will
+ *  return a value and may pop from the stack to deterime this value.
+ *  Evaluating a formula tells the first node to evaluate itself, which should
+ *  result in the entire formula being evaluated. Formulae return different
+ *  results when evaluated using different objects / triangles as input.
+ */
 class FizFormula
 {
 	protected:
-		//std::vector<FizFormNode> stack; /* This is not a stack because a stack would be destroyed upon evaluation */
-		fizstack stack; //various operators pop different number of operands off the stack, and you can't just do current++
-		bool symmetric;
+		fizstack stack; // Stack of nodes
+		bool symmetric; // Whether the formula returns the same answer when passed the objects in the reverse order.
+		// (saves computation time)
 	public:
 		FizFormula();
-		/* Constructs a new FizFormula with the given node stack */
-		//FizFormula(std::vector<FizFormNode> stack);
-		FizFormula(const fizstack stk);
-		/* Evaluate the formula between two FizObjects */
-		const fizdatum eval(const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2);
-		//const std::vector<FizFormNode> getStack();
+		FizFormula(const fizstack stk); // Constructs a new FizFormula with the given node stack
+		const fizdatum eval(const FizObject& obj1, const triangle& tri1, const FizObject& obj2, const triangle& tri2); // Evaluate the formula between two FizObjects and their triangles
+
+		// Getters and setters
 		const fizstack getStack();
 		fizstack&  rgetStack();
 		bool isSymmetric();

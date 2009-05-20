@@ -31,6 +31,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <stdexcept>
 #include "fizstack.h"
 
+// This file contains general structures and definitions that are used everywhere in libfizzix.
+
 /* Forward declarations (all are implemented or used below)
  */
 struct vec3;

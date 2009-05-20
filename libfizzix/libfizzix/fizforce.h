@@ -29,24 +29,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <vector>
 #include "fizformula.h"
 
+/** @class FizForce fizforce.h "libfizzix/src/fizforce.h"
+ *  @brief This class contains a formula that can be evaluated as a force between two objects.
+ *  
+ *  FizForce contains a formula as well as additional properties to optimize
+ *  computation time. It can compute itself given two objects and their desired
+ *  triangles. If the objects are approximated as their COM, the given
+ *  triangles should be the virtual COM ones.
+ */
 class FizForce
 {
 	private:
-		bool distributed; //if any of the properties the force uses are distributed
-		bool symmetric;
-		FizFormula formula;
+		bool distributed; // If any of the properties the force uses are distributed
+		bool symmetric; // If Newton's 3rd law applies
+		FizFormula formula; // The formula
 	public:
-		//default constructor - F = 0
-// 		FizForce();
-		//constructor that takes a string
-// 		FizForce(std::string form);
-		//constructor that takes a formula
-		FizForce(FizFormula form);
-		//default destructor
-// 		~FizForce();
-		//applies and evaluates force and torque between two different objects
-		//std::vector<vec3> eval(FizObject& obj1, FizObject& obj2); //first is F about COM on the first, second is T, F2, T2
-		vec3 getForce(const FizObject& obj1,const triangle& tri1,const FizObject& obj2,const triangle& tri2);
+		FizForce(FizFormula form); // Makes a new FizForce with given formula
+		vec3 getForce(const FizObject& obj1,const triangle& tri1,const FizObject& obj2,const triangle& tri2); // Evaluates the force from obj1's triangle tri1 to obj2's triangle tri2.
+
+		// Getters and setters
 		bool isSymmetric();
 		bool isDistributed();
 		void setSymmetric(bool s);
