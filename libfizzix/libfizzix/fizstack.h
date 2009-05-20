@@ -111,11 +111,10 @@ bool FizStack<T>::empty()
 template< typename T >
 T FizStack<T>::pop()
 {
-std::cout << "POPPING" << '\n';
 	if( !empty() ) 
 	//	throw std::out_of_range("Can't pop an empty stack");
 	//else 
-	{std::cout << "NOT EMPTY - ACTUALLY POPPING" << '\n';	return stack[index--];}
+	return stack[index--];
 }
 
 template< typename T >

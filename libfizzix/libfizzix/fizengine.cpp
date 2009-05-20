@@ -92,7 +92,7 @@ void FizEngine::evalForces()
 			if(inner_iter == outer_iter)
 			{
 				inner_iter++;
-				std::cout << "CONTINUING BITCH" <<std::endl;
+//std::cout << "CONTINUING BITCH" <<std::endl;
 				continue;
 			}
 			FizObject& obj1 = *(outer_iter->second);
@@ -101,8 +101,9 @@ void FizEngine::evalForces()
 			//Anton, we don't need this is you keep names up to date ...
 			obj1.setName(outer_iter->first);
 			obj2.setName(inner_iter->first);
-std::cout << "YO I'VE GOT OBJECTS" << '\n';
-std::cout << &mcache <<std::endl;
+//std::cout << "YO I'VE GOT OBJECTS" << '\n';
+//std::cout << &mcache <<std::endl;
+std::cout << "GONNA SEE IF ANYTHING'S COLLIDED" << '\n';
 			collisions(obj1, obj2);
 			std::vector<triangle*>& tris1 = obj1.rgetVertices(); //actually, triangles, not vertices
 			std::vector<triangle*>& tris2 = obj2.rgetVertices();
@@ -111,55 +112,33 @@ std::cout << &mcache <<std::endl;
 			bool rnan;
 			//evalForce(forces[i], *outer_iter, *inner_iter);
 			//need a COM triangle in each object
-std::cout << "ABOUT TO EVALUATE SHIT" << '\n';
-std::cout << &mcache <<std::endl;
 			if (obj1.comApprox()) //if object 1 can be approximated as at its COM
 			{
-std::cout << "OBJ 1 CAN BE COMAPPROXED" << '\n';
-std::cout << &mcache <<std::endl;
 				if (obj2.comApprox())
 				{
-std::cout << "OBJ 2 CAN BE COMAPPROXED" << '\n';
-std::cout << &mcache <<std::endl;
 					force_iter = forces->begin();
-std::cout << "ABOUT TO GO THROUGH FORCES" << '\n';
-std::cout << &mcache <<std::endl;
 					while(!(force_iter == forces->end()))
 					{
-std::cout << "IN FORCES YO" << '\n';
-std::cout << &mcache <<std::endl;
 						FizForce* force = force_iter->second;
 						std::string forcename = force_iter->first;
-std::cout << "ABOUT TO CHECK FORCEEVALED" << '\n';
-std::cout << &mcache <<std::endl;
 						if(!(*forceEvaled)[forcename])
 						{
-std::cout << "EVALING SHIT" << '\n';
-std::cout << &mcache <<std::endl;
 							triangle tri1 = obj1.getCOMTriangle();
 							triangle tri2 = obj2.getCOMTriangle();
-std::cout << "GOTTEN TRIANGLES" << '\n';
-std::cout << &mcache <<std::endl;
 							dforce = force->getForce(obj1, tri1, obj2, tri2);
-std::cout << "WOOT GOT A FORCE OF: "<<dforce[0]<<" "<<dforce[1]<<" "<<dforce[2]<<std::endl;
-std::cout << "ABOUT TO CHECK EVALUATEDFORCES" << '\n';
 							fnan = isnan(dforce[0]) || isnan(dforce[1]) || isnan(dforce[2]);
 							if (!fnan) (*evaluatedForces)[&obj1].first += dforce;
-std::cout << "ABOUT TO CHECK SYMMETRY" << '\n';
 							if (force->isSymmetric()) 
-							{	
-std::cout<< "FORCE IS SYMMETRIC"<<std::endl;
+							{
 								if (!fnan) (*evaluatedForces)[&obj2].first -= dforce; //opposite direction
 							}
 							else
 							{
-std::cout << "ABOUT TO CLEAR CACHE" << '\n';
 								clearNonsymmetricCaches();
 								dforce = force->getForce(obj2, obj2.rgetCOMTriangle(), obj1, obj1.rgetCOMTriangle());
 								fnan = isnan(dforce[0]) || isnan(dforce[1]) || isnan(dforce[2]);
 								if (!fnan) ((*evaluatedForces)[&obj2]).first += dforce;
 							}
-std::cout << "DONE WITH EVALUATING FORCES"<<std::endl;
 						}
 						//no torque for obj1 nor obj2
 						force_iter++;
@@ -167,7 +146,6 @@ std::cout << "DONE WITH EVALUATING FORCES"<<std::endl;
 				}
 				else
 				{
-std::cout << "OBJ 2 CANNOT BE COMAPPROXED" << '\n';
 					for (int j = 0; j < tris2.size(); j++)
 					{
 						force_iter = forces->begin();
@@ -204,12 +182,10 @@ std::cout << "OBJ 2 CANNOT BE COMAPPROXED" << '\n';
 			}
 			else
 			{
-std::cout << "OBJ 1 CANNOT BE COMAPPROXED" << '\n';
 				for (int i = 0; i < tris1.size(); i++)
 				{
 					if (obj2.comApprox())
 					{
-std::cout << "OBJ 2 CAN BE COMAPPROXED" << '\n';
 						force_iter = forces->begin();
 						while(!(force_iter == forces->end()))
 						{
@@ -245,7 +221,6 @@ std::cout << "OBJ 2 CAN BE COMAPPROXED" << '\n';
 					}
 					else
 					{
-std::cout << "OBJ 2 CANNOT BE COMAPPROXED" << '\n';
 						for (int j = 0; j < tris2.size(); j++)
 						{
 							force_iter = forces->begin();
@@ -288,18 +263,15 @@ std::cout << "OBJ 2 CANNOT BE COMAPPROXED" << '\n';
 			}
 			
 			
-			std::cout << "GOING FOR NEXT OBJECT ... WOOT?"<<std::endl;
 			inner_iter++;
 			fcache.clear();
 			mcache.clear();
-			std::cout << "NEXT ITERATION PLEASE" <<std::endl;
 		}
 
 		//DO NOT CHANGE BELOW THIS POINT
 		outer_iter++;
 		//DONE
 	}
-std::cout << "DONE WITH EVALUATIONS "<<std::endl;
 	//std::map<FizObject*, std::pair<vec3,vec3> >::iterator iter = evaluatedForces->begin();
 	//for(;iter!= evaluatedForces->end();iter++)
 	std::map<std::string, FizObject*>::iterator iter = thisStep->begin();
@@ -388,12 +360,12 @@ std::cout << "DQDT: "<<dqdt1[0] <<" " <<dqdt1[1] << " "<<dqdt1[2]<<" "<<dqdt1[3]
 	new_object->setPos(ob1->getPos() + ((dxdt1 + (dxdt2 + dxdt3)*2.0 + dxdt4)*(dt/6.0)));
 	Quaternion test = ob1->getQuaternion() + ((dqdt1 + (dqdt2 + dqdt3)*2.0 + dqdt4)*(dt/6.0));
 	test.normalize(.001);
-std::cout <<"QUE SENOR?"<< test[0]<< " "<<test[1]<<" "<<test[2]<<" "<<test[3]<<std::endl;
+//std::cout <<"QUE SENOR?"<< test[0]<< " "<<test[1]<<" "<<test[2]<<" "<<test[3]<<std::endl;
 
 	new_object->setQuaternion(ob1->getQuaternion() + ((dqdt1 + (dqdt2 + dqdt3)*2.0 + dqdt4)*(dt/6.0)));
 	new_object->rgetQuaternion().normalize(.001);
 	test = new_object->getQuaternion();
-std::cout <<"HOW IS THIS HAPPENING?"<< test[0]<< " "<<test[1]<<" "<<test[2]<<" "<<test[3]<<std::endl;
+//std::cout <<"HOW IS THIS HAPPENING?"<< test[0]<< " "<<test[1]<<" "<<test[2]<<" "<<test[3]<<std::endl;
 	new_object->setVel(ob1->getVel() + ((dvdt + (dvdt + dvdt)*2.0 + dvdt)*(dt/6.0)));
 	new_object->setOme(ob1->getOme() + ((dwdt + (dwdt + dwdt)*2.0 + dwdt)*(dt/6.0)));
 	(*nextStep)[new_object->getName()] = new_object;	
@@ -402,17 +374,23 @@ std::cout <<"TO POSITION" << new_object->getPos()[0] << ' '<< new_object->getPos
 
 void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
 {
+std::cout << "I'M IN COLLISIONS RIGHT NOW... TOMMY CAN YOU HEAR ME?" << '\n';
 	vec3 radius = obj1.getPos() - obj2.getPos();
 	double distance = radius.mag();
 	vec3 direction = radius/distance;
+std::cout << "DIRECTION FROM "<<obj2.getName()<<" TO "<<obj1.getName()<<" IS "<<direction[0]<<' '<<direction[1]<<' '<<direction[2]<<'\n';
+std::cout << "MAXRADS ARE " << obj1.getMaxRad()<<" and "<<obj2.getMaxRad()<<" AS COMPARED TO DISTANCE OF " << distance<<'\n';
 	if (distance <= obj1.getMaxRad() + obj2.getMaxRad()) //if within their bounding spheres
 	{
+std::cout << "OY! NO TOUCHING IN THIS HERE RESPECTABLE FACILITY!\n";
 		//TODO: check if actually colliding
 		//TODO: find where collision is
 		triangle tri1 = triangle();
 		triangle tri2 = triangle();
+std::cout << "I'M INVESTIGATING THIS PDA A BIT MORE\n";
 		collisionDetect(obj1, obj2, direction, tri1, tri2);
 		//TODO: call collide
+std::cout << "GONNA FORCE YOU TWO APART\n";
 		collide(obj1, tri1, obj2, tri2, direction, point());
 	}
 }
@@ -420,36 +398,54 @@ void FizEngine::collisions(FizObject& obj1, FizObject& obj2)
 //currently assumes a sphere
 void FizEngine::collisionDetect(FizObject& obj1, FizObject& obj2, vec3 direction, triangle& tri1, triangle& tri2)
 {
-	double delta = .1;
 	std::vector<triangle*> tris1 = obj1.getVertices();
 	std::vector<triangle*> tris2 = obj2.getVertices();
-	double mag = 50;
+	double mag = 1000;
+std::cout << "FINDING " << obj1.getName()<<"'S TRIANGLE OF CONTACT\n";
+	tri1 = *(tris1[0]);
 	for (int i = 0; i < tris1.size(); i++)
 	{
 		triangle temptri = *(tris1[i]);
-		double tempmag = temptri.unit_normal.cross(direction).mag();
-		if (tempmag < delta)
+		vec3 radius = (temptri.vertices[0]->p + temptri.vertices[1]->p + temptri.vertices[2]->p)/3;
+		double tempmag = direction.cross(radius/radius.mag()).mag();
+		//double tempmag = temptri.unit_normal.cross(direction).mag();
+		if (tempmag < mag)
 		{
-			if (tempmag < mag)
-			{
-				tri1 = temptri;
-				mag = tempmag;
-			}
+			tri1 = temptri;
+			mag = tempmag;
+std::cout << "TRIANGLES'S MASSP IS "<<tri1.massp<<'\n';
+std::cout << "TRIANGLES'S NORMAL IS "<<tri1.normal[0]<<' '<<tri1.normal[1]<<' '<<tri1.normal[2]<<'\n';
+std::cout << "MAG IS "<<mag<<'\n';
+std::cout << "temp "<<i<<"'s MASSP IS "<<temptri.massp<<'\n';
+std::cout << "TRIANGLES'S NORMAL IS "<<temptri.normal[0]<<' '<<temptri.normal[1]<<' '<<temptri.normal[2]<<'\n';
+std::cout << "MAG IS "<<tempmag<<'\n';
 		}
 	}
+std::cout << "triangle's massp is "<<tri1.massp<<'\n';
+std::cout << "TRIANGLES'S NORMAL IS "<<tri1.normal[0]<<' '<<tri1.normal[1]<<' '<<tri1.normal[2]<<'\n';
+std::cout << "FINDING " << obj2.getName()<<"'S TRIANGLE OF CONTACT\n";
+	mag = 1000;
+	tri2 = *(tris1[0]);
 	for (int i = 0; i < tris2.size(); i++)
 	{
 		triangle temptri = *(tris2[i]);
-		double tempmag = temptri.unit_normal.cross(direction).mag();
-		if (tempmag < delta)
+		vec3 radius = (temptri.vertices[0]->p + temptri.vertices[1]->p + temptri.vertices[2]->p)/3;
+		double tempmag = direction.cross(radius/radius.mag()).mag();
+		//double tempmag = temptri.unit_normal.cross(direction).mag();
+		if (tempmag < mag)
 		{
-			if (tempmag < mag)
-			{
-				tri2 = temptri;
-				mag = tempmag;
-			}
+			tri2 = temptri;
+			mag = tempmag;
+std::cout << "TRIANGLES'S MASSP IS "<<tri2.massp<<'\n';
+std::cout << "TRIANGLES'S NORMAL IS "<<tri2.normal[0]<<' '<<tri2.normal[1]<<' '<<tri2.normal[2]<<'\n';
+std::cout << "MAG IS "<<mag<<'\n';
+std::cout << "temp "<<i<<"'s MASSP IS "<<temptri.massp<<'\n';
+std::cout << "TRIANGLES'S NORMAL IS "<<temptri.normal[0]<<' '<<temptri.normal[1]<<' '<<temptri.normal[2]<<'\n';
+std::cout << "MAG IS "<<tempmag<<'\n';
 		}
 	}
+std::cout << "triangle's massp is "<<tri2.massp<<'\n';
+std::cout << "TRIANGLES'S NORMAL IS "<<tri2.normal[0]<<' '<<tri2.normal[1]<<' '<<tri2.normal[2]<<'\n';
 }
 
 double sub_collide(vec3 r, std::vector<double> i) //r is a 3x1 column vector, i is an inertia tensor symmetric matrix, returns r(T)*i*r
@@ -460,6 +456,7 @@ double sub_collide(vec3 r, std::vector<double> i) //r is a 3x1 column vector, i 
 //vec3 normal is the outward pointing normal of tri1 OR cross product of the edges
 void FizEngine::collide(FizObject& obj1, triangle& tri1, FizObject& obj2, triangle& tri2, vec3 normal, point p) //not sure if all of these are necessary Eric - you can change if you need to
 {
+std::cout<<"IN COLLIDE\n";
 	vec3 r1 = (tri1.vertices[0]->p + tri1.vertices[1]->p + tri1.vertices[2]->p)/3;
 	vec3 r2 = (tri2.vertices[0]->p + tri2.vertices[1]->p + tri2.vertices[2]->p)/3;
 	
@@ -478,7 +475,7 @@ void FizEngine::collide(FizObject& obj1, triangle& tri1, FizObject& obj2, triang
 	vec3 f2 = f1*-1;
 	vec3 t1 = f1.cross(r1);
 	vec3 t2 = f2.cross(r2);
-	
+std::cout<<"enFORCEING STUFF HA HA HA lol\n";
 	(*evaluatedForces)[&obj1].first += f1;
 	(*evaluatedForces)[&obj1].second += t1;
 	(*evaluatedForces)[&obj2].first += f2;
