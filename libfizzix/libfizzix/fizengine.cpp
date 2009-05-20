@@ -92,7 +92,6 @@ void FizEngine::evalForces()
 			if(inner_iter == outer_iter)
 			{
 				inner_iter++;
-
 				continue;
 			}
 			FizObject& obj1 = *(outer_iter->second);
@@ -275,7 +274,7 @@ void FizEngine::evalForces()
 	//std::map<FizObject*, std::pair<vec3,vec3> >::iterator iter = evaluatedForces->begin();
 	//for(;iter!= evaluatedForces->end();iter++)
 	std::map<std::string, FizObject*>::iterator iter = thisStep->begin();
-	while (iter != thisStep->end())
+	while (iter != thisStep->end() && thisStep->size()>1)
 	{
 		FizObject* obj = iter->second;
 		std::pair<vec3,vec3> forcetorque = (*evaluatedForces)[obj];

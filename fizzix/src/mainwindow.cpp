@@ -89,15 +89,12 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	cameraMenu->addAction("View YZ Plane",this,SLOT(view_setYZ()));
 	QMenu * zoomMenu=viewMenu->addMenu("Zoom");
 	QActionGroup * zoomGroup=new QActionGroup(NULL);
-	//zoomGroup->addAction(zoomMenu->addAction("To Scale"))->setCheckable(true);
 	zoomGroup->addAction(zoomMenu->addAction("10%",this,SLOT(view_zoom10())))->setCheckable(true);
 	zoomGroup->addAction(zoomMenu->addAction("50%",this,SLOT(view_zoom50())))->setCheckable(true);
 	zoomGroup->addAction(zoomMenu->addAction("100%",this,SLOT(view_zoom100())))->setCheckable(true);
 	zoomGroup->addAction(zoomMenu->addAction("150%",this,SLOT(view_zoom150())))->setCheckable(true);
 	zoomGroup->addAction(zoomMenu->addAction("200%",this,SLOT(view_zoom200())))->setCheckable(true);
-	//QAction * coordAxes = viewMenu->addAction("Show Coordinate Axes");
-	//coordAxes->setCheckable(true);
-	//coordAxes->setEnabled(false);
+	view_zoom50();
 	viewMenu->addSeparator();
 	viewMenu->addAction(databrowser->toggleViewAction());
 	viewMenu->addAction(dataeditor->toggleViewAction());
