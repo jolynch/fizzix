@@ -68,21 +68,11 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	
 	QMenu * fileMenu = this->menuBar()->addMenu(tr("File"));
 	QMenu * newMenu=fileMenu->addMenu("New Project");
-	newMenu->addAction("Blank Project",databackend,SLOT(newFromBlank()));
-	newMenu->addAction("From Default",databackend,SLOT(newFromDefault()));
-	fileMenu->addAction("Open Project",databackend,SLOT(load()));
-	fileMenu->addAction("Save Project",databackend,SLOT(save()));
-	fileMenu->addAction("Save Project As",databackend,SLOT(saveAs()));
-	QMenu * exportMenu=fileMenu->addMenu("Export");
-	exportMenu->addAction("Object");
-	exportMenu->addAction("Force");
-	exportMenu->addAction("Macro");
-	exportMenu->addAction("Constant");
-	QMenu * importMenu=fileMenu->addMenu("Import");
-	importMenu->addAction("Object");
-	importMenu->addAction("Force");
-	importMenu->addAction("Macro");
-	exportMenu->addAction("Constant");
+	newMenu->addAction("Blank Project",databackend,SLOT(newFromBlank()),QKeySequence("Ctrl+N"));
+	newMenu->addAction("From Default",databackend,SLOT(newFromDefault()),QKeySequence("Ctrl+Shift+N"));
+	fileMenu->addAction("Open Project",databackend,SLOT(load()),QKeySequence("Ctrl+O"));
+	fileMenu->addAction("Save Project",databackend,SLOT(save()),QKeySequence("Ctrl+S"));
+	fileMenu->addAction("Save Project As",databackend,SLOT(saveAs()),QKeySequence("Ctrl+Shift+S"));
 	fileMenu->addAction("Exit",databackend, SLOT(quit()));
 	QMenu * editMenu = this->menuBar()->addMenu(tr("Edit"));
 	QAction * undo=databackend->getUndoStack()->createUndoAction(this);
@@ -113,30 +103,18 @@ MainWindow::MainWindow(QDesktopWidget * d):QMainWindow()
 	viewMenu->addAction(dataeditor->toggleViewAction());
 	viewMenu->addAction(simcontrol->toggleViewAction());
 	QMenu * simulationMenu = this->menuBar()->addMenu(tr("Simulation"));
-	simulationMenu->addAction("Start");
-	simulationMenu->addAction("Reset to Initial Conditions");
-	simulationMenu->addAction("Change Timestep");
+	simulationMenu->addAction("Run",simcontrol->getStepEngine(),SLOT(startPull()),QKeySequence("Ctrl+R"));
+	simulationMenu->addAction("Pause",simcontrol->getStepEngine(),SLOT(stopPull()),QKeySequence("Ctrl+P"));
+	simulationMenu->addAction("Reset to Initial Conditions",databackend->getUndoStack(),SLOT(undo()),QKeySequence("Ctrl+Shift+R"));
+	QAction * a=simulationMenu->addAction("Warn Before Clearing Undo Stack");
+	a->setCheckable(true);
+	a->setChecked(true);
+	QObject::connect(a,SIGNAL(toggled(bool)),databackend,SLOT(setWarning(bool)));
 	QMenu * dataMenu = this->menuBar()->addMenu(tr("Data"));
-	QMenu * newDataMenu = dataMenu->addMenu("New");
-	newDataMenu->addAction("Object");
-	newDataMenu->addAction("Force");
-	newDataMenu->addAction("Macro");
-	newDataMenu->addAction("Constant");
-	QMenu * editDataMenu = dataMenu->addMenu("Edit");
-	editDataMenu->addAction("Object");
-	editDataMenu->addAction("Force");
-	editDataMenu->addAction("Property");
-	editDataMenu->addAction("Macro");
-	QMenu * deleteDataMenu = dataMenu->addMenu("Delete");
-	deleteDataMenu->addAction("Object");
-	deleteDataMenu->addAction("Force");
-	deleteDataMenu->addAction("Property");
-	deleteDataMenu->addAction("Macro");
-	QMenu * clearDataMenu = dataMenu->addMenu("Clear");
-	clearDataMenu->addAction("All Objects");
-	clearDataMenu->addAction("All Forces");
-	clearDataMenu->addAction("All Properties");
-	clearDataMenu->addAction("All Macros and Forces");
+	dataMenu->addAction("Clear All Objects",databackend->getDataInserter(),SLOT(clearObjects()));
+	dataMenu->addAction("Clear All Forces",databackend->getDataInserter(),SLOT(clearForces()));
+	dataMenu->addAction("Clear All Macros",databackend->getDataInserter(),SLOT(clearMacros()));
+	dataMenu->addAction("Clear All Constants",databackend->getDataInserter(),SLOT(clearConstants()));
 	QMenu * helpMenu = this->menuBar()->addMenu(tr("Help"));
 	helpMenu->addAction("Manual",this,SLOT(showManual()));
 	helpMenu->addAction("About",this,SLOT(showAbout()));
@@ -211,4 +189,12 @@ void MainWindow::closeEvent(QCloseEvent *event)
 	else
 		event->ignore();
 }
+
+
+void MainWindow::checkResetAction()
+{
+	if(databackend->haveUnpredicatableChanges())
+		databackend->getUndoStack()->undo();
+}
+
 #endif

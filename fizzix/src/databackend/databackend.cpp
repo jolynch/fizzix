@@ -10,6 +10,7 @@ DataBackend::DataBackend():QObject()
 	constants=new MapKeyListModel <fizdatum> ();
 	dataChanges=new QUndoStack();
 	newFromDefault();
+	warnClear=true;
 	QObject::connect(dataChanges,SIGNAL(indexChanged(int)),this,SLOT(dataUndone(int)));
 }
 
@@ -56,9 +57,20 @@ void DataBackend::applyDataChange(QUndoCommand * c)
 	}
 	else
 	{
-		if(QMessageBox::question(NULL, "Clear Undo Stack?", 
+		if(warnClear)
+		{
+			if(QMessageBox::question(NULL, "Clear Undo Stack?", 
 			"Making changes to the input data will prevent you from resetting to the state before the engine ran. Make changes?",
 			QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes)
+			{
+				dataChanges->clear(); //MASSIVE UTTERLY ENORMOUS MEMORY LEAK.
+				c->redo();
+				dataChanges->push(c);
+				lastChangeUnpredictable=false;
+				emit(gainedUnpredicatableChanges(lastChangeUnpredictable));
+			}
+		}
+		else
 		{
 			dataChanges->clear(); //MASSIVE UTTERLY ENORMOUS MEMORY LEAK.
 			c->redo();
@@ -82,7 +94,7 @@ void DataBackend::applyUnpredictableDataChange(QUndoCommand * c, bool addToStack
 		c->redo();
 	}
 	if(!lastChangeUnpredictable)
-		emit(gainedUnpredicatableChanges(lastChangeUnpredictable));
+		emit(gainedUnpredicatableChanges(true));
 	lastChangeUnpredictable=true;
 }
 
@@ -366,6 +378,9 @@ void DataBackend::purgeData()
 	dataChanges->clear();
 }
 
+void DataBackend::setWarning(bool b)
+{warnClear=b;}
+
 bool DataBackend::checkBeforeDataUnload()
 {
 	if(dataChanges->isClean()) return true;
@@ -391,6 +406,6 @@ bool DataBackend::checkBeforeDataUnload()
 void DataBackend::quit()
 {
 	if(!checkBeforeDataUnload()) return;
-	qApp->quit();
+	QCoreApplication::instance()->quit();
 }
 #endif

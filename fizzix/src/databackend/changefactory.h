@@ -43,6 +43,18 @@ protected:
 	};
 	
 	template <class T>
+	class DC_ClearElements : public QUndoCommand
+	{
+	private:
+		MapKeyListModel <T> * target;
+		QMap<QString, T> * old;
+	public:
+		DC_ClearElements(MapKeyListModel <T> * t);
+		void undo();
+		void redo();
+	};
+	
+	template <class T>
 	class DC_RenameElement : public QUndoCommand
 	{
 	private:
@@ -55,6 +67,7 @@ protected:
 		void undo();
 		void redo();
 	};
+	
 	
 	template <class T>
 	class DC_ModifyElement : public QUndoCommand
@@ -106,6 +119,10 @@ public slots:
 	void modifyConstant(QString n, fizdatum nv);
 	void modifyMacro(QString n, FizFormula * nv);
 	void changeObjectsFromSim(QMap<QString, DrawableObject *> * newData);
+	void clearObjects();
+	void clearForces();
+	void clearMacros();
+	void clearConstants();
 };
 
 #endif //CHANGEFACTORY_H
@@ -205,4 +222,26 @@ void ChangeFactory::DC_ModifyElement<T>::undo()
 {
 	target->setElement(name,oldVal);
 }
+
+template <class T>
+ChangeFactory::DC_ClearElements<T>::DC_ClearElements(MapKeyListModel <T> * t):QUndoCommand()
+{
+	target=t;
+	old=t->getData();
+	this->setText("Clear Elements");
+}
+
+template <class T>
+void ChangeFactory::DC_ClearElements<T>::redo()
+{
+	target->purge();
+}
+
+template <class T>
+void ChangeFactory::DC_ClearElements<T>::undo()
+{
+	target->setData(old,false);
+}
+
+
 #endif

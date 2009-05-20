@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = fizzix
-target.path = ../local_install
+target.path = ..
 INCLUDEPATH = ../local_install/include
 QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
 CONFIG = qt opengl thread resources exceptions warn_on stl rtti

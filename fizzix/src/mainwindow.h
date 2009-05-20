@@ -73,6 +73,7 @@ class MainWindow:public QMainWindow
 		void view_zoom200();
 		void showManual();
 		void showAbout();
+		void checkResetAction();
 };
 
 #endif

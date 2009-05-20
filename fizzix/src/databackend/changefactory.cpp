@@ -103,6 +103,34 @@ void ChangeFactory::modifyMacro(QString n, FizFormula * nv)
 	db->applyDataChange(dc);
 }
 
+void ChangeFactory::clearObjects()
+{
+	DC_ClearElements <DrawableObject *> * dc=new DC_ClearElements<DrawableObject *> (db->getObjectModel());
+	dc->redo();
+	//db->applyDataChange(dc);
+}
+
+void ChangeFactory::clearForces()
+{
+	DC_ClearElements <FizForce *> * dc=new DC_ClearElements<FizForce *> (db->getForceModel());
+	dc->redo();
+	//db->applyDataChange(dc);
+}
+
+void ChangeFactory::clearMacros()
+{
+	DC_ClearElements <FizFormula *> * dc=new DC_ClearElements<FizFormula *> (db->getMacroModel());
+	dc->redo();
+	//db->applyDataChange(dc);
+}
+
+void ChangeFactory::clearConstants()
+{
+	DC_ClearElements <fizdatum> * dc=new DC_ClearElements<fizdatum> (db->getConstModel());
+	dc->redo();
+	//db->applyDataChange(dc);
+}
+
 
 void ChangeFactory::changeObjectsFromSim(QMap<QString, DrawableObject *> * newData)
 {

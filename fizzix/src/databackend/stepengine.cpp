@@ -134,6 +134,7 @@ void StepEngine::setDt(double _dt)
 
 void StepEngine::startPull()
 {
+	if(timer->isActive()) return;
 	timer->setInterval(dt);
 	timer->start();
 	db->toggleDataLock();
@@ -153,6 +154,7 @@ void StepEngine::startPull()
 
 void StepEngine::stopPull()
 {
+	if(!timer->isActive()) return;
 	timer->stop();
 	createUndoCommand();
 	db->toggleDataLock();

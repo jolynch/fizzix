@@ -25,6 +25,7 @@ class DataBackend:public QObject
 	private:
 		bool dataLock;
 		bool lastChangeUnpredictable;
+		bool warnClear;
 		int unpredictableChange;
 		QString currentName;
 		MapKeyListModel <DrawableObject *> * objects;
@@ -65,6 +66,7 @@ class DataBackend:public QObject
 		void toggleDataLock();
 		void applyDataChange(QUndoCommand * c);
 		void applyUnpredictableDataChange(QUndoCommand * c, bool addToStack);
+		void setWarning(bool b);
 		void saveAs();
 		void save();
 		void load();

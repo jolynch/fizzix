@@ -48,11 +48,11 @@ SimulationControl::SimulationControl(DataBackend * _db):QDockWidget(tr("Simulati
 	dt->setSingleStep(0.1);
 	QObject::connect(dt,SIGNAL(valueChanged(double)),eng,SLOT(setDt(double)));
 	layout->addWidget(dt,0,2);
-	start=new QPushButton("Start");
+	start=new QPushButton("Run");
 	QObject::connect(start,SIGNAL(clicked()),eng,SLOT(startPull()));
 	QObject::connect(db,SIGNAL(dataLocked(bool)),start,SLOT(setDisabled(bool)));
 	layout->addWidget(start,0,3);
-	stop=new QPushButton("Stop");
+	stop=new QPushButton("Pause");
 	stop->setEnabled(false);
 	QObject::connect(stop,SIGNAL(clicked()),eng,SLOT(stopPull()));
 	QObject::connect(db,SIGNAL(dataLocked(bool)),stop,SLOT(setEnabled(bool)));
@@ -103,5 +103,8 @@ void SimulationControl::connectReset(bool disconn)
 		QObject::connect(db,SIGNAL(gainedUnpredicatableChanges(bool)),reset,SLOT(setEnabled(bool)));
 	}
 }
+
+StepEngine * SimulationControl::getStepEngine()
+{return eng;}
 
 #endif

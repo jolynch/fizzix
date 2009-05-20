@@ -52,6 +52,7 @@ class SimulationControl:public QDockWidget
 		QPushButton * reset;
 	public:
 		SimulationControl (DataBackend * _db);
+		StepEngine * getStepEngine();
 	public slots:
 		void statusChanged(QString newString, int errorSource);
 		void connectReset(bool disconn);
