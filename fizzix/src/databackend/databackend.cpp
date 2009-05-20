@@ -297,7 +297,7 @@ void DataBackend::load()
 	currentName="";
 	lastChangeUnpredictable=false;
 	unpredictableChange=0;
-	dataChanges->clear();
+	purgeData();
 	QString filename = QFileDialog::getOpenFileName(NULL, "Load Project",QString(),"*xml");
 	if(filename.isEmpty()) return;
 	else 
@@ -315,11 +315,7 @@ void DataBackend::newFromBlank()
 	currentName="";
 	lastChangeUnpredictable=false;
 	unpredictableChange=0;
-	objects->purge();
-	forces->purge();
-	macros->purge();
-	constants->purge();
-	dataChanges->clear();
+	purgeData();
 }
 
 void DataBackend::newFromDefault()
@@ -331,8 +327,26 @@ void DataBackend::newFromDefault()
 	currentName="";
 	lastChangeUnpredictable=false;
 	unpredictableChange=0;
-	dataChanges->clear();
+	purgeData();
 	loadDataFromXML(":data/default.xml");
+}
+
+void DataBackend::purgeData()
+{
+	QList<QString> k=objects->getData()->keys();
+	for(int i=0; i<k.size(); i++)
+		delete objects->getData()->value(k.at(i));
+	k=forces->getData()->keys();
+	for(int i=0; i<k.size(); i++)
+		delete forces->getData()->value(k.at(i));
+	k=macros->getData()->keys();
+	for(int i=0; i<k.size(); i++)
+		delete macros->getData()->value(k.at(i));
+	objects->purge();
+	forces->purge();
+	macros->purge();
+	constants->purge();
+	dataChanges->clear();
 }
 
 bool DataBackend::checkBeforeDataUnload()

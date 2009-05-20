@@ -30,14 +30,18 @@ ShapeEditor::ShapeEditor():QWidget()
 	wedit->setValidator(v);
 	QObject::connect(wedit,SIGNAL(textEdited(QString)),this,SLOT(changes()));
 	layout->addWidget(wedit,1,1);
-	ledit=new QLineEdit("0");
-	ledit->setValidator(v);
-	QObject::connect(ledit,SIGNAL(textEdited(QString)),this,SLOT(changes()));
-	layout->addWidget(ledit,3,1);
 	hedit=new QLineEdit("0");
 	hedit->setValidator(v);
 	QObject::connect(hedit,SIGNAL(textEdited(QString)),this,SLOT(changes()));
 	layout->addWidget(hedit,2,1);
+	ledit=new QLineEdit("0");
+	ledit->setValidator(v);
+	QObject::connect(ledit,SIGNAL(textEdited(QString)),this,SLOT(changes()));
+	layout->addWidget(ledit,3,1);
+	approxCOM=new QCheckBox("Approximate this object as its center of mass.");
+	approxCOM->setCheckState(Qt::Checked);
+	QObject::connect(approxCOM,SIGNAL(stateChanged(int)),this,SLOT(changes()));
+	layout->addWidget(approxCOM,4,0,1,2);
 	this->setLayout(layout);
 	hChanges=false;
 	curr=PRISM;
@@ -74,6 +78,10 @@ DrawableObject * ShapeEditor::getAdditionalData(DrawableObject * _o)
 {
 	FizObject * o = (FizObject *)(_o);
 	o->setProperty("SYSTEM_preset_geomtype",fizdatum((double)shapeSelect->currentIndex()));
+	if(approxCOM->checkState()==Qt::Checked)
+		o->setProperty("SYSTEM_geom_approximateWithCenter",fizdatum(1.0));
+	else
+		o->setProperty("SYSTEM_geom_approximateWithCenter",fizdatum(0.0));
 	switch(shapeSelect->currentIndex())
 	{
 		case PRISM:
@@ -128,6 +136,16 @@ void ShapeEditor::setData(DrawableObject f)
 		hedit->setText("0");
 		ledit->setText("0");
 	}
+	if(f.contains("SYSTEM_geom_approximateWithCenter"))
+	{
+		double d=f["SYSTEM_geom_approximateWithCenter"].scalar;
+		if(d>0.0)
+			approxCOM->setCheckState(Qt::Checked);
+		else			
+			approxCOM->setCheckState(Qt::Unchecked);
+	}
+	else
+		approxCOM->setCheckState(Qt::Checked);
 	hChanges=false;
 }
 

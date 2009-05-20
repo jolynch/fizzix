@@ -75,7 +75,6 @@ void StepEngine::setCorrectFizEngine(fizstack f)
 
 void StepEngine::step()
 {
-qDebug("Front step called.");
 	if(lockstep) return;
 	lockstep=true;
 	std::map <std::string, FizObject *> * oldObjs=castToFizObject(*(db->getObjectModel()->getData()));
@@ -83,7 +82,6 @@ qDebug("Front step called.");
 	std::map <std::string, FizForce *> * oldFrcs=MapUtil<FizForce>::qMapToStdMapCopy(*(db->getForceModel()->getData()));
 	std::map <std::string, FizFormula *> * oldMcrs=MapUtil<FizFormula>::qMapToStdMapCopy(*(db->getMacroModel()->getData()));
 	std::map <std::string, fizdatum> * oldCnst=MapUtil<fizdatum>::qMapToStdMapCopy(*(db->getConstModel()->getData()));
-qDebug("Calling step from front.");
 	try{eng->step(oldObjs,newObjs,oldFrcs,oldMcrs,oldCnst,dt);}
 	catch(std::logic_error e)
 	{

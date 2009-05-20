@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QGridLayout>
+#include <QCheckBox>
 
 #include "databackend/drawableobject.h"
 
@@ -24,6 +25,7 @@ class ShapeEditor:public QWidget
 		QLineEdit * hedit;
 		QLineEdit * wedit;
 		QLineEdit * ledit;
+		QCheckBox * approxCOM;
 	public:
 		ShapeEditor();
 		bool hasChanges();

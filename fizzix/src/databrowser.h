@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <QLineEdit>
 #include <QLabel>
 #include <QInputDialog>
+#include <QStringListModel>
 #include "databackend/databackend.h"
 #include "databackend/changefactory.h"
 
@@ -57,6 +58,7 @@ class DataBrowser:public QDockWidget
 		void addElement();
 		void deleteElement();
 		void editElement();
+		void disconnectObjects(bool discon);
 	signals:
 		void addObject(QString);
 		void deleteObject(QString);

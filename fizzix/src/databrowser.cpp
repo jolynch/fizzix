@@ -168,6 +168,8 @@ DataBrowser::DataBrowser( DataBackend * _d,QDesktopWidget * d):QDockWidget(tr("D
 	
 	QObject::connect(this,SIGNAL(addConstant(QString)),db->getDataInserter(),SLOT(addConstant(QString)));
 	QObject::connect(this,SIGNAL(deleteConstant(QString)),db->getDataInserter(),SLOT(deleteConstant(QString)));
+	
+	QObject::connect(db,SIGNAL(dataLocked(bool)),this,SLOT(disconnectObjects(bool)));
 
 	this->setWidget(tabs);
 }
@@ -235,6 +237,20 @@ void DataBrowser::editElement()
 		case 3: emit editConstant(db->getConstModel()->getModel()->data(consts->currentIndex(), Qt::DisplayRole).toString());
 			break;
 	};
+}
+
+void DataBrowser::disconnectObjects(bool discon)
+{
+	if(discon)
+	{
+	QStringList list;
+	list << "Objects are being edited by the backend.";
+	objects->setModel(new QStringListModel(list));
+	}
+	else
+		objects->setModel(db->getObjectModel()->getModel());
+	
+	
 }
 
 

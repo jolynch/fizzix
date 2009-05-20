@@ -69,6 +69,7 @@ class DataBackend:public QObject
 		void load();
 		void newFromBlank();
 		void newFromDefault();
+		void purgeData();
 
 	signals:
 		void dataLocked(bool locked);
