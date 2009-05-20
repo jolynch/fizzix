@@ -414,13 +414,13 @@ void FizEngine::collisionDetect(FizObject& obj1, FizObject& obj2, vec3 direction
 		{
 			tri1 = temptri;
 			mag = tempmag;
-std::cout << "TRIANGLES'S MASSP IS "<<tri1.massp<<'\n';
-std::cout << "TRIANGLES'S NORMAL IS "<<tri1.normal[0]<<' '<<tri1.normal[1]<<' '<<tri1.normal[2]<<'\n';
-std::cout << "MAG IS "<<mag<<'\n';
+
+
+
 		}
-std::cout << "temp "<<i<<"'s MASSP IS "<<temptri.massp<<'\n';
-std::cout << "TRIANGLES'S NORMAL IS "<<temptri.normal[0]<<' '<<temptri.normal[1]<<' '<<temptri.normal[2]<<'\n';
-std::cout << "MAG IS "<<tempmag<<'\n';
+
+
+
 	}
 
 	mag = 0;
@@ -435,13 +435,13 @@ std::cout << "MAG IS "<<tempmag<<'\n';
 		{
 			tri2 = temptri;
 			mag = tempmag;
-std::cout << "TRIANGLES'S MASSP IS "<<tri2.massp<<'\n';
-std::cout << "TRIANGLES'S NORMAL IS "<<tri2.normal[0]<<' '<<tri2.normal[1]<<' '<<tri2.normal[2]<<'\n';
-std::cout << "MAG IS "<<mag<<'\n';
+
+
+
 		}
-std::cout << "temp "<<i<<"'s MASSP IS "<<temptri.massp<<'\n';
-std::cout << "TRIANGLES'S NORMAL IS "<<temptri.normal[0]<<' '<<temptri.normal[1]<<' '<<temptri.normal[2]<<'\n';
-std::cout << "MAG IS "<<tempmag<<'\n';
+
+
+
 	}
 }
 
